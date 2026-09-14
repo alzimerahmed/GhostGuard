@@ -249,7 +249,7 @@ fun BrowserBentoMenuSheet(
                 Text(
                     text = "Đóng trình duyệt",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White.copy(alpha = 0.6f),
+                    color = Color.White.copy(alpha = 0.75f),
                 )
             }
 

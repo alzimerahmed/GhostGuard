@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -51,6 +52,7 @@ fun BrowserBottomBar(
             IconButton(
                 onClick = onBack,
                 enabled = canGoBack,
+                modifier = Modifier.size(48.dp),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -62,6 +64,7 @@ fun BrowserBottomBar(
             IconButton(
                 onClick = onForward,
                 enabled = canGoForward,
+                modifier = Modifier.size(48.dp),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -77,7 +80,7 @@ fun BrowserBottomBar(
                 )
             }
 
-            IconButton(onClick = onHome) {
+            IconButton(onClick = onHome, modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = Icons.Default.Home,
                     contentDescription = "Home",
@@ -85,7 +88,7 @@ fun BrowserBottomBar(
                 )
             }
 
-            IconButton(onClick = onOpenShieldSheet) {
+            IconButton(onClick = onOpenShieldSheet, modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = if (adBlockEnabled) Icons.Default.Shield else Icons.Outlined.Shield,
                     contentDescription = "AdBlock Shield",
@@ -93,7 +96,7 @@ fun BrowserBottomBar(
                 )
             }
 
-            IconButton(onClick = onShare) {
+            IconButton(onClick = onShare, modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = "Share",

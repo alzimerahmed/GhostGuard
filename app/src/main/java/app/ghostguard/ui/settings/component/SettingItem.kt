@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.ghostguard.ui.theme.TextSecondary
@@ -38,7 +39,7 @@ fun SettingItem(
     val rowModifier =
         modifier
             .fillMaxWidth()
-            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
+            .then(if (onClick != null) Modifier.clickable(role = Role.Button) { onClick() } else Modifier)
             .padding(horizontal = 16.dp, vertical = 14.dp)
 
     Row(

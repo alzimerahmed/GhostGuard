@@ -248,7 +248,7 @@ private fun HomeHeroBrand() {
                     letterSpacing = 0.5.sp,
                     fontSize = 11.sp,
                 ),
-            color = Color.White.copy(alpha = 0.45f),
+            color = Color.White.copy(alpha = 0.74f),
         )
     }
 }
@@ -312,7 +312,7 @@ private fun HomeSearchCapsule(onOpenSearch: () -> Unit) {
                 Text(
                     text = "Tìm kiếm hoặc nhập URL...",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White.copy(alpha = 0.45f),
+                    color = Color.White.copy(alpha = 0.74f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -395,7 +395,7 @@ private fun HomeFeatureBanner(onDismiss: () -> Unit) {
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = "Đóng",
-                tint = Color.White.copy(alpha = 0.7f),
+                tint = Color.White.copy(alpha = 0.75f),
                 modifier =
                     Modifier
                         .size(20.dp)
@@ -526,7 +526,7 @@ private fun AddShortcutItem(modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Medium,
                     fontSize = 11.5.sp,
                 ),
-            color = Color.White.copy(alpha = 0.45f),
+            color = Color.White.copy(alpha = 0.74f),
             textAlign = TextAlign.Center,
         )
     }

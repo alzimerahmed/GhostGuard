@@ -83,7 +83,7 @@ fun BentoHeader(modifier: Modifier = Modifier) {
                 Text(
                     text = "Bảo vệ riêng tư & lọc nội dung",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.55f),
+                    color = Color.White.copy(alpha = 0.74f),
                 )
             }
         }
@@ -189,7 +189,7 @@ fun BentoStatsCard(
                 Text(
                     text = "Quảng cáo & Theo dõi",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.7f),
+                    color = Color.White.copy(alpha = 0.75f),
                 )
             }
 
@@ -202,7 +202,7 @@ fun BentoStatsCard(
                 Text(
                     text = "Rule v$ruleVersion • ${if (ruleDomainsCount > 0) "$ruleDomainsCount domains" else "Local DB"}",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.6f),
+                    color = Color.White.copy(alpha = 0.75f),
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -289,7 +289,7 @@ fun BentoToggleCard(
                     SwitchDefaults.colors(
                         checkedThumbColor = Color.White,
                         checkedTrackColor = activeColor,
-                        uncheckedThumbColor = Color.White.copy(alpha = 0.6f),
+                        uncheckedThumbColor = Color.White.copy(alpha = 0.75f),
                         uncheckedTrackColor = Color.White.copy(alpha = 0.1f),
                     ),
             )
@@ -442,7 +442,7 @@ private fun QuickActionButton(
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            color = Color.White.copy(alpha = 0.7f),
+            color = Color.White.copy(alpha = 0.75f),
         )
     }
 }
@@ -498,7 +498,7 @@ fun BentoCtaButton(
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.55f),
+                    color = Color.White.copy(alpha = 0.74f),
                 )
             }
         }

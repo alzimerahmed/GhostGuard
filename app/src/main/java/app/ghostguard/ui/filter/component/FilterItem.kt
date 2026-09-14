@@ -23,6 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -46,7 +49,7 @@ fun FilterItem(
                 .fillMaxWidth()
                 .then(
                     if (onClick != null) {
-                        Modifier.clickable { onClick() }
+                        Modifier.clickable(role = Role.Button) { onClick() }
                     } else {
                         Modifier
                     },
@@ -135,12 +138,12 @@ fun FilterItem(
         }
 
         if (onDelete != null) {
-            IconButton(onClick = onDelete, modifier = Modifier.size(32.dp)) {
+            IconButton(onClick = onDelete, modifier = Modifier.size(48.dp)) {
                 Icon(
                     Icons.Default.Delete,
                     contentDescription = "Delete",
                     tint = TextSecondary.copy(alpha = 0.5f),
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(24.dp),
                 )
             }
         }
@@ -148,6 +151,10 @@ fun FilterItem(
         Switch(
             checked = filter.isEnabled,
             onCheckedChange = { onToggle() },
+            modifier =
+                Modifier.semantics {
+                    contentDescription = filter.name
+                },
             colors =
                 SwitchDefaults.colors(
                     checkedThumbColor = MaterialTheme.colorScheme.onPrimary,

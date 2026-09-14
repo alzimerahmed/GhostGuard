@@ -121,7 +121,7 @@ fun LogEntryItem(
                             checkedColor = MaterialTheme.colorScheme.primary,
                             uncheckedColor = TextSecondary,
                         ),
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(48.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
@@ -312,25 +312,25 @@ fun LogEntryItem(
                     if (entry.isBlocked && !isWhitelisted) {
                         IconButton(
                             onClick = onQuickWhitelist,
-                            modifier = Modifier.size(28.dp),
+                            modifier = Modifier.size(48.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Block,
                                 contentDescription = stringResource(R.string.log_action_unblock),
                                 tint = DangerRed.copy(alpha = 0.7f),
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(24.dp),
                             )
                         }
                     } else if (!entry.isBlocked && !isWhitelisted) {
                         IconButton(
                             onClick = onQuickBlock,
-                            modifier = Modifier.size(28.dp),
+                            modifier = Modifier.size(48.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
                                 contentDescription = stringResource(R.string.log_action_block),
                                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
-                                modifier = Modifier.size(16.dp),
+                                modifier = Modifier.size(24.dp),
                             )
                         }
                     }

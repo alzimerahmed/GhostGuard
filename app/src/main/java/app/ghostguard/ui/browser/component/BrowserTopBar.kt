@@ -47,6 +47,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -159,12 +160,12 @@ fun BrowserTopBar(
                                     text = ""
                                     isEditing = true
                                 },
-                                modifier = Modifier.size(24.dp),
+                                modifier = Modifier.size(48.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
                                     contentDescription = "Clear",
-                                    modifier = Modifier.size(16.dp),
+                                    modifier = Modifier.size(24.dp),
                                 )
                             }
                         }
@@ -178,7 +179,7 @@ fun BrowserTopBar(
                                 modifier =
                                     Modifier
                                         .clip(CircleShape)
-                                        .clickable { onOpenShieldSheet() },
+                                        .clickable(role = Role.Button) { onOpenShieldSheet() },
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
