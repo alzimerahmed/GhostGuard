@@ -31,11 +31,11 @@ jobs:
 
       - name: Build tunnel.aar natively
         run: |
-          # Install NDK r26b using sdkmanager
+          # Install NDK r28c using sdkmanager
           mkdir -p $ANDROID_HOME/cmdline-tools
           export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
           yes | sdkmanager --licenses > /dev/null 2>&1
-          sdkmanager "ndk;26.1.10909125" "platforms;android-24"
+          sdkmanager "ndk;28.2.13676358" "platforms;android-24"
 
           # Use patched gomobile from SagerNet to strip absolute build paths
           export GOFLAGS='-buildvcs=false'
@@ -44,10 +44,10 @@ jobs:
           
           mkdir -p app/libs
           cd tunnel
-          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358
           gomobile bind -target=android -androidapi 24 -trimpath \
             -ldflags='-s -w -buildid= -extldflags=-Wl,-z,max-page-size=16384' \
-            -o ../app/libs/tunnel.aar github.com/nqmgaming/blockads-tunnel
+            -o ../app/libs/tunnel.aar github.com/alzimerahmed/ghostguard-tunnel
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6

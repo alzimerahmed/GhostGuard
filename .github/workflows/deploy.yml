@@ -78,7 +78,7 @@ jobs:
           mkdir -p $ANDROID_HOME/cmdline-tools
           export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
           yes | sdkmanager --licenses > /dev/null 2>&1
-          sdkmanager "ndk;26.1.10909125" "platforms;android-24"
+          sdkmanager "ndk;28.2.13676358" "platforms;android-24"
 
           # Install patched gomobile from SagerNet (to strip paths)
           export GOFLAGS='-buildvcs=false'
@@ -88,7 +88,7 @@ jobs:
           # Build tunnel.aar
           mkdir -p app/libs
           cd tunnel
-          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358
           gomobile bind -target=android -androidapi 24 -trimpath \
             -ldflags='-s -w -buildid= -extldflags=-Wl,-z,max-page-size=16384' \
             -o ../app/libs/tunnel.aar github.com/alzimerahmed/ghostguard-tunnel
