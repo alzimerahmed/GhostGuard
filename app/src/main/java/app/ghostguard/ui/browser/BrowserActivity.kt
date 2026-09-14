@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import app.ghostguard.BuildConfig
 import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.ui.browser.elementrules.ElementRulesScreen
 import app.ghostguard.ui.theme.BlockadsTheme
@@ -38,6 +39,16 @@ class BrowserActivity : ComponentActivity() {
             Intent(context, BrowserActivity::class.java).apply {
                 putExtra(EXTRA_URL, url)
             }
+
+        /**
+         * Only http/https URLs may be loaded into the in-app WebView.
+         * Anything else (file:, content:, javascript:, custom schemes) falls
+         * back to the default start page.
+         */
+        fun sanitizeUrl(url: String): String {
+            val scheme = runCatching { java.net.URI(url).scheme?.lowercase() }.getOrNull()
+            return if (scheme == "http" || scheme == "https") url else "https://m.youtube.com"
+        }
     }
 
     private val _isInPipMode = mutableStateOf(false)
@@ -55,7 +66,7 @@ class BrowserActivity : ComponentActivity() {
         setIntent(intent)
         val newUrl = intent.getStringExtra(EXTRA_URL) ?: intent.dataString
         if (!newUrl.isNullOrBlank()) {
-            _currentUrl.value = newUrl
+            _currentUrl.value = sanitizeUrl(newUrl)
         }
     }
 
@@ -63,12 +74,13 @@ class BrowserActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        android.webkit.WebView.setWebContentsDebuggingEnabled(true)
+        // Remote WebView debugging only in debug builds — never in release.
+        android.webkit.WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
 
         requestMediaAudioFocus()
 
         val targetUrl = intent.getStringExtra(EXTRA_URL) ?: intent.dataString ?: "https://m.youtube.com"
-        _currentUrl.value = targetUrl
+        _currentUrl.value = sanitizeUrl(targetUrl)
 
         setContent {
             val appPrefs: AppPreferences = getKoin().get()

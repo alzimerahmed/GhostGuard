@@ -69,6 +69,8 @@ fun BrowserWebView(
                     setSupportMultipleWindows(true)
                     cacheMode = WebSettings.LOAD_DEFAULT
                     mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                    allowFileAccess = false
+                    allowContentAccess = false
 
                     val defaultUa = userAgentString
                     userAgentString = BrowserAdBlocker.spoofChromeUserAgent(defaultUa)
