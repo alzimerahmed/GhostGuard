@@ -8,10 +8,11 @@ import app.ghostguard.R
 import app.ghostguard.data.dao.CustomDnsRuleDao
 import app.ghostguard.data.dao.DnsLogDao
 import app.ghostguard.data.dao.FilterListDao
-import app.ghostguard.data.entities.DnsLogEntry
-import app.ghostguard.data.repository.FilterListRepository
-import app.ghostguard.data.entities.WhitelistDomain
 import app.ghostguard.data.dao.WhitelistDomainDao
+import app.ghostguard.data.datastore.AppPreferences
+import app.ghostguard.data.entities.DnsLogEntry
+import app.ghostguard.data.entities.WhitelistDomain
+import app.ghostguard.data.repository.FilterListRepository
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
 import app.ghostguard.ui.logs.data.LogFilterStatus
@@ -35,8 +36,6 @@ import java.io.PrintWriter
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-import app.ghostguard.data.datastore.AppPreferences
-
 class LogViewModel(
     private val dnsLogDao: DnsLogDao,
     private val filterListDao: FilterListDao,
@@ -46,13 +45,13 @@ class LogViewModel(
     private val appPrefs: AppPreferences,
     private val application: Application,
 ) : AndroidViewModel(application) {
-
     private val _filterStatus = MutableStateFlow(LogFilterStatus.ALL)
     val filterStatus: StateFlow<LogFilterStatus> = _filterStatus.asStateFlow()
 
-    val showBlockedOnly: StateFlow<Boolean> = _filterStatus
-        .map { it == LogFilterStatus.BLOCKED }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val showBlockedOnly: StateFlow<Boolean> =
+        _filterStatus
+            .map { it == LogFilterStatus.BLOCKED }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
@@ -66,8 +65,9 @@ class LogViewModel(
     private val _appFilter = MutableStateFlow("")
     val appFilter: StateFlow<String> = _appFilter.asStateFlow()
 
-    val recordDnsLogs: StateFlow<Boolean> = appPrefs.recordDnsLogs
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val recordDnsLogs: StateFlow<Boolean> =
+        appPrefs.recordDnsLogs
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     private val _selectionMode = MutableStateFlow(false)
     val selectionMode: StateFlow<Boolean> = _selectionMode.asStateFlow()
@@ -75,58 +75,74 @@ class LogViewModel(
     private val _selectedIds = MutableStateFlow<Set<Long>>(emptySet())
     val selectedIds: StateFlow<Set<Long>> = _selectedIds.asStateFlow()
 
-    val whitelistedDomains: StateFlow<Set<String>> = whitelistDomainDao.getAll()
-        .map { list -> list.map { it.domain.lowercase() }.toSet() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+    val whitelistedDomains: StateFlow<Set<String>> =
+        whitelistDomainDao.getAll()
+            .map { list -> list.map { it.domain.lowercase() }.toSet() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 
-    val filterNames: StateFlow<Map<String, String>> = filterListDao.getAll()
-        .map { list -> list.associate { it.id.toString() to it.name } }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
+    val filterNames: StateFlow<Map<String, String>> =
+        filterListDao.getAll()
+            .map { list -> list.associate { it.id.toString() to it.name } }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
 
-    val appNames: StateFlow<List<String>> = dnsLogDao.getDistinctAppNames()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val appNames: StateFlow<List<String>> =
+        dnsLogDao.getDistinctAppNames()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val logs: StateFlow<List<DnsLogEntry>> = combine(
-        _filterStatus,
-        _timeRange
-    ) { status, range -> Pair(status, range) }
-        .flatMapLatest { (status, range) ->
-            val since = if (range == TimeRange.ALL) 0L
-            else System.currentTimeMillis() - range.millis
-            when (status) {
-                LogFilterStatus.ALL -> if (since > 0) dnsLogDao.getAllSince(since) else dnsLogDao.getAll()
-                LogFilterStatus.BLOCKED -> if (since > 0) dnsLogDao.getBlockedOnlySince(since) else dnsLogDao.getBlockedOnly()
-                LogFilterStatus.THREATS -> if (since > 0) {
-                    dnsLogDao.getBlockedByReasonSince(FilterListRepository.BLOCK_REASON_SECURITY, since)
-                } else {
-                    dnsLogDao.getBlockedByReason(FilterListRepository.BLOCK_REASON_SECURITY)
+    val logs: StateFlow<List<DnsLogEntry>> =
+        combine(
+            _filterStatus,
+            _timeRange,
+        ) { status, range -> Pair(status, range) }
+            .flatMapLatest { (status, range) ->
+                val since =
+                    if (range == TimeRange.ALL) {
+                        0L
+                    } else {
+                        System.currentTimeMillis() - range.millis
+                    }
+                when (status) {
+                    LogFilterStatus.ALL -> if (since > 0) dnsLogDao.getAllSince(since) else dnsLogDao.getAll()
+                    LogFilterStatus.BLOCKED -> if (since > 0) dnsLogDao.getBlockedOnlySince(since) else dnsLogDao.getBlockedOnly()
+                    LogFilterStatus.THREATS ->
+                        if (since > 0) {
+                            dnsLogDao.getBlockedByReasonSince(FilterListRepository.BLOCK_REASON_SECURITY, since)
+                        } else {
+                            dnsLogDao.getBlockedByReason(FilterListRepository.BLOCK_REASON_SECURITY)
+                        }
                 }
             }
-        }
-        .combine(_searchQuery) { logs, query ->
-            if (query.isBlank()) logs
-            else logs.filter {
-                it.domain.contains(query.trim(), ignoreCase = true) ||
-                        it.appName.contains(query.trim(), ignoreCase = true)
+            .combine(_searchQuery) { logs, query ->
+                if (query.isBlank()) {
+                    logs
+                } else {
+                    logs.filter {
+                        it.domain.contains(query.trim(), ignoreCase = true) ||
+                            it.appName.contains(query.trim(), ignoreCase = true)
+                    }
+                }
             }
-        }
-        .combine(_appFilter) { logs, app ->
-            if (app.isBlank()) logs
-            else logs.filter { it.appName.equals(app, ignoreCase = true) }
-        }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+            .combine(_appFilter) { logs, app ->
+                if (app.isBlank()) {
+                    logs
+                } else {
+                    logs.filter { it.appName.equals(app, ignoreCase = true) }
+                }
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun setFilterStatus(status: LogFilterStatus) {
         _filterStatus.value = status
     }
 
     fun toggleFilter() {
-        _filterStatus.value = if (_filterStatus.value == LogFilterStatus.BLOCKED) {
-            LogFilterStatus.ALL
-        } else {
-            LogFilterStatus.BLOCKED
-        }
+        _filterStatus.value =
+            if (_filterStatus.value == LogFilterStatus.BLOCKED) {
+                LogFilterStatus.ALL
+            } else {
+                LogFilterStatus.BLOCKED
+            }
     }
 
     fun setSearchQuery(query: String) {
@@ -185,7 +201,10 @@ class LogViewModel(
         }
     }
 
-    fun getBlockingFilterLists(domain: String, onResult: (List<String>) -> Unit) {
+    fun getBlockingFilterLists(
+        domain: String,
+        onResult: (List<String>) -> Unit,
+    ) {
         viewModelScope.launch {
             val lists = filterListRepository.findBlockingFilterLists(domain)
             onResult(lists)
@@ -268,4 +287,3 @@ class LogViewModel(
         }
     }
 }
-

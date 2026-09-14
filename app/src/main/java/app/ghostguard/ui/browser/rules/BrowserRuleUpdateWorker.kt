@@ -18,30 +18,33 @@ import java.util.concurrent.TimeUnit
  */
 class BrowserRuleUpdateWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params), KoinComponent {
-
     private val repository: BrowserRuleRepository by inject()
 
     companion object {
         const val WORK_NAME = "browser_rule_update_work"
 
         fun schedule(context: Context) {
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
+            val constraints =
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
 
-            val request = PeriodicWorkRequestBuilder<BrowserRuleUpdateWorker>(
-                1, TimeUnit.DAYS,
-                6, TimeUnit.HOURS
-            )
-                .setConstraints(constraints)
-                .build()
+            val request =
+                PeriodicWorkRequestBuilder<BrowserRuleUpdateWorker>(
+                    1,
+                    TimeUnit.DAYS,
+                    6,
+                    TimeUnit.HOURS,
+                )
+                    .setConstraints(constraints)
+                    .build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORK_NAME,
                 ExistingPeriodicWorkPolicy.KEEP,
-                request
+                request,
             )
             Timber.i("Scheduled periodic browser rule update worker")
         }

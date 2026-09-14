@@ -17,5 +17,5 @@ data class DnsErrorEntry(
     @ColumnInfo(name = "upstream_dns")
     val dnsServer: String,
     @ColumnInfo(name = "attempted_fallback")
-    val attemptedFallback: Boolean = false
+    val attemptedFallback: Boolean = false,
 )

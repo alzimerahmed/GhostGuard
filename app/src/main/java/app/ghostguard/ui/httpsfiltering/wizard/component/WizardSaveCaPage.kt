@@ -1,6 +1,5 @@
 package app.ghostguard.ui.httpsfiltering.wizard.component
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -53,33 +51,34 @@ fun WizardSaveCaPage(
     isExported: Boolean,
     onExport: () -> Unit,
     onCopyFileName: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp),
     ) {
         // Hero Icon
         Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.secondaryContainer)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
-                    shape = RoundedCornerShape(20.dp)
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(20.dp),
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Outlined.FolderZip,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(32.dp),
             )
         }
 
@@ -89,7 +88,7 @@ fun WizardSaveCaPage(
             text = stringResource(R.string.https_filtering_step1_title),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -98,7 +97,7 @@ fun WizardSaveCaPage(
             text = stringResource(R.string.https_filtering_step1_desc),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight
+            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -107,67 +106,73 @@ fun WizardSaveCaPage(
         OutlinedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.outlinedCardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
-            border = BorderStroke(
-                width = 1.dp,
-                color = if (isExported) {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                } else {
-                    MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                }
-            )
+            colors =
+                CardDefaults.outlinedCardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            border =
+                BorderStroke(
+                    width = 1.dp,
+                    color =
+                        if (isExported) {
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                        } else {
+                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        },
+                ),
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
                 // Card Header badge
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Outlined.Description,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = stringResource(R.string.https_wizard_cert_file_type),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
                         )
                     }
 
                     // Status Pill
                     Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(6.dp))
-                            .background(
-                                if (isExported) {
-                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                                } else {
-                                    MaterialTheme.colorScheme.surfaceVariant
-                                }
-                            )
-                            .padding(horizontal = 8.dp, vertical = 3.dp)
+                        modifier =
+                            Modifier
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(
+                                    if (isExported) {
+                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                                    } else {
+                                        MaterialTheme.colorScheme.surfaceVariant
+                                    },
+                                )
+                                .padding(horizontal = 8.dp, vertical = 3.dp),
                     ) {
                         Text(
-                            text = if (isExported) {
-                                stringResource(R.string.https_wizard_cert_status_exported)
-                            } else {
-                                stringResource(R.string.https_wizard_cert_status_not_exported)
-                            },
+                            text =
+                                if (isExported) {
+                                    stringResource(R.string.https_wizard_cert_status_exported)
+                                } else {
+                                    stringResource(R.string.https_wizard_cert_status_not_exported)
+                                },
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
-                            color = if (isExported) {
-                                MaterialTheme.colorScheme.primary
-                            } else {
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                            }
+                            color =
+                                if (isExported) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
                         )
                     }
                 }
@@ -176,13 +181,14 @@ fun WizardSaveCaPage(
 
                 // File name with Monospace and Copy Action
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f))
-                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f))
+                            .padding(horizontal = 14.dp, vertical = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = fileName,
@@ -190,18 +196,18 @@ fun WizardSaveCaPage(
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
 
                     IconButton(
                         onClick = onCopyFileName,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(36.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Default.ContentCopy,
                             contentDescription = stringResource(R.string.https_wizard_copy_filename),
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(18.dp),
                         )
                     }
                 }
@@ -212,37 +218,40 @@ fun WizardSaveCaPage(
 
         // Save Button
         val buttonColor by animateColorAsState(
-            targetValue = if (isExported) {
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
-            } else {
-                MaterialTheme.colorScheme.primary
-            },
+            targetValue =
+                if (isExported) {
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+                } else {
+                    MaterialTheme.colorScheme.primary
+                },
             animationSpec = tween(300),
-            label = "saveBtnColor"
+            label = "saveBtnColor",
         )
 
         Button(
             onClick = onExport,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
             shape = RoundedCornerShape(14.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
+            colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
         ) {
             Icon(
                 imageVector = if (isExported) Icons.Default.CheckCircle else Icons.Default.FileDownload,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = if (isExported) {
-                    stringResource(R.string.https_filtering_cert_saved)
-                } else {
-                    stringResource(R.string.https_filtering_export_ca)
-                },
+                text =
+                    if (isExported) {
+                        stringResource(R.string.https_filtering_cert_saved)
+                    } else {
+                        stringResource(R.string.https_filtering_export_ca)
+                    },
                 style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
 
@@ -252,30 +261,32 @@ fun WizardSaveCaPage(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(14.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-            ),
-            border = BorderStroke(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)
-            )
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+                ),
+            border =
+                BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f),
+                ),
         ) {
             Row(
                 modifier = Modifier.padding(14.dp),
-                verticalAlignment = Alignment.Top
+                verticalAlignment = Alignment.Top,
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = stringResource(R.string.https_wizard_cert_save_note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
                 )
             }
         }

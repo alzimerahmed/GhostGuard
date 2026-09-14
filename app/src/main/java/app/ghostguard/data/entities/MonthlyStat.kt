@@ -3,5 +3,5 @@ package app.ghostguard.data.entities
 data class MonthlyStat(
     val month: String,
     val total: Int,
-    val blocked: Int
+    val blocked: Int,
 )

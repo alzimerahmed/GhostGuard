@@ -4,14 +4,13 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.ghostguard.data.entities.CustomDnsRule
 import app.ghostguard.data.dao.CustomDnsRuleDao
+import app.ghostguard.data.entities.CustomDnsRule
 import app.ghostguard.data.entities.CustomDnsRuleExport
 import app.ghostguard.data.entities.RuleType
 import app.ghostguard.data.entities.toEntity
 import app.ghostguard.data.entities.toExport
 import app.ghostguard.data.repository.FilterListRepository
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.customrules.data.ExportFormat
 import app.ghostguard.utils.CustomRuleParser
@@ -28,8 +27,11 @@ class CustomRulesViewModel(
     private val filterListRepository: FilterListRepository,
     private val application: Application,
 ) : ViewModel() {
-
-    private val json = Json { prettyPrint = true; ignoreUnknownKeys = true }
+    private val json =
+        Json {
+            prettyPrint = true
+            ignoreUnknownKeys = true
+        }
 
     private val _rules = MutableStateFlow<List<CustomDnsRule>>(emptyList())
     val rules: StateFlow<List<CustomDnsRule>> = _rules.asStateFlow()
@@ -59,19 +61,24 @@ class CustomRulesViewModel(
         }
     }
 
-    fun addRule(ruleText: String, onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
+    fun addRule(
+        ruleText: String,
+        onSuccess: () -> Unit = {},
+        onError: (String) -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
                 val parsedRule = CustomRuleParser.parseRule(ruleText)
                 if (parsedRule != null) {
                     val allRules = customDnsRuleDao.getAll()
-                    val isDuplicate = allRules.any {
-                        if (parsedRule.ruleType == RuleType.COMMENT) {
-                            it.rule == parsedRule.rule
-                        } else {
-                            it.ruleType == parsedRule.ruleType && it.domain == parsedRule.domain
+                    val isDuplicate =
+                        allRules.any {
+                            if (parsedRule.ruleType == RuleType.COMMENT) {
+                                it.rule == parsedRule.rule
+                            } else {
+                                it.ruleType == parsedRule.ruleType && it.domain == parsedRule.domain
+                            }
                         }
-                    }
                     if (isDuplicate) {
                         onError("Rule already exists")
                         return@launch
@@ -89,16 +96,22 @@ class CustomRulesViewModel(
         }
     }
 
-    fun addRules(rulesText: String, onSuccess: (Int) -> Unit = {}, onError: (String) -> Unit = {}) {
+    fun addRules(
+        rulesText: String,
+        onSuccess: (Int) -> Unit = {},
+        onError: (String) -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
                 val parsedRules = CustomRuleParser.parseRules(rulesText)
                 if (parsedRules.isNotEmpty()) {
                     val allRules = customDnsRuleDao.getAll()
-                    val existingNonComments = allRules.filter { it.ruleType != RuleType.COMMENT }
-                        .map { Pair(it.ruleType, it.domain) }.toSet()
-                    val existingComments = allRules.filter { it.ruleType == RuleType.COMMENT }
-                        .map { it.rule }.toSet()
+                    val existingNonComments =
+                        allRules.filter { it.ruleType != RuleType.COMMENT }
+                            .map { Pair(it.ruleType, it.domain) }.toSet()
+                    val existingComments =
+                        allRules.filter { it.ruleType == RuleType.COMMENT }
+                            .map { it.rule }.toSet()
 
                     // Filter out duplicates (both against DB and within the new list)
                     val newRulesToInsert = mutableListOf<CustomDnsRule>()
@@ -106,11 +119,12 @@ class CustomRulesViewModel(
                     val seenComments = existingComments.toMutableSet()
 
                     for (rule in parsedRules) {
-                        val isDuplicate = if (rule.ruleType == RuleType.COMMENT) {
-                            !seenComments.add(rule.rule)
-                        } else {
-                            !seenNonComments.add(Pair(rule.ruleType, rule.domain))
-                        }
+                        val isDuplicate =
+                            if (rule.ruleType == RuleType.COMMENT) {
+                                !seenComments.add(rule.rule)
+                            } else {
+                                !seenNonComments.add(Pair(rule.ruleType, rule.domain))
+                            }
                         if (!isDuplicate) {
                             newRulesToInsert.add(rule)
                         }
@@ -122,8 +136,8 @@ class CustomRulesViewModel(
                         ServiceController.requestRestart(application.applicationContext)
                         onSuccess(newRulesToInsert.size)
                     } else if (parsedRules.size > newRulesToInsert.size) {
-                         // All parsed rules were duplicates
-                         onError("Rules already exist")
+                        // All parsed rules were duplicates
+                        onError("Rules already exist")
                     } else {
                         onError("No valid rules found")
                     }
@@ -139,7 +153,7 @@ class CustomRulesViewModel(
     private fun insertRulesWithDedup(
         rules: List<CustomDnsRule>,
         onSuccess: (Int) -> Unit,
-        onError: (String) -> Unit
+        onError: (String) -> Unit,
     ) {
         viewModelScope.launch {
             try {
@@ -149,21 +163,24 @@ class CustomRulesViewModel(
                 }
 
                 val allRules = customDnsRuleDao.getAll()
-                val existingNonComments = allRules.filter { it.ruleType != RuleType.COMMENT }
-                    .map { Pair(it.ruleType, it.domain) }.toSet()
-                val existingComments = allRules.filter { it.ruleType == RuleType.COMMENT }
-                    .map { it.rule }.toSet()
+                val existingNonComments =
+                    allRules.filter { it.ruleType != RuleType.COMMENT }
+                        .map { Pair(it.ruleType, it.domain) }.toSet()
+                val existingComments =
+                    allRules.filter { it.ruleType == RuleType.COMMENT }
+                        .map { it.rule }.toSet()
 
                 val newRulesToInsert = mutableListOf<CustomDnsRule>()
                 val seenNonComments = existingNonComments.toMutableSet()
                 val seenComments = existingComments.toMutableSet()
 
                 for (rule in rules) {
-                    val isDuplicate = if (rule.ruleType == RuleType.COMMENT) {
-                        !seenComments.add(rule.rule)
-                    } else {
-                        !seenNonComments.add(Pair(rule.ruleType, rule.domain))
-                    }
+                    val isDuplicate =
+                        if (rule.ruleType == RuleType.COMMENT) {
+                            !seenComments.add(rule.rule)
+                        } else {
+                            !seenNonComments.add(Pair(rule.ruleType, rule.domain))
+                        }
                     if (!isDuplicate) {
                         newRulesToInsert.add(rule)
                     }
@@ -224,7 +241,11 @@ class CustomRulesViewModel(
         return _rules.value.joinToString("\n") { it.rule }
     }
 
-    fun importRules(rulesText: String, onSuccess: (Int) -> Unit = {}, onError: (String) -> Unit = {}) {
+    fun importRules(
+        rulesText: String,
+        onSuccess: (Int) -> Unit = {},
+        onError: (String) -> Unit = {},
+    ) {
         addRules(rulesText, onSuccess, onError)
     }
 
@@ -234,7 +255,7 @@ class CustomRulesViewModel(
         uri: Uri,
         format: ExportFormat,
         onSuccess: (Int) -> Unit = {},
-        onError: (String) -> Unit = {}
+        onError: (String) -> Unit = {},
     ) {
         viewModelScope.launch {
             try {
@@ -244,17 +265,18 @@ class CustomRulesViewModel(
                     return@launch
                 }
 
-                val content = withContext(Dispatchers.IO) {
-                    when (format) {
-                        ExportFormat.JSON -> {
-                            val exportList = currentRules.map { it.toExport() }
-                            json.encodeToString(exportList)
-                        }
-                        ExportFormat.TXT -> {
-                            currentRules.joinToString("\n") { it.rule }
+                val content =
+                    withContext(Dispatchers.IO) {
+                        when (format) {
+                            ExportFormat.JSON -> {
+                                val exportList = currentRules.map { it.toExport() }
+                                json.encodeToString(exportList)
+                            }
+                            ExportFormat.TXT -> {
+                                currentRules.joinToString("\n") { it.rule }
+                            }
                         }
                     }
-                }
 
                 withContext(Dispatchers.IO) {
                     application.contentResolver.openOutputStream(uri)?.use { outputStream ->
@@ -274,15 +296,16 @@ class CustomRulesViewModel(
     fun importRulesFromUri(
         uri: Uri,
         onSuccess: (Int) -> Unit = {},
-        onError: (String) -> Unit = {}
+        onError: (String) -> Unit = {},
     ) {
         viewModelScope.launch {
             try {
-                val content = withContext(Dispatchers.IO) {
-                    application.contentResolver.openInputStream(uri)?.use { inputStream ->
-                        inputStream.bufferedReader(Charsets.UTF_8).readText()
-                    } ?: throw Exception("Cannot open input stream")
-                }
+                val content =
+                    withContext(Dispatchers.IO) {
+                        application.contentResolver.openInputStream(uri)?.use { inputStream ->
+                            inputStream.bufferedReader(Charsets.UTF_8).readText()
+                        } ?: throw Exception("Cannot open input stream")
+                    }
 
                 if (content.isBlank()) {
                     onError("File is empty")
@@ -290,13 +313,14 @@ class CustomRulesViewModel(
                 }
 
                 // Try JSON first, fall back to TXT
-                val rules = try {
-                    val exported = json.decodeFromString<List<CustomDnsRuleExport>>(content)
-                    exported.map { it.toEntity() }
-                } catch (_: Exception) {
-                    // Not valid JSON — treat as plain text (one rule per line)
-                    CustomRuleParser.parseRules(content)
-                }
+                val rules =
+                    try {
+                        val exported = json.decodeFromString<List<CustomDnsRuleExport>>(content)
+                        exported.map { it.toEntity() }
+                    } catch (_: Exception) {
+                        // Not valid JSON — treat as plain text (one rule per line)
+                        CustomRuleParser.parseRules(content)
+                    }
 
                 insertRulesWithDedup(rules, onSuccess, onError)
             } catch (e: Exception) {

@@ -94,11 +94,12 @@ fun OnboardingScreen(
 
     // VPN permission launcher
     var vpnPermissionGranted by remember { mutableStateOf(VpnService.prepare(context) == null) }
-    val vpnPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { _ ->
-        vpnPermissionGranted = VpnService.prepare(context) == null
-    }
+    val vpnPermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+        ) { _ ->
+            vpnPermissionGranted = VpnService.prepare(context) == null
+        }
 
     // Notification permission (Android 13+)
     var notificationPermissionGranted by remember {
@@ -106,17 +107,20 @@ fun OnboardingScreen(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 ContextCompat.checkSelfPermission(
                     context,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    Manifest.permission.POST_NOTIFICATIONS,
                 ) ==
-                        android.content.pm.PackageManager.PERMISSION_GRANTED
-            } else true
+                    android.content.pm.PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            },
         )
     }
-    val notificationPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        notificationPermissionGranted = granted
-    }
+    val notificationPermissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { granted ->
+            notificationPermissionGranted = granted
+        }
 
     // Battery optimization
     val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -125,20 +129,23 @@ fun OnboardingScreen(
     var batteryOptimizationExcluded by remember {
         mutableStateOf(initialBatteryOptimizationExcluded)
     }
-    val batteryOptLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        batteryOptimizationExcluded =
-            powerManager.isIgnoringBatteryOptimizations(context.packageName)
-    }
-
-    val isBatteryOptSupported = remember {
-        val intent1 = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-            data = "package:${context.packageName}".toUri()
+    val batteryOptLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+        ) {
+            batteryOptimizationExcluded =
+                powerManager.isIgnoringBatteryOptimizations(context.packageName)
         }
-        val intent2 = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-        intent1.resolveActivity(context.packageManager) != null || intent2.resolveActivity(context.packageManager) != null
-    }
+
+    val isBatteryOptSupported =
+        remember {
+            val intent1 =
+                Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                    data = "package:${context.packageName}".toUri()
+                }
+            val intent2 = Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+            intent1.resolveActivity(context.packageManager) != null || intent2.resolveActivity(context.packageManager) != null
+        }
 
     fun skipToHome() {
         scope.launch {
@@ -156,131 +163,141 @@ fun OnboardingScreen(
                     AnimatedVisibility(
                         visible = !isLastPage,
                         enter = fadeIn(),
-                        exit = fadeOut()
+                        exit = fadeOut(),
                     ) {
                         TextButton(onClick = { skipToHome() }) {
                             Text(
                                 text = stringResource(R.string.onboarding_skip),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                    ),
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Pager content
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) { page ->
                 when (page) {
                     // Step 1: Welcome + Privacy promise
-                    0 -> OnboardingPageContent(
-                        OnboardingPage(
-                            icon = Icons.Filled.Shield,
-                            title = stringResource(R.string.onboarding_title_1),
-                            description = stringResource(R.string.onboarding_desc_1)
+                    0 ->
+                        OnboardingPageContent(
+                            OnboardingPage(
+                                icon = Icons.Filled.Shield,
+                                title = stringResource(R.string.onboarding_title_1),
+                                description = stringResource(R.string.onboarding_desc_1),
+                            ),
                         )
-                    )
                     // Step 2: Protection level
-                    1 -> ProtectionLevelStep(
-                        selectedLevel = selectedProtectionLevel,
-                        onLevelSelect = { viewModel.selectProtectionLevel(it) }
-                    )
+                    1 ->
+                        ProtectionLevelStep(
+                            selectedLevel = selectedProtectionLevel,
+                            onLevelSelect = { viewModel.selectProtectionLevel(it) },
+                        )
                     // Step 3: DNS server
-                    2 -> DnsServerStep(
-                        selectedProvider = selectedDnsProvider,
-                        onProviderSelect = { viewModel.selectDnsProvider(it) }
-                    )
+                    2 ->
+                        DnsServerStep(
+                            selectedProvider = selectedDnsProvider,
+                            onProviderSelect = { viewModel.selectDnsProvider(it) },
+                        )
                     // Step 4: VPN permission
-                    3 -> PermissionStep(
-                        icon = Icons.Filled.VpnKey,
-                        title = stringResource(R.string.onboarding_vpn_title),
-                        description = stringResource(R.string.onboarding_vpn_desc),
-                        buttonText = stringResource(R.string.onboarding_vpn_grant),
-                        isGranted = vpnPermissionGranted,
-                        grantedText = stringResource(R.string.onboarding_permission_granted),
-                        onRequestPermission = {
-                            val intent = VpnService.prepare(context)
-                            if (intent != null) {
-                                vpnPermissionLauncher.launch(intent)
-                            } else {
-                                vpnPermissionGranted = true
-                            }
-                        }
-                    )
-                    // Step 5: Notification permission (Android 13+)
-                    4 -> PermissionStep(
-                        icon = Icons.Filled.Notifications,
-                        title = stringResource(R.string.onboarding_notification_title),
-                        description = stringResource(R.string.onboarding_notification_desc),
-                        buttonText = stringResource(R.string.onboarding_notification_grant),
-                        accentColor = AccentBlue,
-                        isGranted = notificationPermissionGranted,
-                        grantedText = stringResource(R.string.onboarding_permission_granted),
-                        onRequestPermission = {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                notificationPermissionLauncher.launch(
-                                    Manifest.permission.POST_NOTIFICATIONS
-                                )
-                            } else {
-                                notificationPermissionGranted = true
-                            }
-                        }
-                    )
-                    // Step 6: Battery optimization
-                    5 -> PermissionStep(
-                        icon = Icons.Filled.BatteryChargingFull,
-                        title = stringResource(R.string.onboarding_battery_title),
-                        description = stringResource(R.string.onboarding_battery_desc),
-                        buttonText = if (isBatteryOptSupported) {
-                            stringResource(R.string.onboarding_battery_grant)
-                        } else {
-                            stringResource(R.string.onboarding_battery_unsupported)
-                        },
-                        accentColor = MaterialTheme.colorScheme.primary,
-                        isGranted = batteryOptimizationExcluded,
-                        grantedText = stringResource(R.string.onboarding_permission_granted),
-                        isSupported = isBatteryOptSupported,
-                        onRequestPermission = {
-                            try {
-                                @Suppress("BatteryLife")
-                                val intent =
-                                    Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                                        data = "package:${context.packageName}".toUri()
-                                    }
-                                batteryOptLauncher.launch(intent)
-                            } catch (e: Exception) {
-                                try {
-                                    val fallbackIntent =
-                                        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-                                    batteryOptLauncher.launch(fallbackIntent)
-                                } catch (e2: Exception) {
-                                    e2.printStackTrace()
+                    3 ->
+                        PermissionStep(
+                            icon = Icons.Filled.VpnKey,
+                            title = stringResource(R.string.onboarding_vpn_title),
+                            description = stringResource(R.string.onboarding_vpn_desc),
+                            buttonText = stringResource(R.string.onboarding_vpn_grant),
+                            isGranted = vpnPermissionGranted,
+                            grantedText = stringResource(R.string.onboarding_permission_granted),
+                            onRequestPermission = {
+                                val intent = VpnService.prepare(context)
+                                if (intent != null) {
+                                    vpnPermissionLauncher.launch(intent)
+                                } else {
+                                    vpnPermissionGranted = true
                                 }
-                            }
-                        }
-                    )
+                            },
+                        )
+                    // Step 5: Notification permission (Android 13+)
+                    4 ->
+                        PermissionStep(
+                            icon = Icons.Filled.Notifications,
+                            title = stringResource(R.string.onboarding_notification_title),
+                            description = stringResource(R.string.onboarding_notification_desc),
+                            buttonText = stringResource(R.string.onboarding_notification_grant),
+                            accentColor = AccentBlue,
+                            isGranted = notificationPermissionGranted,
+                            grantedText = stringResource(R.string.onboarding_permission_granted),
+                            onRequestPermission = {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    notificationPermissionLauncher.launch(
+                                        Manifest.permission.POST_NOTIFICATIONS,
+                                    )
+                                } else {
+                                    notificationPermissionGranted = true
+                                }
+                            },
+                        )
+                    // Step 6: Battery optimization
+                    5 ->
+                        PermissionStep(
+                            icon = Icons.Filled.BatteryChargingFull,
+                            title = stringResource(R.string.onboarding_battery_title),
+                            description = stringResource(R.string.onboarding_battery_desc),
+                            buttonText =
+                                if (isBatteryOptSupported) {
+                                    stringResource(R.string.onboarding_battery_grant)
+                                } else {
+                                    stringResource(R.string.onboarding_battery_unsupported)
+                                },
+                            accentColor = MaterialTheme.colorScheme.primary,
+                            isGranted = batteryOptimizationExcluded,
+                            grantedText = stringResource(R.string.onboarding_permission_granted),
+                            isSupported = isBatteryOptSupported,
+                            onRequestPermission = {
+                                try {
+                                    @Suppress("BatteryLife")
+                                    val intent =
+                                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                            data = "package:${context.packageName}".toUri()
+                                        }
+                                    batteryOptLauncher.launch(intent)
+                                } catch (e: Exception) {
+                                    try {
+                                        val fallbackIntent =
+                                            Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
+                                        batteryOptLauncher.launch(fallbackIntent)
+                                    } catch (e2: Exception) {
+                                        e2.printStackTrace()
+                                    }
+                                }
+                            },
+                        )
                     // Step 7: Crash Reporting Options
-                    6 -> CrashReportingStep(
-                        onOptInChoiceMade = { isOptIn ->
-                            viewModel.setCrashReportingEnabled(isOptIn)
-                            scope.launch {
-                                pagerState.animateScrollToPage(7)
-                            }
-                        }
-                    )
+                    6 ->
+                        CrashReportingStep(
+                            onOptInChoiceMade = { isOptIn ->
+                                viewModel.setCrashReportingEnabled(isOptIn)
+                                scope.launch {
+                                    pagerState.animateScrollToPage(7)
+                                }
+                            },
+                        )
                     // Completion
                     7 -> CompletionStep()
                 }
@@ -290,25 +307,28 @@ fun OnboardingScreen(
             Row(
                 modifier = Modifier.padding(vertical = 24.dp),
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 repeat(TOTAL_PAGES) { index ->
                     val isSelected = pagerState.currentPage == index
                     val width by animateFloatAsState(
                         targetValue = if (isSelected) 24f else 8f,
-                        animationSpec = tween(300), label = "indicator_width"
+                        animationSpec = tween(300),
+                        label = "indicator_width",
                     )
                     val color by animateColorAsState(
                         targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                        animationSpec = tween(300), label = "indicator_color"
+                        animationSpec = tween(300),
+                        label = "indicator_color",
                     )
                     Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .height(8.dp)
-                            .width(width.dp)
-                            .clip(CircleShape)
-                            .background(color)
+                        modifier =
+                            Modifier
+                                .padding(horizontal = 4.dp)
+                                .height(8.dp)
+                                .width(width.dp)
+                                .clip(CircleShape)
+                                .background(color),
                     )
                 }
             }
@@ -324,20 +344,26 @@ fun OnboardingScreen(
                         }
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White
-                )
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White,
+                    ),
             ) {
                 Text(
-                    text = if (isLastPage) stringResource(R.string.onboarding_get_started)
-                    else stringResource(R.string.onboarding_next),
+                    text =
+                        if (isLastPage) {
+                            stringResource(R.string.onboarding_get_started)
+                        } else {
+                            stringResource(R.string.onboarding_next)
+                        },
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 

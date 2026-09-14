@@ -1,15 +1,13 @@
 package app.ghostguard.ui.appmanagement
 
 import android.app.Application
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
-import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.data.dao.DnsLogDao
-import app.ghostguard.service.AdBlockVpnService
+import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.appmanagement.data.AppManagementData
 import app.ghostguard.ui.appmanagement.data.AppSortOption
@@ -25,13 +23,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-
 class AppManagementViewModel(
     private val appPrefs: AppPreferences,
     dnsLogDao: DnsLogDao,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
-
     private val _installedApps = MutableStateFlow<List<AppManagementData>>(emptyList())
 
     private val _isLoading = MutableStateFlow(true)
@@ -46,38 +42,41 @@ class AppManagementViewModel(
     private val _totalAppCount = MutableStateFlow(0)
     val totalAppCount: StateFlow<Int> = _totalAppCount.asStateFlow()
 
-    val apps: StateFlow<List<AppManagementData>> = combine(
-        _installedApps,
-        appPrefs.whitelistedApps,
-        dnsLogDao.getPerAppStats().distinctUntilChanged(),
-        _searchQuery,
-        _sortOption
-    ) { installedApps, whitelisted, stats, query, sort ->
-        val statsByName = stats.associateBy { it.appName }
+    val apps: StateFlow<List<AppManagementData>> =
+        combine(
+            _installedApps,
+            appPrefs.whitelistedApps,
+            dnsLogDao.getPerAppStats().distinctUntilChanged(),
+            _searchQuery,
+            _sortOption,
+        ) { installedApps, whitelisted, stats, query, sort ->
+            val statsByName = stats.associateBy { it.appName }
 
-        var result = installedApps.map { app ->
-            // AppNameResolver stores label (e.g. "Chrome"), fallback to package name
-            val stat = statsByName[app.label] ?: statsByName[app.packageName]
-            app.copy(
-                totalQueries = stat?.totalQueries ?: 0,
-                blockedQueries = stat?.blockedQueries ?: 0,
-                isWhitelisted = app.packageName in whitelisted
-            )
-        }
+            var result =
+                installedApps.map { app ->
+                    // AppNameResolver stores label (e.g. "Chrome"), fallback to package name
+                    val stat = statsByName[app.label] ?: statsByName[app.packageName]
+                    app.copy(
+                        totalQueries = stat?.totalQueries ?: 0,
+                        blockedQueries = stat?.blockedQueries ?: 0,
+                        isWhitelisted = app.packageName in whitelisted,
+                    )
+                }
 
-        if (query.isNotBlank()) {
-            result = result.filter {
-                it.label.contains(query, ignoreCase = true) ||
-                        it.packageName.contains(query, ignoreCase = true)
+            if (query.isNotBlank()) {
+                result =
+                    result.filter {
+                        it.label.contains(query, ignoreCase = true) ||
+                            it.packageName.contains(query, ignoreCase = true)
+                    }
             }
-        }
 
-        when (sort) {
-            AppSortOption.NAME -> result.sortedBy { it.label.lowercase() }
-            AppSortOption.QUERIES -> result.sortedByDescending { it.totalQueries }
-            AppSortOption.BLOCKED -> result.sortedByDescending { it.blockedQueries }
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+            when (sort) {
+                AppSortOption.NAME -> result.sortedBy { it.label.lowercase() }
+                AppSortOption.QUERIES -> result.sortedByDescending { it.totalQueries }
+                AppSortOption.BLOCKED -> result.sortedByDescending { it.blockedQueries }
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     init {
         loadApps()
@@ -87,20 +86,21 @@ class AppManagementViewModel(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val apps = withContext(Dispatchers.IO) {
-                    val pm = application.applicationContext.packageManager
-                    pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
-                        .filter { it.packageName != application.applicationContext.packageName }
-                        .map { appInfo ->
-                            AppManagementData(
-                                packageName = appInfo.packageName,
-                                label = appInfo.loadLabel(pm).toString(),
-                                icon = appInfo.loadIcon(pm),
-                                isSystemApp = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
-                            )
-                        }
-                        .sortedBy { it.label.lowercase() }
-                }
+                val apps =
+                    withContext(Dispatchers.IO) {
+                        val pm = application.applicationContext.packageManager
+                        pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                            .filter { it.packageName != application.applicationContext.packageName }
+                            .map { appInfo ->
+                                AppManagementData(
+                                    packageName = appInfo.packageName,
+                                    label = appInfo.loadLabel(pm).toString(),
+                                    icon = appInfo.loadIcon(pm),
+                                    isSystemApp = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0,
+                                )
+                            }
+                            .sortedBy { it.label.lowercase() }
+                    }
                 _installedApps.value = apps
                 _totalAppCount.value = apps.size
             } catch (e: Exception) {

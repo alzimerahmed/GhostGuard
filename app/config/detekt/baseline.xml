@@ -1,0 +1,276 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:CustomFilterManager.kt$CustomFilterManager$(existingByUrl != null &amp;&amp; existingByUrl.id != filter.id) || (existingByOriginalUrl != null &amp;&amp; existingByOriginalUrl.id != filter.id)</ID>
+    <ID>ComplexCondition:FilterDownloadManager.kt$FilterDownloadManager$!forceUpdate &amp;&amp; bloomFile.exists() &amp;&amp; bloomFile.length() &gt; 0 &amp;&amp; trieFile.exists() &amp;&amp; trieFile.length() &gt; 0</ID>
+    <ID>ComplexCondition:FilterDownloadManager.kt$FilterDownloadManager$selector.isEmpty() || selector.startsWith("!") || (selector.startsWith("#") &amp;&amp; !selector.startsWith("##"))</ID>
+    <ID>FunctionNaming:AboutLinkItem.kt$@Composable fun AboutLinkItem( icon: ImageVector, title: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AboutScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun AboutScreen( modifier: Modifier = Modifier, onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:AccentColorCard.kt$@Composable fun AccentColorCard( accentColor: String, onSelectAccentColor: (String) -&gt; Unit, onOpenColorPicker: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AccentColorCircle.kt$@Composable fun AccentColorCircle( color: Color, isSelected: Boolean, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AddDomainDialog.kt$@Composable fun AddDomainDialog( isAllow: Boolean, onDismiss: () -&gt; Unit, onAdd: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AddFilterDialog.kt$@Composable fun AddFilterDialog( onDismiss: () -&gt; Unit, onAdd: (name: String, url: String, buildLocally: Boolean) -&gt; Unit, modifier: Modifier = Modifier, existingUrls: List&lt;String&gt; = emptyList(), isValidating: Boolean = false )</ID>
+    <ID>FunctionNaming:AddRuleDialog.kt$@Composable fun AddRuleDialog( onDismiss: () -&gt; Unit, onConfirm: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AddScheduleDialog.kt$@Composable fun AddScheduleDialog( onDismiss: () -&gt; Unit, onAdd: (Int, Int, Int, Int, String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AppIcon.kt$@Composable fun AppIcon(drawable: Drawable?, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:AppListItem.kt$@Composable fun AppListItem( app: AppInfoData, isWhitelisted: Boolean, onToggle: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AppManagementItem.kt$@Composable fun AppManagementItem( app: AppManagementData, onToggle: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:AppManagementScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun AppManagementScreen( modifier: Modifier = Modifier, onNavigateBack: () -&gt; Unit = { }, viewModel: AppManagementViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:AppWhitelistScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun AppWhitelistScreen( modifier: Modifier = Modifier, viewModel: AppWhitelistViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:AppearanceScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun AppearanceScreen( modifier: Modifier = Modifier, onNavigateBack: () -&gt; Unit = { }, viewModel: AppearanceViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:ApplicationsSection.kt$@Composable fun ApplicationsSection( onNavigateToWhitelistApps: () -&gt; Unit, onNavigateToAppManagement: () -&gt; Unit, onNavigateToTrustedNetworks: () -&gt; Unit = {}, excludeLan: Boolean = true, onSetExcludeLan: (Boolean) -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoCtaButton( title: String, subtitle: String, icon: ImageVector, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoHeader(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoPipCard( onEnterPip: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoQuickActionsRow( onClearData: () -&gt; Unit, onShare: () -&gt; Unit, onOpenExternal: () -&gt; Unit, onHome: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoStatsCard( blockedCount: Int, ruleVersion: Long, ruleDomainsCount: Int, isCheckingRuleUpdates: Boolean, onCheckRuleUpdates: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable fun BentoToggleCard( title: String, subtitle: String, icon: ImageVector, checked: Boolean, onCheckedChange: (Boolean) -&gt; Unit, activeColor: Color, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BentoItemComponents.kt$@Composable private fun QuickActionButton( label: String, icon: ImageVector, color: Color, onClick: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:BlocklistTab.kt$@Composable fun BlocklistTab( domains: List&lt;CustomDnsRule&gt;, onRemove: (CustomDnsRule) -&gt; Unit )</ID>
+    <ID>FunctionNaming:BrowserBentoMenuSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun BrowserBentoMenuSheet( isVisible: Boolean, blockedCount: Int, adBlockEnabled: Boolean, popupBlockEnabled: Boolean = true, isDesktopMode: Boolean, ruleVersion: Long, ruleDomainsCount: Int, isCheckingRuleUpdates: Boolean, onDismiss: () -&gt; Unit, onToggleAdBlock: () -&gt; Unit, onTogglePopupBlock: () -&gt; Unit = {}, onToggleDesktopMode: () -&gt; Unit, onEnterPip: () -&gt; Unit, onClearData: () -&gt; Unit, onOpenExternal: () -&gt; Unit, onShare: () -&gt; Unit, onHome: () -&gt; Unit, onCloseBrowser: () -&gt; Unit, onCheckRuleUpdates: () -&gt; Unit, onActivateElementPicker: () -&gt; Unit = {}, onNavigateToElementRules: () -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserBottomBar.kt$@Composable fun BrowserBottomBar( canGoBack: Boolean, canGoForward: Boolean, adBlockEnabled: Boolean, onBack: () -&gt; Unit, onForward: () -&gt; Unit, onHome: () -&gt; Unit, onToggleAdBlock: () -&gt; Unit, onShare: () -&gt; Unit, onOpenShieldSheet: () -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserBottomOmnibox.kt$@Composable fun BrowserBottomOmnibox( displayUrl: String, progress: Int, isLoading: Boolean, blockedCount: Int, adBlockEnabled: Boolean, canGoBack: Boolean, canGoForward: Boolean, isDesktopMode: Boolean, isVisible: Boolean, onBack: () -&gt; Unit, onForward: () -&gt; Unit, onReload: () -&gt; Unit, onOpenSearch: () -&gt; Unit, onOpenMenu: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserRow.kt$@Composable fun BrowserRow( browser: BrowserInfo, onToggle: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:BrowserScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @SuppressLint("SetJavaScriptEnabled") @Composable fun BrowserScreen( initialUrl: String = "https://m.youtube.com", isInPipMode: Boolean = false, onEnterPip: () -&gt; Unit = {}, onCloseBrowser: () -&gt; Unit, onNavigateToElementRules: () -&gt; Unit = {}, viewModel: BrowserViewModel = koinViewModel(), modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserShieldSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun BrowserShieldSheet( sheetState: SheetState, currentUrl: String, blockedCount: Int, adBlockEnabled: Boolean, isDesktopMode: Boolean, onDismiss: () -&gt; Unit, onToggleAdBlock: () -&gt; Unit, onToggleDesktopMode: () -&gt; Unit, onEnterPip: () -&gt; Unit, onClearData: () -&gt; Unit, onOpenExternal: () -&gt; Unit, ruleVersion: Long = 1L, ruleDomainsCount: Int = 0, isCheckingRuleUpdates: Boolean = false, onCheckRuleUpdates: () -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable fun BrowserShortcuts( onSelectShortcut: (String) -&gt; Unit, onOpenSearch: () -&gt; Unit, onOpenMenu: () -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun AddShortcutItem(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun HomeFeatureBanner(onDismiss: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun HomeHeroBrand()</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun HomeSearchCapsule(onOpenSearch: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun HomeSpeedDialGrid( shortcuts: List&lt;QuickShortcut&gt;, onSelect: (String) -&gt; Unit )</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun HomeTopBar(onOpenMenu: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:BrowserShortcuts.kt$@Composable private fun SpeedDialItem( shortcut: QuickShortcut, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserTopBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun BrowserTopBar( displayUrl: String, progress: Int, isLoading: Boolean, blockedCount: Int, isDesktopMode: Boolean, onUrlSubmit: (String) -&gt; Unit, onReload: () -&gt; Unit, onToggleDesktopMode: () -&gt; Unit, onClearData: () -&gt; Unit, onOpenExternal: () -&gt; Unit, onCloseBrowser: () -&gt; Unit, onEnterPip: () -&gt; Unit = {}, onOpenShieldSheet: () -&gt; Unit = {}, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:BrowserWebView.kt$@SuppressLint("SetJavaScriptEnabled") @Composable fun BrowserWebView( uiState: BrowserUiState, initialUrl: String, onIntent: (BrowserUiIntent) -&gt; Unit, onWebViewReady: (WebView) -&gt; Unit, onPullRefresh: () -&gt; Unit, onShowCustomView: (View, WebChromeClient.CustomViewCallback) -&gt; Unit, onHideCustomView: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CategoryHeader.kt$@Composable fun CategoryHeader(text: String, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:CertInstallationWizardScreen.kt$@Composable private fun WizardBottomNav( currentStep: WizardStep, onPrev: () -&gt; Unit, onNext: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:CertInstallationWizardScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun CertInstallationWizardScreen( onNavigateBack: () -&gt; Unit, modifier: Modifier = Modifier, viewModel: CertInstallationWizardViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:CertStatusBadge.kt$@Composable fun CertStatusBadge(certStatus: CertStatus)</ID>
+    <ID>FunctionNaming:CertificateStatusCard.kt$@Composable fun CertificateStatusCard( certStatus: CertStatus, isRootAvailable: Boolean, onOpenWizard: () -&gt; Unit, onVerifyCert: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ColorPickerDialog.kt$@Composable fun ColorPickerDialog( initialColor: Color = Color.Red, onDismiss: () -&gt; Unit, onColorSelected: (Color) -&gt; Unit )</ID>
+    <ID>FunctionNaming:ColorPickerDialog.kt$@Composable private fun HueBar( hue: Float, onHueChanged: (Float) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ColorPickerDialog.kt$@Composable private fun SaturationBrightnessPanel( hue: Float, saturation: Float, brightness: Float, onSaturationBrightnessChanged: (Float, Float) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CommunitySection.kt$@Composable fun CommunitySection( modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CompletionStep.kt$@Composable fun CompletionStep(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:ConfirmClearLogDialog.kt$@Composable fun ConfirmClearLogDialog( modifier: Modifier = Modifier, onClear: () -&gt; Unit, onDismiss: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:CrashReportingStep.kt$@Composable fun CrashReportingStep( onOptInChoiceMade: (Boolean) -&gt; Unit )</ID>
+    <ID>FunctionNaming:CreateCustomProfileDialog.kt$@Composable fun CreateCustomProfileDialog( onDismiss: () -&gt; Unit, onCreate: (String, Boolean, Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CustomDnsCard.kt$@Composable fun CustomDnsCard( isSelected: Boolean, upstreamDns: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CustomDnsDialog.kt$@Composable fun CustomDnsDialog( upstreamDns: String, errorText: String? = null, onDismiss: () -&gt; Unit, onSave: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CustomRuleItem.kt$@Composable fun CustomRuleItem( rule: CustomDnsRule, onToggle: () -&gt; Unit, onDelete: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:CustomRulesScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun CustomRulesScreen( viewModel: CustomRulesViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:DataSection.kt$@Composable fun DataSection( onExport: () -&gt; Unit, onImport: () -&gt; Unit, onClearLogs: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DnsProviderCard.kt$@Composable fun DnsProviderCard( provider: DnsProvider, isSelected: Boolean, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DnsProviderGroupCard.kt$@Composable fun DnsProviderGroupCard( providers: List&lt;DnsProvider&gt;, selectedProviderId: String?, onSelectProvider: (DnsProvider) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DnsProviderScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun DnsProviderScreen( modifier: Modifier = Modifier, viewModel: DnsProviderViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = {} )</ID>
+    <ID>FunctionNaming:DnsResponseTypeDialog.kt$@Composable fun DnsResponseTypeDialog( dnsResponseType: String, onUpdateResponseType: (String) -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DnsServerStep.kt$@Composable fun DnsServerStep( selectedProvider: DnsProvider, onProviderSelect: (DnsProvider) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DnsServerStep.kt$@Composable private fun DnsProviderCard( provider: DnsProvider, isSelected: Boolean, isRecommended: Boolean = false, onClick: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:DohBypassCard.kt$@Composable fun DohBypassCard( enabled: Boolean, onCheckedChange: (Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DomainDetailBottomSheet.kt$@Composable private fun DetailRow(label: String, value: String)</ID>
+    <ID>FunctionNaming:DomainDetailBottomSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun DomainDetailBottomSheet( entry: DnsLogEntry, isWhitelisted: Boolean, filterNames: Map&lt;String, String&gt; = emptyMap(), onDismiss: () -&gt; Unit, onCopyDomain: () -&gt; Unit, onAddToWhiteList: () -&gt; Unit, onAddToCustomBlockRules: () -&gt; Unit, onAddWildcardWhitelist: () -&gt; Unit, viewModel: app.ghostguard.ui.logs.LogViewModel, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DomainItem.kt$@OptIn(ExperimentalFoundationApi::class) @Composable fun DomainItem( domain: String, addedTimestamp: Long, iconTint: Color, icon: androidx.compose.ui.graphics.vector.ImageVector, onDelete: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:DomainRulesScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun DomainRulesScreen( modifier: Modifier = Modifier, viewModel: DomainRulesViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:ElementRulesScreen.kt$@Composable private fun DomainRulesCard( domain: String, rules: List&lt;ElementRule&gt;, onDeleteRule: (Int) -&gt; Unit, onDeleteAllForDomain: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:ElementRulesScreen.kt$@Composable private fun EmptyElementRulesView(isSearching: Boolean, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:ElementRulesScreen.kt$@Composable private fun RuleRow(rule: ElementRule, onDelete: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:ElementRulesScreen.kt$@Composable private fun SummaryBanner(ruleCount: Int, domainCount: Int)</ID>
+    <ID>FunctionNaming:ElementRulesScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun ElementRulesScreen( onNavigateBack: () -&gt; Unit, viewModel: ElementRulesViewModel = koinViewModel(), modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:EmptyRulesState.kt$@Composable fun EmptyRulesState(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:EmptyState.kt$@Composable fun EmptyState(message: String)</ID>
+    <ID>FunctionNaming:EmptyState.kt$@Composable fun EmptyState(modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:ExplanationCard.kt$@Composable fun ExplanationCard()</ID>
+    <ID>FunctionNaming:FallbackDnsCard.kt$@Composable fun FallbackDnsCard( fallbackDns: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:FallbackDnsDialog.kt$@Composable fun FallbackDnsDialog( fallbackDns: String, errorText: String? = null, onDismiss: () -&gt; Unit, onSave: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:FilterDetailScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun FilterDetailScreen( filterId: Long, modifier: Modifier = Modifier, viewModel: FilterDetailViewModel = koinViewModel(key = filterId.toString()) { parametersOf( filterId ) }, onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:FilterItem.kt$@Composable fun FilterItem( filter: FilterList, onToggle: () -&gt; Unit, onDelete: (() -&gt; Unit)?, modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null )</ID>
+    <ID>FunctionNaming:FilterSetupScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun FilterSetupScreen( modifier: Modifier = Modifier, viewModel: FilterSetupViewModel = koinViewModel(), onNavigateToFilterDetail: (filterId: Long) -&gt; Unit = { }, onNavigateToCustomRules: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:FilterSetupSection.kt$@Composable fun FilterSetupSection( modifier: Modifier = Modifier, filterLists: List&lt;FilterList&gt;, autoUpdateNotification: String, autoUpdateFrequency: String, autoUpdateWifiOnly: Boolean, autoUpdateEnabled: Boolean, onNavigateToFilterSetup: () -&gt; Unit = {}, onSetAutoUpdateWifiOnly: (Boolean) -&gt; Unit = {}, onSetAutoUpdateFrequency: (String) -&gt; Unit = {}, onSetAutoUpdateNotification: (String) -&gt; Unit = {}, onSetAutoUpdateEnable: (Boolean) -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:FirewallAppItem.kt$@Composable fun FirewallAppItem( app: AppInfoData, rule: FirewallRule?, onToggle: () -&gt; Unit, onConfigure: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:FirewallRuleDialog.kt$@Composable fun FirewallRuleDialog( appName: String, existingRule: FirewallRule?, packageName: String, onSave: (FirewallRule) -&gt; Unit, onDelete: () -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:FirewallRuleDialog.kt$@Composable private fun SwitchRow( label: String, checked: Boolean, onCheckedChange: (Boolean) -&gt; Unit, description: String? = null )</ID>
+    <ID>FunctionNaming:FirewallScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun FirewallScreen( modifier: Modifier = Modifier, viewModel: FirewallViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:FrequencyDialog.kt$@Composable fun FrequencyDialog( autoUpdateFrequency: String, onUpdateFrequencyChange: (String) -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:GhostGuardApp.kt$@Composable fun GhostGuardApp( modifier: Modifier = Modifier, onRequestVpnPermission: () -&gt; Unit, showVpnConflictDialog: Boolean = false, onDismissVpnConflictDialog: () -&gt; Unit = {}, onShowVpnConflictDialog: () -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:HomeActivityChart.kt$@Composable fun HomeActivityChart( hourlyStats: List&lt;HourlyStat&gt;, dailyStats: List&lt;DailyStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:HomeApp.kt$@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") @Composable fun HomeApp( onRequestVpnPermission: () -&gt; Unit = {}, onShowVpnConflictDialog: () -&gt; Unit = {} )</ID>
+    <ID>FunctionNaming:HomeAppBar.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun HomeAppBar( modifier: Modifier = Modifier, isLoading: Boolean, filterLoadFailed: Boolean, viewModel: HomeViewModel, onNavigateToStatisticsScreen: () -&gt; Unit, onNavigateToLogScreen: () -&gt; Unit, onNavigateToBrowser: (String) -&gt; Unit = {} )</ID>
+    <ID>FunctionNaming:HomeScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun HomeScreen( modifier: Modifier = Modifier, onShowVpnConflictDialog: () -&gt; Unit = {}, onRequestVpnPermission: () -&gt; Unit, viewModel: HomeViewModel = koinViewModel(), onNavigateToStatisticsScreen: () -&gt; Unit = {}, onNavigateToLogScreen: (LogFilterStatus) -&gt; Unit = {}, onNavigateToProfileScreen: () -&gt; Unit = {}, onNavigateToBrowser: (String) -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:HttpsFilteringScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun HttpsFilteringScreen( onNavigateBack: () -&gt; Unit, onNavigateToWizard: () -&gt; Unit = {}, modifier: Modifier = Modifier, viewModel: HttpsFilteringViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:ImportRulesDialog.kt$@Composable fun ImportRulesDialog( onDismiss: () -&gt; Unit, onConfirm: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:InfoDialog.kt$@Composable fun InfoDialog(onDismiss: () -&gt; Unit, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:InformationSection.kt$@Composable fun InformationSection( onNavigateToAbout: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:InterfaceSection.kt$@Composable fun InterfaceSection( onNavigateToAppearance: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:LanguageSelectionCard.kt$@Composable fun LanguageSelectionCard( currentLanguage: String, onSelectLanguage: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:LogEntryItem.kt$@Composable fun LogEntryItem( entry: DnsLogEntry, modifier: Modifier = Modifier, isWhitelisted: Boolean = false, isSelectionMode: Boolean = false, isSelected: Boolean = false, filterNames: Map&lt;String, String&gt; = emptyMap(), onTap: () -&gt; Unit = {}, onLongPress: () -&gt; Unit = {}, onToggleSelection: () -&gt; Unit = {}, onQuickBlock: () -&gt; Unit = {}, onQuickWhitelist: () -&gt; Unit = {} )</ID>
+    <ID>FunctionNaming:LogsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun LogsScreen( modifier: Modifier = Modifier, initialFilterStatus: LogFilterStatus = LogFilterStatus.ALL, viewModel: LogViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:MasterToggleCard.kt$@Composable fun MasterToggleCard( isEnabled: Boolean, isProxyRunning: Boolean, onToggle: (Boolean) -&gt; Unit )</ID>
+    <ID>FunctionNaming:MilestoneBottomSheet.kt$@Composable private fun MetricCard( value: String, label: String, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:MilestoneBottomSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun MilestoneBottomSheet( milestone: Long, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:NavigationCard.kt$@Composable fun NavigationCard( showBottomNavLabels: Boolean, onToggleShowBottomNavLabels: (Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:NotificationDialog.kt$@Composable fun NotificationDialog( autoUpdateNotification: String, onUpdateNotification: (String) -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:NotificationsSection.kt$@Composable fun NotificationsSection( dailySummaryEnabled: Boolean, milestoneNotificationsEnabled: Boolean, onSetDailySummaryEnabled: (Boolean) -&gt; Unit, onSetMilestoneNotificationsEnabled: (Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:OnboardingPageContent.kt$@Composable fun OnboardingPageContent(page: OnboardingPage, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:OnboardingScreen.kt$@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class) @Composable fun OnboardingScreen( modifier: Modifier = Modifier, viewModel: OnboardingViewModel = koinViewModel(), onNavigateToHome: () -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:PermissionStep.kt$@Composable fun PermissionStep( icon: ImageVector, title: String, description: String, buttonText: String, onRequestPermission: () -&gt; Unit, modifier: Modifier = Modifier, accentColor: Color = MaterialTheme.colorScheme.primary, isGranted: Boolean = false, grantedText: String = "", isSupported: Boolean = true )</ID>
+    <ID>FunctionNaming:PowerButton.kt$@Composable fun PowerButton( isActive: Boolean, isConnecting: Boolean, isStopping: Boolean = false, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:PrivacySection.kt$@Composable fun PrivacySection( crashReportingEnabled: Boolean, onSetCrashReportingEnabled: (Boolean) -&gt; Unit, hideFromRecents: Boolean, onSetHideFromRecents: (Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ProfileItem.kt$@Composable fun ProfileItem( profile: ProtectionProfile, isActive: Boolean, onSelect: () -&gt; Unit, onDelete: (() -&gt; Unit)?, onSchedule: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ProfileRow.kt$@Composable fun ProfileRow( profile: WireGuardProfile, isActive: Boolean, onClick: () -&gt; Unit, onEdit: () -&gt; Unit, onRename: () -&gt; Unit, onDelete: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>FunctionNaming:ProfileRow.kt$@Composable private fun ProfileMenu( onEdit: () -&gt; Unit, onRename: () -&gt; Unit, onDelete: () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:ProfileScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun ProfileScreen( modifier: Modifier = Modifier, viewModel: ProfileViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:ProtectionLevelStep.kt$@Composable fun ProtectionLevelStep( selectedLevel: ProtectionLevel, onLevelSelect: (ProtectionLevel) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ProtectionLevelStep.kt$@Composable private fun ProtectionLevelCard( icon: ImageVector, title: String, description: String, isSelected: Boolean, isRecommended: Boolean = false, onClick: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:ProtectionSection.kt$@Composable fun ProtectionSection( autoReconnect: Boolean, routingMode: String, networkSwitchDelayEnabled: Boolean, networkSwitchDelaySec: Int, safeSearchEnabled: Boolean, youtubeRestrictedMode: Boolean, dnsResponseType: String, upstreamDNS: String, onSetAutoReconnect: (Boolean) -&gt; Unit, onSetRoutingMode: (Boolean) -&gt; Unit, onSetNetworkSwitchDelayEnabled: (Boolean) -&gt; Unit, onSetNetworkSwitchDelaySec: (Int) -&gt; Unit, onSetSafeSearchEnabled: (Boolean) -&gt; Unit, onSetYoutubeRestrictedMode: (Boolean) -&gt; Unit, onShowDnsResponseTypeDialog: () -&gt; Unit, onNavigateToDNSProvider: () -&gt; Unit, onNavigateToWireGuardImport: () -&gt; Unit, onNavigateToHttpsFiltering: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:RecentBlockedSection.kt$@Composable fun RecentBlockedSection( recentBlocked: List&lt;DnsLogEntry&gt;, securityFilterIds: Set&lt;String&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:ScheduleItem.kt$@Composable fun ScheduleItem( schedule: ProfileSchedule, profileName: String, onToggle: () -&gt; Unit, onDelete: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:SearchSuggestionSheet.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SearchSuggestionSheet( query: String, suggestions: List&lt;String&gt;, selectedEngine: SearchEngine, isVisible: Boolean, onQueryChange: (String) -&gt; Unit, onEngineSelect: (SearchEngine) -&gt; Unit, onSubmitSearch: (String) -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier, sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true) )</ID>
+    <ID>FunctionNaming:SectionHeader.kt$@Composable fun SectionHeader( title: String, modifier: Modifier = Modifier, icon: ImageVector? = null, description: String? = null )</ID>
+    <ID>FunctionNaming:SectionHeader.kt$@Composable fun SectionHeader(title: String, modifier: Modifier = Modifier, activeCount: Int? = null)</ID>
+    <ID>FunctionNaming:SettingIconBadge.kt$@Composable fun SettingIconBadge( modifier: Modifier = Modifier, icon: ImageVector? = null, painter: Painter? = null, tint: Color = Color(0xFF2563EB), contentDescription: String? = null )</ID>
+    <ID>FunctionNaming:SettingItem.kt$@Composable fun SettingItem( title: String, modifier: Modifier = Modifier, desc: String? = null, statusValue: String? = null, icon: ImageVector? = null, iconPainter: Painter? = null, iconBadge: (@Composable () -&gt; Unit)? = null, iconTint: Color = MaterialTheme.colorScheme.primary, onClick: (() -&gt; Unit)? = null )</ID>
+    <ID>FunctionNaming:SettingsCalloutBanner.kt$@Composable fun SettingsCalloutBanner( text: String, modifier: Modifier = Modifier, icon: ImageVector = Icons.Outlined.Info, tint: Color = MaterialTheme.colorScheme.primary )</ID>
+    <ID>FunctionNaming:SettingsCard.kt$@Composable fun SettingsCard( modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null, content: @Composable () -&gt; Unit )</ID>
+    <ID>FunctionNaming:SettingsClickItem.kt$@Composable fun SettingsClickItem( icon: ImageVector, title: String, subtitle: String, onClick: () -&gt; Unit, modifier: Modifier = Modifier, iconTint: Color = MaterialTheme.colorScheme.secondary )</ID>
+    <ID>FunctionNaming:SettingsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SettingsScreen( modifier: Modifier = Modifier, viewModel: SettingsViewModel = koinViewModel(), onNavigateToAbout: () -&gt; Unit = { }, onNavigateToAppearance: () -&gt; Unit = { }, onNavigateToAppManagement: () -&gt; Unit = { }, onNavigateToFilterSetup: () -&gt; Unit = { }, onNavigateToWhitelistApps: () -&gt; Unit = { }, onNavigateToTrustedNetworks: () -&gt; Unit = { }, onNavigateToWireGuardImport: () -&gt; Unit = { }, onNavigateToHttpsFiltering: () -&gt; Unit = { }, onNavigateToDNSProvider: () -&gt; Unit = { }, )</ID>
+    <ID>FunctionNaming:SettingsToggleItem.kt$@Composable fun SettingsToggleItem( title: String, subtitle: String, isChecked: Boolean, onCheckedChange: (Boolean) -&gt; Unit, modifier: Modifier = Modifier, icon: ImageVector? = null, iconPainter: Painter? = null, iconTint: Color = MaterialTheme.colorScheme.primary )</ID>
+    <ID>FunctionNaming:SetupGuideCard.kt$@Composable fun SetupGuideCard( certExported: Boolean, certStatus: CertStatus, isRootAvailable: Boolean = false, onExport: () -&gt; Unit, onOpenSettings: () -&gt; Unit, onInstallRoot: () -&gt; Unit = {}, onVerifyCert: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:SplashScreen.kt$@Composable fun SplashScreen( modifier: Modifier = Modifier, viewModel: SplashViewModel = koinInject(), onNavigateToHome: () -&gt; Unit = {}, onNavigateToOnboarding: () -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:StatCard.kt$@Composable fun StatCard( icon: ImageVector, label: String, value: String, color: Color, modifier: Modifier = Modifier, onClick: (() -&gt; Unit)? = null )</ID>
+    <ID>FunctionNaming:StatisticsScreen.kt$@Composable private fun ChartNoData()</ID>
+    <ID>FunctionNaming:StatisticsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun StatisticsScreen( modifier: Modifier = Modifier, viewModel: StatisticsViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = { } )</ID>
+    <ID>FunctionNaming:StatsChart.kt$@Composable fun DailyStatsChart( stats: List&lt;DailyStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:StatsChart.kt$@Composable fun MonthlyStatsChart( stats: List&lt;MonthlyStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:StatsChart.kt$@Composable fun StatsChart( stats: List&lt;HourlyStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:StatsChart.kt$@Composable fun WeeklyStatsChart( stats: List&lt;WeeklyStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:StepItem.kt$@Composable fun StepItem( stepNumber: Int, title: String, description: String, isDone: Boolean, )</ID>
+    <ID>FunctionNaming:SwipeToDismissItem.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SwipeToDismissItem( onDismiss: () -&gt; Unit, content: @Composable () -&gt; Unit )</ID>
+    <ID>FunctionNaming:Theme.kt$@Composable fun BlockadsTheme( themeMode: String = "system", accentColor: String = AppPreferences.ACCENT_GREEN, content: @Composable () -&gt; Unit )</ID>
+    <ID>FunctionNaming:ThemeSelectionCard.kt$@Composable fun ThemeSelectionCard( currentTheme: String, onSelectTheme: (String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:TopAppsSection.kt$@Composable fun TopAppsSection( topApps: List&lt;app.ghostguard.data.entities.AppStat&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:TopBlockedDomainsSection.kt$@Composable fun TopBlockedDomainsSection( topBlockedDomains: List&lt;app.ghostguard.data.entities.TopBlockedDomain&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:TopBlockedSection.kt$@Composable fun TopBlockedSection( topBlockedDomains: List&lt;TopBlockedDomain&gt;, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:TrustedNetworksScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun TrustedNetworksScreen( modifier: Modifier = Modifier, viewModel: TrustedNetworksViewModel = koinViewModel(), onNavigateBack: () -&gt; Unit = {}, )</ID>
+    <ID>FunctionNaming:UiEventEffect.kt$@Composable fun UiEventEffect( events: Flow&lt;UiEvent&gt; )</ID>
+    <ID>FunctionNaming:VPNConflictDialog.kt$@Composable fun VPNConflictDialog( modifier: Modifier = Modifier, onDismissVpnConflictDialog: () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WhitelistTab.kt$@Composable fun WhitelistTab( domains: List&lt;WhitelistDomain&gt;, onRemove: (WhitelistDomain) -&gt; Unit )</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun FieldText( value: String, label: String, error: String? = null, placeholder: String? = null, keyboard: KeyboardType = KeyboardType.Text, onChange: (String) -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun FormColumn(content: @Composable () -&gt; Unit)</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun InterfaceCard( state: WireGuardEditState, errors: WireGuardEditErrors, vm: WireGuardEditViewModel, )</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun PeerCard( peer: PeerFormState, errors: WireGuardEditErrors, canDelete: Boolean, onUpdate: ((PeerFormState) -&gt; PeerFormState) -&gt; Unit, onDelete: () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun ProfileNameField(name: String, error: String?, onChange: (String) -&gt; Unit)</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@Composable private fun SectionHeader(title: String)</ID>
+    <ID>FunctionNaming:WireGuardEditScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun WireGuardEditScreen( profileId: String, onNavigateBack: () -&gt; Unit, modifier: Modifier = Modifier, viewModel: WireGuardEditViewModel = koinViewModel(), )</ID>
+    <ID>FunctionNaming:WireGuardImportScreen.kt$@Composable private fun ExcludeLanCard( checked: Boolean, onCheckedChange: (Boolean) -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardImportScreen.kt$@Composable private fun RenameDialog( initialName: String, onDismiss: () -&gt; Unit, onConfirm: (String) -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardImportScreen.kt$@Composable private fun SplitDnsCard( value: String, onValueChange: (String) -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardImportScreen.kt$@Composable private fun WireGuardToggleCard( isWgActive: Boolean, onToggle: () -&gt; Unit, )</ID>
+    <ID>FunctionNaming:WireGuardImportScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun WireGuardImportScreen( onNavigateBack: () -&gt; Unit, onEditProfile: (String) -&gt; Unit, modifier: Modifier = Modifier, viewModel: WireGuardImportViewModel = koinViewModel() )</ID>
+    <ID>FunctionNaming:WizardExplanationPage.kt$@Composable fun WizardExplanationPage( modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardExplanationPage.kt$@Composable private fun BenefitItem(text: String)</ID>
+    <ID>FunctionNaming:WizardInstallCaPage.kt$@Composable fun WizardInstallCaPage( brandName: String, installSteps: List&lt;String&gt;, isRootAvailable: Boolean, isExecutingRoot: Boolean, onOpenSettings: () -&gt; Unit, onInstallRootFast: () -&gt; Unit, onInstallRootModule: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardInstallCaPage.kt$@Composable private fun RootInstallCard( isExecutingRoot: Boolean, onInstallFast: () -&gt; Unit, onInstallModule: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:WizardInstallCaPage.kt$@Composable private fun TimelineStepItem( number: Int, text: String, isLast: Boolean )</ID>
+    <ID>FunctionNaming:WizardSaveCaPage.kt$@Composable fun WizardSaveCaPage( fileName: String, isExported: Boolean, onExport: () -&gt; Unit, onCopyFileName: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardSecurityPage.kt$@Composable fun WizardSecurityPage( modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardSecurityPage.kt$@Composable private fun SecurityItem( icon: ImageVector, title: String, desc: String )</ID>
+    <ID>FunctionNaming:WizardStepIndicator.kt$@Composable fun WizardStepIndicator( currentStep: WizardStep, onStepClick: (WizardStep) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardVerifyPage.kt$@Composable fun WizardVerifyPage( certStatus: CertStatus, onVerify: () -&gt; Unit, onFinish: () -&gt; Unit, onPrevStep: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>FunctionNaming:WizardVerifyPage.kt$@Composable private fun CheckingContent()</ID>
+    <ID>FunctionNaming:WizardVerifyPage.kt$@Composable private fun InstalledContent(onFinish: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:WizardVerifyPage.kt$@Composable private fun NotInstalledContent( onVerify: () -&gt; Unit, onPrevStep: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:WizardVerifyPage.kt$@Composable private fun TipBullet(text: String)</ID>
+    <ID>ImplicitDefaultLocale:AppNameResolver.kt$AppNameResolver$String.format("%04X", port)</ID>
+    <ID>ImplicitDefaultLocale:AppearanceScreen.kt$String.format("#%06X", 0xFFFFFF and color.toArgb())</ID>
+    <ID>ImplicitDefaultLocale:ColorPickerDialog.kt$String.format("#%06X", 0xFFFFFF and currentColor.toArgb())</ID>
+    <ID>LoopWithTooManyJumpStatements:AppNameResolver.kt$AppNameResolver$for</ID>
+    <ID>LoopWithTooManyJumpStatements:FilterListRepository.kt$FilterListRepository$for</ID>
+    <ID>LoopWithTooManyJumpStatements:VpnConnectionSupervisor.kt$VpnConnectionSupervisor$while</ID>
+    <ID>LoopWithTooManyJumpStatements:WireGuardConfigParser.kt$WireGuardConfigParser$for</ID>
+    <ID>MatchingDeclarationName:BrowserShortcuts.kt$QuickShortcut</ID>
+    <ID>MaxLineLength:AboutScreen.kt$context.startActivity(Intent(Intent.ACTION_VIEW, "https://github.com/pass-with-high-score/blockads-android?tab=GPL-3.0-1-ov-file".toUri()))</ID>
+    <ID>MaxLineLength:AppDatabase.kt$AppDatabase$entities = [DnsLogEntry::class, FilterList::class, WhitelistDomain::class, DnsErrorEntry::class, CustomDnsRule::class, FirewallRule::class, ProtectionProfile::class, ProfileSchedule::class, ElementRule::class]</ID>
+    <ID>MaxLineLength:BrowserShortcuts.kt$QuickShortcut("YouTube", "https://m.youtube.com", iconRes = app.ghostguard.R.drawable.ic_settings_youtube, iconTint = Color.White, bgColor = Color(0xFFFF0000))</ID>
+    <ID>MaxLineLength:BrowserWebView.kt$&lt;no name provided&gt;.&lt;no name provided&gt;$if</ID>
+    <ID>MaxLineLength:CertificateStatusCard.kt$CertStatus.NOT_INSTALLED, CertStatus.UNKNOWN -&gt; "Cần cài đặt chứng chỉ CA GhostGuard để giải mã và loại bỏ quảng cáo trên các kết nối web HTTPS."</ID>
+    <ID>MaxLineLength:DnsProviderViewModel.kt$DnsProviderViewModel$try { java.net.URI(trimmed).host ?: trimmed.removePrefix("quic://").removePrefix("QUIC://") } catch (_: Exception) { trimmed.removePrefix("quic://").removePrefix("QUIC://") }</ID>
+    <ID>MaxLineLength:LogEntryItem.kt$style = MaterialTheme.typography.labelSmall.copy(fontSize = androidx.compose.ui.unit.TextUnit(10f, androidx.compose.ui.unit.TextUnitType.Sp))</ID>
+    <ID>MaxLineLength:VpnConnectionSupervisor.kt$VpnConnectionSupervisor$Timber.d("ConnectionQualityProbe result: ${result.status} (physical=${result.physicalOk}, vpnDns=${result.vpnDnsOk}, latency=${result.latencyMs}ms)")</ID>
+    <ID>NestedBlockDepth:AppNameResolver.kt$AppNameResolver$private fun findUidInProcFile(path: String, hexPort: String): Int?</ID>
+    <ID>NewLineAtEndOfFile:AdBlockWidgetProvider.kt$app.ghostguard.widget.AdBlockWidgetProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:AddDomainDialog.kt$app.ghostguard.ui.domainrules.dialog.AddDomainDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:AddRuleDialog.kt$app.ghostguard.ui.customrules.component.AddRuleDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:AddScheduleDialog.kt$app.ghostguard.ui.profile.component.AddScheduleDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:AppConstants.kt$app.ghostguard.utils.AppConstants.kt</ID>
+    <ID>NewLineAtEndOfFile:AppIcon.kt$app.ghostguard.ui.httpsfiltering.component.AppIcon.kt</ID>
+    <ID>NewLineAtEndOfFile:AppInfoData.kt$app.ghostguard.ui.whitelist.data.AppInfoData.kt</ID>
+    <ID>NewLineAtEndOfFile:AppSortOption.kt$app.ghostguard.ui.appmanagement.data.AppSortOption.kt</ID>
+    <ID>NewLineAtEndOfFile:AppStat.kt$app.ghostguard.data.entities.AppStat.kt</ID>
+    <ID>NewLineAtEndOfFile:BlocklistTab.kt$app.ghostguard.ui.domainrules.component.BlocklistTab.kt</ID>
+    <ID>NewLineAtEndOfFile:BottomBarScreen.kt$app.ghostguard.ui.data.BottomBarScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryHeader.kt$app.ghostguard.ui.dnsprovider.component.CategoryHeader.kt</ID>
+    <ID>NewLineAtEndOfFile:CertStatusBadge.kt$app.ghostguard.ui.httpsfiltering.component.CertStatusBadge.kt</ID>
+    <ID>NewLineAtEndOfFile:ConfirmClearLogDialog.kt$app.ghostguard.ui.dialog.ConfirmClearLogDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:ConfirmClearLogDialog.kt$app.ghostguard.ui.logs.dialog.ConfirmClearLogDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:CreateCustomProfileDialog.kt$app.ghostguard.ui.profile.component.CreateCustomProfileDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:CustomDnsCard.kt$app.ghostguard.ui.dnsprovider.component.CustomDnsCard.kt</ID>
+    <ID>NewLineAtEndOfFile:DailyStat.kt$app.ghostguard.data.entities.DailyStat.kt</ID>
+    <ID>NewLineAtEndOfFile:DnsProtocol.kt$app.ghostguard.data.entities.DnsProtocol.kt</ID>
+    <ID>NewLineAtEndOfFile:DomainRulesScreen.kt$app.ghostguard.ui.domainrules.DomainRulesScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleUnitTest.kt$app.ghostguard.ExampleUnitTest.kt</ID>
+    <ID>NewLineAtEndOfFile:ExplanationCard.kt$app.ghostguard.ui.httpsfiltering.component.ExplanationCard.kt</ID>
+    <ID>NewLineAtEndOfFile:FilterItem.kt$app.ghostguard.ui.filter.component.FilterItem.kt</ID>
+    <ID>NewLineAtEndOfFile:FilterList.kt$app.ghostguard.data.entities.FilterList.kt</ID>
+    <ID>NewLineAtEndOfFile:FilterSetupSection.kt$app.ghostguard.ui.settings.component.FilterSetupSection.kt</ID>
+    <ID>NewLineAtEndOfFile:FirewallRule.kt$app.ghostguard.data.entities.FirewallRule.kt</ID>
+    <ID>NewLineAtEndOfFile:FrequencyDialog.kt$app.ghostguard.ui.settings.component.FrequencyDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:HomeApp.kt$app.ghostguard.ui.HomeApp.kt</ID>
+    <ID>NewLineAtEndOfFile:HomeAppBar.kt$app.ghostguard.ui.home.component.HomeAppBar.kt</ID>
+    <ID>NewLineAtEndOfFile:HomeScreen.kt$app.ghostguard.ui.home.HomeScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:HourlyStat.kt$app.ghostguard.data.entities.HourlyStat.kt</ID>
+    <ID>NewLineAtEndOfFile:LocaleHelper.kt$app.ghostguard.utils.LocaleHelper.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$app.ghostguard.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:NavigationKey.kt$app.ghostguard.ui.data.NavigationKey.kt</ID>
+    <ID>NewLineAtEndOfFile:NotificationDialog.kt$app.ghostguard.ui.settings.component.NotificationDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:OnboardingPage.kt$app.ghostguard.ui.onboarding.data.OnboardingPage.kt</ID>
+    <ID>NewLineAtEndOfFile:OnboardingPageContent.kt$app.ghostguard.ui.onboarding.component.OnboardingPageContent.kt</ID>
+    <ID>NewLineAtEndOfFile:PowerButton.kt$app.ghostguard.ui.home.component.PowerButton.kt</ID>
+    <ID>NewLineAtEndOfFile:ScheduleItem.kt$app.ghostguard.ui.profile.component.ScheduleItem.kt</ID>
+    <ID>NewLineAtEndOfFile:SectionHeader.kt$app.ghostguard.ui.filter.component.SectionHeader.kt</ID>
+    <ID>NewLineAtEndOfFile:SettingItem.kt$app.ghostguard.ui.settings.component.SettingItem.kt</ID>
+    <ID>NewLineAtEndOfFile:SettingsScreen.kt$app.ghostguard.ui.settings.SettingsScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:SplashEvent.kt$app.ghostguard.ui.splash.SplashEvent.kt</ID>
+    <ID>NewLineAtEndOfFile:SplashViewModel.kt$app.ghostguard.ui.splash.SplashViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:StatCard.kt$app.ghostguard.ui.home.component.StatCard.kt</ID>
+    <ID>NewLineAtEndOfFile:StatsChart.kt$app.ghostguard.ui.home.component.StatsChart.kt</ID>
+    <ID>NewLineAtEndOfFile:StepItem.kt$app.ghostguard.ui.httpsfiltering.component.StepItem.kt</ID>
+    <ID>NewLineAtEndOfFile:Theme.kt$app.ghostguard.ui.theme.Theme.kt</ID>
+    <ID>NewLineAtEndOfFile:TimeRange.kt$app.ghostguard.ui.logs.data.TimeRange.kt</ID>
+    <ID>NewLineAtEndOfFile:TopBlockedDomain.kt$app.ghostguard.data.entities.TopBlockedDomain.kt</ID>
+    <ID>NewLineAtEndOfFile:Type.kt$app.ghostguard.ui.theme.Type.kt</ID>
+    <ID>NewLineAtEndOfFile:UiEvent.kt$app.ghostguard.ui.event.UiEvent.kt</ID>
+    <ID>NewLineAtEndOfFile:VPNConflictDialog.kt$app.ghostguard.ui.dialog.VPNConflictDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:WhitelistDomain.kt$app.ghostguard.data.entities.WhitelistDomain.kt</ID>
+    <ID>NewLineAtEndOfFile:WhitelistTab.kt$app.ghostguard.ui.domainrules.component.WhitelistTab.kt</ID>
+    <ID>SpreadOperator:IptablesManager.kt$IptablesManager$(*commands.toTypedArray())</ID>
+    <ID>SpreadOperator:SystemCertificateInstaller.kt$SystemCertificateInstaller$(*commands.toTypedArray())</ID>
+    <ID>SpreadOperator:UiEventEffect.kt$(event.resId, *event.args.toTypedArray())</ID>
+    <ID>TooGenericExceptionThrown:CertInstallationWizardViewModel.kt$CertInstallationWizardViewModel$throw Exception("Failed to create MediaStore entry")</ID>
+    <ID>TooGenericExceptionThrown:CertInstallationWizardViewModel.kt$CertInstallationWizardViewModel$throw Exception("Failed to write certificate")</ID>
+    <ID>TooGenericExceptionThrown:CustomRulesViewModel.kt$CustomRulesViewModel$throw Exception("Cannot open input stream")</ID>
+    <ID>TooGenericExceptionThrown:CustomRulesViewModel.kt$CustomRulesViewModel$throw Exception("Cannot open output stream")</ID>
+    <ID>TooGenericExceptionThrown:HttpsFilteringViewModel.kt$HttpsFilteringViewModel$throw Exception("Failed to create MediaStore entry")</ID>
+    <ID>TooGenericExceptionThrown:HttpsFilteringViewModel.kt$HttpsFilteringViewModel$throw Exception("Failed to open output stream")</ID>
+    <ID>TooGenericExceptionThrown:SettingsViewModel.kt$SettingsViewModel$throw Exception("Cannot read file")</ID>
+    <ID>TooGenericExceptionThrown:WireGuardImportViewModel.kt$WireGuardImportViewModel$throw Exception("Cannot open input stream")</ID>
+    <ID>UnusedParameter:BrowserAdBlocker.kt$BrowserAdBlocker$currentUrl: String?</ID>
+    <ID>UnusedParameter:BrowserBottomBar.kt$onToggleAdBlock: () -&gt; Unit</ID>
+    <ID>UnusedParameter:BrowserBottomOmnibox.kt$isDesktopMode: Boolean</ID>
+    <ID>UnusedParameter:CertificateStatusCard.kt$isRootAvailable: Boolean</ID>
+    <ID>UnusedParameter:VpnNotificationManager.kt$VpnNotificationManager$state: VpnState</ID>
+    <ID>UnusedPrivateProperty:BrowserShortcuts.kt$i</ID>
+    <ID>VariableNaming:PullRefreshWebView.kt$PullRefreshWebView$private val PULL_THRESHOLD_PX = (80 * context.resources.displayMetrics.density).toInt()</ID>
+  </CurrentIssues>
+</SmellBaseline>

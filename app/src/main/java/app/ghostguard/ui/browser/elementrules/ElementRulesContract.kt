@@ -7,12 +7,14 @@ data class ElementRulesUiState(
     val rulesByDomain: Map<String, List<ElementRule>> = emptyMap(),
     val totalCount: Int = 0,
     val isLoading: Boolean = false,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
 )
 
 sealed interface ElementRulesUiIntent {
     data class DeleteRule(val id: Int) : ElementRulesUiIntent
+
     data class DeleteAllForDomain(val domain: String) : ElementRulesUiIntent
+
     data class SearchQueryChanged(val query: String) : ElementRulesUiIntent
 }
 

@@ -20,14 +20,14 @@ fun NotificationsSection(
     milestoneNotificationsEnabled: Boolean,
     onSetDailySummaryEnabled: (Boolean) -> Unit,
     onSetMilestoneNotificationsEnabled: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
 
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_notifications),
-            description = stringResource(R.string.settings_category_notifications_desc)
+            description = stringResource(R.string.settings_category_notifications_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
         SettingsCard {
@@ -38,11 +38,11 @@ fun NotificationsSection(
                     title = stringResource(R.string.settings_daily_summary),
                     subtitle = stringResource(R.string.settings_daily_summary_desc),
                     isChecked = dailySummaryEnabled,
-                    onCheckedChange = onSetDailySummaryEnabled
+                    onCheckedChange = onSetDailySummaryEnabled,
                 )
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    color = dividerColor
+                    color = dividerColor,
                 )
                 SettingsToggleItem(
                     iconPainter = painterResource(R.drawable.ic_settings_milestone),
@@ -50,7 +50,7 @@ fun NotificationsSection(
                     title = stringResource(R.string.settings_milestone_notifications),
                     subtitle = stringResource(R.string.settings_milestone_notifications_desc),
                     isChecked = milestoneNotificationsEnabled,
-                    onCheckedChange = onSetMilestoneNotificationsEnabled
+                    onCheckedChange = onSetMilestoneNotificationsEnabled,
                 )
             }
         }

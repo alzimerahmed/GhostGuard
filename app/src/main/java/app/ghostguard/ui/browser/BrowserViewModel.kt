@@ -31,15 +31,16 @@ class BrowserViewModel(
     private val suggestionRepository: SearchSuggestionRepository,
     private val elementRuleDao: ElementRuleDao,
 ) : AndroidViewModel(application) {
-
-    private val _uiState = MutableStateFlow(
-        BrowserUiState(
-            ruleVersion = ruleRepository.currentRules.value.version,
-            ruleDomainsCount = ruleRepository.currentRules.value.adDomains.ifEmpty {
-                listOf(BrowserAdBlocker.domainsCount.toString())
-            }.size
+    private val _uiState =
+        MutableStateFlow(
+            BrowserUiState(
+                ruleVersion = ruleRepository.currentRules.value.version,
+                ruleDomainsCount =
+                    ruleRepository.currentRules.value.adDomains.ifEmpty {
+                        listOf(BrowserAdBlocker.domainsCount.toString())
+                    }.size,
+            ),
         )
-    )
     val uiState: StateFlow<BrowserUiState> = _uiState.asStateFlow()
 
     private val _uiEffect = Channel<BrowserUiEffect>(Channel.BUFFERED)
@@ -51,7 +52,7 @@ class BrowserViewModel(
                 _uiState.update {
                     it.copy(
                         ruleVersion = pkg.version,
-                        ruleDomainsCount = if (pkg.adDomains.isNotEmpty()) pkg.adDomains.size else BrowserAdBlocker.domainsCount
+                        ruleDomainsCount = if (pkg.adDomains.isNotEmpty()) pkg.adDomains.size else BrowserAdBlocker.domainsCount,
                     )
                 }
             }
@@ -83,7 +84,7 @@ class BrowserViewModel(
                         currentUrl = targetUrl,
                         displayUrl = targetUrl,
                         showShortcuts = false,
-                        isSearchSheetVisible = false
+                        isSearchSheetVisible = false,
                     )
                 }
                 viewModelScope.launch {
@@ -118,7 +119,7 @@ class BrowserViewModel(
                 _uiState.update {
                     it.copy(
                         progress = intent.progress,
-                        isLoading = intent.progress in 1..99
+                        isLoading = intent.progress in 1..99,
                     )
                 }
             }
@@ -126,7 +127,7 @@ class BrowserViewModel(
                 _uiState.update {
                     it.copy(
                         displayUrl = intent.url,
-                        isLoading = true
+                        isLoading = true,
                     )
                 }
             }
@@ -135,7 +136,7 @@ class BrowserViewModel(
                     it.copy(
                         displayUrl = intent.url,
                         pageTitle = intent.title.ifEmpty { intent.url },
-                        isLoading = false
+                        isLoading = false,
                     )
                 }
                 viewModelScope.launch {
@@ -165,7 +166,7 @@ class BrowserViewModel(
                     it.copy(
                         isSearchSheetVisible = intent.visible,
                         searchQuery = if (intent.visible) it.displayUrl else "",
-                        suggestions = emptyList()
+                        suggestions = emptyList(),
                     )
                 }
             }
@@ -176,7 +177,7 @@ class BrowserViewModel(
                         currentUrl = targetUrl,
                         displayUrl = targetUrl,
                         isSearchSheetVisible = false,
-                        showShortcuts = false
+                        showShortcuts = false,
                     )
                 }
                 viewModelScope.launch {
@@ -193,7 +194,7 @@ class BrowserViewModel(
                 _uiState.update {
                     it.copy(
                         isElementPickerActive = true,
-                        isBentoMenuVisible = false
+                        isBentoMenuVisible = false,
                     )
                 }
             }
@@ -206,8 +207,8 @@ class BrowserViewModel(
                     elementRuleDao.insert(
                         ElementRule(
                             domain = cleanDomain,
-                            cssSelector = intent.cssSelector
-                        )
+                            cssSelector = intent.cssSelector,
+                        ),
                     )
                     _uiState.update { it.copy(isElementPickerActive = false) }
                     val selectors = elementRuleDao.getSelectorsForDomain(cleanDomain)
@@ -224,7 +225,10 @@ class BrowserViewModel(
         }
     }
 
-    private fun resolveUrl(input: String, engine: SearchEngine): String {
+    private fun resolveUrl(
+        input: String,
+        engine: SearchEngine,
+    ): String {
         val trimmed = input.trim()
         return when {
             trimmed.startsWith("http://") || trimmed.startsWith("https://") -> trimmed
@@ -243,18 +247,19 @@ class BrowserViewModel(
 
             result.fold(
                 onSuccess = { updated ->
-                    val message = if (updated) {
-                        "Đã cập nhật bộ lọc lên phiên bản v${_uiState.value.ruleVersion} (${_uiState.value.ruleDomainsCount} tên miền)"
-                    } else {
-                        "Bộ lọc trình duyệt đã ở phiên bản mới nhất (v${_uiState.value.ruleVersion})"
-                    }
+                    val message =
+                        if (updated) {
+                            "Đã cập nhật bộ lọc lên phiên bản v${_uiState.value.ruleVersion} (${_uiState.value.ruleDomainsCount} tên miền)"
+                        } else {
+                            "Bộ lọc trình duyệt đã ở phiên bản mới nhất (v${_uiState.value.ruleVersion})"
+                        }
                     _uiEffect.send(BrowserUiEffect.ShowToast(message))
                 },
                 onFailure = { error ->
                     _uiEffect.send(
-                        BrowserUiEffect.ShowToast("Không thể tải bản cập nhật: ${error.localizedMessage ?: "Lỗi kết nối"}")
+                        BrowserUiEffect.ShowToast("Không thể tải bản cập nhật: ${error.localizedMessage ?: "Lỗi kết nối"}"),
                     )
-                }
+                },
             )
         }
     }

@@ -41,49 +41,54 @@ fun CompletionStep(modifier: Modifier = Modifier) {
     LaunchedEffect(Unit) {
         scale.animateTo(
             targetValue = 1f,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = FastOutSlowInEasing
-            )
+            animationSpec =
+                tween(
+                    durationMillis = 600,
+                    easing = FastOutSlowInEasing,
+                ),
         )
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         // Animated check icon
         Box(
-            modifier = Modifier
-                .size(160.dp)
-                .scale(scale.value)
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                            Color.Transparent
-                        )
-                    )
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(160.dp)
+                    .scale(scale.value)
+                    .clip(CircleShape)
+                    .background(
+                        Brush.radialGradient(
+                            colors =
+                                listOf(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                    Color.Transparent,
+                                ),
+                        ),
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Box(
-                modifier = Modifier
-                    .size(110.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(110.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = null,
                     modifier = Modifier.size(72.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
@@ -95,7 +100,7 @@ fun CompletionStep(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -105,7 +110,7 @@ fun CompletionStep(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -114,7 +119,7 @@ fun CompletionStep(modifier: Modifier = Modifier) {
             text = stringResource(R.string.onboarding_complete_stats),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

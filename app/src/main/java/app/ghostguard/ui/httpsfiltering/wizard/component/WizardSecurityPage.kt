@@ -36,33 +36,33 @@ import androidx.compose.ui.unit.dp
 import app.ghostguard.R
 
 @Composable
-fun WizardSecurityPage(
-    modifier: Modifier = Modifier
-) {
+fun WizardSecurityPage(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp),
     ) {
         // Hero Icon
         Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.tertiaryContainer)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f),
-                    shape = RoundedCornerShape(20.dp)
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(20.dp),
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Outlined.Lock,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(32.dp),
             )
         }
 
@@ -72,7 +72,7 @@ fun WizardSecurityPage(
             text = stringResource(R.string.https_wizard_security_title),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -81,7 +81,7 @@ fun WizardSecurityPage(
             text = stringResource(R.string.https_wizard_security_desc),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight
+            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -90,7 +90,7 @@ fun WizardSecurityPage(
         SecurityItem(
             icon = Icons.Outlined.PhonelinkLock,
             title = stringResource(R.string.https_wizard_privacy_on_device_title),
-            desc = stringResource(R.string.https_wizard_privacy_on_device_desc)
+            desc = stringResource(R.string.https_wizard_privacy_on_device_desc),
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -98,7 +98,7 @@ fun WizardSecurityPage(
         SecurityItem(
             icon = Icons.Outlined.AccountBalance,
             title = stringResource(R.string.https_wizard_privacy_bypass_title),
-            desc = stringResource(R.string.https_wizard_privacy_bypass_desc)
+            desc = stringResource(R.string.https_wizard_privacy_bypass_desc),
         )
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -106,7 +106,7 @@ fun WizardSecurityPage(
         SecurityItem(
             icon = Icons.Outlined.VerifiedUser,
             title = stringResource(R.string.https_wizard_privacy_browser_title),
-            desc = stringResource(R.string.https_wizard_privacy_browser_desc)
+            desc = stringResource(R.string.https_wizard_privacy_browser_desc),
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -117,35 +117,38 @@ fun WizardSecurityPage(
 private fun SecurityItem(
     icon: ImageVector,
     title: String,
-    desc: String
+    desc: String,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
-        ),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+            ),
+        border =
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f),
+            ),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.Top,
         ) {
             Box(
-                modifier = Modifier
-                    .size(36.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
                 )
             }
             Spacer(modifier = Modifier.width(14.dp))
@@ -154,14 +157,14 @@ private fun SecurityItem(
                     text = title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = desc,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
                 )
             }
         }

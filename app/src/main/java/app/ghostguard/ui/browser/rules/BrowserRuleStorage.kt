@@ -10,12 +10,12 @@ import java.io.File
  * Handles persistence, atomic writes, and asset fallback.
  */
 class BrowserRuleStorage(private val context: Context) {
-
-    private val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        prettyPrint = false
-    }
+    private val json =
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            prettyPrint = false
+        }
 
     private val rulesDir: File
         get() = context.filesDir.resolve("browser_rules").apply { if (!exists()) mkdirs() }

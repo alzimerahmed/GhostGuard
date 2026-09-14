@@ -24,7 +24,7 @@ import app.ghostguard.R
 fun AddRuleDialog(
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var ruleText by remember { mutableStateOf("") }
 
@@ -38,7 +38,7 @@ fun AddRuleDialog(
                 Text(
                     text = stringResource(R.string.add_rule_hint),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -48,14 +48,14 @@ fun AddRuleDialog(
                     placeholder = { Text("||example.com^ or *.ads.example.com") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = false,
-                    minLines = 2
+                    minLines = 2,
                 )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = { onConfirm(ruleText) },
-                enabled = ruleText.isNotBlank()
+                enabled = ruleText.isNotBlank(),
             ) {
                 Text(stringResource(R.string.add))
             }
@@ -64,6 +64,6 @@ fun AddRuleDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

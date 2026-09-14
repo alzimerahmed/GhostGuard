@@ -41,14 +41,15 @@ fun SetupGuideCard(
     onExport: () -> Unit,
     onOpenSettings: () -> Unit,
     onInstallRoot: () -> Unit = {},
-    onVerifyCert: () -> Unit
+    onVerifyCert: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             // Header
@@ -57,19 +58,19 @@ fun SetupGuideCard(
                     imageVector = Icons.Outlined.Security,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(22.dp)
+                    modifier = Modifier.size(22.dp),
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     Text(
                         text = stringResource(R.string.https_filtering_ca_title),
                         style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                     Text(
                         text = stringResource(R.string.https_filtering_ca_desc),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -90,27 +91,30 @@ fun SetupGuideCard(
                 onClick = onExport,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (certExported) {
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                    } else {
-                        MaterialTheme.colorScheme.primary
-                    }
-                )
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor =
+                            if (certExported) {
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                            } else {
+                                MaterialTheme.colorScheme.primary
+                            },
+                    ),
             ) {
                 Icon(
                     imageVector = Icons.Default.FileDownload,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = if (certExported) {
-                        stringResource(R.string.https_filtering_cert_saved)
-                    } else {
-                        stringResource(R.string.https_filtering_export_ca)
-                    },
-                    fontWeight = FontWeight.Medium
+                    text =
+                        if (certExported) {
+                            stringResource(R.string.https_filtering_cert_saved)
+                        } else {
+                            stringResource(R.string.https_filtering_export_ca)
+                        },
+                    fontWeight = FontWeight.Medium,
                 )
             }
 
@@ -134,7 +138,7 @@ fun SetupGuideCard(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
-                modifier = Modifier.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp),
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -144,19 +148,20 @@ fun SetupGuideCard(
                     onClick = onInstallRoot,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiary
-                    )
+                    colors =
+                        ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                        ),
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Security,
                         contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.https_filtering_root_install),
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
                     )
                 }
 
@@ -166,17 +171,17 @@ fun SetupGuideCard(
             OutlinedButton(
                 onClick = onOpenSettings,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = stringResource(R.string.https_filtering_open_settings),
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
             }
 
@@ -203,24 +208,24 @@ fun SetupGuideCard(
                 onClick = onVerifyCert,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                enabled = certStatus != CertStatus.CHECKING
+                enabled = certStatus != CertStatus.CHECKING,
             ) {
                 if (certStatus == CertStatus.CHECKING) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(18.dp),
-                        strokeWidth = 2.dp
+                        strokeWidth = 2.dp,
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.Verified,
                         contentDescription = null,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = stringResource(R.string.https_filtering_verify_cert),
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }

@@ -120,7 +120,7 @@ Desteklenen formatlar:
     <string name="https_filtering_ca_desc">HTTPS kozmetik filtrelemeyi ayarlamak için aşağıdaki adımları izleyin:</string>
     <string name="https_filtering_export_ca">1. Adım: Sertifikayı İndirilenlere Kaydet</string>
     <string name="https_filtering_cert_saved">Sertifika İndirilenlere kaydedildi!</string>
-    <string name="https_filtering_install_steps">2. Adım: Sertifikayı manuel olarak yükleyin:\n\n1. Ayarlar → Güvenlik → Şifreleme &amp; kimlik bilgileri bölümüne gidin\n2. \&quot;Bir sertifika yükle\&quot; → \&quot;CA sertifikası\&quot;na dokunun\n3. İndirilenlerden \&quot;BlockAds-RootCA.crt\&quot;yi seçin\n4. Kurulumu onaylayın</string>
+    <string name="https_filtering_install_steps">2. Adım: Sertifikayı manuel olarak yükleyin:\n\n1. Ayarlar → Güvenlik → Şifreleme &amp; kimlik bilgileri bölümüne gidin\n2. \&quot;Bir sertifika yükle\&quot; → \&quot;CA sertifikası\&quot;na dokunun\n3. İndirilenlerden \&quot;GhostGuard-RootCA.crt\&quot;yi seçin\n4. Kurulumu onaylayın</string>
     <string name="https_filtering_open_settings">Güvenlik Ayarlarını Aç</string>
     <string name="https_filtering_step1_title">1. Adım: Sertifikayı Kaydet</string>
     <string name="https_filtering_step1_desc">Kök CA sertifikasını cihazınıza indirin</string>
@@ -167,11 +167,11 @@ Desteklenen formatlar:
     <string name="https_wizard_title">Sertifika Kurulumu</string>
     <string name="https_wizard_step_indicator_format">Adım %1$d / %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Genel Bakış ve Gizlilik</string>
-    <string name="https_wizard_overview_subtitle">BlockAds neden yerel bir sertifikaya ihtiyaç duyar</string>
+    <string name="https_wizard_overview_subtitle">GhostGuard neden yerel bir sertifikaya ihtiyaç duyar</string>
     <string name="https_wizard_security_title">Güvenlik ve Gizlilik</string>
-    <string name="https_wizard_security_desc">Kök CA sertifikası cihazınızda yerel olarak oluşturulur ve asla telefonunuzdan dışarı çıkmaz. BlockAds bunu yalnızca web sitelerindeki reklamları kaldırmak için kullanır. Bankacılık uygulamaları ve Google hesapları gibi hassas hizmetler asla dinlenmez.</string>
+    <string name="https_wizard_security_desc">Kök CA sertifikası cihazınızda yerel olarak oluşturulur ve asla telefonunuzdan dışarı çıkmaz. GhostGuard bunu yalnızca web sitelerindeki reklamları kaldırmak için kullanır. Bankacılık uygulamaları ve Google hesapları gibi hassas hizmetler asla dinlenmez.</string>
     <string name="https_wizard_explain_title">Neden HTTPS Filtreleme?</string>
-    <string name="https_wizard_explain_desc">Çoğu modern web sitesi ve reklam, şifreli HTTPS bağlantıları kullanır. Reklam alanlarını, afişleri ve açılır pencereleri gizlemek için BlockAds, cihazınızdaki web sayfalarını güvenli bir şekilde incelemek ve filtrelemek için yerel bir sertifikaya ihtiyaç duyar.</string>
+    <string name="https_wizard_explain_desc">Çoğu modern web sitesi ve reklam, şifreli HTTPS bağlantıları kullanır. Reklam alanlarını, afişleri ve açılır pencereleri gizlemek için GhostGuard, cihazınızdaki web sayfalarını güvenli bir şekilde incelemek ve filtrelemek için yerel bir sertifikaya ihtiyaç duyar.</string>
     <string name="https_wizard_benefits_title">Temel Avantajlar</string>
     <string name="https_wizard_benefit_1">Video platformlarındaki ve haber sitelerindeki reklamları ortadan kaldırın</string>
     <string name="https_wizard_benefit_2">Boş yer tutucuları, afişleri ve rahatsız edici açılır pencereleri gizleyin</string>
@@ -195,10 +195,10 @@ Desteklenen formatlar:
     <string name="https_wizard_root_detected_title">Root Erişimi Algılandı (Önerilen)</string>
     <string name="https_wizard_root_detected_desc">Cihazınız root erişimine sahip. CA sertifikasını manuel yapılandırma olmadan otomatik olarak yükleyebilirsiniz.</string>
     <string name="https_wizard_checking_title">Sertifika doğrulanıyor…</string>
-    <string name="https_wizard_checking_desc">Android güven deposunda BlockAds CA taranıyor…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA doğrulandı ve cihazınızın güven deposunda etkin. Gelişmiş HTTPS filtrelemesi kullanıma hazır!</string>
+    <string name="https_wizard_checking_desc">Android güven deposunda GhostGuard CA taranıyor…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA doğrulandı ve cihazınızın güven deposunda etkin. Gelişmiş HTTPS filtrelemesi kullanıma hazır!</string>
     <string name="https_wizard_not_installed_title">Sertifika Algılanamadı</string>
-    <string name="https_wizard_not_installed_desc">BlockAds henüz güven deponuzda sertifikayı bulamadı. Ayarlar\'da yüklemeyi yeni tamamladıysanız, tekrar kontrol etmek için aşağıya dokunun.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard henüz güven deponuzda sertifikayı bulamadı. Ayarlar\'da yüklemeyi yeni tamamladıysanız, tekrar kontrol etmek için aşağıya dokunun.</string>
     <string name="https_wizard_troubleshooting_title">Sorun Giderme İpuçları</string>
     <string name="https_wizard_troubleshooting_tip1">Ayarlar\'da \"CA Sertifikası\"nı seçtiğinizden emin olun (Kullanıcı Sertifikası veya VPN ve uygulama kullanıcı sertifikası değil).</string>
     <string name="https_wizard_troubleshooting_tip2">Magisk/KernelSU modülü aracılığıyla yükleniyorsa, cihazın yeniden başlatılması gerekir.</string>

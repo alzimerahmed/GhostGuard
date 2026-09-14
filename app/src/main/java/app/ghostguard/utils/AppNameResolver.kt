@@ -56,7 +56,12 @@ class AppNameResolver(private val context: Context) {
      * @param destIp      Destination IP address bytes from the DNS packet
      * @param destPort    Destination port (typically 53)
      */
-    fun resolve(sourcePort: Int, sourceIp: ByteArray, destIp: ByteArray, destPort: Int): String {
+    fun resolve(
+        sourcePort: Int,
+        sourceIp: ByteArray,
+        destIp: ByteArray,
+        destPort: Int,
+    ): String {
         val uid = findUidForConnection(sourcePort, sourceIp, destIp, destPort)
         if (uid < 0) return ""
         return getAppNameForUid(uid)
@@ -66,12 +71,17 @@ class AppNameResolver(private val context: Context) {
      * Resolve both app name and package name in a single UID lookup.
      * Avoids duplicate UID resolution on the hot path.
      */
-    fun resolveIdentity(sourcePort: Int, sourceIp: ByteArray, destIp: ByteArray, destPort: Int): AppIdentity {
+    fun resolveIdentity(
+        sourcePort: Int,
+        sourceIp: ByteArray,
+        destIp: ByteArray,
+        destPort: Int,
+    ): AppIdentity {
         val uid = findUidForConnection(sourcePort, sourceIp, destIp, destPort)
         if (uid < 0) return AppIdentity("", "")
         return AppIdentity(
             appName = getAppNameForUid(uid),
-            packageName = getPackageNameForUid(uid)
+            packageName = getPackageNameForUid(uid),
         )
     }
 
@@ -85,7 +95,7 @@ class AppNameResolver(private val context: Context) {
         sourcePort: Int,
         sourceIp: ByteArray,
         destIp: ByteArray,
-        destPort: Int
+        destPort: Int,
     ): Int {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
@@ -114,19 +124,20 @@ class AppNameResolver(private val context: Context) {
      */
     fun startSnapshotter(scope: CoroutineScope) {
         snapshotJob?.cancel()
-        snapshotJob = scope.launch(Dispatchers.IO) {
-            while (isActive) {
-                try {
-                    val map = readProcNetViaRoot()
-                    if (map.isNotEmpty()) {
-                        procNetSnapshot = map
+        snapshotJob =
+            scope.launch(Dispatchers.IO) {
+                while (isActive) {
+                    try {
+                        val map = readProcNetViaRoot()
+                        if (map.isNotEmpty()) {
+                            procNetSnapshot = map
+                        }
+                    } catch (e: Exception) {
+                        Timber.w(e, "/proc/net snapshot read failed")
                     }
-                } catch (e: Exception) {
-                    Timber.w(e, "/proc/net snapshot read failed")
+                    delay(SNAPSHOT_INTERVAL_MS)
                 }
-                delay(SNAPSHOT_INTERVAL_MS)
             }
-        }
         Timber.d("AppNameResolver snapshotter started (interval=${SNAPSHOT_INTERVAL_MS}ms)")
     }
 
@@ -186,9 +197,10 @@ class AppNameResolver(private val context: Context) {
      */
     private fun readProcNetViaRoot(): Map<Int, Int> {
         val map = HashMap<Int, Int>()
-        val result = com.topjohnwu.superuser.Shell.cmd(
-            "cat /proc/net/udp /proc/net/udp6 2>/dev/null"
-        ).exec()
+        val result =
+            com.topjohnwu.superuser.Shell.cmd(
+                "cat /proc/net/udp /proc/net/udp6 2>/dev/null",
+            ).exec()
         if (!result.isSuccess) return map
         for (line in result.out) {
             try {
@@ -208,7 +220,10 @@ class AppNameResolver(private val context: Context) {
         return map
     }
 
-    private fun findUidInProcFile(path: String, hexPort: String): Int? {
+    private fun findUidInProcFile(
+        path: String,
+        hexPort: String,
+    ): Int? {
         try {
             File(path).bufferedReader(Charsets.UTF_8).use { reader ->
                 // Skip header line
@@ -247,24 +262,26 @@ class AppNameResolver(private val context: Context) {
         val packages = pm.getPackagesForUid(uid)
         if (packages.isNullOrEmpty()) {
             // System UIDs
-            val name = when {
-                uid == 0 -> "System (root)"
-                uid == 1000 -> "Android System"
-                uid < 10000 -> "System ($uid)"
-                else -> ""
-            }
+            val name =
+                when {
+                    uid == 0 -> "System (root)"
+                    uid == 1000 -> "Android System"
+                    uid < 10000 -> "System ($uid)"
+                    else -> ""
+                }
             uidToAppNameCache[uid] = name
             return name
         }
 
         // Use the first package's app label
-        val appName = try {
-            val appInfo = pm.getApplicationInfo(packages[0], 0)
-            pm.getApplicationLabel(appInfo).toString()
-        } catch (e: PackageManager.NameNotFoundException) {
-            Timber.e("Package not found for UID $uid: ${e.message}")
-            packages[0]
-        }
+        val appName =
+            try {
+                val appInfo = pm.getApplicationInfo(packages[0], 0)
+                pm.getApplicationLabel(appInfo).toString()
+            } catch (e: PackageManager.NameNotFoundException) {
+                Timber.e("Package not found for UID $uid: ${e.message}")
+                packages[0]
+            }
 
         uidToAppNameCache[uid] = appName
         return appName

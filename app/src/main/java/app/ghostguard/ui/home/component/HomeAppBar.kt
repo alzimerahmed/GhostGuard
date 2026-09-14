@@ -1,6 +1,5 @@
 package app.ghostguard.ui.home.component
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,7 +43,7 @@ fun HomeAppBar(
     viewModel: HomeViewModel,
     onNavigateToStatisticsScreen: () -> Unit,
     onNavigateToLogScreen: () -> Unit,
-    onNavigateToBrowser: (String) -> Unit = {}
+    onNavigateToBrowser: (String) -> Unit = {},
 ) {
     val telegramUri = stringResource(R.string.telegram_link).toUri()
     val testBlockUri = stringResource(R.string.test_block_link).toUri()
@@ -53,73 +52,76 @@ fun HomeAppBar(
     TopAppBar(
         modifier = modifier,
         navigationIcon = {
-           Row {
-               IconButton(onClick = {
-                   val intent = Intent(Intent.ACTION_VIEW).apply {
-                       data = testBlockUri
-                   }
-                   context.startActivity(intent)
-               }) {
-                   Icon(
-                       painter = painterResource(R.drawable.ic_bug),
-                       contentDescription = stringResource(R.string.test_block_ads),
-                       tint = MaterialTheme.colorScheme.primary,
-                       modifier = Modifier.size(24.dp)
-                   )
-               }
-               IconButton(onClick = {
-                   val intent = Intent(Intent.ACTION_VIEW).apply {
-                       data = telegramUri
-                   }
-                   context.startActivity(intent)
-               }) {
-                   Icon(
-                       painter = painterResource(R.drawable.ic_telegram),
-                       contentDescription = stringResource(R.string.settings_telegram),
-                       tint = MaterialTheme.colorScheme.primary,
-                       modifier = Modifier.size(24.dp)
-                   )
-               }
-           }
+            Row {
+                IconButton(onClick = {
+                    val intent =
+                        Intent(Intent.ACTION_VIEW).apply {
+                            data = testBlockUri
+                        }
+                    context.startActivity(intent)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_bug),
+                        contentDescription = stringResource(R.string.test_block_ads),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+                IconButton(onClick = {
+                    val intent =
+                        Intent(Intent.ACTION_VIEW).apply {
+                            data = telegramUri
+                        }
+                    context.startActivity(intent)
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_telegram),
+                        contentDescription = stringResource(R.string.settings_telegram),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+            }
         },
         title = {
             if (isLoading) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(16.dp),
-                        strokeWidth = 2.dp
+                        strokeWidth = 2.dp,
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Loading filters…",
                         style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                 }
             } else if (filterLoadFailed) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(DangerRed.copy(alpha = 0.1f))
-                        .clickable { viewModel.retryLoadFilter() }
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                    modifier =
+                        Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(DangerRed.copy(alpha = 0.1f))
+                            .clickable { viewModel.retryLoadFilter() }
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Retry",
                         tint = DangerRed,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "Filter load failed · Tap to retry",
                         style = MaterialTheme.typography.bodySmall,
                         color = DangerRed,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
                     )
                 }
             }
@@ -130,7 +132,7 @@ fun HomeAppBar(
                     painter = painterResource(R.drawable.ic_settings_youtube),
                     contentDescription = "YouTube Ad-Free",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
             }
             IconButton(onClick = onNavigateToStatisticsScreen) {
@@ -138,7 +140,7 @@ fun HomeAppBar(
                     painter = painterResource(R.drawable.ic_chart_bar),
                     contentDescription = stringResource(R.string.nav_statistics),
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
             }
             IconButton(onClick = onNavigateToLogScreen) {
@@ -146,13 +148,14 @@ fun HomeAppBar(
                     painter = painterResource(R.drawable.ic_history),
                     contentDescription = stringResource(R.string.nav_logs),
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            actionIconContentColor = MaterialTheme.colorScheme.primary
-        )
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                actionIconContentColor = MaterialTheme.colorScheme.primary,
+            ),
     )
 }

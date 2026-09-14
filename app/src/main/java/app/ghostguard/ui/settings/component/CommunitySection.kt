@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,9 +18,7 @@ import androidx.core.net.toUri
 import app.ghostguard.R
 
 @Composable
-fun CommunitySection(
-    modifier: Modifier = Modifier
-) {
+fun CommunitySection(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val redditUri = stringResource(R.string.reddit_link).toUri()
     val telegramUri = stringResource(R.string.telegram_link).toUri()
@@ -31,7 +27,7 @@ fun CommunitySection(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_community),
-            description = stringResource(R.string.settings_category_info_desc)
+            description = stringResource(R.string.settings_category_info_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
         SettingsCard {
@@ -42,11 +38,11 @@ fun CommunitySection(
                 desc = stringResource(R.string.settings_reddit_desc),
                 onClick = {
                     context.startActivity(Intent(Intent.ACTION_VIEW, redditUri))
-                }
+                },
             )
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = dividerColor
+                color = dividerColor,
             )
             SettingItem(
                 iconPainter = painterResource(R.drawable.ic_telegram),
@@ -55,7 +51,7 @@ fun CommunitySection(
                 desc = stringResource(R.string.settings_telegram_desc),
                 onClick = {
                     context.startActivity(Intent(Intent.ACTION_VIEW, telegramUri))
-                }
+                },
             )
         }
     }

@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProtectionProfileDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(profile: ProtectionProfile): Long
 

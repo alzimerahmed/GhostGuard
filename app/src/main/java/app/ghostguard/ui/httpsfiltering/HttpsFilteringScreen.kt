@@ -2,9 +2,6 @@ package app.ghostguard.ui.httpsfiltering
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,7 +57,7 @@ fun HttpsFilteringScreen(
     onNavigateBack: () -> Unit,
     onNavigateToWizard: () -> Unit = {},
     modifier: Modifier = Modifier,
-    viewModel: HttpsFilteringViewModel = koinViewModel()
+    viewModel: HttpsFilteringViewModel = koinViewModel(),
 ) {
     val isEnabled by viewModel.isEnabled.collectAsStateWithLifecycle()
     val isProxyRunning by viewModel.isProxyRunning.collectAsStateWithLifecycle()
@@ -82,11 +79,12 @@ fun HttpsFilteringScreen(
 
     // Re-verify when the user returns from Android's Security Settings.
     // They likely just installed (or removed) the certificate.
-    val settingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        viewModel.verifyCert()
-    }
+    val settingsLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) {
+            viewModel.verifyCert()
+        }
 
     // Auto-verify on first composition when filtering is on, so users
     // see the install status without having to tap the button.
@@ -100,7 +98,7 @@ fun HttpsFilteringScreen(
             when (event) {
                 is HttpsFilteringEvent.CaCertSavedToDownloads -> {
                     snackbarHostState.showSnackbar(
-                        resources.getString(R.string.https_filtering_cert_saved_downloads, event.fileName)
+                        resources.getString(R.string.https_filtering_cert_saved_downloads, event.fileName),
                     )
                 }
 
@@ -142,41 +140,44 @@ fun HttpsFilteringScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.accessibility_navigate_back)
+                            contentDescription = stringResource(R.string.accessibility_navigate_back),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         if (isLoading) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 CircularProgressIndicator()
             }
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 // ── Master Toggle + Status ─────────────────────────────
                 item {
                     MasterToggleCard(
                         isEnabled = isEnabled,
                         isProxyRunning = isProxyRunning,
-                        onToggle = { viewModel.toggleEnabled(it) }
+                        onToggle = { viewModel.toggleEnabled(it) },
                     )
                 }
 
@@ -191,7 +192,7 @@ fun HttpsFilteringScreen(
                         certStatus = certStatus,
                         isRootAvailable = isRootAvailable,
                         onOpenWizard = onNavigateToWizard,
-                        onVerifyCert = { viewModel.verifyCert() }
+                        onVerifyCert = { viewModel.verifyCert() },
                     )
                 }
 
@@ -200,13 +201,13 @@ fun HttpsFilteringScreen(
                     item {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(top = 4.dp)
+                            modifier = Modifier.padding(top = 4.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Language,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Column {
@@ -214,12 +215,12 @@ fun HttpsFilteringScreen(
                                     text = stringResource(R.string.https_filtering_browser_section),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.primary
+                                    color = MaterialTheme.colorScheme.primary,
                                 )
                                 Text(
                                     text = stringResource(R.string.https_filtering_browser_desc),
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                         }
@@ -230,22 +231,24 @@ fun HttpsFilteringScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface
-                            )
+                            colors =
+                                CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                ),
                         ) {
                             Column {
                                 browsers.forEachIndexed { index, browser ->
                                     BrowserRow(
                                         browser = browser,
-                                        onToggle = { viewModel.toggleBrowser(browser.packageName) }
+                                        onToggle = { viewModel.toggleBrowser(browser.packageName) },
                                     )
                                     if (index < browsers.lastIndex) {
                                         HorizontalDivider(
                                             modifier = Modifier.padding(horizontal = 16.dp),
-                                            color = MaterialTheme.colorScheme.outlineVariant.copy(
-                                                alpha = 0.4f
-                                            )
+                                            color =
+                                                MaterialTheme.colorScheme.outlineVariant.copy(
+                                                    alpha = 0.4f,
+                                                ),
                                         )
                                     }
                                 }
@@ -260,32 +263,34 @@ fun HttpsFilteringScreen(
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface
-                            )
+                            colors =
+                                CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                ),
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
                             ) {
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(
                                         text = stringResource(R.string.https_filtering_http3_title),
                                         style = MaterialTheme.typography.titleSmall,
-                                        fontWeight = FontWeight.SemiBold
+                                        fontWeight = FontWeight.SemiBold,
                                     )
                                     Text(
                                         text = stringResource(R.string.https_filtering_http3_desc),
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Switch(
                                     checked = filterHttp3,
-                                    onCheckedChange = { viewModel.toggleFilterHttp3(it) }
+                                    onCheckedChange = { viewModel.toggleFilterHttp3(it) },
                                 )
                             }
                         }

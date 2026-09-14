@@ -38,51 +38,60 @@ fun FilterItem(
     onToggle: () -> Unit,
     onDelete: (() -> Unit)?,
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .then(
-                if (onClick != null) Modifier.clickable { onClick() }
-                else Modifier
-            )
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .then(
+                    if (onClick != null) {
+                        Modifier.clickable { onClick() }
+                    } else {
+                        Modifier
+                    },
+                )
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = filter.name,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
-                color = if (filter.isEnabled) MaterialTheme.colorScheme.onBackground
-                else TextSecondary
+                color =
+                    if (filter.isEnabled) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        TextSecondary
+                    },
             )
 
             if (filter.isBuiltIn) {
                 Box(
-                    modifier = Modifier
-                        .background(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                    modifier =
+                        Modifier
+                            .background(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                RoundedCornerShape(4.dp),
+                            )
+                            .padding(horizontal = 6.dp, vertical = 2.dp),
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                        horizontalArrangement = Arrangement.spacedBy(3.dp),
                     ) {
                         Icon(
                             Icons.Default.Shield,
                             contentDescription = null,
                             modifier = Modifier.size(10.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.primary,
                         )
                         Text(
                             text = stringResource(R.string.filter_built_in),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }
@@ -94,7 +103,7 @@ fun FilterItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
             if (filter.domainCount > 0) {
@@ -102,18 +111,18 @@ fun FilterItem(
                     Text(
                         text = "${formatCount(filter.domainCount)} rules",
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                     if (filter.lastUpdated > 0) {
                         Text(
                             text = "·",
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                         Text(
                             text = formatDate(filter.lastUpdated),
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
@@ -123,7 +132,7 @@ fun FilterItem(
                 style = MaterialTheme.typography.labelSmall,
                 color = TextSecondary.copy(alpha = 0.6f),
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
@@ -133,7 +142,7 @@ fun FilterItem(
                     Icons.Default.Delete,
                     contentDescription = "Delete",
                     tint = TextSecondary.copy(alpha = 0.5f),
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(16.dp),
                 )
             }
         }
@@ -141,10 +150,11 @@ fun FilterItem(
         Switch(
             checked = filter.isEnabled,
             onCheckedChange = { onToggle() },
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                ),
         )
     }
 }

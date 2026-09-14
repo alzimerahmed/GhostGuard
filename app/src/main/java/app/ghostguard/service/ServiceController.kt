@@ -6,7 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Unified service controller that dispatches restart/stop requests
@@ -15,7 +14,6 @@ import kotlinx.coroutines.runBlocking
  * This avoids the need to check routing mode at every ViewModel callsite.
  */
 object ServiceController {
-
     /**
      * Request a restart of whichever ad-blocking service is currently running.
      * If Root Proxy mode is active, restarts RootProxyService.

@@ -33,7 +33,7 @@ fun AddFilterDialog(
     onAdd: (name: String, url: String, buildLocally: Boolean) -> Unit,
     modifier: Modifier = Modifier,
     existingUrls: List<String> = emptyList(),
-    isValidating: Boolean = false
+    isValidating: Boolean = false,
 ) {
     var name by remember { mutableStateOf("") }
     var url by remember { mutableStateOf("") }
@@ -42,16 +42,17 @@ fun AddFilterDialog(
     val urlTrimmed = url.trim()
     val nameTrimmed = name.trim()
 
-    val urlError = when {
-        urlTrimmed.isEmpty() -> null
-        !urlTrimmed.startsWith("http://") && !urlTrimmed.startsWith("https://") ->
-            stringResource(R.string.filter_error_invalid_url)
-        !Patterns.WEB_URL.matcher(urlTrimmed).matches() ->
-            stringResource(R.string.filter_error_invalid_url)
-        existingUrls.any { it.equals(urlTrimmed, ignoreCase = true) } ->
-            stringResource(R.string.filter_error_duplicate_url)
-        else -> null
-    }
+    val urlError =
+        when {
+            urlTrimmed.isEmpty() -> null
+            !urlTrimmed.startsWith("http://") && !urlTrimmed.startsWith("https://") ->
+                stringResource(R.string.filter_error_invalid_url)
+            !Patterns.WEB_URL.matcher(urlTrimmed).matches() ->
+                stringResource(R.string.filter_error_invalid_url)
+            existingUrls.any { it.equals(urlTrimmed, ignoreCase = true) } ->
+                stringResource(R.string.filter_error_duplicate_url)
+            else -> null
+        }
 
     val isValid = nameTrimmed.isNotBlank() && urlTrimmed.isNotBlank() && urlError == null
 
@@ -69,7 +70,7 @@ fun AddFilterDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    enabled = !isValidating
+                    enabled = !isValidating,
                 )
                 OutlinedTextField(
                     value = url,
@@ -79,23 +80,24 @@ fun AddFilterDialog(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     isError = urlError != null,
-                    supportingText = urlError?.let { err ->
-                        { Text(err, color = MaterialTheme.colorScheme.error) }
-                    },
-                    enabled = !isValidating
+                    supportingText =
+                        urlError?.let { err ->
+                            { Text(err, color = MaterialTheme.colorScheme.error) }
+                        },
+                    enabled = !isValidating,
                 )
                 Row(
-                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                 ) {
                     Checkbox(
                         checked = buildLocally,
                         onCheckedChange = { buildLocally = it },
-                        enabled = !isValidating
+                        enabled = !isValidating,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.filter_build_locally),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
             }
@@ -103,13 +105,13 @@ fun AddFilterDialog(
         confirmButton = {
             Button(
                 onClick = { if (isValid && !isValidating) onAdd(nameTrimmed, urlTrimmed, buildLocally) },
-                enabled = isValid && !isValidating
+                enabled = isValid && !isValidating,
             ) {
                 if (isValidating) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(18.dp),
                         color = MaterialTheme.colorScheme.onPrimary,
-                        strokeWidth = 2.dp
+                        strokeWidth = 2.dp,
                     )
                 } else {
                     Text(stringResource(R.string.settings_add))
@@ -119,8 +121,8 @@ fun AddFilterDialog(
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
-                enabled = !isValidating
+                enabled = !isValidating,
             ) { Text(stringResource(R.string.settings_cancel)) }
-        }
+        },
     )
 }

@@ -14,7 +14,7 @@ import app.ghostguard.ui.theme.DangerRed
 fun ConfirmClearLogDialog(
     modifier: Modifier = Modifier,
     onClear: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         modifier = modifier,
@@ -26,7 +26,7 @@ fun ConfirmClearLogDialog(
             TextButton(onClick = onClear) {
                 Text(
                     stringResource(R.string.settings_clear_logs),
-                    color = DangerRed
+                    color = DangerRed,
                 )
             }
         },
@@ -34,6 +34,6 @@ fun ConfirmClearLogDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

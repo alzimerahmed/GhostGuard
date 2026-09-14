@@ -13,7 +13,7 @@ data class ProtectionProfile(
     val safeSearchEnabled: Boolean = false,
     val youtubeRestrictedMode: Boolean = false,
     val isActive: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
 ) {
     companion object {
         const val TYPE_DEFAULT = "DEFAULT"
@@ -23,7 +23,6 @@ data class ProtectionProfile(
         const val TYPE_STRICT_FAMILY = "STRICT_FAMILY"
         const val TYPE_CUSTOM = "CUSTOM"
 
-        fun isPreset(type: String): Boolean =
-            type in listOf(TYPE_DEFAULT, TYPE_STRICT, TYPE_FAMILY, TYPE_GAMING, TYPE_STRICT_FAMILY)
+        fun isPreset(type: String): Boolean = type in listOf(TYPE_DEFAULT, TYPE_STRICT, TYPE_FAMILY, TYPE_GAMING, TYPE_STRICT_FAMILY)
     }
 }

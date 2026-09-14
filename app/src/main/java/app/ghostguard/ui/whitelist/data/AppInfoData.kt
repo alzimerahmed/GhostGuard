@@ -4,5 +4,5 @@ data class AppInfoData(
     val packageName: String,
     val label: String,
     val icon: android.graphics.drawable.Drawable,
-    val isSystemApp: Boolean = false
+    val isSystemApp: Boolean = false,
 )

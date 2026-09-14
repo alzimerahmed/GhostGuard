@@ -60,7 +60,7 @@ fun BrowserScreen(
     onCloseBrowser: () -> Unit,
     onNavigateToElementRules: () -> Unit = {},
     viewModel: BrowserViewModel = koinViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -111,16 +111,17 @@ fun BrowserScreen(
 
     LaunchedEffect(uiState.isElementPickerActive) {
         if (uiState.isElementPickerActive) {
-            val js = runCatching {
-                context.assets.open("element_picker.js").bufferedReader().use { it.readText() }
-            }.getOrDefault("")
+            val js =
+                runCatching {
+                    context.assets.open("element_picker.js").bufferedReader().use { it.readText() }
+                }.getOrDefault("")
             if (js.isNotBlank()) {
                 webViewInstance?.evaluateJavascript(js, null)
             }
         } else {
             webViewInstance?.evaluateJavascript(
                 "if (window.__blockadsPickerCancel__) { window.__blockadsPickerCancel__(); }",
-                null
+                null,
             )
         }
     }
@@ -145,19 +146,23 @@ fun BrowserScreen(
         }
     }
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {
-            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                val delta = available.y
-                if (delta < -12f && uiState.isBottomBarVisible) {
-                    viewModel.processIntent(BrowserUiIntent.UpdateBottomBarVisibility(false))
-                } else if (delta > 12f && !uiState.isBottomBarVisible) {
-                    viewModel.processIntent(BrowserUiIntent.UpdateBottomBarVisibility(true))
+    val nestedScrollConnection =
+        remember {
+            object : NestedScrollConnection {
+                override fun onPreScroll(
+                    available: Offset,
+                    source: NestedScrollSource,
+                ): Offset {
+                    val delta = available.y
+                    if (delta < -12f && uiState.isBottomBarVisible) {
+                        viewModel.processIntent(BrowserUiIntent.UpdateBottomBarVisibility(false))
+                    } else if (delta > 12f && !uiState.isBottomBarVisible) {
+                        viewModel.processIntent(BrowserUiIntent.UpdateBottomBarVisibility(true))
+                    }
+                    return Offset.Zero
                 }
-                return Offset.Zero
             }
         }
-    }
 
     LaunchedEffect(isInPipMode) {
         val js = app.ghostguard.ui.browser.util.BrowserPipHelper.getPipToggleScript(isInPipMode)
@@ -182,18 +187,20 @@ fun BrowserScreen(
                     onForward = { webViewInstance?.goForward() },
                     onReload = { webViewInstance?.reload() },
                     onOpenSearch = { viewModel.processIntent(BrowserUiIntent.ToggleSearchSheet(true)) },
-                    onOpenMenu = { viewModel.processIntent(BrowserUiIntent.ToggleBentoMenu(true)) }
+                    onOpenMenu = { viewModel.processIntent(BrowserUiIntent.ToggleBentoMenu(true)) },
                 )
             }
         },
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(nestedScrollConnection)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .nestedScroll(nestedScrollConnection),
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(if (customView == null && !isInPipMode && !uiState.isElementPickerActive) padding else PaddingValues())
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(if (customView == null && !isInPipMode && !uiState.isElementPickerActive) padding else PaddingValues()),
         ) {
             PullToRefreshBox(
                 isRefreshing = isRefreshing,
@@ -208,10 +215,10 @@ fun BrowserScreen(
                         isRefreshing = isRefreshing,
                         modifier = Modifier.align(Alignment.TopCenter),
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 BrowserWebView(
                     uiState = uiState,
@@ -231,18 +238,18 @@ fun BrowserScreen(
                         customViewCallback?.onCustomViewHidden()
                         customViewCallback = null
                     },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
-
 
             // Fullscreen video overlay
             customView?.let { fullView ->
                 AndroidView(
                     factory = { fullView },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.Black),
                 )
             }
 
@@ -250,14 +257,14 @@ fun BrowserScreen(
             AnimatedVisibility(visible = uiState.showShortcuts && customView == null && !isInPipMode) {
                 Surface(
                     color = Color.Black,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     BrowserShortcuts(
                         onSelectShortcut = { url ->
                             viewModel.processIntent(BrowserUiIntent.LoadUrl(url))
                         },
                         onOpenSearch = { viewModel.processIntent(BrowserUiIntent.ToggleSearchSheet(true)) },
-                        onOpenMenu = { viewModel.processIntent(BrowserUiIntent.ToggleBentoMenu(true)) }
+                        onOpenMenu = { viewModel.processIntent(BrowserUiIntent.ToggleBentoMenu(true)) },
                     )
                 }
             }
@@ -291,7 +298,7 @@ fun BrowserScreen(
         onEnterPip = {
             webViewInstance?.evaluateJavascript(
                 "if (window.__blockads_set_pip) { window.__blockads_set_pip(true); }",
-                null
+                null,
             )
             onEnterPip()
         },
@@ -305,10 +312,11 @@ fun BrowserScreen(
             context.startActivity(intent)
         },
         onShare = {
-            val sendIntent = Intent(Intent.ACTION_SEND).apply {
-                putExtra(Intent.EXTRA_TEXT, uiState.displayUrl)
-                type = "text/plain"
-            }
+            val sendIntent =
+                Intent(Intent.ACTION_SEND).apply {
+                    putExtra(Intent.EXTRA_TEXT, uiState.displayUrl)
+                    type = "text/plain"
+                }
             context.startActivity(Intent.createChooser(sendIntent, null))
         },
         onHome = { viewModel.processIntent(BrowserUiIntent.ToggleShortcuts) },
@@ -321,7 +329,7 @@ fun BrowserScreen(
         },
         onNavigateToElementRules = {
             viewModel.processIntent(BrowserUiIntent.NavigateToElementRules)
-        }
+        },
     )
 
     SearchSuggestionSheet(
@@ -334,7 +342,7 @@ fun BrowserScreen(
         onSubmitSearch = { urlOrQuery ->
             viewModel.processIntent(BrowserUiIntent.SubmitSearch(urlOrQuery))
         },
-        onDismiss = { viewModel.processIntent(BrowserUiIntent.ToggleSearchSheet(false)) }
+        onDismiss = { viewModel.processIntent(BrowserUiIntent.ToggleSearchSheet(false)) },
     )
 
     DisposableEffect(Unit) {

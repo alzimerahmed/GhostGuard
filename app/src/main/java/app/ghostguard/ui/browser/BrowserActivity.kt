@@ -11,10 +11,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +28,13 @@ import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.getKoin
 
 class BrowserActivity : ComponentActivity() {
-
     companion object {
         const val EXTRA_URL = "extra_url"
 
-        fun createIntent(context: Context, url: String = "https://m.youtube.com"): Intent {
+        fun createIntent(
+            context: Context,
+            url: String = "https://m.youtube.com",
+        ): Intent {
             return Intent(context, BrowserActivity::class.java).apply {
                 putExtra(EXTRA_URL, url)
             }
@@ -83,7 +84,7 @@ class BrowserActivity : ComponentActivity() {
 
                 if (showElementRules) {
                     ElementRulesScreen(
-                        onNavigateBack = { showElementRules = false }
+                        onNavigateBack = { showElementRules = false },
                     )
                 } else {
                     BrowserScreen(
@@ -91,7 +92,7 @@ class BrowserActivity : ComponentActivity() {
                         isInPipMode = _isInPipMode.value,
                         onEnterPip = { enterPipMode() },
                         onCloseBrowser = { finish() },
-                        onNavigateToElementRules = { showElementRules = true }
+                        onNavigateToElementRules = { showElementRules = true },
                     )
                 }
             }
@@ -112,7 +113,7 @@ class BrowserActivity : ComponentActivity() {
     @Suppress("OVERRIDE_DEPRECATION")
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
-        newConfig: Configuration
+        newConfig: Configuration,
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         _isInPipMode.value = isInPictureInPictureMode
@@ -120,14 +121,15 @@ class BrowserActivity : ComponentActivity() {
 
     fun enterPipMode(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val params = PictureInPictureParams.Builder()
-                .setAspectRatio(Rational(16, 9))
-                .apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        setAutoEnterEnabled(true)
+            val params =
+                PictureInPictureParams.Builder()
+                    .setAspectRatio(Rational(16, 9))
+                    .apply {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            setAutoEnterEnabled(true)
+                        }
                     }
-                }
-                .build()
+                    .build()
             return runCatching { enterPictureInPictureMode(params) }.getOrDefault(false)
         }
         return false
@@ -135,10 +137,11 @@ class BrowserActivity : ComponentActivity() {
 
     private fun updatePipParams() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val params = PictureInPictureParams.Builder()
-                .setAspectRatio(Rational(16, 9))
-                .setAutoEnterEnabled(true)
-                .build()
+            val params =
+                PictureInPictureParams.Builder()
+                    .setAspectRatio(Rational(16, 9))
+                    .setAutoEnterEnabled(true)
+                    .build()
             runCatching { setPictureInPictureParams(params) }
         }
     }
@@ -146,16 +149,17 @@ class BrowserActivity : ComponentActivity() {
     private fun requestMediaAudioFocus() {
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                .setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build()
-                )
-                .setOnAudioFocusChangeListener { /* Keep playing */ }
-                .setAcceptsDelayedFocusGain(true)
-                .build()
+            val request =
+                AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .build(),
+                    )
+                    .setOnAudioFocusChangeListener { /* Keep playing */ }
+                    .setAcceptsDelayedFocusGain(true)
+                    .build()
             audioFocusRequest = request
             runCatching { audioManager.requestAudioFocus(request) }
         } else {
@@ -164,7 +168,7 @@ class BrowserActivity : ComponentActivity() {
                 audioManager.requestAudioFocus(
                     { /* Keep playing */ },
                     AudioManager.STREAM_MUSIC,
-                    AudioManager.AUDIOFOCUS_GAIN
+                    AudioManager.AUDIOFOCUS_GAIN,
                 )
             }
         }

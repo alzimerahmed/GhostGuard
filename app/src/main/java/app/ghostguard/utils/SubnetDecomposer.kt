@@ -5,7 +5,7 @@ package app.ghostguard.utils
  */
 data class CidrBlock(
     val address: Long, // Unsigned 32-bit integer representing IPv4
-    val prefix: Int
+    val prefix: Int,
 ) {
     init {
         require(prefix in 0..32) { "Prefix must be between 0 and 32, got $prefix" }
@@ -42,7 +42,8 @@ data class CidrBlock(
             val parts = cidr.trim().split("/")
             val ipParts = parts[0].split(".").map { it.toInt() }
             require(ipParts.size == 4) { "Invalid IPv4 address: ${parts[0]}" }
-            val ipLong = ((ipParts[0].toLong() and 0xFF) shl 24) or
+            val ipLong =
+                ((ipParts[0].toLong() and 0xFF) shl 24) or
                     ((ipParts[1].toLong() and 0xFF) shl 16) or
                     ((ipParts[2].toLong() and 0xFF) shl 8) or
                     (ipParts[3].toLong() and 0xFF)
@@ -50,8 +51,15 @@ data class CidrBlock(
             return CidrBlock(ipLong, prefix)
         }
 
-        fun fromIpParts(a: Int, b: Int, c: Int, d: Int, prefix: Int): CidrBlock {
-            val ipLong = ((a.toLong() and 0xFF) shl 24) or
+        fun fromIpParts(
+            a: Int,
+            b: Int,
+            c: Int,
+            d: Int,
+            prefix: Int,
+        ): CidrBlock {
+            val ipLong =
+                ((a.toLong() and 0xFF) shl 24) or
                     ((b.toLong() and 0xFF) shl 16) or
                     ((c.toLong() and 0xFF) shl 8) or
                     (d.toLong() and 0xFF)
@@ -77,23 +85,23 @@ data class CidrBlock(
  * without relying on buggy or missing OS `excludeRoute()` APIs.
  */
 object SubnetDecomposer {
-
-    val DEFAULT_EXCLUDED_SUBNETS: List<CidrBlock> = listOf(
-        CidrBlock.parse("10.0.0.0/8"),
-        CidrBlock.parse("172.16.0.0/12"),
-        CidrBlock.parse("192.168.0.0/16"),
-        CidrBlock.parse("169.254.0.0/16"),
-        CidrBlock.parse("127.0.0.0/8"),
-        CidrBlock.parse("224.0.0.0/4"), // Multicast
-        CidrBlock.parse("240.0.0.0/4")  // Reserved
-    )
+    val DEFAULT_EXCLUDED_SUBNETS: List<CidrBlock> =
+        listOf(
+            CidrBlock.parse("10.0.0.0/8"),
+            CidrBlock.parse("172.16.0.0/12"),
+            CidrBlock.parse("192.168.0.0/16"),
+            CidrBlock.parse("169.254.0.0/16"),
+            CidrBlock.parse("127.0.0.0/8"),
+            CidrBlock.parse("224.0.0.0/4"), // Multicast
+            CidrBlock.parse("240.0.0.0/4"), // Reserved
+        )
 
     /**
      * Recursively decomposes [baseBlock] by subtracting all [excludedBlocks].
      */
     fun decompose(
         baseBlock: CidrBlock,
-        excludedBlocks: List<CidrBlock>
+        excludedBlocks: List<CidrBlock>,
     ): List<CidrBlock> {
         // If current block is completely contained within any excluded block, drop it
         if (excludedBlocks.any { it.contains(baseBlock) }) {

@@ -30,42 +30,49 @@ import app.ghostguard.R
 import app.ghostguard.ui.onboarding.data.OnboardingPage
 
 @Composable
-fun OnboardingPageContent(page: OnboardingPage, modifier: Modifier = Modifier) {
+fun OnboardingPageContent(
+    page: OnboardingPage,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         // Icon with glow effect
         Box(
-            modifier = Modifier
-                .size(140.dp)
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                            Color.Transparent
-                        )
-                    )
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(140.dp)
+                    .clip(CircleShape)
+                    .background(
+                        Brush.radialGradient(
+                            colors =
+                                listOf(
+                                    MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                    Color.Transparent,
+                                ),
+                        ),
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = null,
                     modifier = Modifier.size(56.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
@@ -77,7 +84,7 @@ fun OnboardingPageContent(page: OnboardingPage, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -87,7 +94,7 @@ fun OnboardingPageContent(page: OnboardingPage, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         )
     }
 }

@@ -13,19 +13,22 @@ import androidx.compose.ui.draw.clip
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 @Composable
-fun AppIcon(drawable: Drawable?, modifier: Modifier = Modifier) {
+fun AppIcon(
+    drawable: Drawable?,
+    modifier: Modifier = Modifier,
+) {
     if (drawable != null) {
         Image(
             painter = rememberDrawablePainter(drawable = drawable),
             contentDescription = null,
-            modifier = modifier.clip(CircleShape)
+            modifier = modifier.clip(CircleShape),
         )
     } else {
         Icon(
             imageVector = Icons.Outlined.Language,
             contentDescription = null,
             modifier = modifier,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

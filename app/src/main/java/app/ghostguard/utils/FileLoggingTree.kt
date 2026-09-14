@@ -15,7 +15,9 @@ class FileLoggingTree(context: Context) : Timber.DebugTree() {
     private val logFile: File
         get() {
             val file = File(logDir, "blockads_logs.txt")
-            if (!file.exists()) { file.createNewFile() }
+            if (!file.exists()) {
+                file.createNewFile()
+            }
 
             if (file.length() > 5L * 1024 * 1024) {
                 val backupFile = File(logDir, "blockads_logs_old.txt")
@@ -26,24 +28,30 @@ class FileLoggingTree(context: Context) : Timber.DebugTree() {
             return file
         }
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+    ) {
         if (app.ghostguard.BuildConfig.DEBUG) {
             super.log(priority, tag, message, t)
         }
 
         try {
             val timeStamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).format(Date())
-            val priorityStr = when (priority) {
-                Log.VERBOSE -> "V"
-                Log.DEBUG -> "D"
-                Log.INFO -> "I"
-                Log.WARN -> "W"
-                Log.ERROR -> "E"
-                Log.ASSERT -> "WTF"
-                else -> "?"
-            }
+            val priorityStr =
+                when (priority) {
+                    Log.VERBOSE -> "V"
+                    Log.DEBUG -> "D"
+                    Log.INFO -> "I"
+                    Log.WARN -> "W"
+                    Log.ERROR -> "E"
+                    Log.ASSERT -> "WTF"
+                    else -> "?"
+                }
             val threadName = Thread.currentThread().name
-            val logHeader = "$timeStamp $priorityStr/[${tag ?: "BlockAds"}] <$threadName>"
+            val logHeader = "$timeStamp $priorityStr/[${tag ?: "GhostGuard"}] <$threadName>"
 
             FileWriter(logFile, true).use { writer ->
                 writer.append("$logHeader: $message\n")

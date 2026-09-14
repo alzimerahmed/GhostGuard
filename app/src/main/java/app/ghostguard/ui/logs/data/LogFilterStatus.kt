@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 enum class LogFilterStatus {
     ALL,
     BLOCKED,
-    THREATS
+    THREATS,
 }

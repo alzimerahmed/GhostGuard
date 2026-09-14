@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class FilterPreferences(private val dataStore: DataStore<Preferences>) {
-
     companion object {
         val KEY_FILTER_URL = stringPreferencesKey("filter_url")
         val KEY_AUTO_UPDATE_ENABLED = booleanPreferencesKey("auto_update_enabled")
@@ -38,37 +37,45 @@ class FilterPreferences(private val dataStore: DataStore<Preferences>) {
         const val PROTECTION_STRICT = "STRICT"
     }
 
-    val filterUrl: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_FILTER_URL] ?: DEFAULT_FILTER_URL
-    }
+    val filterUrl: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_FILTER_URL] ?: DEFAULT_FILTER_URL
+        }
 
-    val autoUpdateEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_AUTO_UPDATE_ENABLED] ?: true
-    }
+    val autoUpdateEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_AUTO_UPDATE_ENABLED] ?: true
+        }
 
-    val autoUpdateFrequency: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_AUTO_UPDATE_FREQUENCY] ?: UPDATE_FREQUENCY_24H
-    }
+    val autoUpdateFrequency: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_AUTO_UPDATE_FREQUENCY] ?: UPDATE_FREQUENCY_24H
+        }
 
-    val autoUpdateWifiOnly: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_AUTO_UPDATE_WIFI_ONLY] ?: true
-    }
+    val autoUpdateWifiOnly: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_AUTO_UPDATE_WIFI_ONLY] ?: true
+        }
 
-    val autoUpdateNotification: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_AUTO_UPDATE_NOTIFICATION] ?: NOTIFICATION_SILENT
-    }
+    val autoUpdateNotification: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_AUTO_UPDATE_NOTIFICATION] ?: NOTIFICATION_SILENT
+        }
 
-    val protectionLevel: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_PROTECTION_LEVEL] ?: PROTECTION_STANDARD
-    }
+    val protectionLevel: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_PROTECTION_LEVEL] ?: PROTECTION_STANDARD
+        }
 
-    val safeSearchEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_SAFE_SEARCH_ENABLED] ?: false
-    }
+    val safeSearchEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_SAFE_SEARCH_ENABLED] ?: false
+        }
 
-    val youtubeRestrictedMode: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_YOUTUBE_RESTRICTED_MODE] ?: false
-    }
+    val youtubeRestrictedMode: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_YOUTUBE_RESTRICTED_MODE] ?: false
+        }
 
     suspend fun setFilterUrl(url: String) {
         dataStore.edit { prefs ->

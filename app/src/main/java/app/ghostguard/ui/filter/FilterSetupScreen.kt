@@ -69,7 +69,7 @@ fun FilterSetupScreen(
     modifier: Modifier = Modifier,
     viewModel: FilterSetupViewModel = koinViewModel(),
     onNavigateToFilterDetail: (filterId: Long) -> Unit = { },
-    onNavigateToCustomRules: () -> Unit = { }
+    onNavigateToCustomRules: () -> Unit = { },
 ) {
     val filterLists by viewModel.filteredFilterLists.collectAsStateWithLifecycle()
     val isUpdatingFilter by viewModel.isUpdatingFilter.collectAsStateWithLifecycle()
@@ -95,12 +95,13 @@ fun FilterSetupScreen(
                         stringResource(R.string.filter_setup_title),
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
                 actions = {
                     IconButton(onClick = {
                         isSearchVisible = !isSearchVisible
@@ -109,18 +110,18 @@ fun FilterSetupScreen(
                         Icon(
                             if (isSearchVisible) Icons.Default.Close else Icons.Default.Search,
                             contentDescription = "Search",
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     }
                     TextButton(
                         onClick = { viewModel.updateAllFilters() },
-                        enabled = !isUpdatingFilter
+                        enabled = !isUpdatingFilter,
                     ) {
                         if (isUpdatingFilter) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(18.dp),
                                 color = MaterialTheme.colorScheme.primary,
-                                strokeWidth = 2.dp
+                                strokeWidth = 2.dp,
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(stringResource(R.string.settings_updating))
@@ -128,27 +129,27 @@ fun FilterSetupScreen(
                             Icon(
                                 Icons.Default.CloudDownload,
                                 contentDescription = null,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.size(18.dp),
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(stringResource(R.string.settings_update_all))
                         }
                     }
-                }
+                },
             )
-
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             // Search bar
             AnimatedVisibility(
                 visible = isSearchVisible,
                 enter = fadeIn(tween(200)),
-                exit = fadeOut(tween(200))
+                exit = fadeOut(tween(200)),
             ) {
                 TextField(
                     value = searchQuery,
@@ -156,14 +157,14 @@ fun FilterSetupScreen(
                     placeholder = {
                         Text(
                             stringResource(R.string.filter_search_hint),
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     },
                     leadingIcon = {
                         Icon(
                             Icons.Default.Search,
                             contentDescription = null,
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     },
                     trailingIcon = {
@@ -172,22 +173,24 @@ fun FilterSetupScreen(
                                 Icon(
                                     Icons.Default.Close,
                                     contentDescription = "Clear",
-                                    tint = TextSecondary
+                                    tint = TextSecondary,
                                 )
                             }
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    singleLine = true
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                        ),
+                    singleLine = true,
                 )
             }
 
@@ -203,46 +206,48 @@ fun FilterSetupScreen(
             if (isSearching && !hasResults) {
                 // Empty search results
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
                             Icons.Default.FilterList,
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
-                            tint = TextSecondary.copy(alpha = 0.5f)
+                            tint = TextSecondary.copy(alpha = 0.5f),
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = stringResource(R.string.filter_search_no_results, searchQuery),
                             style = MaterialTheme.typography.bodyLarge,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
                 ) {
                     // Ad filters section
                     if (adFilters.isNotEmpty()) {
                         item {
                             SectionHeader(
                                 stringResource(R.string.filter_category_ad),
-                                activeCount = adFilters.count { it.isEnabled }
+                                activeCount = adFilters.count { it.isEnabled },
                             )
                         }
                         item {
                             Card(
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                 shape = RoundedCornerShape(16.dp),
-                                modifier = Modifier.animateContentSize()
+                                modifier = Modifier.animateContentSize(),
                             ) {
                                 Column {
                                     adFilters.forEachIndexed { index, filter ->
@@ -252,12 +257,12 @@ fun FilterSetupScreen(
                                             onDelete = null,
                                             onClick = {
                                                 onNavigateToFilterDetail(filter.id)
-                                            }
+                                            },
                                         )
                                         if (index < adFilters.lastIndex) {
                                             HorizontalDivider(
                                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
+                                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                             )
                                         }
                                     }
@@ -272,14 +277,14 @@ fun FilterSetupScreen(
                         item {
                             SectionHeader(
                                 stringResource(R.string.filter_category_security),
-                                activeCount = securityFilters.count { it.isEnabled }
+                                activeCount = securityFilters.count { it.isEnabled },
                             )
                         }
                         item {
                             Card(
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                 shape = RoundedCornerShape(16.dp),
-                                modifier = Modifier.animateContentSize()
+                                modifier = Modifier.animateContentSize(),
                             ) {
                                 Column {
                                     securityFilters.forEachIndexed { index, filter ->
@@ -289,12 +294,12 @@ fun FilterSetupScreen(
                                             onDelete = null,
                                             onClick = {
                                                 onNavigateToFilterDetail(filter.id)
-                                            }
+                                            },
                                         )
                                         if (index < securityFilters.lastIndex) {
                                             HorizontalDivider(
                                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
+                                                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                                             )
                                         }
                                     }
@@ -309,14 +314,14 @@ fun FilterSetupScreen(
                         item {
                             SectionHeader(
                                 stringResource(R.string.filter_custom),
-                                activeCount = customFilters.count { it.isEnabled }
+                                activeCount = customFilters.count { it.isEnabled },
                             )
                         }
                         item {
                             Card(
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                 shape = RoundedCornerShape(16.dp),
-                                modifier = Modifier.animateContentSize()
+                                modifier = Modifier.animateContentSize(),
                             ) {
                                 Column {
                                     if (customFilters.isEmpty()) {
@@ -324,7 +329,7 @@ fun FilterSetupScreen(
                                             text = stringResource(R.string.filter_custom_empty),
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = TextSecondary,
-                                            modifier = Modifier.padding(16.dp)
+                                            modifier = Modifier.padding(16.dp),
                                         )
                                     } else {
                                         customFilters.forEachIndexed { index, filter ->
@@ -334,14 +339,15 @@ fun FilterSetupScreen(
                                                 onDelete = { viewModel.deleteFilterList(filter) },
                                                 onClick = {
                                                     onNavigateToFilterDetail(filter.id)
-                                                }
+                                                },
                                             )
                                             if (index < customFilters.lastIndex) {
                                                 HorizontalDivider(
                                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                                    color = MaterialTheme.colorScheme.outline.copy(
-                                                        alpha = 0.1f
-                                                    )
+                                                    color =
+                                                        MaterialTheme.colorScheme.outline.copy(
+                                                            alpha = 0.1f,
+                                                        ),
                                                 )
                                             }
                                         }
@@ -350,14 +356,15 @@ fun FilterSetupScreen(
                                     // Add button
                                     TextButton(
                                         onClick = { showAddDialog = true },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(8.dp)
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp),
                                     ) {
                                         Icon(
                                             Icons.Default.Add,
                                             contentDescription = null,
-                                            modifier = Modifier.size(18.dp)
+                                            modifier = Modifier.size(18.dp),
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(stringResource(R.string.settings_add_custom_filter))
@@ -374,12 +381,12 @@ fun FilterSetupScreen(
                             OutlinedButton(
                                 onClick = onNavigateToCustomRules,
                                 modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(12.dp),
                             ) {
                                 Icon(
                                     Icons.Default.Edit,
                                     contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(18.dp),
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(stringResource(R.string.custom_rules))
@@ -403,9 +410,8 @@ fun FilterSetupScreen(
                     }
                 },
                 existingUrls = filterLists.map { it.url },
-                isValidating = isAddingCustomFilter
+                isValidating = isAddingCustomFilter,
             )
         }
     }
-
 }

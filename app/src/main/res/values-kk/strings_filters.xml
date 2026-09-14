@@ -110,7 +110,7 @@
     <string name="https_filtering_ca_desc">HTTPS косметикалық сүзгісін реттеу үшін мына қадамдарды орындаңыз:</string>
     <string name="https_filtering_export_ca">Downloads қалтасына сақтау</string>
     <string name="https_filtering_cert_saved">Сертификат Downloads қалтасына сақталды!</string>
-    <string name="https_filtering_install_steps">1. «Параметрлер» → «Қауіпсіздік» → «Шифрлау &amp; тіркелгі деректері» бөліміне өтіңіз\n2. «Сертификат орнату» → «CA сертификаты» түймесін түртіңіз\n3. Downloads қалтасынан «BlockAds-RootCA.crt» файлын таңдаңыз\n4. Орнатуды растаңыз</string>
+    <string name="https_filtering_install_steps">1. «Параметрлер» → «Қауіпсіздік» → «Шифрлау &amp; тіркелгі деректері» бөліміне өтіңіз\n2. «Сертификат орнату» → «CA сертификаты» түймесін түртіңіз\n3. Downloads қалтасынан «GhostGuard-RootCA.crt» файлын таңдаңыз\n4. Орнатуды растаңыз</string>
     <string name="https_filtering_open_settings">Қауіпсіздік параметрлерін ашу</string>
     <string name="https_filtering_browser_section">Браузерді таңдау</string>
     <string name="https_filtering_browser_desc">Косметикалық жарнама сүзгісін қолдану үшін браузерлерді таңдаңыз. Тек таңдалған қолданбалар сүзіледі.</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">Сертификатты баптау</string>
     <string name="https_wizard_step_indicator_format">Қадам %1$d / %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Шолу және құпиялылық</string>
-    <string name="https_wizard_overview_subtitle">BlockAds неліктен жергілікті сертификатты қажет етеді</string>
+    <string name="https_wizard_overview_subtitle">GhostGuard неліктен жергілікті сертификатты қажет етеді</string>
     <string name="https_wizard_security_title">Қауіпсіздік және құпиялылық</string>
-    <string name="https_wizard_security_desc">Root CA сертификаты құрылғыңызда жергілікті түрде жасалады және одан ешқашан шықпайды. BlockAds оны тек веб-сайттардағы жарнамаларды жою үшін пайдаланады. Банк қолданбалары мен Google есептік жазбалары сияқты құпия қызметтер ешқашан бақыланбайды.</string>
+    <string name="https_wizard_security_desc">Root CA сертификаты құрылғыңызда жергілікті түрде жасалады және одан ешқашан шықпайды. GhostGuard оны тек веб-сайттардағы жарнамаларды жою үшін пайдаланады. Банк қолданбалары мен Google есептік жазбалары сияқты құпия қызметтер ешқашан бақыланбайды.</string>
     <string name="https_wizard_explain_title">Неліктен HTTPS сүзгісі қажет?</string>
-    <string name="https_wizard_explain_desc">Көптеген заманауи веб-сайттар мен жарнамалар шифрланған HTTPS байланыстарын пайдаланады. Жарнама орындарын, баннерлерді және қалқымалы терезелерді жасыру үшін BlockAds құрылғыңыздағы веб-беттерді қауіпсіз тексеру және сүзу үшін жергілікті сертификатты қажет етеді.</string>
+    <string name="https_wizard_explain_desc">Көптеген заманауи веб-сайттар мен жарнамалар шифрланған HTTPS байланыстарын пайдаланады. Жарнама орындарын, баннерлерді және қалқымалы терезелерді жасыру үшін GhostGuard құрылғыңыздағы веб-беттерді қауіпсіз тексеру және сүзу үшін жергілікті сертификатты қажет етеді.</string>
     <string name="https_wizard_benefits_title">Негізгі артықшылықтар</string>
     <string name="https_wizard_benefit_1">Бейне платформалар мен жаңалықтар сайттарындағы жарнамаларды жою</string>
     <string name="https_wizard_benefit_2">Бос орындарды, баннерлерді және қалқымалы терезелерді жасыру</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Root рұқсаты анықталды (ұсынылады)</string>
     <string name="https_wizard_root_detected_desc">Құрылғыңызда root рұқсаты бар. CA сертификатын қолмен баптаусыз автоматты түрде орнатуға болады.</string>
     <string name="https_wizard_checking_title">Сертификат тексерілуде…</string>
-    <string name="https_wizard_checking_desc">BlockAds CA үшін Android сенімді қоймасы сканерленуде…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA тексерілді және құрылғыңыздың сенімді қоймасында белсенді. Кеңейтілген HTTPS сүзгісі дайын!</string>
+    <string name="https_wizard_checking_desc">GhostGuard CA үшін Android сенімді қоймасы сканерленуде…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA тексерілді және құрылғыңыздың сенімді қоймасында белсенді. Кеңейтілген HTTPS сүзгісі дайын!</string>
     <string name="https_wizard_not_installed_title">Сертификат анықталмады</string>
-    <string name="https_wizard_not_installed_desc">BlockAds әлі күнге дейін сенімді қоймаңыздан сертификатты таппады. Егер оны Параметрлерде орнатуды жаңа ғана аяқтасаңыз, қайта тексеру үшін төменде түртіңіз.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard әлі күнге дейін сенімді қоймаңыздан сертификатты таппады. Егер оны Параметрлерде орнатуды жаңа ғана аяқтасаңыз, қайта тексеру үшін төменде түртіңіз.</string>
     <string name="https_wizard_troubleshooting_title">Ақаулықтарды жою бойынша кеңестер</string>
     <string name="https_wizard_troubleshooting_tip1">Параметрлерде \"CA сертификаты\" таңдалғанына көз жеткізіңіз (Пайдаланушы сертификаты немесе VPN және қолданба пайдаланушы сертификаты емес).</string>
     <string name="https_wizard_troubleshooting_tip2">Егер Magisk/KernelSU модулі арқылы орнатылса, құрылғыны қайта іске қосу қажет.</string>

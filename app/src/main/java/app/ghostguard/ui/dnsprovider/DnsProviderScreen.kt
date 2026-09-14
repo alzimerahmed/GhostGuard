@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +31,6 @@ import app.ghostguard.data.entities.DnsProviders
 import app.ghostguard.ui.dnsprovider.component.CategoryHeader
 import app.ghostguard.ui.dnsprovider.component.CustomDnsCard
 import app.ghostguard.ui.dnsprovider.component.CustomDnsDialog
-import app.ghostguard.ui.dnsprovider.component.DnsProviderCard
 import app.ghostguard.ui.dnsprovider.component.DnsProviderGroupCard
 import app.ghostguard.ui.dnsprovider.component.DohBypassCard
 import app.ghostguard.ui.dnsprovider.component.FallbackDnsCard
@@ -45,7 +43,7 @@ import org.koin.androidx.compose.koinViewModel
 fun DnsProviderScreen(
     modifier: Modifier = Modifier,
     viewModel: DnsProviderViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val selectedProviderId by viewModel.selectedProviderId.collectAsStateWithLifecycle()
     val customDnsEnabled by viewModel.customDnsEnabled.collectAsStateWithLifecycle()
@@ -68,26 +66,28 @@ fun DnsProviderScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.dns_provider_title)) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
                         )
                     }
                 },
             )
-        }
+        },
     ) { padding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Spacer(modifier = Modifier.height(8.dp)) }
 
@@ -99,7 +99,7 @@ fun DnsProviderScreen(
                 DnsProviderGroupCard(
                     providers = DnsProviders.ALL_PROVIDERS.filter { it.category == DnsCategory.STANDARD },
                     selectedProviderId = selectedProviderId,
-                    onSelectProvider = { viewModel.selectProvider(it) }
+                    onSelectProvider = { viewModel.selectProvider(it) },
                 )
             }
 
@@ -112,7 +112,7 @@ fun DnsProviderScreen(
                 DnsProviderGroupCard(
                     providers = DnsProviders.ALL_PROVIDERS.filter { it.category == DnsCategory.PRIVACY },
                     selectedProviderId = selectedProviderId,
-                    onSelectProvider = { viewModel.selectProvider(it) }
+                    onSelectProvider = { viewModel.selectProvider(it) },
                 )
             }
 
@@ -125,7 +125,7 @@ fun DnsProviderScreen(
                 DnsProviderGroupCard(
                     providers = DnsProviders.ALL_PROVIDERS.filter { it.category == DnsCategory.FAMILY },
                     selectedProviderId = selectedProviderId,
-                    onSelectProvider = { viewModel.selectProvider(it) }
+                    onSelectProvider = { viewModel.selectProvider(it) },
                 )
             }
 
@@ -138,7 +138,7 @@ fun DnsProviderScreen(
                 CustomDnsCard(
                     isSelected = customDnsEnabled,
                     upstreamDns = customDnsDisplay,
-                    onClick = { showCustomDialog = true }
+                    onClick = { showCustomDialog = true },
                 )
             }
 
@@ -150,7 +150,7 @@ fun DnsProviderScreen(
             item {
                 FallbackDnsCard(
                     fallbackDns = fallbackDns,
-                    onClick = { showFallbackDialog = true }
+                    onClick = { showFallbackDialog = true },
                 )
             }
 
@@ -162,7 +162,7 @@ fun DnsProviderScreen(
             item {
                 DohBypassCard(
                     enabled = blockDohBypass,
-                    onCheckedChange = { viewModel.setBlockDohBypass(it) }
+                    onCheckedChange = { viewModel.setBlockDohBypass(it) },
                 )
             }
 
@@ -181,7 +181,8 @@ fun DnsProviderScreen(
             onSave = { upstream ->
                 val trimmed = upstream.trim()
                 val parsed = viewModel.getParsedHost(trimmed)
-                val isPlain = !trimmed.startsWith("https://", ignoreCase = true) &&
+                val isPlain =
+                    !trimmed.startsWith("https://", ignoreCase = true) &&
                         !trimmed.startsWith("tls://", ignoreCase = true) &&
                         !trimmed.startsWith("quic://", ignoreCase = true)
                 if (isPlain && parsed.equals(fallbackDns.trim(), ignoreCase = true)) {
@@ -191,7 +192,7 @@ fun DnsProviderScreen(
                     showCustomDialog = false
                     customDnsError = null
                 }
-            }
+            },
         )
     }
 
@@ -205,10 +206,13 @@ fun DnsProviderScreen(
             },
             onSave = { dns ->
                 val trimmed = dns.trim()
-                val isUpstreamPlain = customDnsDisplay.isBlank() ||
-                        (!customDnsDisplay.startsWith("https://", ignoreCase = true) &&
-                         !customDnsDisplay.startsWith("tls://", ignoreCase = true) &&
-                         !customDnsDisplay.startsWith("quic://", ignoreCase = true))
+                val isUpstreamPlain =
+                    customDnsDisplay.isBlank() ||
+                        (
+                            !customDnsDisplay.startsWith("https://", ignoreCase = true) &&
+                                !customDnsDisplay.startsWith("tls://", ignoreCase = true) &&
+                                !customDnsDisplay.startsWith("quic://", ignoreCase = true)
+                        )
                 if (isUpstreamPlain && trimmed.equals(upstreamDns.trim(), ignoreCase = true)) {
                     fallbackDnsError = duplicateErrorMsg
                 } else {
@@ -216,8 +220,7 @@ fun DnsProviderScreen(
                     showFallbackDialog = false
                     fallbackDnsError = null
                 }
-            }
+            },
         )
     }
 }
-

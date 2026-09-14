@@ -12,9 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -37,7 +37,7 @@ fun CustomDnsDialog(
     errorText: String? = null,
     onDismiss: () -> Unit,
     onSave: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Build display value from current settings
     var editDns by remember { mutableStateOf(upstreamDns) }
@@ -65,13 +65,13 @@ fun CustomDnsDialog(
             Column {
                 Text(
                     stringResource(R.string.settings_custom_dns_server),
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     stringResource(R.string.settings_custom_dns_hint),
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -82,46 +82,51 @@ fun CustomDnsDialog(
                     supportingText = errorText?.let { { Text(color = MaterialTheme.colorScheme.error, text = it) } },
                     placeholder = { Text(stringResource(R.string.settings_custom_dns_placeholder)) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(8.dp),
                 )
 
                 // Protocol detection badge
                 if (detectedProtocol != null && editDns.isNotBlank()) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        val (icon, label, color) = when (detectedProtocol) {
-                            DnsProtocol.DOH -> Triple(
-                                Icons.Default.Security,
-                                stringResource(R.string.settings_detected_doh),
-                                MaterialTheme.colorScheme.primary
-                            )
-                            DnsProtocol.DOT -> Triple(
-                                Icons.Default.Security,
-                                stringResource(R.string.settings_detected_dot),
-                                MaterialTheme.colorScheme.tertiary
-                            )
-                            DnsProtocol.DOQ -> Triple(
-                                Icons.Default.Security,
-                                stringResource(R.string.settings_detected_doq),
-                                MaterialTheme.colorScheme.secondary
-                            )
-                            else -> Triple(
-                                Icons.Default.Wifi,
-                                stringResource(R.string.settings_detected_plain),
-                                TextSecondary
-                            )
-                        }
+                        val (icon, label, color) =
+                            when (detectedProtocol) {
+                                DnsProtocol.DOH ->
+                                    Triple(
+                                        Icons.Default.Security,
+                                        stringResource(R.string.settings_detected_doh),
+                                        MaterialTheme.colorScheme.primary,
+                                    )
+                                DnsProtocol.DOT ->
+                                    Triple(
+                                        Icons.Default.Security,
+                                        stringResource(R.string.settings_detected_dot),
+                                        MaterialTheme.colorScheme.tertiary,
+                                    )
+                                DnsProtocol.DOQ ->
+                                    Triple(
+                                        Icons.Default.Security,
+                                        stringResource(R.string.settings_detected_doq),
+                                        MaterialTheme.colorScheme.secondary,
+                                    )
+                                else ->
+                                    Triple(
+                                        Icons.Default.Wifi,
+                                        stringResource(R.string.settings_detected_plain),
+                                        TextSecondary,
+                                    )
+                            }
                         Icon(
                             icon,
                             contentDescription = null,
                             tint = color,
-                            modifier = Modifier.size(14.dp)
+                            modifier = Modifier.size(14.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             label,
                             style = MaterialTheme.typography.labelSmall,
-                            color = color
+                            color = color,
                         )
                     }
                 }
@@ -130,7 +135,7 @@ fun CustomDnsDialog(
         confirmButton = {
             TextButton(
                 onClick = { onSave(editDns) },
-                enabled = editDns.isNotBlank()
+                enabled = editDns.isNotBlank(),
             ) {
                 Text(stringResource(R.string.dns_custom_save))
             }
@@ -139,6 +144,6 @@ fun CustomDnsDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.dns_custom_cancel))
             }
-        }
+        },
     )
 }

@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">按照以下步骤设置 HTTPS 化妆品过滤：</string>
     <string name="https_filtering_export_ca">步骤 1：将证书保存到“下载”文件夹</string>
     <string name="https_filtering_cert_saved">证书已保存到“下载”文件夹！</string>
-    <string name="https_filtering_install_steps">步骤 2：手动安装证书：\n\n1. 转到设置 → 安全 → 加密 &amp; 凭据\n2. 点击 \&quot;安装证书\&quot; → \&quot;CA 证书\&quot;\n3. 从“下载”中选择 \&quot;BlockAds-RootCA.crt\&quot;\n4. 确认安装</string>
+    <string name="https_filtering_install_steps">步骤 2：手动安装证书：\n\n1. 转到设置 → 安全 → 加密 &amp; 凭据\n2. 点击 \&quot;安装证书\&quot; → \&quot;CA 证书\&quot;\n3. 从“下载”中选择 \&quot;GhostGuard-RootCA.crt\&quot;\n4. 确认安装</string>
     <string name="https_filtering_open_settings">打开安全设置</string>
     <string name="https_filtering_step1_title">步骤 1：保存证书</string>
     <string name="https_filtering_step1_desc">将根 CA 证书下载到您的设备</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">证书配置</string>
     <string name="https_wizard_step_indicator_format">第 %1$d 步（共 %2$d 步）：%3$s</string>
     <string name="https_wizard_overview_title">概述与隐私</string>
-    <string name="https_wizard_overview_subtitle">为什么 BlockAds 需要本地证书</string>
+    <string name="https_wizard_overview_subtitle">为什么 GhostGuard 需要本地证书</string>
     <string name="https_wizard_security_title">安全与隐私</string>
-    <string name="https_wizard_security_desc">Root CA 证书在您的设备上本地生成，绝不会离开您的手机。BlockAds 仅将其用于移除网站上的广告。银行应用和 Google 账户等敏感服务绝不会被拦截。</string>
+    <string name="https_wizard_security_desc">Root CA 证书在您的设备上本地生成，绝不会离开您的手机。GhostGuard 仅将其用于移除网站上的广告。银行应用和 Google 账户等敏感服务绝不会被拦截。</string>
     <string name="https_wizard_explain_title">为什么需要 HTTPS 过滤？</string>
-    <string name="https_wizard_explain_desc">大多数现代网站和广告都使用加密的 HTTPS 连接。为了隐藏广告占位符、横幅和浮动弹窗，BlockAds 需要本地证书来安全地检查和过滤设备上的网页。</string>
+    <string name="https_wizard_explain_desc">大多数现代网站和广告都使用加密的 HTTPS 连接。为了隐藏广告占位符、横幅和浮动弹窗，GhostGuard 需要本地证书来安全地检查和过滤设备上的网页。</string>
     <string name="https_wizard_benefits_title">核心优势</string>
     <string name="https_wizard_benefit_1">清除视频平台和新闻网站上的广告</string>
     <string name="https_wizard_benefit_2">隐藏空白占位符、横幅和烦人的弹窗</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">检测到 Root 权限（推荐）</string>
     <string name="https_wizard_root_detected_desc">您的设备已获得 Root 权限。您可以自动安装 CA 证书，无需手动操作。</string>
     <string name="https_wizard_checking_title">正在验证证书…</string>
-    <string name="https_wizard_checking_desc">正在 Android 信任凭据存储中扫描 BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA 证书已验证并在设备的信任凭据存储中生效。高级 HTTPS 过滤现已准备就绪！</string>
+    <string name="https_wizard_checking_desc">正在 Android 信任凭据存储中扫描 GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA 证书已验证并在设备的信任凭据存储中生效。高级 HTTPS 过滤现已准备就绪！</string>
     <string name="https_wizard_not_installed_title">未检测到证书</string>
-    <string name="https_wizard_not_installed_desc">BlockAds 尚未在您的信任凭据存储中找到该证书。如果您刚刚在“设置”中完成了安装，请点击下方重新检测。</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard 尚未在您的信任凭据存储中找到该证书。如果您刚刚在“设置”中完成了安装，请点击下方重新检测。</string>
     <string name="https_wizard_troubleshooting_title">故障排除提示</string>
     <string name="https_wizard_troubleshooting_tip1">请确保在“设置”中选择的是“CA 证书”（而非“用户凭据”或“VPN 和应用证书”）。</string>
     <string name="https_wizard_troubleshooting_tip2">如果通过 Magisk/KernelSU 模块安装，则必须重启手机才能生效。</string>

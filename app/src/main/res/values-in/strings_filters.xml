@@ -105,7 +105,7 @@
     <string name="https_filtering_ca_desc">Ikuti langkah-langkah berikut untuk menyiapkan pemfilteran kosmetik HTTPS:</string>
     <string name="https_filtering_export_ca">Simpan ke Unduhan</string>
     <string name="https_filtering_cert_saved">Sertifikat disimpan ke Unduhan!</string>
-    <string name="https_filtering_install_steps">1. Buka Pengaturan → Keamanan → Enkripsi &amp; kredensial\n2. Ketuk \&quot;Instal sertifikat\&quot; → \&quot;Sertifikat CA\&quot;\n3. Pilih \&quot;BlockAds-RootCA.crt\&quot; dari Unduhan\n4. Konfirmasi penginstalan</string>
+    <string name="https_filtering_install_steps">1. Buka Pengaturan → Keamanan → Enkripsi &amp; kredensial\n2. Ketuk \&quot;Instal sertifikat\&quot; → \&quot;Sertifikat CA\&quot;\n3. Pilih \&quot;GhostGuard-RootCA.crt\&quot; dari Unduhan\n4. Konfirmasi penginstalan</string>
     <string name="https_filtering_open_settings">Buka Pengaturan Keamanan</string>
     <string name="https_filtering_browser_section">Pemilihan Browser</string>
     <string name="https_filtering_browser_desc">Pilih browser untuk menerapkan pemfilteran iklan kosmetik. Hanya aplikasi yang dipilih yang difilter.</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">Pengaturan Sertifikat</string>
     <string name="https_wizard_step_indicator_format">Langkah %1$d dari %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Ikhtisar &amp; Privasi</string>
-    <string name="https_wizard_overview_subtitle">Mengapa BlockAds memerlukan sertifikat lokal</string>
+    <string name="https_wizard_overview_subtitle">Mengapa GhostGuard memerlukan sertifikat lokal</string>
     <string name="https_wizard_security_title">Keamanan &amp; Privasi</string>
-    <string name="https_wizard_security_desc">Sertifikat Root CA dibuat secara lokal di perangkat Anda dan tidak pernah meninggalkan ponsel Anda. BlockAds menggunakannya secara ketat untuk menghapus iklan di situs web. Layanan sensitif seperti aplikasi perbankan dan akun Google tidak pernah dicegat.</string>
+    <string name="https_wizard_security_desc">Sertifikat Root CA dibuat secara lokal di perangkat Anda dan tidak pernah meninggalkan ponsel Anda. GhostGuard menggunakannya secara ketat untuk menghapus iklan di situs web. Layanan sensitif seperti aplikasi perbankan dan akun Google tidak pernah dicegat.</string>
     <string name="https_wizard_explain_title">Mengapa Pemfilteran HTTPS?</string>
-    <string name="https_wizard_explain_desc">Sebagian besar situs web dan iklan modern menggunakan koneksi HTTPS terenkripsi. Untuk menyembunyikan placeholder iklan, banner, dan pop-up, BlockAds memerlukan sertifikat lokal untuk memeriksa dan memfilter halaman web dengan aman di perangkat Anda.</string>
+    <string name="https_wizard_explain_desc">Sebagian besar situs web dan iklan modern menggunakan koneksi HTTPS terenkripsi. Untuk menyembunyikan placeholder iklan, banner, dan pop-up, GhostGuard memerlukan sertifikat lokal untuk memeriksa dan memfilter halaman web dengan aman di perangkat Anda.</string>
     <string name="https_wizard_benefits_title">Manfaat Utama</string>
     <string name="https_wizard_benefit_1">Hilangkan iklan di platform video &amp; situs berita</string>
     <string name="https_wizard_benefit_2">Sembunyikan placeholder kosong, banner, dan pop-up yang mengganggu</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Akses Root Terdeteksi (Disarankan)</string>
     <string name="https_wizard_root_detected_desc">Perangkat Anda memiliki akses root. Anda dapat menginstal sertifikat CA secara otomatis tanpa konfigurasi manual.</string>
     <string name="https_wizard_checking_title">Memverifikasi Sertifikat…</string>
-    <string name="https_wizard_checking_desc">Memindai penyimpanan tepercaya Android untuk BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA telah diverifikasi dan aktif di penyimpanan tepercaya perangkat Anda. Pemfilteran HTTPS tingkat lanjut siap digunakan!</string>
+    <string name="https_wizard_checking_desc">Memindai penyimpanan tepercaya Android untuk GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA telah diverifikasi dan aktif di penyimpanan tepercaya perangkat Anda. Pemfilteran HTTPS tingkat lanjut siap digunakan!</string>
     <string name="https_wizard_not_installed_title">Sertifikat Tidak Terdeteksi</string>
-    <string name="https_wizard_not_installed_desc">BlockAds belum menemukan sertifikat di penyimpanan tepercaya Anda. Jika Anda baru saja selesai menginstalnya di Pengaturan, ketuk di bawah untuk memeriksa lagi.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard belum menemukan sertifikat di penyimpanan tepercaya Anda. Jika Anda baru saja selesai menginstalnya di Pengaturan, ketuk di bawah untuk memeriksa lagi.</string>
     <string name="https_wizard_troubleshooting_title">Tips Pemecahan Masalah</string>
     <string name="https_wizard_troubleshooting_tip1">Pastikan Anda memilih \"Sertifikat CA\" di Pengaturan (bukan Sertifikat Pengguna atau Sertifikat Pengguna VPN &amp; aplikasi).</string>
     <string name="https_wizard_troubleshooting_tip2">Jika menginstal melalui modul Magisk/KernelSU, perangkat perlu dimulai ulang.</string>

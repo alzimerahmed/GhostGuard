@@ -21,14 +21,14 @@ fun ApplicationsSection(
     onNavigateToTrustedNetworks: () -> Unit = {},
     excludeLan: Boolean = true,
     onSetExcludeLan: (Boolean) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
 
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_apps),
-            description = stringResource(R.string.settings_category_apps_desc)
+            description = stringResource(R.string.settings_category_apps_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -40,7 +40,7 @@ fun ApplicationsSection(
                     iconTint = Color(0xFFEA580C),
                     title = stringResource(R.string.settings_whitelist_apps),
                     desc = stringResource(R.string.settings_whitelist_apps_desc),
-                    onClick = onNavigateToWhitelistApps
+                    onClick = onNavigateToWhitelistApps,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -51,7 +51,7 @@ fun ApplicationsSection(
                     iconTint = Color(0xFFEA580C),
                     title = stringResource(R.string.app_management_title),
                     desc = stringResource(R.string.app_management_desc),
-                    onClick = onNavigateToAppManagement
+                    onClick = onNavigateToAppManagement,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -62,7 +62,7 @@ fun ApplicationsSection(
                     iconTint = Color(0xFF059669),
                     title = stringResource(R.string.trusted_networks_title),
                     desc = stringResource(R.string.trusted_networks_settings_desc),
-                    onClick = onNavigateToTrustedNetworks
+                    onClick = onNavigateToTrustedNetworks,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -74,7 +74,7 @@ fun ApplicationsSection(
                     title = stringResource(R.string.exclude_lan_title),
                     subtitle = stringResource(R.string.exclude_lan_description),
                     isChecked = excludeLan,
-                    onCheckedChange = onSetExcludeLan
+                    onCheckedChange = onSetExcludeLan,
                 )
             }
         }

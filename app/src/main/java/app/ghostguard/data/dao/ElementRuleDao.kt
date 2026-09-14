@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ElementRuleDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(rule: ElementRule)
 

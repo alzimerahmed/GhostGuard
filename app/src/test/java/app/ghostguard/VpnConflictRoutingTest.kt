@@ -1,12 +1,10 @@
 package app.ghostguard
 
-import app.ghostguard.data.datastore.AppPreferences
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class VpnConflictRoutingTest {
-
     @Test
     fun testConflictRulesForDifferentModes() {
         // Mock routingMode = ROOT conflict detection logic

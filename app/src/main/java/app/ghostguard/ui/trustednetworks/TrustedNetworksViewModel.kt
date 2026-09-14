@@ -16,12 +16,13 @@ class TrustedNetworksViewModel(
     private val appPrefs: AppPreferences,
     application: Application,
 ) : AndroidViewModel(application) {
+    val trustedSsids: StateFlow<Set<String>> =
+        appPrefs.trustedSsids
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 
-    val trustedSsids: StateFlow<Set<String>> = appPrefs.trustedSsids
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
-
-    val pauseOnTrustedEnabled: StateFlow<Boolean> = appPrefs.pauseOnTrustedEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val pauseOnTrustedEnabled: StateFlow<Boolean> =
+        appPrefs.pauseOnTrustedEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     /** Current connected SSID, or null if not on Wi-Fi / no location permission. */
     private val _currentSsid = MutableStateFlow<String?>(null)

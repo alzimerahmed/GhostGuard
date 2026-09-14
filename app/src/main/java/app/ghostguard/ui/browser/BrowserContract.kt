@@ -25,40 +25,67 @@ data class BrowserUiState(
     val isSearchSheetVisible: Boolean = false,
     val isBottomBarVisible: Boolean = true,
     val isBentoMenuVisible: Boolean = false,
-    val isElementPickerActive: Boolean = false
+    val isElementPickerActive: Boolean = false,
 )
 
 sealed interface BrowserUiIntent {
     data class LoadUrl(val url: String) : BrowserUiIntent
+
     data object Reload : BrowserUiIntent
+
     data object GoBack : BrowserUiIntent
+
     data object GoForward : BrowserUiIntent
+
     data object ToggleDesktopMode : BrowserUiIntent
+
     data object ToggleAdBlock : BrowserUiIntent
+
     data object TogglePopupBlock : BrowserUiIntent
+
     data object ToggleShortcuts : BrowserUiIntent
+
     data object ClearData : BrowserUiIntent
+
     data class UpdateProgress(val progress: Int) : BrowserUiIntent
+
     data class PageStarted(val url: String) : BrowserUiIntent
+
     data class PageFinished(val url: String, val title: String) : BrowserUiIntent
+
     data object AdBlocked : BrowserUiIntent
+
     data object CheckRuleUpdates : BrowserUiIntent
+
     data class UpdateSearchQuery(val query: String) : BrowserUiIntent
+
     data class SelectSearchEngine(val engine: SearchEngine) : BrowserUiIntent
+
     data class ToggleSearchSheet(val visible: Boolean) : BrowserUiIntent
+
     data class ToggleBentoMenu(val visible: Boolean) : BrowserUiIntent
+
     data class SubmitSearch(val query: String) : BrowserUiIntent
+
     data class UpdateBottomBarVisibility(val visible: Boolean) : BrowserUiIntent
+
     data object ActivateElementPicker : BrowserUiIntent
+
     data object DeactivateElementPicker : BrowserUiIntent
+
     data class ElementRulePicked(val cssSelector: String, val domain: String) : BrowserUiIntent
+
     data object NavigateToElementRules : BrowserUiIntent
 }
 
 sealed interface BrowserUiEffect {
     data class ShowToast(val message: String) : BrowserUiEffect
+
     data class OpenExternal(val url: String) : BrowserUiEffect
+
     data class NavigateUrl(val url: String) : BrowserUiEffect
+
     data class InjectUserElementRules(val selectors: List<String>) : BrowserUiEffect
+
     data object NavigateToElementRules : BrowserUiEffect
 }

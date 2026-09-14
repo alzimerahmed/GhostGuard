@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,49 +54,71 @@ data class QuickShortcut(
     val iconRes: Int? = null,
     val vectorIcon: ImageVector? = null,
     val iconTint: Color = Color.Unspecified,
-    val bgColor: Color
+    val bgColor: Color,
 )
 
-private val HOME_SHORTCUTS = listOf(
-    QuickShortcut("Google", "https://www.google.com", iconRes = app.ghostguard.R.drawable.ic_brand_google, bgColor = Color.White),
-    QuickShortcut("YouTube", "https://m.youtube.com", iconRes = app.ghostguard.R.drawable.ic_settings_youtube, iconTint = Color.White, bgColor = Color(0xFFFF0000)),
-    QuickShortcut("Facebook", "https://m.facebook.com", iconRes = app.ghostguard.R.drawable.ic_brand_facebook, bgColor = Color(0xFF1877F2)),
-    QuickShortcut("Reddit", "https://www.reddit.com", iconRes = app.ghostguard.R.drawable.ic_reddit, iconTint = Color(0xFFFF4500), bgColor = Color.White),
-    QuickShortcut("TikTok", "https://www.tiktok.com", iconRes = app.ghostguard.R.drawable.ic_brand_tiktok, bgColor = Color.Black),
-    QuickShortcut("X", "https://x.com", iconRes = app.ghostguard.R.drawable.ic_brand_x, bgColor = Color.Black),
-    QuickShortcut("ChatGPT", "https://chatgpt.com", iconRes = app.ghostguard.R.drawable.ic_brand_chatgpt, bgColor = Color(0xFF10A37F)),
-)
+private val HOME_SHORTCUTS =
+    listOf(
+        QuickShortcut("Google", "https://www.google.com", iconRes = app.ghostguard.R.drawable.ic_brand_google, bgColor = Color.White),
+        QuickShortcut(
+            "YouTube",
+            "https://m.youtube.com",
+            iconRes = app.ghostguard.R.drawable.ic_settings_youtube,
+            iconTint = Color.White,
+            bgColor = Color(0xFFFF0000),
+        ),
+        QuickShortcut(
+            "Facebook",
+            "https://m.facebook.com",
+            iconRes = app.ghostguard.R.drawable.ic_brand_facebook,
+            bgColor = Color(0xFF1877F2),
+        ),
+        QuickShortcut(
+            "Reddit",
+            "https://www.reddit.com",
+            iconRes = app.ghostguard.R.drawable.ic_reddit,
+            iconTint = Color(0xFFFF4500),
+            bgColor = Color.White,
+        ),
+        QuickShortcut("TikTok", "https://www.tiktok.com", iconRes = app.ghostguard.R.drawable.ic_brand_tiktok, bgColor = Color.Black),
+        QuickShortcut("X", "https://x.com", iconRes = app.ghostguard.R.drawable.ic_brand_x, bgColor = Color.Black),
+        QuickShortcut("ChatGPT", "https://chatgpt.com", iconRes = app.ghostguard.R.drawable.ic_brand_chatgpt, bgColor = Color(0xFF10A37F)),
+    )
 
 @Composable
 fun BrowserShortcuts(
     onSelectShortcut: (String) -> Unit,
     onOpenSearch: () -> Unit,
     onOpenMenu: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var showBanner by remember { mutableStateOf(true) }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF231826), // Dark Plum Top
-                        Color(0xFF1B121F), // Deeper Plum
-                        Color(0xFF130D16)  // Bottom AMOLED Plum
-                    )
-                )
-            )
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color(0xFF231826), // Dark Plum Top
+                                    Color(0xFF1B121F), // Deeper Plum
+                                    Color(0xFF130D16), // Bottom AMOLED Plum
+                                ),
+                        ),
+                ),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .navigationBarsPadding()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Top Bar
             HomeTopBar(onOpenMenu = onOpenMenu)
@@ -126,7 +147,7 @@ fun BrowserShortcuts(
             // Speed Dial Grid (4 items per row)
             HomeSpeedDialGrid(
                 shortcuts = HOME_SHORTCUTS,
-                onSelect = onSelectShortcut
+                onSelect = onSelectShortcut,
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -137,63 +158,67 @@ fun BrowserShortcuts(
 @Composable
 private fun HomeTopBar(onOpenMenu: () -> Unit) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         // Shield Pro Badge Button
         Box(
-            modifier = Modifier
-                .size(42.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(Color(0xFF332438))
-                .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp))
-                .clickable { onOpenMenu() },
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(42.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(Color(0xFF332438))
+                    .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp))
+                    .clickable { onOpenMenu() },
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Default.Shield,
                 contentDescription = "Shield Pro",
                 tint = Color(0xFF10B981),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             // Scanner Icon Button
             Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(Color(0xFF332438))
-                    .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp)),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(42.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color(0xFF332438))
+                        .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp)),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Default.QrCodeScanner,
                     contentDescription = "QR Scanner",
                     tint = Color.White.copy(alpha = 0.85f),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
                 )
             }
 
             // Settings / Tune Button
             Box(
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(Color(0xFF332438))
-                    .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp))
-                    .clickable { onOpenMenu() },
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(42.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color(0xFF332438))
+                        .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(14.dp))
+                        .clickable { onOpenMenu() },
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Default.Tune,
                     contentDescription = "Settings",
                     tint = Color.White.copy(alpha = 0.85f),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
                 )
             }
         }
@@ -204,24 +229,26 @@ private fun HomeTopBar(onOpenMenu: () -> Unit) {
 private fun HomeHeroBrand() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "BlockAds",
-            style = MaterialTheme.typography.displayMedium.copy(
-                fontWeight = FontWeight.Black,
-                fontFamily = FontFamily.SansSerif,
-                letterSpacing = (-1).sp
-            ),
-            color = Color.White
+            text = "GhostGuard",
+            style =
+                MaterialTheme.typography.displayMedium.copy(
+                    fontWeight = FontWeight.Black,
+                    fontFamily = FontFamily.SansSerif,
+                    letterSpacing = (-1).sp,
+                ),
+            color = Color.White,
         )
         Text(
             text = "Trình duyệt bảo vệ quyền riêng tư",
-            style = MaterialTheme.typography.labelSmall.copy(
-                letterSpacing = 0.5.sp,
-                fontSize = 11.sp
-            ),
-            color = Color.White.copy(alpha = 0.45f)
+            style =
+                MaterialTheme.typography.labelSmall.copy(
+                    letterSpacing = 0.5.sp,
+                    fontSize = 11.sp,
+                ),
+            color = Color.White.copy(alpha = 0.45f),
         )
     }
 }
@@ -229,53 +256,56 @@ private fun HomeHeroBrand() {
 @Composable
 private fun HomeSearchCapsule(onOpenSearch: () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(54.dp)
-            .clip(RoundedCornerShape(27.dp))
-            .background(Color(0xFF2E2032))
-            .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(27.dp))
-            .clickable { onOpenSearch() }
-            .padding(horizontal = 14.dp),
-        contentAlignment = Alignment.CenterStart
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(54.dp)
+                .clip(RoundedCornerShape(27.dp))
+                .background(Color(0xFF2E2032))
+                .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(27.dp))
+                .clickable { onOpenSearch() }
+                .padding(horizontal = 14.dp),
+        contentAlignment = Alignment.CenterStart,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 // VPN / Shield Badge
                 Surface(
                     color = Color(0xFF10B981).copy(alpha = 0.18f),
-                    shape = RoundedCornerShape(6.dp)
+                    shape = RoundedCornerShape(6.dp),
                 ) {
                     Text(
                         text = "VPN",
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 9.sp
-                        ),
+                        style =
+                            MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 9.sp,
+                            ),
                         color = Color(0xFF10B981),
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
                     )
                 }
 
                 // Google G logo placeholder
                 Box(
-                    modifier = Modifier
-                        .size(22.dp)
-                        .background(Color.White, CircleShape),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .size(22.dp)
+                            .background(Color.White, CircleShape),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = "G",
                         style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        color = Color(0xFF4285F4)
+                        color = Color(0xFF4285F4),
                     )
                 }
 
@@ -284,20 +314,20 @@ private fun HomeSearchCapsule(onOpenSearch: () -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White.copy(alpha = 0.45f),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
             // AI Action Badge
             Surface(
                 color = Color(0xFFD946EF).copy(alpha = 0.25f),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text(
                     text = "AI",
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     color = Color(0xFFF472B6),
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
                 )
             }
         }
@@ -307,40 +337,44 @@ private fun HomeSearchCapsule(onOpenSearch: () -> Unit) {
 @Composable
 private fun HomeFeatureBanner(onDismiss: () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        Color(0xFF0284C7), // Bright Cyan Blue
-                        Color(0xFF4F46E5)  // Indigo Purple
-                    )
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .background(
+                    brush =
+                        Brush.horizontalGradient(
+                            colors =
+                                listOf(
+                                    Color(0xFF0284C7), // Bright Cyan Blue
+                                    Color(0xFF4F46E5), // Indigo Purple
+                                ),
+                        ),
                 )
-            )
-            .padding(16.dp)
+                .padding(16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(46.dp)
-                        .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(14.dp)),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .size(46.dp)
+                            .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(14.dp)),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Shield,
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(26.dp)
+                        modifier = Modifier.size(26.dp),
                     )
                 }
 
@@ -348,13 +382,13 @@ private fun HomeFeatureBanner(onDismiss: () -> Unit) {
                     Text(
                         text = "Bảo vệ 100% không quảng cáo",
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                        color = Color.White
+                        color = Color.White,
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = "Lọc sạch video ads, popups & mã theo dõi",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.White.copy(alpha = 0.8f)
+                        color = Color.White.copy(alpha = 0.8f),
                     )
                 }
             }
@@ -363,10 +397,11 @@ private fun HomeFeatureBanner(onDismiss: () -> Unit) {
                 imageVector = Icons.Default.Close,
                 contentDescription = "Đóng",
                 tint = Color.White.copy(alpha = 0.7f),
-                modifier = Modifier
-                    .size(20.dp)
-                    .clip(CircleShape)
-                    .clickable { onDismiss() }
+                modifier =
+                    Modifier
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .clickable { onDismiss() },
             )
         }
     }
@@ -375,25 +410,25 @@ private fun HomeFeatureBanner(onDismiss: () -> Unit) {
 @Composable
 private fun HomeSpeedDialGrid(
     shortcuts: List<QuickShortcut>,
-    onSelect: (String) -> Unit
+    onSelect: (String) -> Unit,
 ) {
     // 4 items per row
     val rows = shortcuts.chunked(4)
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         for (row in rows) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 for (item in row) {
                     SpeedDialItem(
                         shortcut = item,
                         onClick = { onSelect(item.url) },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                 }
                 // Fill remainder if last row has less than 4
@@ -413,47 +448,49 @@ private fun HomeSpeedDialGrid(
 private fun SpeedDialItem(
     shortcut: QuickShortcut,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = modifier.clickable { onClick() }
+        modifier = modifier.clickable { onClick() },
     ) {
         Box(
-            modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(shortcut.bgColor)
-                .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(18.dp)),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(shortcut.bgColor)
+                    .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(18.dp)),
+            contentAlignment = Alignment.Center,
         ) {
             if (shortcut.iconRes != null) {
                 Icon(
                     painter = androidx.compose.ui.res.painterResource(id = shortcut.iconRes),
                     contentDescription = shortcut.title,
                     tint = shortcut.iconTint,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(32.dp),
                 )
             } else if (shortcut.vectorIcon != null) {
                 Icon(
                     imageVector = shortcut.vectorIcon,
                     contentDescription = shortcut.title,
                     tint = shortcut.iconTint,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(26.dp),
                 )
             }
         }
         Text(
             text = shortcut.title,
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.Medium,
-                fontSize = 11.5.sp
-            ),
+            style =
+                MaterialTheme.typography.labelSmall.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 11.5.sp,
+                ),
             color = Color.White.copy(alpha = 0.85f),
             textAlign = TextAlign.Center,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -463,31 +500,33 @@ private fun AddShortcutItem(modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = modifier
+        modifier = modifier,
     ) {
         Box(
-            modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(Color(0xFF2C2030))
-                .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(18.dp)),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(Color(0xFF2C2030))
+                    .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(18.dp)),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Thêm lối tắt",
                 tint = Color.White.copy(alpha = 0.5f),
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
         }
         Text(
             text = "Thêm",
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.Medium,
-                fontSize = 11.5.sp
-            ),
+            style =
+                MaterialTheme.typography.labelSmall.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 11.5.sp,
+                ),
             color = Color.White.copy(alpha = 0.45f),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }

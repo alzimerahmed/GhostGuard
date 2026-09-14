@@ -16,7 +16,7 @@ import timber.log.Timber
 data class BuildResponse(
     val downloadUrl: String,
     val ruleCount: Int,
-    val fileSize: Long
+    val fileSize: Long,
 )
 
 /**
@@ -24,7 +24,7 @@ data class BuildResponse(
  * Endpoint: POST https://complier.pwhs.app/api/build
  */
 class CustomFilterApi(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) {
     companion object {
         private const val BASE_URL = "https://complier.pwhs.app"
@@ -47,17 +47,19 @@ class CustomFilterApi(
 
                 Timber.d("Calling build API: $endpoint with url=$filterUrl")
 
-                val response = client.post(endpoint) {
-                    contentType(ContentType.Application.Json)
-                    setBody(requestBody)
-                }
+                val response =
+                    client.post(endpoint) {
+                        contentType(ContentType.Application.Json)
+                        setBody(requestBody)
+                    }
 
                 val responseText = response.bodyAsText()
                 Timber.d("Build API response: $responseText")
 
                 if (response.status.value != 200) {
-                    val errorMsg = extractString(responseText, "error")
-                        ?: "Server returned ${response.status.value}"
+                    val errorMsg =
+                        extractString(responseText, "error")
+                            ?: "Server returned ${response.status.value}"
                     throw CustomFilterException("Build failed: $errorMsg")
                 }
 
@@ -66,15 +68,16 @@ class CustomFilterApi(
                     throw CustomFilterException("Build failed with status: $status")
                 }
 
-                val downloadUrl = extractString(responseText, "downloadUrl")
-                    ?: throw CustomFilterException("Missing downloadUrl in response")
+                val downloadUrl =
+                    extractString(responseText, "downloadUrl")
+                        ?: throw CustomFilterException("Missing downloadUrl in response")
                 val ruleCount = extractInt(responseText, "ruleCount")
                 val fileSize = extractLong(responseText, "fileSize")
 
                 BuildResponse(
                     downloadUrl = downloadUrl,
                     ruleCount = ruleCount,
-                    fileSize = fileSize
+                    fileSize = fileSize,
                 )
             } catch (e: CustomFilterException) {
                 throw e
@@ -86,17 +89,26 @@ class CustomFilterApi(
 
     // ── Manual JSON parsing (no serialization plugin) ──────────────────
 
-    private fun extractString(json: String, key: String): String? {
+    private fun extractString(
+        json: String,
+        key: String,
+    ): String? {
         val pattern = "\"$key\"\\s*:\\s*\"(.*?)\"".toRegex()
         return pattern.find(json)?.groupValues?.get(1)
     }
 
-    private fun extractInt(json: String, key: String): Int {
+    private fun extractInt(
+        json: String,
+        key: String,
+    ): Int {
         val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
         return pattern.find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0
     }
 
-    private fun extractLong(json: String, key: String): Long {
+    private fun extractLong(
+        json: String,
+        key: String,
+    ): Long {
         val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
         return pattern.find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
     }
@@ -107,5 +119,5 @@ class CustomFilterApi(
  */
 class CustomFilterException(
     message: String,
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : Exception(message, cause)

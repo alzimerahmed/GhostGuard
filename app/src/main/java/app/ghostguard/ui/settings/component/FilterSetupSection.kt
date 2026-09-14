@@ -41,7 +41,7 @@ fun FilterSetupSection(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_filters),
-            description = stringResource(R.string.settings_category_filters_desc)
+            description = stringResource(R.string.settings_category_filters_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -55,7 +55,7 @@ fun FilterSetupSection(
                     title = stringResource(R.string.filter_setup_title),
                     desc = stringResource(R.string.settings_category_filters_desc),
                     statusValue = stringResource(R.string.settings_filter_lists, enabledFilterCount),
-                    onClick = onNavigateToFilterSetup
+                    onClick = onNavigateToFilterSetup,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -67,27 +67,28 @@ fun FilterSetupSection(
                     title = stringResource(R.string.settings_auto_update_enabled),
                     subtitle = stringResource(R.string.settings_auto_update_enabled_desc),
                     isChecked = autoUpdateEnabled,
-                    onCheckedChange = onSetAutoUpdateEnable
+                    onCheckedChange = onSetAutoUpdateEnable,
                 )
 
                 if (autoUpdateEnabled) {
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
 
                     // 3. Update frequency
-                    val frequencyDesc = when (autoUpdateFrequency) {
-                        AppPreferences.UPDATE_FREQUENCY_6H -> stringResource(R.string.settings_auto_update_frequency_6h)
-                        AppPreferences.UPDATE_FREQUENCY_12H -> stringResource(R.string.settings_auto_update_frequency_12h)
-                        AppPreferences.UPDATE_FREQUENCY_24H -> stringResource(R.string.settings_auto_update_frequency_24h)
-                        AppPreferences.UPDATE_FREQUENCY_48H -> stringResource(R.string.settings_auto_update_frequency_48h)
-                        AppPreferences.UPDATE_FREQUENCY_MANUAL -> stringResource(R.string.settings_auto_update_frequency_manual)
-                        else -> stringResource(R.string.settings_auto_update_frequency_24h)
-                    }
+                    val frequencyDesc =
+                        when (autoUpdateFrequency) {
+                            AppPreferences.UPDATE_FREQUENCY_6H -> stringResource(R.string.settings_auto_update_frequency_6h)
+                            AppPreferences.UPDATE_FREQUENCY_12H -> stringResource(R.string.settings_auto_update_frequency_12h)
+                            AppPreferences.UPDATE_FREQUENCY_24H -> stringResource(R.string.settings_auto_update_frequency_24h)
+                            AppPreferences.UPDATE_FREQUENCY_48H -> stringResource(R.string.settings_auto_update_frequency_48h)
+                            AppPreferences.UPDATE_FREQUENCY_MANUAL -> stringResource(R.string.settings_auto_update_frequency_manual)
+                            else -> stringResource(R.string.settings_auto_update_frequency_24h)
+                        }
                     SettingItem(
                         iconPainter = painterResource(R.drawable.ic_settings_network_delay),
                         iconTint = Color(0xFF059669),
                         title = stringResource(R.string.settings_auto_update_frequency),
                         desc = frequencyDesc,
-                        onClick = { showFrequencyDialog = true }
+                        onClick = { showFrequencyDialog = true },
                     )
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -99,24 +100,25 @@ fun FilterSetupSection(
                         title = stringResource(R.string.settings_auto_update_wifi_only),
                         subtitle = stringResource(R.string.settings_auto_update_wifi_only_desc),
                         isChecked = autoUpdateWifiOnly,
-                        onCheckedChange = onSetAutoUpdateWifiOnly
+                        onCheckedChange = onSetAutoUpdateWifiOnly,
                     )
 
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
 
                     // 5. Notification preference
-                    val notificationDesc = when (autoUpdateNotification) {
-                        AppPreferences.NOTIFICATION_NORMAL -> stringResource(R.string.settings_auto_update_notification_normal)
-                        AppPreferences.NOTIFICATION_SILENT -> stringResource(R.string.settings_auto_update_notification_silent)
-                        AppPreferences.NOTIFICATION_NONE -> stringResource(R.string.settings_auto_update_notification_none)
-                        else -> stringResource(R.string.settings_auto_update_notification_normal)
-                    }
+                    val notificationDesc =
+                        when (autoUpdateNotification) {
+                            AppPreferences.NOTIFICATION_NORMAL -> stringResource(R.string.settings_auto_update_notification_normal)
+                            AppPreferences.NOTIFICATION_SILENT -> stringResource(R.string.settings_auto_update_notification_silent)
+                            AppPreferences.NOTIFICATION_NONE -> stringResource(R.string.settings_auto_update_notification_none)
+                            else -> stringResource(R.string.settings_auto_update_notification_normal)
+                        }
                     SettingItem(
                         iconPainter = painterResource(R.drawable.ic_settings_notification_bell),
                         iconTint = Color(0xFF059669),
                         title = stringResource(R.string.settings_auto_update_notification),
                         desc = notificationDesc,
-                        onClick = { showNotificationDialog = true }
+                        onClick = { showNotificationDialog = true },
                     )
                 }
             }
@@ -130,7 +132,7 @@ fun FilterSetupSection(
                 onSetAutoUpdateFrequency(freq)
                 showFrequencyDialog = false
             },
-            onDismiss = { showFrequencyDialog = false }
+            onDismiss = { showFrequencyDialog = false },
         )
     }
 
@@ -141,7 +143,7 @@ fun FilterSetupSection(
                 onSetAutoUpdateNotification(type)
                 showNotificationDialog = false
             },
-            onDismiss = { showNotificationDialog = false }
+            onDismiss = { showNotificationDialog = false },
         )
     }
 }

@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
 class AdBlockVpnService : VpnService() {
-
     companion object {
         private const val RESTART_CLEANUP_DELAY_MS = 1000L
         private const val GO_STOP_TIMEOUT_MS = 300L
@@ -90,6 +89,7 @@ class AdBlockVpnService : VpnService() {
     }
 
     private var vpnInterface: ParcelFileDescriptor? = null
+
     @Volatile private var lastVpnEstablishedAt: Long = 0L
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private lateinit var filterRepo: FilterListRepository
@@ -109,10 +109,14 @@ class AdBlockVpnService : VpnService() {
 
     @Volatile private var resolvedWgConfigJson: String = ""
     private var vpnStartTime: Long = 0L
+
     @Volatile private var todayBlockedCount: Int = 0
     private val allTimeBlockedCount = AtomicLong(0)
+
     @Volatile private var nextMilestoneThreshold: Long? = null
+
     @Volatile private var isReconnecting = false
+
     @Volatile private var isPhysicalNetworkLost = false
 
     @Volatile
@@ -136,57 +140,59 @@ class AdBlockVpnService : VpnService() {
         tunnelBuilder = VpnTunnelBuilder(this, appPrefs)
         engineCoordinator = VpnEngineCoordinator(this, appPrefs, filterRepo, firewallRuleDao)
 
-        goTunnelAdapter = GoTunnelAdapter(
-            context = this,
-            filterRepo = filterRepo,
-            dnsLogDao = dnsLogDao,
-            scope = serviceScope,
-            appNameResolver = appNameResolver,
-            firewallManagerProvider = { firewallManager },
-            recordLogProvider = { isRecordDnsLogsEnabled },
-        )
+        goTunnelAdapter =
+            GoTunnelAdapter(
+                context = this,
+                filterRepo = filterRepo,
+                dnsLogDao = dnsLogDao,
+                scope = serviceScope,
+                appNameResolver = appNameResolver,
+                firewallManagerProvider = { firewallManager },
+                recordLogProvider = { isRecordDnsLogsEnabled },
+            )
 
-        connectionSupervisor = VpnConnectionSupervisor(
-            context = this,
-            scope = serviceScope,
-            appPrefs = appPrefs,
-            batteryMonitor = batteryMonitor,
-            isRunningProvider = { isRunning },
-            isIdleProvider = { !isRunning && !isConnecting && !isRestarting && !isStopping },
-            socketProtector = { fd -> protect(fd) },
-            onTearDownForRestart = { tearDownForRestart() },
-            onStartVpn = {
-                retryManager.reset()
-                startVpn()
-                isReconnecting = false
-            },
-            onPhaseChanged = { phase -> connectingPhase = phase },
-            onRefreshStats = {
-                todayBlockedCount = dnsLogDao.getBlockedCountSinceSync(startOfDayMillis())
-            },
-            onUpdateNotification = { updateNotification() },
-            onLinkPropertiesChanged = { linkProperties ->
-                updatePrivateDnsState(linkProperties)
-                serviceScope.launch {
-                    engineCoordinator.handleLinkPropertiesChanged(goTunnelAdapter, linkProperties)
-                }
-            },
-            onPhysicalNetworkLostChanged = { lost ->
-                if (isPhysicalNetworkLost != lost) {
-                    isPhysicalNetworkLost = lost
-                    updateNotification()
-                }
-            },
-            onNetworkActiveChanged = { network ->
-                try {
-                    setUnderlyingNetworks(if (network != null) arrayOf(network) else null)
-                    Timber.d("Updated underlying network: $network")
-                } catch (e: Exception) {
-                    Timber.w(e, "Failed to set underlying network")
-                }
-            },
-            onRequestRestart = { requestRestart(this@AdBlockVpnService) }
-        )
+        connectionSupervisor =
+            VpnConnectionSupervisor(
+                context = this,
+                scope = serviceScope,
+                appPrefs = appPrefs,
+                batteryMonitor = batteryMonitor,
+                isRunningProvider = { isRunning },
+                isIdleProvider = { !isRunning && !isConnecting && !isRestarting && !isStopping },
+                socketProtector = { fd -> protect(fd) },
+                onTearDownForRestart = { tearDownForRestart() },
+                onStartVpn = {
+                    retryManager.reset()
+                    startVpn()
+                    isReconnecting = false
+                },
+                onPhaseChanged = { phase -> connectingPhase = phase },
+                onRefreshStats = {
+                    todayBlockedCount = dnsLogDao.getBlockedCountSinceSync(startOfDayMillis())
+                },
+                onUpdateNotification = { updateNotification() },
+                onLinkPropertiesChanged = { linkProperties ->
+                    updatePrivateDnsState(linkProperties)
+                    serviceScope.launch {
+                        engineCoordinator.handleLinkPropertiesChanged(goTunnelAdapter, linkProperties)
+                    }
+                },
+                onPhysicalNetworkLostChanged = { lost ->
+                    if (isPhysicalNetworkLost != lost) {
+                        isPhysicalNetworkLost = lost
+                        updateNotification()
+                    }
+                },
+                onNetworkActiveChanged = { network ->
+                    try {
+                        setUnderlyingNetworks(if (network != null) arrayOf(network) else null)
+                        Timber.d("Updated underlying network: $network")
+                    } catch (e: Exception) {
+                        Timber.w(e, "Failed to set underlying network")
+                    }
+                },
+                onRequestRestart = { requestRestart(this@AdBlockVpnService) },
+            )
         connectionSupervisor.initializeNetworkMonitor()
 
         serviceScope.launch {
@@ -202,13 +208,29 @@ class AdBlockVpnService : VpnService() {
         }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
         val startedFromBoot = intent?.getBooleanExtra(EXTRA_STARTED_FROM_BOOT, false) ?: false
         return when (intent?.action) {
-            ACTION_STOP -> { stopVpn(); START_NOT_STICKY }
-            ACTION_PAUSE_1H -> { pauseVpn(); START_NOT_STICKY }
-            ACTION_RESTART -> { restartVpn(); START_STICKY }
-            else -> { startVpn(startedFromBoot); START_STICKY }
+            ACTION_STOP -> {
+                stopVpn()
+                START_NOT_STICKY
+            }
+            ACTION_PAUSE_1H -> {
+                pauseVpn()
+                START_NOT_STICKY
+            }
+            ACTION_RESTART -> {
+                restartVpn()
+                START_STICKY
+            }
+            else -> {
+                startVpn(startedFromBoot)
+                START_STICKY
+            }
         }
     }
 
@@ -342,10 +364,9 @@ class AdBlockVpnService : VpnService() {
                                 Timber.e(e, "Failed to protect socket $fd")
                                 false
                             }
-                        }
+                        },
                     )
                 }
-
             } catch (e: Exception) {
                 Timber.e(e, "VPN startup failed")
                 stopVpn()
@@ -358,7 +379,7 @@ class AdBlockVpnService : VpnService() {
         WorkManager.getInstance(this).enqueueUniqueWork(
             VpnResumeWorker.WORK_NAME,
             androidx.work.ExistingWorkPolicy.REPLACE,
-            OneTimeWorkRequestBuilder<VpnResumeWorker>().setInitialDelay(1, TimeUnit.HOURS).build()
+            OneTimeWorkRequestBuilder<VpnResumeWorker>().setInitialDelay(1, TimeUnit.HOURS).build(),
         )
         stopVpn(showStoppedNotification = false)
         vpnNotificationManager.showPausedNotification()
@@ -447,7 +468,8 @@ class AdBlockVpnService : VpnService() {
         serviceScope.cancel()
         try {
             vpnInterface?.close()
-        } catch (_: Exception) { }
+        } catch (_: Exception) {
+        }
         vpnInterface = null
         super.onDestroy()
     }
@@ -464,7 +486,7 @@ class AdBlockVpnService : VpnService() {
             maxRetries = retryManager.getMaxRetries(),
             vpnStartTime = vpnStartTime,
             todayBlockedCount = todayBlockedCount,
-            isPhysicalNetworkLost = isPhysicalNetworkLost
+            isPhysicalNetworkLost = isPhysicalNetworkLost,
         )
     }
 

@@ -6,8 +6,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import app.ghostguard.data.entities.ProfileManager
 import app.ghostguard.data.dao.ProtectionProfileDao
+import app.ghostguard.data.entities.ProfileManager
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
@@ -16,9 +16,8 @@ import java.util.concurrent.TimeUnit
 
 class ProfileScheduleWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params), KoinComponent {
-
     private val profileDao: ProtectionProfileDao by inject()
     private val profileManager: ProfileManager by inject()
 
@@ -26,14 +25,16 @@ class ProfileScheduleWorker(
         const val WORK_NAME = "profile_schedule_work"
 
         fun schedule(context: Context) {
-            val workRequest = PeriodicWorkRequestBuilder<ProfileScheduleWorker>(
-                15, TimeUnit.MINUTES
-            ).build()
+            val workRequest =
+                PeriodicWorkRequestBuilder<ProfileScheduleWorker>(
+                    15,
+                    TimeUnit.MINUTES,
+                ).build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORK_NAME,
                 ExistingPeriodicWorkPolicy.KEEP,
-                workRequest
+                workRequest,
             )
         }
 
@@ -62,12 +63,13 @@ class ProfileScheduleWorker(
                 val startMinutes = schedule.startHour * 60 + schedule.startMinute
                 val endMinutes = schedule.endHour * 60 + schedule.endMinute
 
-                val isInRange = if (startMinutes <= endMinutes) {
-                    currentMinutes in startMinutes until endMinutes
-                } else {
-                    // Overnight schedule (e.g., 18:00 – 08:00)
-                    currentMinutes !in endMinutes..<startMinutes
-                }
+                val isInRange =
+                    if (startMinutes <= endMinutes) {
+                        currentMinutes in startMinutes until endMinutes
+                    } else {
+                        // Overnight schedule (e.g., 18:00 – 08:00)
+                        currentMinutes !in endMinutes..<startMinutes
+                    }
 
                 if (isInRange) {
                     val activeProfile = profileDao.getActive()

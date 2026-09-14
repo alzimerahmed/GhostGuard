@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class DnsPreferences(private val dataStore: DataStore<Preferences>) {
-
     companion object {
         val KEY_UPSTREAM_DNS = stringPreferencesKey("upstream_dns")
         val KEY_FALLBACK_DNS = stringPreferencesKey("fallback_dns")
@@ -32,38 +31,45 @@ class DnsPreferences(private val dataStore: DataStore<Preferences>) {
         const val DEFAULT_DOH_URL = "https://dns.quad9.net/dns-query"
     }
 
-    val upstreamDns: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_UPSTREAM_DNS] ?: DEFAULT_UPSTREAM_DNS
-    }
-
-    val fallbackDns: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_FALLBACK_DNS] ?: DEFAULT_FALLBACK_DNS
-    }
-
-    val dnsProtocol: Flow<DnsProtocol> = dataStore.data.map { prefs ->
-        val protocolString = prefs[KEY_DNS_PROTOCOL] ?: DEFAULT_DNS_PROTOCOL
-        try {
-            DnsProtocol.valueOf(protocolString)
-        } catch (_: IllegalArgumentException) {
-            DnsProtocol.PLAIN
+    val upstreamDns: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_UPSTREAM_DNS] ?: DEFAULT_UPSTREAM_DNS
         }
-    }
 
-    val dohUrl: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_DOH_URL] ?: DEFAULT_DOH_URL
-    }
+    val fallbackDns: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_FALLBACK_DNS] ?: DEFAULT_FALLBACK_DNS
+        }
 
-    val dnsProviderId: Flow<String?> = dataStore.data.map { prefs ->
-        prefs[KEY_DNS_PROVIDER_ID]
-    }
+    val dnsProtocol: Flow<DnsProtocol> =
+        dataStore.data.map { prefs ->
+            val protocolString = prefs[KEY_DNS_PROTOCOL] ?: DEFAULT_DNS_PROTOCOL
+            try {
+                DnsProtocol.valueOf(protocolString)
+            } catch (_: IllegalArgumentException) {
+                DnsProtocol.PLAIN
+            }
+        }
 
-    val dnsResponseType: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_DNS_RESPONSE_TYPE] ?: DNS_RESPONSE_CUSTOM_IP
-    }
+    val dohUrl: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_DOH_URL] ?: DEFAULT_DOH_URL
+        }
 
-    val splitDnsZones: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_SPLIT_DNS_ZONES] ?: ""
-    }
+    val dnsProviderId: Flow<String?> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_DNS_PROVIDER_ID]
+        }
+
+    val dnsResponseType: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_DNS_RESPONSE_TYPE] ?: DNS_RESPONSE_CUSTOM_IP
+        }
+
+    val splitDnsZones: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_SPLIT_DNS_ZONES] ?: ""
+        }
 
     suspend fun setUpstreamDns(dns: String) {
         dataStore.edit { prefs ->
@@ -111,9 +117,10 @@ class DnsPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    val blockDohBypass: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_BLOCK_DOH_BYPASS] ?: false
-    }
+    val blockDohBypass: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_BLOCK_DOH_BYPASS] ?: false
+        }
 
     suspend fun setBlockDohBypass(enabled: Boolean) {
         dataStore.edit { prefs ->
@@ -121,6 +128,5 @@ class DnsPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun getBlockDohBypassSnapshot(): Boolean =
-        dataStore.data.map { it[KEY_BLOCK_DOH_BYPASS] ?: false }.first()
+    suspend fun getBlockDohBypassSnapshot(): Boolean = dataStore.data.map { it[KEY_BLOCK_DOH_BYPASS] ?: false }.first()
 }

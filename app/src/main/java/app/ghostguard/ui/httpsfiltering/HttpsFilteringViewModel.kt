@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -12,7 +11,6 @@ import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.data.datastore.AppPreferences
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,13 +28,11 @@ import java.io.File
 
 // Models, CertStatus, and HttpsFilteringEvent are in HttpsFilteringContract.kt
 
-
 // ── ViewModel ───────────────────────────────────────────────────────────────
 
 class HttpsFilteringViewModel(
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application), KoinComponent {
-
     private val appPrefs: AppPreferences by inject()
     private val engine = tunnel.Tunnel.newEngine()
 
@@ -124,13 +120,14 @@ class HttpsFilteringViewModel(
     /** Toggle browser selection for MITM interception. */
     fun toggleBrowser(packageName: String) {
         viewModelScope.launch {
-            val updated = _browsers.value.map { browser ->
-                if (browser.packageName == packageName) {
-                    browser.copy(isSelected = !browser.isSelected)
-                } else {
-                    browser
+            val updated =
+                _browsers.value.map { browser ->
+                    if (browser.packageName == packageName) {
+                        browser.copy(isSelected = !browser.isSelected)
+                    } else {
+                        browser
+                    }
                 }
-            }
             _browsers.value = updated
             persistSelectedBrowsers(updated)
 
@@ -179,9 +176,10 @@ class HttpsFilteringViewModel(
 
             // Parse our CA cert
             val certFactory = java.security.cert.CertificateFactory.getInstance("X.509")
-            val ourCert = certFactory.generateCertificate(
-                caPem.byteInputStream()
-            ) as java.security.cert.X509Certificate
+            val ourCert =
+                certFactory.generateCertificate(
+                    caPem.byteInputStream(),
+                ) as java.security.cert.X509Certificate
             val ourEncoded = ourCert.encoded
 
             // Check Android trust store (contains both "user:" and "system:" certs)
@@ -189,8 +187,9 @@ class HttpsFilteringViewModel(
             ks.load(null)
 
             for (alias in ks.aliases()) {
-                val cert = ks.getCertificate(alias) as? java.security.cert.X509Certificate
-                    ?: continue
+                val cert =
+                    ks.getCertificate(alias) as? java.security.cert.X509Certificate
+                        ?: continue
 
                 if (cert.encoded.contentEquals(ourEncoded)) {
                     val isSystem = alias.startsWith("system:")
@@ -232,24 +231,26 @@ class HttpsFilteringViewModel(
                 withContext(Dispatchers.IO) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         // ── MediaStore (Android 10+) ─────────────────────────
-                        val fileName = "BlockAds-RootCA.crt"
+                        val fileName = "GhostGuard-RootCA.crt"
                         val resolver = getApplication<Application>().contentResolver
 
                         // Delete old file if exists (overwrite)
                         resolver.delete(
                             MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                             "${MediaStore.Downloads.DISPLAY_NAME} = ?",
-                            arrayOf(fileName)
+                            arrayOf(fileName),
                         )
 
-                        val values = ContentValues().apply {
-                            put(MediaStore.Downloads.DISPLAY_NAME, fileName)
-                            put(MediaStore.Downloads.MIME_TYPE, "application/x-x509-ca-cert")
-                            put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-                        }
+                        val values =
+                            ContentValues().apply {
+                                put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+                                put(MediaStore.Downloads.MIME_TYPE, "application/x-x509-ca-cert")
+                                put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                            }
 
-                        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
-                            ?: throw Exception("Failed to create MediaStore entry")
+                        val uri =
+                            resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                                ?: throw Exception("Failed to create MediaStore entry")
 
                         resolver.openOutputStream(uri)?.use { out ->
                             out.write(pem.toByteArray())
@@ -260,10 +261,11 @@ class HttpsFilteringViewModel(
                     } else {
                         // ── Legacy (Android 9-) ─────────────────────────────
                         @Suppress("DEPRECATION")
-                        val downloadsDir = Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DOWNLOADS
-                        )
-                        val file = File(downloadsDir, "BlockAds-RootCA.crt")
+                        val downloadsDir =
+                            Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_DOWNLOADS,
+                            )
+                        val file = File(downloadsDir, "GhostGuard-RootCA.crt")
                         file.writeText(pem)
                         _certExported.value = true
                         _events.emit(HttpsFilteringEvent.CaCertExportedLegacy(file))
@@ -294,9 +296,10 @@ class HttpsFilteringViewModel(
                 _events.emit(HttpsFilteringEvent.Error("CA certificate is not ready."))
                 return@launch
             }
-            val result = withContext(Dispatchers.IO) {
-                app.ghostguard.utils.SystemCertificateInstaller.installToUserStoreViaRoot(pem)
-            }
+            val result =
+                withContext(Dispatchers.IO) {
+                    app.ghostguard.utils.SystemCertificateInstaller.installToUserStoreViaRoot(pem)
+                }
             if (result.isSuccess) {
                 _certStatus.value = CertStatus.INSTALLED
                 _certExported.value = true
@@ -324,9 +327,10 @@ class HttpsFilteringViewModel(
                 _events.emit(HttpsFilteringEvent.Error("CA certificate is not ready."))
                 return@launch
             }
-            val result = withContext(Dispatchers.IO) {
-                app.ghostguard.utils.SystemCertificateInstaller.installToSystemStore(pem)
-            }
+            val result =
+                withContext(Dispatchers.IO) {
+                    app.ghostguard.utils.SystemCertificateInstaller.installToSystemStore(pem)
+                }
             if (result.isSuccess) {
                 _certStatus.value = CertStatus.INSTALLED
                 _certExported.value = true
@@ -389,9 +393,10 @@ class HttpsFilteringViewModel(
                     _isProxyRunning.value = true
                     syncUidsToGoEngine(_browsers.value)
                     try {
-                        val passthrough = getApplication<Application>().assets
-                            .open("https_passthrough.txt")
-                            .bufferedReader().use { it.readText() }
+                        val passthrough =
+                            getApplication<Application>().assets
+                                .open("https_passthrough.txt")
+                                .bufferedReader().use { it.readText() }
                         engine.setExtraPassthroughSuffixes(passthrough)
                     } catch (e: Exception) {
                         Timber.w(e, "Failed to load https_passthrough.txt asset")
@@ -424,9 +429,10 @@ class HttpsFilteringViewModel(
     }
 
     private fun syncUidsToGoEngine(browsers: List<BrowserInfo>) {
-        val selectedUids = browsers
-            .filter { it.isSelected }
-            .joinToString(",") { it.uid.toString() }
+        val selectedUids =
+            browsers
+                .filter { it.isSelected }
+                .joinToString(",") { it.uid.toString() }
         if (selectedUids.isNotEmpty()) {
             engine.setMitmAllowedUIDs(selectedUids)
         }
@@ -437,29 +443,31 @@ class HttpsFilteringViewModel(
         val pm = getApplication<Application>().packageManager
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"))
 
-        val activities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            pm.queryIntentActivities(
-                browserIntent,
-                PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_ALL.toLong())
-            )
-        } else {
-            pm.queryIntentActivities(browserIntent, PackageManager.MATCH_ALL)
-        }
+        val activities =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                pm.queryIntentActivities(
+                    browserIntent,
+                    PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_ALL.toLong()),
+                )
+            } else {
+                pm.queryIntentActivities(browserIntent, PackageManager.MATCH_ALL)
+            }
 
         // Load saved selected browsers from prefs
         val savedSelected = appPrefs.getSelectedBrowsersSnapshot()
-        val curatedBrowsers = try {
-            getApplication<Application>().assets.open("preset/browsers.txt")
-                .bufferedReader()
-                .useLines { lines ->
-                    lines.map { it.trim() }
-                        .filter { it.isNotEmpty() && !it.startsWith("#") }
-                        .toSet()
-                }
-        } catch (e: Exception) {
-            Timber.w(e, "Failed to load preset/browsers.txt")
-            emptySet()
-        }
+        val curatedBrowsers =
+            try {
+                getApplication<Application>().assets.open("preset/browsers.txt")
+                    .bufferedReader()
+                    .useLines { lines ->
+                        lines.map { it.trim() }
+                            .filter { it.isNotEmpty() && !it.startsWith("#") }
+                            .toSet()
+                    }
+            } catch (e: Exception) {
+                Timber.w(e, "Failed to load preset/browsers.txt")
+                emptySet()
+            }
 
         return activities
             .mapNotNull { resolveInfo ->
@@ -467,17 +475,23 @@ class HttpsFilteringViewModel(
                 val pkgName = activityInfo.packageName
                 try {
                     val appInfo = pm.getApplicationInfo(pkgName, 0)
-                    val isSelected = if (savedSelected.isEmpty()) {
-                        pkgName in curatedBrowsers
-                    } else {
-                        pkgName in savedSelected
-                    }
+                    val isSelected =
+                        if (savedSelected.isEmpty()) {
+                            pkgName in curatedBrowsers
+                        } else {
+                            pkgName in savedSelected
+                        }
                     BrowserInfo(
                         packageName = pkgName,
                         appName = pm.getApplicationLabel(appInfo).toString(),
                         uid = appInfo.uid,
-                        icon = try { pm.getApplicationIcon(pkgName) } catch (_: Exception) { null },
-                        isSelected = isSelected
+                        icon =
+                            try {
+                                pm.getApplicationIcon(pkgName)
+                            } catch (_: Exception) {
+                                null
+                            },
+                        isSelected = isSelected,
                     )
                 } catch (_: PackageManager.NameNotFoundException) {
                     null

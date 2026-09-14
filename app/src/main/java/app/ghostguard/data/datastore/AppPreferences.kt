@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 val Context.blockAdsDataStore: DataStore<Preferences> by preferencesDataStore(name = "blockads_prefs")
 
 class AppPreferences(context: Context) {
-
     private val dataStore = context.blockAdsDataStore
     private val directBootPrefs = DirectBootPreferences(context)
     val dns = DnsPreferences(dataStore)
@@ -150,77 +149,143 @@ class AppPreferences(context: Context) {
         vpnSecurity.setVpnEnabled(enabled)
         directBootPrefs.wasVpnEnabled = enabled
     }
+
     suspend fun setAutoReconnect(enabled: Boolean) {
         vpnSecurity.setAutoReconnect(enabled)
         directBootPrefs.autoReconnect = enabled
     }
+
     suspend fun setNetworkSwitchDelayEnabled(enabled: Boolean) = vpnSecurity.setNetworkSwitchDelayEnabled(enabled)
+
     suspend fun setNetworkSwitchDelaySec(seconds: Int) = vpnSecurity.setNetworkSwitchDelaySec(seconds)
+
     suspend fun setOnboardingCompleted(completed: Boolean) = vpnSecurity.setOnboardingCompleted(completed)
+
     suspend fun setWhitelistedApps(apps: Set<String>) = vpnSecurity.setWhitelistedApps(apps)
+
     suspend fun toggleWhitelistedApp(packageName: String) = vpnSecurity.toggleWhitelistedApp(packageName)
+
     suspend fun getWhitelistedAppsSnapshot(): Set<String> = vpnSecurity.getWhitelistedAppsSnapshot()
+
     suspend fun setDailySummaryEnabled(enabled: Boolean) = vpnSecurity.setDailySummaryEnabled(enabled)
+
     suspend fun setMilestoneNotificationsEnabled(enabled: Boolean) = vpnSecurity.setMilestoneNotificationsEnabled(enabled)
+
     suspend fun setLastMilestoneBlocked(count: Long) = vpnSecurity.setLastMilestoneBlocked(count)
+
     suspend fun setLastSeenMilestoneDialog(milestone: Long) = vpnSecurity.setLastSeenMilestoneDialog(milestone)
+
     suspend fun setActiveProfileId(id: Long) = vpnSecurity.setActiveProfileId(id)
+
     suspend fun setRecordDnsLogs(enabled: Boolean) = vpnSecurity.setRecordDnsLogs(enabled)
+
     suspend fun setFirewallEnabled(enabled: Boolean) = vpnSecurity.setFirewallEnabled(enabled)
+
     suspend fun setHttpsFilteringEnabled(enabled: Boolean) = vpnSecurity.setHttpsFilteringEnabled(enabled)
+
     suspend fun getHttpsFilteringEnabledSnapshot(): Boolean = vpnSecurity.getHttpsFilteringEnabledSnapshot()
+
     suspend fun setFilterHttp3(enabled: Boolean) = vpnSecurity.setFilterHttp3(enabled)
+
     suspend fun getFilterHttp3Snapshot(): Boolean = vpnSecurity.getFilterHttp3Snapshot()
+
     suspend fun setSelectedBrowsers(packages: Set<String>) = vpnSecurity.setSelectedBrowsers(packages)
+
     fun getSelectedBrowsersSnapshot(): Set<String> = vpnSecurity.getSelectedBrowsersSnapshot()
+
     suspend fun setCrashReportingEnabled(enabled: Boolean) = vpnSecurity.setCrashReportingEnabled(enabled)
+
     suspend fun setHideFromRecents(enabled: Boolean) = vpnSecurity.setHideFromRecents(enabled)
+
     suspend fun setTrustedSsids(ssids: Set<String>) = vpnSecurity.setTrustedSsids(ssids)
+
     suspend fun toggleTrustedSsid(ssid: String) = vpnSecurity.toggleTrustedSsid(ssid)
+
     suspend fun setPauseOnTrustedEnabled(enabled: Boolean) = vpnSecurity.setPauseOnTrustedEnabled(enabled)
+
     suspend fun getTrustedSsidsSnapshot(): Set<String> = vpnSecurity.getTrustedSsidsSnapshot()
+
     suspend fun getPauseOnTrustedEnabledSnapshot(): Boolean = vpnSecurity.getPauseOnTrustedEnabledSnapshot()
-    suspend fun setPausedByTrusted(value: Boolean, ssid: String = "") = vpnSecurity.setPausedByTrusted(value, ssid)
+
+    suspend fun setPausedByTrusted(
+        value: Boolean,
+        ssid: String = "",
+    ) = vpnSecurity.setPausedByTrusted(value, ssid)
+
     suspend fun getPausedByTrustedSnapshot(): Boolean = vpnSecurity.getPausedByTrustedSnapshot()
 
     suspend fun setUpstreamDns(dnsServer: String) = dns.setUpstreamDns(dnsServer)
+
     suspend fun setFallbackDns(dnsServer: String) = dns.setFallbackDns(dnsServer)
+
     suspend fun setDnsProtocol(protocol: DnsProtocol) = dns.setDnsProtocol(protocol)
+
     suspend fun setDohUrl(url: String) = dns.setDohUrl(url)
+
     suspend fun setDnsProviderId(providerId: String?) = dns.setDnsProviderId(providerId)
+
     suspend fun setDnsResponseType(responseType: String) = dns.setDnsResponseType(responseType)
+
     suspend fun setSplitDnsZones(zones: String) = dns.setSplitDnsZones(zones)
+
     suspend fun setBlockDohBypass(enabled: Boolean) = dns.setBlockDohBypass(enabled)
+
     suspend fun getBlockDohBypassSnapshot(): Boolean = dns.getBlockDohBypassSnapshot()
 
     suspend fun setThemeMode(mode: String) = appearance.setThemeMode(mode)
+
     suspend fun setAppLanguage(language: String) = appearance.setAppLanguage(language)
+
     suspend fun setAccentColor(color: String) = appearance.setAccentColor(color)
+
     suspend fun setShowBottomNavLabels(show: Boolean) = appearance.setShowBottomNavLabels(show)
 
     suspend fun setFilterUrl(url: String) = filter.setFilterUrl(url)
+
     suspend fun setAutoUpdateEnabled(enabled: Boolean) = filter.setAutoUpdateEnabled(enabled)
+
     suspend fun setAutoUpdateFrequency(frequency: String) = filter.setAutoUpdateFrequency(frequency)
+
     suspend fun setAutoUpdateWifiOnly(wifiOnly: Boolean) = filter.setAutoUpdateWifiOnly(wifiOnly)
+
     suspend fun setAutoUpdateNotification(type: String) = filter.setAutoUpdateNotification(type)
+
     suspend fun setProtectionLevel(level: String) = filter.setProtectionLevel(level)
+
     suspend fun setSafeSearchEnabled(enabled: Boolean) = filter.setSafeSearchEnabled(enabled)
+
     suspend fun setYoutubeRestrictedMode(enabled: Boolean) = filter.setYoutubeRestrictedMode(enabled)
 
     suspend fun setRoutingMode(mode: String) {
         wireguard.setRoutingMode(mode)
         directBootPrefs.routingMode = mode
     }
+
     suspend fun getRoutingModeSnapshot(): String = wireguard.getRoutingModeSnapshot()
+
     suspend fun getWgConfigJsonSnapshot(): String? = wireguard.getWgConfigJsonSnapshot()
+
     suspend fun getWgProfilesSnapshot(): List<WireGuardProfile> = wireguard.getWgProfilesSnapshot()
+
     suspend fun getActiveWgProfileSnapshot(): WireGuardProfile? = wireguard.getActiveWgProfileSnapshot()
-    suspend fun addOrUpdateWgProfile(profile: WireGuardProfile, makeActive: Boolean = false) =
-        wireguard.addOrUpdateWgProfile(profile, makeActive)
+
+    suspend fun addOrUpdateWgProfile(
+        profile: WireGuardProfile,
+        makeActive: Boolean = false,
+    ) = wireguard.addOrUpdateWgProfile(profile, makeActive)
+
     suspend fun removeWgProfile(id: String) = wireguard.removeWgProfile(id)
+
     suspend fun setActiveWgProfile(id: String) = wireguard.setActiveWgProfile(id)
-    suspend fun renameWgProfile(id: String, name: String) = wireguard.renameWgProfile(id, name)
+
+    suspend fun renameWgProfile(
+        id: String,
+        name: String,
+    ) = wireguard.renameWgProfile(id, name)
+
     suspend fun clearAllWgProfiles() = wireguard.clearAllWgProfiles()
+
     suspend fun migrateLegacyWgConfigIfNeeded() = wireguard.migrateLegacyWgConfigIfNeeded()
+
     suspend fun setExcludeLan(enabled: Boolean) = wireguard.setExcludeLan(enabled)
 }

@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">Sigue estos pasos para configurar el filtrado cosmético HTTPS:</string>
     <string name="https_filtering_export_ca">Paso 1: Guardar certificado en Descargas</string>
     <string name="https_filtering_cert_saved">¡Certificado guardado en Descargas!</string>
-    <string name="https_filtering_install_steps">Paso 2: Instala el certificado manualmente:\n\n1. Ve a Configuración → Seguridad → Cifrado &amp; credenciales\n2. Toca \&quot;Instalar un certificado\&quot; → \&quot;Certificado CA\&quot;\n3. Selecciona \&quot;BlockAds-RootCA.crt\&quot; desde Descargas\n4. Confirma la instalación</string>
+    <string name="https_filtering_install_steps">Paso 2: Instala el certificado manualmente:\n\n1. Ve a Configuración → Seguridad → Cifrado &amp; credenciales\n2. Toca \&quot;Instalar un certificado\&quot; → \&quot;Certificado CA\&quot;\n3. Selecciona \&quot;GhostGuard-RootCA.crt\&quot; desde Descargas\n4. Confirma la instalación</string>
     <string name="https_filtering_open_settings">Abrir configuración de seguridad</string>
     <string name="https_filtering_step1_title">Paso 1: Guardar certificado</string>
     <string name="https_filtering_step1_desc">Descarga el certificado Root CA en tu dispositivo</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">Configuración del certificado</string>
     <string name="https_wizard_step_indicator_format">Paso %1$d de %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Descripción general y privacidad</string>
-    <string name="https_wizard_overview_subtitle">Por qué BlockAds necesita un certificado local</string>
+    <string name="https_wizard_overview_subtitle">Por qué GhostGuard necesita un certificado local</string>
     <string name="https_wizard_security_title">Seguridad y privacidad</string>
-    <string name="https_wizard_security_desc">El certificado Root CA se genera localmente en tu dispositivo y nunca sale de tu teléfono. BlockAds lo usa estrictamente para eliminar anuncios en sitios web. Los servicios confidenciales, como aplicaciones bancarias y cuentas de Google, nunca se interceptan.</string>
+    <string name="https_wizard_security_desc">El certificado Root CA se genera localmente en tu dispositivo y nunca sale de tu teléfono. GhostGuard lo usa estrictamente para eliminar anuncios en sitios web. Los servicios confidenciales, como aplicaciones bancarias y cuentas de Google, nunca se interceptan.</string>
     <string name="https_wizard_explain_title">¿Por qué el filtrado HTTPS?</string>
-    <string name="https_wizard_explain_desc">La mayoría de los sitios web y anuncios modernos utilizan conexiones HTTPS cifradas. Para ocultar marcadores de anuncios, banners y ventanas emergentes, BlockAds requiere un certificado local para inspeccionar y filtrar páginas web de forma segura en tu dispositivo.</string>
+    <string name="https_wizard_explain_desc">La mayoría de los sitios web y anuncios modernos utilizan conexiones HTTPS cifradas. Para ocultar marcadores de anuncios, banners y ventanas emergentes, GhostGuard requiere un certificado local para inspeccionar y filtrar páginas web de forma segura en tu dispositivo.</string>
     <string name="https_wizard_benefits_title">Beneficios clave</string>
     <string name="https_wizard_benefit_1">Elimina anuncios en plataformas de video y sitios de noticias</string>
     <string name="https_wizard_benefit_2">Oculta marcadores en blanco, banners y ventanas emergentes intrusivas</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Acceso Root detectado (recomendado)</string>
     <string name="https_wizard_root_detected_desc">Tu dispositivo tiene acceso root. Puedes instalar el certificado CA automáticamente sin configuración manual.</string>
     <string name="https_wizard_checking_title">Verificando certificado…</string>
-    <string name="https_wizard_checking_desc">Buscando BlockAds CA en el almacén de confianza de Android…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA está verificado y activo en el almacén de confianza de tu dispositivo. ¡El filtrado HTTPS avanzado está listo para funcionar!</string>
+    <string name="https_wizard_checking_desc">Buscando GhostGuard CA en el almacén de confianza de Android…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA está verificado y activo en el almacén de confianza de tu dispositivo. ¡El filtrado HTTPS avanzado está listo para funcionar!</string>
     <string name="https_wizard_not_installed_title">Certificado no detectado</string>
-    <string name="https_wizard_not_installed_desc">BlockAds aún no ha encontrado el certificado en tu almacén de confianza. Si acabas de instalarlo en Ajustes, toca a continuación para comprobar de nuevo.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard aún no ha encontrado el certificado en tu almacén de confianza. Si acabas de instalarlo en Ajustes, toca a continuación para comprobar de nuevo.</string>
     <string name="https_wizard_troubleshooting_title">Consejos para solucionar problemas</string>
     <string name="https_wizard_troubleshooting_tip1">Asegúrate de haber seleccionado \"Certificado CA\" en Ajustes (no Certificado de usuario ni Certificado de VPN y aplicaciones).</string>
     <string name="https_wizard_troubleshooting_tip2">Si se instala mediante un módulo de Magisk/KernelSU, es necesario reiniciar el dispositivo.</string>

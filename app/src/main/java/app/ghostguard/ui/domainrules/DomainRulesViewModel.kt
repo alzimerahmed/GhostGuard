@@ -9,7 +9,6 @@ import app.ghostguard.data.dao.WhitelistDomainDao
 import app.ghostguard.data.entities.CustomDnsRule
 import app.ghostguard.data.entities.RuleType
 import app.ghostguard.data.entities.WhitelistDomain
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
@@ -25,15 +24,16 @@ import kotlinx.coroutines.launch
 class DomainRulesViewModel(
     private val whitelistDomainDao: WhitelistDomainDao,
     private val customDnsRuleDao: CustomDnsRuleDao,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
+    val whitelistDomains: StateFlow<List<WhitelistDomain>> =
+        whitelistDomainDao.getAll()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val whitelistDomains: StateFlow<List<WhitelistDomain>> = whitelistDomainDao.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val blocklistDomains: StateFlow<List<CustomDnsRule>> = customDnsRuleDao.getAllFlow()
-        .map { rules -> rules.filter { it.ruleType == RuleType.BLOCK } }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val blocklistDomains: StateFlow<List<CustomDnsRule>> =
+        customDnsRuleDao.getAllFlow()
+            .map { rules -> rules.filter { it.ruleType == RuleType.BLOCK } }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _events = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<UiEvent> = _events.asSharedFlow()
@@ -71,16 +71,17 @@ class DomainRulesViewModel(
             val cleanDomain = domain.trim().lowercase()
             if (cleanDomain.isNotBlank()) {
                 val allRules = customDnsRuleDao.getAll()
-                val exists = allRules.any {
-                    it.ruleType == RuleType.BLOCK && it.domain.equals(cleanDomain, ignoreCase = true)
-                }
+                val exists =
+                    allRules.any {
+                        it.ruleType == RuleType.BLOCK && it.domain.equals(cleanDomain, ignoreCase = true)
+                    }
                 if (!exists) {
                     customDnsRuleDao.insert(
                         CustomDnsRule(
                             rule = "||$cleanDomain^",
                             ruleType = RuleType.BLOCK,
-                            domain = cleanDomain
-                        )
+                            domain = cleanDomain,
+                        ),
                     )
                     _events.toast(R.string.blocklist_domain_added, listOf(cleanDomain))
                     requestVpnRestart()

@@ -56,13 +56,13 @@ data class WireGuardEditState(
  */
 data class WireGuardEditErrors(val map: Map<String, String> = emptyMap()) {
     val isValid: Boolean get() = map.isEmpty()
+
     operator fun get(key: String): String? = map[key]
 }
 
 class WireGuardEditViewModel(
     application: Application,
 ) : AndroidViewModel(application), KoinComponent {
-
     private val appPrefs: AppPreferences by inject()
 
     private val _state = MutableStateFlow(WireGuardEditState())
@@ -79,6 +79,7 @@ class WireGuardEditViewModel(
 
     sealed class EditEvent {
         data class Saved(val name: String) : EditEvent()
+
         data class Failed(val message: String) : EditEvent()
     }
 
@@ -98,12 +99,19 @@ class WireGuardEditViewModel(
     }
 
     fun setName(value: String) = _state.update { it.copy(name = value) }
+
     fun setPrivateKey(value: String) = _state.update { it.copy(privateKey = value) }
+
     fun setAddresses(value: String) = _state.update { it.copy(addresses = value) }
+
     fun setListenPort(value: String) = _state.update { it.copy(listenPort = value) }
+
     fun setDns(value: String) = _state.update { it.copy(dns = value) }
 
-    fun updatePeer(rowId: String, transform: (PeerFormState) -> PeerFormState) {
+    fun updatePeer(
+        rowId: String,
+        transform: (PeerFormState) -> PeerFormState,
+    ) {
         _state.update { s ->
             s.copy(peers = s.peers.map { if (it.rowId == rowId) transform(it) else it })
         }
@@ -111,10 +119,14 @@ class WireGuardEditViewModel(
 
     fun addPeer() = _state.update { it.copy(peers = it.peers + PeerFormState()) }
 
-    fun removePeer(rowId: String) = _state.update { s ->
-        if (s.peers.size <= 1) s
-        else s.copy(peers = s.peers.filterNot { it.rowId == rowId })
-    }
+    fun removePeer(rowId: String) =
+        _state.update { s ->
+            if (s.peers.size <= 1) {
+                s
+            } else {
+                s.copy(peers = s.peers.filterNot { it.rowId == rowId })
+            }
+        }
 
     /**
      * Validate every field and persist if valid. Restarts the VPN if the
@@ -180,52 +192,55 @@ class WireGuardEditViewModel(
         return errs
     }
 
-    private fun WireGuardEditState.toProfile(): WireGuardProfile = WireGuardProfile(
-        id = profileId,
-        name = name.trim(),
-        config = WireGuardConfig(
-            interfaceConfig = WireGuardInterface(
-                privateKey = privateKey.trim(),
-                address = addresses.splitTrim(),
-                listenPort = listenPort.trim().toIntOrNull(),
-                dns = dns.splitTrim(),
-            ),
-            peers = peers.map { p ->
-                WireGuardPeer(
-                    publicKey = p.publicKey.trim(),
-                    presharedKey = p.presharedKey.trim().takeIf { it.isNotEmpty() },
-                    endpoint = p.endpoint.trim().takeIf { it.isNotEmpty() },
-                    allowedIPs = p.allowedIPs.splitTrim(),
-                    persistentKeepalive = p.persistentKeepalive.trim().toIntOrNull(),
-                )
-            },
-        ),
-    )
+    private fun WireGuardEditState.toProfile(): WireGuardProfile =
+        WireGuardProfile(
+            id = profileId,
+            name = name.trim(),
+            config =
+                WireGuardConfig(
+                    interfaceConfig =
+                        WireGuardInterface(
+                            privateKey = privateKey.trim(),
+                            address = addresses.splitTrim(),
+                            listenPort = listenPort.trim().toIntOrNull(),
+                            dns = dns.splitTrim(),
+                        ),
+                    peers =
+                        peers.map { p ->
+                            WireGuardPeer(
+                                publicKey = p.publicKey.trim(),
+                                presharedKey = p.presharedKey.trim().takeIf { it.isNotEmpty() },
+                                endpoint = p.endpoint.trim().takeIf { it.isNotEmpty() },
+                                allowedIPs = p.allowedIPs.splitTrim(),
+                                persistentKeepalive = p.persistentKeepalive.trim().toIntOrNull(),
+                            )
+                        },
+                ),
+        )
 
-    private fun WireGuardProfile.toFormState() = WireGuardEditState(
-        profileId = id,
-        name = name,
-        privateKey = config.interfaceConfig.privateKey,
-        addresses = config.interfaceConfig.address.joinToString(", "),
-        listenPort = config.interfaceConfig.listenPort?.toString().orEmpty(),
-        dns = config.interfaceConfig.dns.joinToString(", "),
-        peers = config.peers.map { p ->
-            PeerFormState(
-                publicKey = p.publicKey,
-                presharedKey = p.presharedKey.orEmpty(),
-                endpoint = p.endpoint.orEmpty(),
-                allowedIPs = p.allowedIPs.joinToString(", "),
-                persistentKeepalive = p.persistentKeepalive?.toString().orEmpty(),
-            )
-        }.ifEmpty { listOf(PeerFormState()) },
-    )
+    private fun WireGuardProfile.toFormState() =
+        WireGuardEditState(
+            profileId = id,
+            name = name,
+            privateKey = config.interfaceConfig.privateKey,
+            addresses = config.interfaceConfig.address.joinToString(", "),
+            listenPort = config.interfaceConfig.listenPort?.toString().orEmpty(),
+            dns = config.interfaceConfig.dns.joinToString(", "),
+            peers =
+                config.peers.map { p ->
+                    PeerFormState(
+                        publicKey = p.publicKey,
+                        presharedKey = p.presharedKey.orEmpty(),
+                        endpoint = p.endpoint.orEmpty(),
+                        allowedIPs = p.allowedIPs.joinToString(", "),
+                        persistentKeepalive = p.persistentKeepalive?.toString().orEmpty(),
+                    )
+                }.ifEmpty { listOf(PeerFormState()) },
+        )
 
-    private fun String.splitTrim(): List<String> =
-        split(",").map { it.trim() }.filter { it.isNotEmpty() }
+    private fun String.splitTrim(): List<String> = split(",").map { it.trim() }.filter { it.isNotEmpty() }
 
-    private inline fun MutableStateFlow<WireGuardEditState>.update(
-        transform: (WireGuardEditState) -> WireGuardEditState,
-    ) {
+    private inline fun MutableStateFlow<WireGuardEditState>.update(transform: (WireGuardEditState) -> WireGuardEditState) {
         value = transform(value)
     }
 

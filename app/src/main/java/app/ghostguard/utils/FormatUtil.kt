@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.SportsEsports
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import app.ghostguard.R
@@ -16,13 +17,13 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import androidx.compose.runtime.remember
 
-fun formatCount(count: Int): String = when {
-    count >= 1_000_000 -> String.format(Locale.getDefault(), "%.1fM", count / 1_000_000f)
-    count >= 1_000 -> String.format(Locale.getDefault(), "%.1fK", count / 1_000f)
-    else -> count.toString()
-}
+fun formatCount(count: Int): String =
+    when {
+        count >= 1_000_000 -> String.format(Locale.getDefault(), "%.1fM", count / 1_000_000f)
+        count >= 1_000 -> String.format(Locale.getDefault(), "%.1fK", count / 1_000f)
+        else -> count.toString()
+    }
 
 fun formatDate(timestamp: Long): String {
     val sdf = SimpleDateFormat("dd/MM HH:mm", Locale.getDefault())
@@ -45,19 +46,20 @@ fun formatTimestamp(timestamp: Long): String {
     return sdf.format(Date(timestamp))
 }
 
-fun startOfDayMillis(): Long = Calendar.getInstance().apply {
-    set(Calendar.HOUR_OF_DAY, 0)
-    set(Calendar.MINUTE, 0)
-    set(Calendar.SECOND, 0)
-    set(Calendar.MILLISECOND, 0)
-}.timeInMillis
+fun startOfDayMillis(): Long =
+    Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
 
-
-fun formatDataSize(kilobytes: Long): String = when {
-    kilobytes < 1024 -> "$kilobytes KB"
-    kilobytes < 1024 * 1024 -> String.format(Locale.getDefault(), "%.1f MB", kilobytes / 1024f)
-    else -> String.format(Locale.getDefault(), "%.1f GB", kilobytes / (1024f * 1024f))
-}
+fun formatDataSize(kilobytes: Long): String =
+    when {
+        kilobytes < 1024 -> "$kilobytes KB"
+        kilobytes < 1024 * 1024 -> String.format(Locale.getDefault(), "%.1f MB", kilobytes / 1024f)
+        else -> String.format(Locale.getDefault(), "%.1f GB", kilobytes / (1024f * 1024f))
+    }
 
 fun formatUptimeShort(ms: Long): String {
     if (ms <= 0) return "—"
@@ -71,49 +73,58 @@ fun formatUptimeShort(ms: Long): String {
     }
 }
 
-val hourFormat: ThreadLocal<SimpleDateFormat?> = ThreadLocal.withInitial {
-    SimpleDateFormat("HH", Locale.getDefault())
-}
+val hourFormat: ThreadLocal<SimpleDateFormat?> =
+    ThreadLocal.withInitial {
+        SimpleDateFormat("HH", Locale.getDefault())
+    }
 
-val dayFormat: ThreadLocal<SimpleDateFormat?> = ThreadLocal.withInitial {
-    SimpleDateFormat("EEE", Locale.getDefault())
-}
+val dayFormat: ThreadLocal<SimpleDateFormat?> =
+    ThreadLocal.withInitial {
+        SimpleDateFormat("EEE", Locale.getDefault())
+    }
 
-
-fun formatTime(hour: Int, minute: Int): String =
-    "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}"
+fun formatTime(
+    hour: Int,
+    minute: Int,
+): String = "${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}"
 
 @Composable
 fun formatDays(daysOfWeek: String): String {
-    val dayNames = listOf(
-        stringResource(R.string.profile_day_mon),
-        stringResource(R.string.profile_day_tue),
-        stringResource(R.string.profile_day_wed),
-        stringResource(R.string.profile_day_thu),
-        stringResource(R.string.profile_day_fri),
-        stringResource(R.string.profile_day_sat),
-        stringResource(R.string.profile_day_sun)
-    )
+    val dayNames =
+        listOf(
+            stringResource(R.string.profile_day_mon),
+            stringResource(R.string.profile_day_tue),
+            stringResource(R.string.profile_day_wed),
+            stringResource(R.string.profile_day_thu),
+            stringResource(R.string.profile_day_fri),
+            stringResource(R.string.profile_day_sat),
+            stringResource(R.string.profile_day_sun),
+        )
     val days = remember(daysOfWeek) { daysOfWeek.split(",").mapNotNull { it.trim().toIntOrNull() } }
-    return if (days.size == 7) stringResource(R.string.profile_schedule_every_day)
-    else days.mapNotNull { if (it in 1..7) dayNames[it - 1] else null }.joinToString(", ")
+    return if (days.size == 7) {
+        stringResource(R.string.profile_schedule_every_day)
+    } else {
+        days.mapNotNull { if (it in 1..7) dayNames[it - 1] else null }.joinToString(", ")
+    }
 }
 
-fun profileIcon(type: String?): ImageVector = when (type) {
-    ProtectionProfile.TYPE_DEFAULT -> Icons.Default.GppGood
-    ProtectionProfile.TYPE_STRICT -> Icons.Default.Security
-    ProtectionProfile.TYPE_FAMILY -> Icons.Default.FamilyRestroom
-    ProtectionProfile.TYPE_STRICT_FAMILY -> Icons.Default.Shield
-    ProtectionProfile.TYPE_GAMING -> Icons.Default.SportsEsports
-    else -> Icons.Default.Tune
-}
+fun profileIcon(type: String?): ImageVector =
+    when (type) {
+        ProtectionProfile.TYPE_DEFAULT -> Icons.Default.GppGood
+        ProtectionProfile.TYPE_STRICT -> Icons.Default.Security
+        ProtectionProfile.TYPE_FAMILY -> Icons.Default.FamilyRestroom
+        ProtectionProfile.TYPE_STRICT_FAMILY -> Icons.Default.Shield
+        ProtectionProfile.TYPE_GAMING -> Icons.Default.SportsEsports
+        else -> Icons.Default.Tune
+    }
 
 @Composable
-fun profileDescription(type: String): String = when (type) {
-    ProtectionProfile.TYPE_DEFAULT -> stringResource(R.string.profile_desc_default)
-    ProtectionProfile.TYPE_STRICT -> stringResource(R.string.profile_desc_strict)
-    ProtectionProfile.TYPE_FAMILY -> stringResource(R.string.profile_desc_family)
-    ProtectionProfile.TYPE_STRICT_FAMILY -> stringResource(R.string.profile_desc_strict_family)
-    ProtectionProfile.TYPE_GAMING -> stringResource(R.string.profile_desc_gaming)
-    else -> stringResource(R.string.profile_desc_custom)
-}
+fun profileDescription(type: String): String =
+    when (type) {
+        ProtectionProfile.TYPE_DEFAULT -> stringResource(R.string.profile_desc_default)
+        ProtectionProfile.TYPE_STRICT -> stringResource(R.string.profile_desc_strict)
+        ProtectionProfile.TYPE_FAMILY -> stringResource(R.string.profile_desc_family)
+        ProtectionProfile.TYPE_STRICT_FAMILY -> stringResource(R.string.profile_desc_strict_family)
+        ProtectionProfile.TYPE_GAMING -> stringResource(R.string.profile_desc_gaming)
+        else -> stringResource(R.string.profile_desc_custom)
+    }

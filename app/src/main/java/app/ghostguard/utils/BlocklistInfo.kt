@@ -13,9 +13,8 @@ data class BlocklistInfo(
     val fd: Long,
     val startOffset: Long,
     val length: Long,
-    private val afd: AssetFileDescriptor? = null
+    private val afd: AssetFileDescriptor? = null,
 ) : AutoCloseable {
-
     override fun close() {
         try {
             afd?.close()
@@ -25,14 +24,17 @@ data class BlocklistInfo(
     }
 
     companion object {
-        fun fromAsset(context: Context, assetName: String): BlocklistInfo? {
+        fun fromAsset(
+            context: Context,
+            assetName: String,
+        ): BlocklistInfo? {
             return try {
                 val afd = context.assets.openFd(assetName)
                 BlocklistInfo(
                     fd = afd.parcelFileDescriptor.fd.toLong(),
                     startOffset = afd.startOffset,
                     length = afd.length,
-                    afd = afd
+                    afd = afd,
                 )
             } catch (e: Exception) {
                 Timber.w(e, "Failed to open asset fd for $assetName")

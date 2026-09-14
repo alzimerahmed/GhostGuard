@@ -54,7 +54,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = { }
+    onNavigateBack: () -> Unit = { },
 ) {
     val profiles by viewModel.profiles.collectAsStateWithLifecycle()
     val activeProfile by viewModel.activeProfile.collectAsStateWithLifecycle()
@@ -74,48 +74,50 @@ fun ProfileScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.settings_cancel)
+                            contentDescription = stringResource(R.string.settings_cancel),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showCreateDialog = true },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
             ) {
                 Icon(
                     Icons.Default.Add,
-                    contentDescription = stringResource(R.string.profile_create_custom)
+                    contentDescription = stringResource(R.string.profile_create_custom),
                 )
             }
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
             // Quick switch section
             SectionHeader(
                 title = stringResource(R.string.profile_section_profiles),
-                icon = Icons.Default.Security
+                icon = Icons.Default.Security,
             )
             Spacer(modifier = Modifier.height(8.dp))
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(16.dp),
             ) {
                 Column(modifier = Modifier.animateContentSize()) {
                     profiles.forEachIndexed { index, profile ->
@@ -123,18 +125,21 @@ fun ProfileScreen(
                             profile = profile,
                             isActive = profile.id == activeProfile?.id,
                             onSelect = { viewModel.switchProfile(profile.id) },
-                            onDelete = if (!ProtectionProfile.isPreset(profile.profileType)) {
-                                { viewModel.deleteProfile(profile) }
-                            } else null,
+                            onDelete =
+                                if (!ProtectionProfile.isPreset(profile.profileType)) {
+                                    { viewModel.deleteProfile(profile) }
+                                } else {
+                                    null
+                                },
                             onSchedule = {
                                 scheduleTargetProfileId = profile.id
                                 showScheduleDialog = true
-                            }
+                            },
                         )
                         if (index < profiles.lastIndex) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
                             )
                         }
                     }
@@ -146,33 +151,34 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 SectionHeader(
                     title = stringResource(R.string.profile_section_schedules),
-                    icon = Icons.Default.Schedule
+                    icon = Icons.Default.Schedule,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
                 ) {
                     Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                        val schedulesWithProfiles = remember {
-                            allSchedules.mapNotNull { schedule ->
-                                val profile = profiles.find { it.id == schedule.profileId }
-                                profile?.let { schedule to it }
+                        val schedulesWithProfiles =
+                            remember {
+                                allSchedules.mapNotNull { schedule ->
+                                    val profile = profiles.find { it.id == schedule.profileId }
+                                    profile?.let { schedule to it }
+                                }
                             }
-                        }
                         schedulesWithProfiles.forEachIndexed { index, (schedule, profile) ->
                             ScheduleItem(
                                 schedule = schedule,
                                 profileName = profile.name,
                                 onToggle = { viewModel.toggleSchedule(schedule) },
-                                onDelete = { viewModel.deleteSchedule(schedule) }
+                                onDelete = { viewModel.deleteSchedule(schedule) },
                             )
                             if (index < schedulesWithProfiles.lastIndex) {
                                 HorizontalDivider(
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
                                 )
                             }
                         }
@@ -191,10 +197,10 @@ fun ProfileScreen(
                 viewModel.createCustomProfile(
                     name = name,
                     safeSearchEnabled = safeSearch,
-                    youtubeRestrictedMode = youtubeRestricted
+                    youtubeRestrictedMode = youtubeRestricted,
                 )
                 showCreateDialog = false
-            }
+            },
         )
     }
 
@@ -208,10 +214,10 @@ fun ProfileScreen(
                     startMinute = startM,
                     endHour = endH,
                     endMinute = endM,
-                    daysOfWeek = days
+                    daysOfWeek = days,
                 )
                 showScheduleDialog = false
-            }
+            },
         )
     }
 }

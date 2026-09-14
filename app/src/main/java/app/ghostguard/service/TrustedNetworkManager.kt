@@ -6,13 +6,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
-import app.ghostguard.R
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import androidx.core.content.ContextCompat
+import app.ghostguard.R
 import app.ghostguard.data.datastore.AppPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,7 @@ import timber.log.Timber
  * Trusted Wi-Fi networks (#197).
  *
  * Watches the connected Wi-Fi SSID and, when "Pause on trusted networks" is
- * enabled, auto-pauses BlockAds on a trusted SSID and auto-resumes when the
+ * enabled, auto-pauses GhostGuard on a trusted SSID and auto-resumes when the
  * device leaves it. Registered once from [GhostGuardApplication] so it runs for
  * the whole process lifetime.
  *
@@ -46,18 +46,25 @@ class TrustedNetworkManager(
     private val lock = Mutex()
     private var registered = false
 
-    private val callback = object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) = evaluate()
-        override fun onLost(network: Network) = evaluate()
-        override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) = evaluate()
-    }
+    private val callback =
+        object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) = evaluate()
+
+            override fun onLost(network: Network) = evaluate()
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                caps: NetworkCapabilities,
+            ) = evaluate()
+        }
 
     fun start() {
         if (registered) return
         try {
-            val request = NetworkRequest.Builder()
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .build()
+            val request =
+                NetworkRequest.Builder()
+                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                    .build()
             cm.registerNetworkCallback(request, callback)
             registered = true
             Timber.d("TrustedNetworkManager started")
@@ -73,7 +80,7 @@ class TrustedNetworkManager(
         scope.launch {
             combine(
                 appPrefs.pauseOnTrustedEnabled,
-                appPrefs.trustedSsids
+                appPrefs.trustedSsids,
             ) { enabled, ssids -> enabled to ssids }
                 .distinctUntilChanged()
                 .collect { evaluate() }
@@ -103,19 +110,21 @@ class TrustedNetworkManager(
                     val onTrusted = ssid != null && ssid in trusted
                     val running = AdBlockVpnService.isRunning || RootProxyService.isRunning
                     val pausedByUs = appPrefs.getPausedByTrustedSnapshot()
-                    Timber.d("TrustedNet evaluate: ssid=$ssid trusted=$trusted onTrusted=$onTrusted running=$running pausedByUs=$pausedByUs")
+                    Timber.d(
+                        "TrustedNet evaluate: ssid=$ssid trusted=$trusted onTrusted=$onTrusted running=$running pausedByUs=$pausedByUs",
+                    )
 
                     when {
                         // Entered a trusted network while protected → pause.
                         onTrusted && running -> {
-                            Timber.d("Trusted network '$ssid' — pausing BlockAds")
+                            Timber.d("Trusted network '$ssid' — pausing GhostGuard")
                             appPrefs.setPausedByTrusted(true, ssid ?: "")
                             ServiceController.requestStop(context)
                             showPausedNotification(ssid ?: "")
                         }
                         // Left the trusted network and we had paused → resume.
                         !onTrusted && pausedByUs && !running -> {
-                            Timber.d("Left trusted network (now '$ssid') — resuming BlockAds")
+                            Timber.d("Left trusted network (now '$ssid') — resuming GhostGuard")
                             appPrefs.setPausedByTrusted(false)
                             cancelPausedNotification()
                             ServiceController.requestStart(context)
@@ -142,27 +151,33 @@ class TrustedNetworkManager(
                     NotificationChannel(
                         CHANNEL_ID,
                         context.getString(R.string.trusted_networks_title),
-                        NotificationManager.IMPORTANCE_LOW
-                    ).apply { setShowBadge(false) }
+                        NotificationManager.IMPORTANCE_LOW,
+                    ).apply { setShowBadge(false) },
                 )
             }
-            val tapIntent = PendingIntent.getActivity(
-                context, 0,
-                android.content.Intent(context, app.ghostguard.MainActivity::class.java),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            val text = if (ssid.isNotEmpty())
-                context.getString(R.string.trusted_networks_paused_text, ssid)
-            else context.getString(R.string.trusted_networks_paused_text_generic)
-            val n = androidx.core.app.NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_shield_off)
-                .setContentTitle(context.getString(R.string.trusted_networks_paused_title))
-                .setContentText(text)
-                .setStyle(androidx.core.app.NotificationCompat.BigTextStyle().bigText(text))
-                .setOngoing(false)
-                .setAutoCancel(false)
-                .setContentIntent(tapIntent)
-                .build()
+            val tapIntent =
+                PendingIntent.getActivity(
+                    context,
+                    0,
+                    android.content.Intent(context, app.ghostguard.MainActivity::class.java),
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                )
+            val text =
+                if (ssid.isNotEmpty()) {
+                    context.getString(R.string.trusted_networks_paused_text, ssid)
+                } else {
+                    context.getString(R.string.trusted_networks_paused_text_generic)
+                }
+            val n =
+                androidx.core.app.NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_shield_off)
+                    .setContentTitle(context.getString(R.string.trusted_networks_paused_title))
+                    .setContentText(text)
+                    .setStyle(androidx.core.app.NotificationCompat.BigTextStyle().bigText(text))
+                    .setOngoing(false)
+                    .setAutoCancel(false)
+                    .setContentIntent(tapIntent)
+                    .build()
             nm.notify(NOTIFICATION_ID, n)
         } catch (e: Exception) {
             Timber.w(e, "showPausedNotification failed")
@@ -189,10 +204,14 @@ class TrustedNetworkManager(
             // SSID requires location permission on Android 10+.
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
-            ) return null
+            ) {
+                return null
+            }
             return try {
-                val wifi = context.applicationContext
-                    .getSystemService(Context.WIFI_SERVICE) as? WifiManager ?: return null
+                val wifi =
+                    context.applicationContext
+                        .getSystemService(Context.WIFI_SERVICE) as? WifiManager ?: return null
+
                 @Suppress("DEPRECATION")
                 val raw = wifi.connectionInfo?.ssid ?: return null
                 val ssid = raw.trim('"')

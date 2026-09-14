@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
-
     companion object {
         val KEY_ROUTING_MODE = stringPreferencesKey("routing_mode")
         val KEY_WG_CONFIG_JSON = stringPreferencesKey("wg_config_json")
@@ -28,32 +27,37 @@ class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
         private const val LEGACY_PROFILE_ID = "legacy-default"
     }
 
-    val routingMode: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_ROUTING_MODE] ?: ROUTING_MODE_DIRECT
-    }
+    val routingMode: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_ROUTING_MODE] ?: ROUTING_MODE_DIRECT
+        }
 
-    val wgProfiles: Flow<List<WireGuardProfile>> = dataStore.data.map { prefs ->
-        readProfilesFromPrefs(prefs)
-    }
+    val wgProfiles: Flow<List<WireGuardProfile>> =
+        dataStore.data.map { prefs ->
+            readProfilesFromPrefs(prefs)
+        }
 
-    val wgActiveProfileId: Flow<String?> = dataStore.data.map { prefs ->
-        readActiveIdFromPrefs(prefs)
-    }
+    val wgActiveProfileId: Flow<String?> =
+        dataStore.data.map { prefs ->
+            readActiveIdFromPrefs(prefs)
+        }
 
-    val excludeLan: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_EXCLUDE_LAN] ?: false
-    }
+    val excludeLan: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_EXCLUDE_LAN] ?: false
+        }
 
     private fun readProfilesFromPrefs(prefs: Preferences): List<WireGuardProfile> {
         prefs[KEY_WG_PROFILES_JSON]?.let {
             return WireGuardProfileList.fromJson(it).profiles
         }
         prefs[KEY_WG_CONFIG_JSON]?.let { legacy ->
-            val cfg = try {
-                WireGuardConfig.fromJson(legacy)
-            } catch (_: Exception) {
-                return emptyList()
-            }
+            val cfg =
+                try {
+                    WireGuardConfig.fromJson(legacy)
+                } catch (_: Exception) {
+                    return emptyList()
+                }
             return listOf(WireGuardProfile(LEGACY_PROFILE_ID, "Default", cfg))
         }
         return emptyList()
@@ -89,7 +93,10 @@ class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
         return profiles.firstOrNull { it.id == activeId } ?: profiles.first()
     }
 
-    suspend fun addOrUpdateWgProfile(profile: WireGuardProfile, makeActive: Boolean = false) {
+    suspend fun addOrUpdateWgProfile(
+        profile: WireGuardProfile,
+        makeActive: Boolean = false,
+    ) {
         dataStore.edit { prefs ->
             val current = readProfilesFromPrefs(prefs).toMutableList()
             val idx = current.indexOfFirst { it.id == profile.id }
@@ -123,11 +130,15 @@ class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun renameWgProfile(id: String, name: String) {
+    suspend fun renameWgProfile(
+        id: String,
+        name: String,
+    ) {
         dataStore.edit { prefs ->
-            val current = readProfilesFromPrefs(prefs).map {
-                if (it.id == id) it.copy(name = name) else it
-            }
+            val current =
+                readProfilesFromPrefs(prefs).map {
+                    if (it.id == id) it.copy(name = name) else it
+                }
             prefs[KEY_WG_PROFILES_JSON] = WireGuardProfileList(current).toJson()
             prefs.remove(KEY_WG_CONFIG_JSON)
         }
@@ -148,12 +159,13 @@ class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
                 return@edit
             }
             val legacyJson = prefs[KEY_WG_CONFIG_JSON] ?: return@edit
-            val cfg = try {
-                WireGuardConfig.fromJson(legacyJson)
-            } catch (_: Exception) {
-                prefs.remove(KEY_WG_CONFIG_JSON)
-                return@edit
-            }
+            val cfg =
+                try {
+                    WireGuardConfig.fromJson(legacyJson)
+                } catch (_: Exception) {
+                    prefs.remove(KEY_WG_CONFIG_JSON)
+                    return@edit
+                }
             val profile = WireGuardProfile(LEGACY_PROFILE_ID, "Default", cfg)
             prefs[KEY_WG_PROFILES_JSON] = WireGuardProfileList(listOf(profile)).toJson()
             prefs[KEY_WG_ACTIVE_PROFILE_ID] = profile.id

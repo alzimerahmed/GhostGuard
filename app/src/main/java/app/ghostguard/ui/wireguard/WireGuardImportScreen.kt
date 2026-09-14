@@ -70,7 +70,7 @@ fun WireGuardImportScreen(
     onNavigateBack: () -> Unit,
     onEditProfile: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: WireGuardImportViewModel = koinViewModel()
+    viewModel: WireGuardImportViewModel = koinViewModel(),
 ) {
     val profiles by viewModel.profiles.collectAsStateWithLifecycle()
     val activeId by viewModel.activeProfileId.collectAsStateWithLifecycle()
@@ -92,11 +92,12 @@ fun WireGuardImportScreen(
     val enabledMsg = stringResource(R.string.wireguard_enabled_restarting)
     val disabledMsg = stringResource(R.string.wireguard_disabled_restarting)
 
-    val filePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        uri?.let { viewModel.importFromUri(it) }
-    }
+    val filePickerLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+        ) { uri ->
+            uri?.let { viewModel.importFromUri(it) }
+        }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -133,13 +134,14 @@ fun WireGuardImportScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.accessibility_navigate_back)
+                            contentDescription = stringResource(R.string.accessibility_navigate_back),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -149,20 +151,21 @@ fun WireGuardImportScreen(
                 icon = { Icon(Icons.Filled.FileOpen, contentDescription = null) },
                 text = { Text(stringResource(R.string.wireguard_import_button)) },
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             )
-        }
+        },
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
         ) {
             AnimatedVisibility(
                 visible = isLoading,
                 enter = fadeIn(),
                 exit = fadeOut(),
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             ) {
                 CircularProgressIndicator()
             }
@@ -250,18 +253,21 @@ private fun WireGuardToggleCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isWgActive) {
-                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-            }
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isWgActive) {
+                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    },
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -272,11 +278,12 @@ private fun WireGuardToggleCard(
                 Icon(
                     imageVector = Icons.Outlined.VpnLock,
                     contentDescription = null,
-                    tint = if (isWgActive) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
-                    },
+                    tint =
+                        if (isWgActive) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                     modifier = Modifier.size(24.dp),
                 )
                 Spacer(Modifier.width(12.dp))
@@ -287,27 +294,30 @@ private fun WireGuardToggleCard(
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = if (isWgActive) {
-                            stringResource(R.string.wireguard_connect)
-                        } else {
-                            stringResource(R.string.wireguard_disconnect)
-                        },
+                        text =
+                            if (isWgActive) {
+                                stringResource(R.string.wireguard_connect)
+                            } else {
+                                stringResource(R.string.wireguard_disconnect)
+                            },
                         style = MaterialTheme.typography.bodySmall,
-                        color = if (isWgActive) {
-                            MaterialTheme.colorScheme.primary
-                        } else {
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        },
+                        color =
+                            if (isWgActive) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
                     )
                 }
             }
             Switch(
                 checked = isWgActive,
                 onCheckedChange = { onToggle() },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                ),
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.primary,
+                        checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                    ),
             )
         }
     }
@@ -369,9 +379,10 @@ private fun ExcludeLanCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -402,10 +413,11 @@ private fun ExcludeLanCard(
             Switch(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = MaterialTheme.colorScheme.primary,
-                    checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                ),
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.primary,
+                        checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                    ),
             )
         }
     }

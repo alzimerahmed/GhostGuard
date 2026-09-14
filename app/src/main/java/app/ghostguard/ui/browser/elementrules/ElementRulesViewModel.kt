@@ -3,20 +3,17 @@ package app.ghostguard.ui.browser.elementrules
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.data.dao.ElementRuleDao
-import app.ghostguard.data.entities.ElementRule
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ElementRulesViewModel(
-    private val elementRuleDao: ElementRuleDao
+    private val elementRuleDao: ElementRuleDao,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(ElementRulesUiState(isLoading = true))
     val uiState: StateFlow<ElementRulesUiState> = _uiState.asStateFlow()
 
@@ -29,23 +26,24 @@ class ElementRulesViewModel(
         viewModelScope.launch {
             combine(
                 elementRuleDao.getAllRules(),
-                searchQueryFlow
+                searchQueryFlow,
             ) { allRules, query ->
-                val filtered = if (query.isBlank()) {
-                    allRules
-                } else {
-                    allRules.filter {
-                        it.domain.contains(query, ignoreCase = true) ||
+                val filtered =
+                    if (query.isBlank()) {
+                        allRules
+                    } else {
+                        allRules.filter {
+                            it.domain.contains(query, ignoreCase = true) ||
                                 it.cssSelector.contains(query, ignoreCase = true)
+                        }
                     }
-                }
                 val grouped = filtered.groupBy { it.domain }
                 ElementRulesUiState(
                     rules = filtered,
                     rulesByDomain = grouped,
                     totalCount = allRules.size,
                     isLoading = false,
-                    searchQuery = query
+                    searchQuery = query,
                 )
             }.collect { newState ->
                 _uiState.value = newState

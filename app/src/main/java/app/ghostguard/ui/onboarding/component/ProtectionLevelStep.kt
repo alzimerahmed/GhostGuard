@@ -39,22 +39,23 @@ import app.ghostguard.ui.onboarding.data.ProtectionLevel
 fun ProtectionLevelStep(
     selectedLevel: ProtectionLevel,
     onLevelSelect: (ProtectionLevel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(R.string.onboarding_protection_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -64,7 +65,7 @@ fun ProtectionLevelStep(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -74,7 +75,7 @@ fun ProtectionLevelStep(
             title = stringResource(R.string.onboarding_protection_basic),
             description = stringResource(R.string.onboarding_protection_basic_desc),
             isSelected = selectedLevel == ProtectionLevel.BASIC,
-            onClick = { onLevelSelect(ProtectionLevel.BASIC) }
+            onClick = { onLevelSelect(ProtectionLevel.BASIC) },
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -85,7 +86,7 @@ fun ProtectionLevelStep(
             description = stringResource(R.string.onboarding_protection_standard_desc),
             isSelected = selectedLevel == ProtectionLevel.STANDARD,
             isRecommended = true,
-            onClick = { onLevelSelect(ProtectionLevel.STANDARD) }
+            onClick = { onLevelSelect(ProtectionLevel.STANDARD) },
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -95,7 +96,7 @@ fun ProtectionLevelStep(
             title = stringResource(R.string.onboarding_protection_strict),
             description = stringResource(R.string.onboarding_protection_strict_desc),
             isSelected = selectedLevel == ProtectionLevel.STRICT,
-            onClick = { onLevelSelect(ProtectionLevel.STRICT) }
+            onClick = { onLevelSelect(ProtectionLevel.STRICT) },
         )
     }
 }
@@ -107,32 +108,36 @@ private fun ProtectionLevelCard(
     description: String,
     isSelected: Boolean,
     isRecommended: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected)
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-            else
-                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        ),
-        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    },
+            ),
+        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 modifier = Modifier.size(32.dp),
-                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
             Column(modifier = Modifier.weight(1f)) {
@@ -143,14 +148,14 @@ private fun ProtectionLevelCard(
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                     )
                     if (isRecommended) {
                         Text(
                             text = stringResource(R.string.onboarding_recommended),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                 }
@@ -159,7 +164,7 @@ private fun ProtectionLevelCard(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 18.sp
+                    lineHeight = 18.sp,
                 )
             }
 
@@ -168,7 +173,7 @@ private fun ProtectionLevelCard(
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
             }
         }

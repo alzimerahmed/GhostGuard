@@ -112,7 +112,7 @@
     <string name="https_filtering_ca_desc">Follow these steps to set up HTTPS cosmetic filtering:</string>
     <string name="https_filtering_export_ca">Save to Downloads</string>
     <string name="https_filtering_cert_saved">Certificate saved to Downloads!</string>
-    <string name="https_filtering_install_steps">1. Go to Settings → Security → Encryption &amp; credentials\n2. Tap \&quot;Install a certificate\&quot; → \&quot;CA certificate\&quot;\n3. Select \&quot;BlockAds-RootCA.crt\&quot; from Downloads\n4. Confirm the installation</string>
+    <string name="https_filtering_install_steps">1. Go to Settings → Security → Encryption &amp; credentials\n2. Tap \&quot;Install a certificate\&quot; → \&quot;CA certificate\&quot;\n3. Select \&quot;GhostGuard-RootCA.crt\&quot; from Downloads\n4. Confirm the installation</string>
     <string name="https_filtering_open_settings">Open Security Settings</string>
     <string name="https_filtering_browser_section">Browser Selection</string>
     <string name="https_filtering_browser_desc">Select browsers to apply cosmetic ad filtering. Only selected apps are filtered.</string>
@@ -153,11 +153,11 @@
     <string name="https_wizard_title">Certificate Setup</string>
     <string name="https_wizard_step_indicator_format">Step %1$d of %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Overview &amp; Privacy</string>
-    <string name="https_wizard_overview_subtitle">Why BlockAds needs a local certificate</string>
+    <string name="https_wizard_overview_subtitle">Why GhostGuard needs a local certificate</string>
     <string name="https_wizard_security_title">Security &amp; Privacy</string>
-    <string name="https_wizard_security_desc">The Root CA certificate is generated locally on your device and never leaves your phone. BlockAds uses it strictly to remove cosmetic ads on websites. Sensitive services such as banking apps and Google accounts are never intercepted.</string>
+    <string name="https_wizard_security_desc">The Root CA certificate is generated locally on your device and never leaves your phone. GhostGuard uses it strictly to remove cosmetic ads on websites. Sensitive services such as banking apps and Google accounts are never intercepted.</string>
     <string name="https_wizard_explain_title">Why HTTPS Filtering?</string>
-    <string name="https_wizard_explain_desc">Most modern websites and ads use encrypted HTTPS connections. To hide visual ad placeholders, banners, and floating popups, BlockAds requires a local certificate to inspect and filter web pages safely on your device.</string>
+    <string name="https_wizard_explain_desc">Most modern websites and ads use encrypted HTTPS connections. To hide visual ad placeholders, banners, and floating popups, GhostGuard requires a local certificate to inspect and filter web pages safely on your device.</string>
     <string name="https_wizard_benefits_title">Key Benefits</string>
     <string name="https_wizard_benefit_1">Eliminate ads on video platforms &amp; news websites</string>
     <string name="https_wizard_benefit_2">Hide blank placeholders, banners, and intrusive popups</string>
@@ -181,10 +181,10 @@
     <string name="https_wizard_root_detected_title">Root Access Detected (Recommended)</string>
     <string name="https_wizard_root_detected_desc">Your device has root access. You can install the CA certificate automatically without manual configuration.</string>
     <string name="https_wizard_checking_title">Verifying Certificate…</string>
-    <string name="https_wizard_checking_desc">Scanning the Android trust store for BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA is verified and active in your device\'s trust store. Advanced HTTPS filtering is ready to go!</string>
+    <string name="https_wizard_checking_desc">Scanning the Android trust store for GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA is verified and active in your device\'s trust store. Advanced HTTPS filtering is ready to go!</string>
     <string name="https_wizard_not_installed_title">Certificate Not Detected</string>
-    <string name="https_wizard_not_installed_desc">BlockAds has not found the certificate in your trust store yet. If you just finished installing it in Settings, tap below to check again.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard has not found the certificate in your trust store yet. If you just finished installing it in Settings, tap below to check again.</string>
     <string name="https_wizard_troubleshooting_title">Troubleshooting Tips</string>
     <string name="https_wizard_troubleshooting_tip1">Make sure you selected \"CA Certificate\" in Settings (not User Certificate or VPN &amp; app user certificate).</string>
     <string name="https_wizard_troubleshooting_tip2">If installing via Magisk/KernelSU module, a device reboot is required.</string>

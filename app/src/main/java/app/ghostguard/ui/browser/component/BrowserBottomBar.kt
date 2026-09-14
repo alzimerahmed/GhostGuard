@@ -32,40 +32,48 @@ fun BrowserBottomBar(
     onToggleAdBlock: () -> Unit,
     onShare: () -> Unit,
     onOpenShieldSheet: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = 3.dp,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .height(56.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .height(56.dp),
             horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
                 onClick = onBack,
-                enabled = canGoBack
+                enabled = canGoBack,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    tint = if (canGoBack) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                    tint = if (canGoBack) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                 )
             }
 
             IconButton(
                 onClick = onForward,
-                enabled = canGoForward
+                enabled = canGoForward,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = "Forward",
-                    tint = if (canGoForward) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                    tint =
+                        if (canGoForward) {
+                            MaterialTheme.colorScheme.onSurface
+                        } else {
+                            MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.38f,
+                            )
+                        },
                 )
             }
 
@@ -73,7 +81,7 @@ fun BrowserBottomBar(
                 Icon(
                     imageVector = Icons.Default.Home,
                     contentDescription = "Home",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
 
@@ -81,7 +89,7 @@ fun BrowserBottomBar(
                 Icon(
                     imageVector = if (adBlockEnabled) Icons.Default.Shield else Icons.Outlined.Shield,
                     contentDescription = "AdBlock Shield",
-                    tint = if (adBlockEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                    tint = if (adBlockEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                 )
             }
 
@@ -89,7 +97,7 @@ fun BrowserBottomBar(
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = "Share",
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }

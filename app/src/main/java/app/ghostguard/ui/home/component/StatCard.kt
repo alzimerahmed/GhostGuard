@@ -31,34 +31,35 @@ fun StatCard(
     value: String,
     color: Color,
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
 ) {
     val cardDescription = stringResource(R.string.accessibility_stat_card, label, value)
-    val cardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surface
-    )
+    val cardColors =
+        CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        )
     val cardShape = RoundedCornerShape(16.dp)
     val content: @Composable ColumnScope.() -> Unit = {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(20.dp),
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = color,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = value,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = TextSecondary,
             )
         }
     }
@@ -69,14 +70,14 @@ fun StatCard(
             modifier = modifier.semantics { contentDescription = cardDescription },
             colors = cardColors,
             shape = cardShape,
-            content = content
+            content = content,
         )
     } else {
         Card(
             modifier = modifier.semantics { contentDescription = cardDescription },
             colors = cardColors,
             shape = cardShape,
-            content = content
+            content = content,
         )
     }
 }

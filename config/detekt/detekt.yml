@@ -1,0 +1,42 @@
+# GhostGuard detekt config — built upon default ruleset.
+# Phase 2 baseline: start permissive on style-adjacent rules that ktlint already
+# covers; tighten incrementally. Findings fixed over time, tracked in docs/plan.md.
+build:
+  maxIssues: 0
+
+complexity:
+  LongMethod:
+    active: false   # Compose screens legitimately run long; revisit in refactor phase
+  LongParameterList:
+    active: false   # Composable signatures
+  TooManyFunctions:
+    active: false
+  CyclomaticComplexMethod:
+    active: false
+  NestedBlockDepth:
+    threshold: 8
+
+style:
+  MagicNumber:
+    active: false   # pervasive in UI/dimens code
+  MaxLineLength:
+    maxLineLength: 160
+  ReturnCount:
+    active: false
+  UnusedPrivateMember:
+    active: true    # catches dead code — keep on
+  WildcardImport:
+    active: false   # common in existing code; ktlint governs imports
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - 'Composable'   # PascalCase is the Compose convention
+  MatchingDeclarationName:
+    active: false      # helper files may declare multiple small types
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false

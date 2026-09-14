@@ -12,15 +12,17 @@ import androidx.compose.ui.unit.dp
 fun SettingsCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    val cardColors = CardDefaults.cardColors(
-        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
-    )
-    val cardBorder = androidx.compose.foundation.BorderStroke(
-        width = 1.dp,
-        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f)
-    )
+    val cardColors =
+        CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
+        )
+    val cardBorder =
+        androidx.compose.foundation.BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+        )
     val cardShape = RoundedCornerShape(16.dp)
 
     if (onClick != null) {
@@ -29,7 +31,7 @@ fun SettingsCard(
             colors = cardColors,
             border = cardBorder,
             shape = cardShape,
-            modifier = modifier
+            modifier = modifier,
         ) {
             content()
         }
@@ -38,7 +40,7 @@ fun SettingsCard(
             colors = cardColors,
             border = cardBorder,
             shape = cardShape,
-            modifier = modifier
+            modifier = modifier,
         ) {
             content()
         }

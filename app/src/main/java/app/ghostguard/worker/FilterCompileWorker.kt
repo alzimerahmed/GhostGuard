@@ -32,9 +32,8 @@ import java.io.File
  */
 class FilterCompileWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params), KoinComponent {
-
     private val filterListDao: FilterListDao by inject()
     private val filterRepo: FilterListRepository by inject()
     private val client: HttpClient by inject()
@@ -52,11 +51,15 @@ class FilterCompileWorker(
         private const val NOTIFICATION_ID = 1002
         private const val REMOTE_FILTERS_DIR = "remote_filters"
 
-        fun buildInputData(url: String, name: String, existingFilterId: Long = -1L): Data {
+        fun buildInputData(
+            url: String,
+            name: String,
+            existingFilterId: Long = -1L,
+        ): Data {
             return workDataOf(
                 KEY_FILTER_URL to url,
                 KEY_FILTER_NAME to name,
-                KEY_FILTER_ID to existingFilterId
+                KEY_FILTER_ID to existingFilterId,
             )
         }
     }
@@ -88,9 +91,12 @@ class FilterCompileWorker(
 
             // Compile
             Timber.d("FilterCompileWorker: compiling...")
-            val ruleCount = tunnel.Tunnel.compileFilterList(
-                tempFile.absolutePath, tempTrie.absolutePath, tempBloom.absolutePath
-            ).toInt()
+            val ruleCount =
+                tunnel.Tunnel.compileFilterList(
+                    tempFile.absolutePath,
+                    tempTrie.absolutePath,
+                    tempBloom.absolutePath,
+                ).toInt()
 
             if (ruleCount == 0) {
                 showResultNotification(name, false, "No valid domains found")
@@ -98,46 +104,51 @@ class FilterCompileWorker(
             }
 
             // DB insert or update
-            val filterId = if (existingId > 0) {
-                // Update existing filter (placeholder or recompile)
-                val existing = filterListDao.getById(existingId)
-                if (existing != null) {
-                    val updated = existing.copy(
-                        ruleCount = ruleCount,
-                        domainCount = ruleCount,
-                        description = "Custom filter: ${existing.name}",
-                        bloomUrl = "local://$existingId.bloom",
-                        trieUrl = "local://$existingId.trie",
-                        lastUpdated = System.currentTimeMillis()
+            val filterId =
+                if (existingId > 0) {
+                    // Update existing filter (placeholder or recompile)
+                    val existing = filterListDao.getById(existingId)
+                    if (existing != null) {
+                        val updated =
+                            existing.copy(
+                                ruleCount = ruleCount,
+                                domainCount = ruleCount,
+                                description = "Custom filter: ${existing.name}",
+                                bloomUrl = "local://$existingId.bloom",
+                                trieUrl = "local://$existingId.trie",
+                                lastUpdated = System.currentTimeMillis(),
+                            )
+                        filterListDao.update(updated)
+                    }
+                    existingId
+                } else {
+                    // New filter
+                    val entity =
+                        FilterList(
+                            name = name,
+                            url = url,
+                            description = "Custom filter: $name",
+                            isEnabled = true,
+                            isBuiltIn = false,
+                            category = FilterList.CATEGORY_AD,
+                            ruleCount = ruleCount,
+                            domainCount = ruleCount,
+                            bloomUrl = "",
+                            trieUrl = "",
+                            cssUrl = "",
+                            originalUrl = url,
+                            lastUpdated = System.currentTimeMillis(),
+                        )
+                    val id = filterListDao.insert(entity)
+                    filterListDao.update(
+                        entity.copy(
+                            id = id,
+                            bloomUrl = "local://$id.bloom",
+                            trieUrl = "local://$id.trie",
+                        ),
                     )
-                    filterListDao.update(updated)
+                    id
                 }
-                existingId
-            } else {
-                // New filter
-                val entity = FilterList(
-                    name = name,
-                    url = url,
-                    description = "Custom filter: $name",
-                    isEnabled = true,
-                    isBuiltIn = false,
-                    category = FilterList.CATEGORY_AD,
-                    ruleCount = ruleCount,
-                    domainCount = ruleCount,
-                    bloomUrl = "",
-                    trieUrl = "",
-                    cssUrl = "",
-                    originalUrl = url,
-                    lastUpdated = System.currentTimeMillis()
-                )
-                val id = filterListDao.insert(entity)
-                filterListDao.update(entity.copy(
-                    id = id,
-                    bloomUrl = "local://$id.bloom",
-                    trieUrl = "local://$id.trie"
-                ))
-                id
-            }
 
             // Move compiled files to final location
             File(remoteFilterDir, "$filterId.trie").let { tempTrie.copyTo(it, overwrite = true) }
@@ -150,10 +161,12 @@ class FilterCompileWorker(
             showResultNotification(name, true, "$ruleCount rules compiled")
             Timber.d("FilterCompileWorker: done, $ruleCount rules")
 
-            return Result.success(workDataOf(
-                KEY_RESULT_RULE_COUNT to ruleCount,
-                KEY_RESULT_FILTER_ID to filterId
-            ))
+            return Result.success(
+                workDataOf(
+                    KEY_RESULT_RULE_COUNT to ruleCount,
+                    KEY_RESULT_FILTER_ID to filterId,
+                ),
+            )
         } catch (e: Exception) {
             Timber.e(e, "FilterCompileWorker failed")
             showResultNotification(name, false, e.message ?: "Compilation failed")
@@ -175,42 +188,52 @@ class FilterCompileWorker(
 
     private fun showProgressNotification(filterName: String) {
         createChannel()
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle(applicationContext.getString(R.string.filter_compile_progress_title))
-            .setContentText(filterName)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setOngoing(true)
-            .setProgress(0, 0, true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setSilent(true)
-            .build()
+        val notification =
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                .setContentTitle(applicationContext.getString(R.string.filter_compile_progress_title))
+                .setContentText(filterName)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setOngoing(true)
+                .setProgress(0, 0, true)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setSilent(true)
+                .build()
         val nm = applicationContext.getSystemService(NotificationManager::class.java)
         nm.notify(NOTIFICATION_ID, notification)
     }
 
-    private fun showResultNotification(filterName: String, success: Boolean, message: String) {
+    private fun showResultNotification(
+        filterName: String,
+        success: Boolean,
+        message: String,
+    ) {
         createChannel()
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle(
-                if (success) applicationContext.getString(R.string.filter_compile_success_title)
-                else applicationContext.getString(R.string.filter_compile_failed_title)
-            )
-            .setContentText("$filterName: $message")
-            .setSmallIcon(if (success) R.drawable.ic_check else R.drawable.ic_error)
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
+        val notification =
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                .setContentTitle(
+                    if (success) {
+                        applicationContext.getString(R.string.filter_compile_success_title)
+                    } else {
+                        applicationContext.getString(R.string.filter_compile_failed_title)
+                    },
+                )
+                .setContentText("$filterName: $message")
+                .setSmallIcon(if (success) R.drawable.ic_check else R.drawable.ic_error)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
         val nm = applicationContext.getSystemService(NotificationManager::class.java)
         nm.notify(NOTIFICATION_ID, notification)
     }
 
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                applicationContext.getString(R.string.filter_compile_channel_name),
-                NotificationManager.IMPORTANCE_LOW
-            )
+            val channel =
+                NotificationChannel(
+                    CHANNEL_ID,
+                    applicationContext.getString(R.string.filter_compile_channel_name),
+                    NotificationManager.IMPORTANCE_LOW,
+                )
             val nm = applicationContext.getSystemService(NotificationManager::class.java)
             nm.createNotificationChannel(channel)
         }

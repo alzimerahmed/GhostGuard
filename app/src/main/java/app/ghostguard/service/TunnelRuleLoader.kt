@@ -9,7 +9,6 @@ import timber.log.Timber
  * directly from browser_rules.json (via BrowserRuleStorage).
  */
 object TunnelRuleLoader {
-
     /**
      * Loads cosmetic CSS from the active browser rule package (adblock_cosmetic.css / remote updates).
      */
@@ -38,9 +37,10 @@ object TunnelRuleLoader {
         return try {
             val storage = BrowserRuleStorage(context)
             val pkg = storage.getActivePackage()
-            val patterns = pkg.adPathPatterns.ifEmpty {
-                app.ghostguard.ui.browser.rules.BrowserRuleDefaults.AD_PATH_PATTERNS
-            }
+            val patterns =
+                pkg.adPathPatterns.ifEmpty {
+                    app.ghostguard.ui.browser.rules.BrowserRuleDefaults.AD_PATH_PATTERNS
+                }
             patterns.joinToString("\n")
         } catch (e: Exception) {
             Timber.w(e, "Failed to load ad path patterns from storage")
@@ -52,25 +52,27 @@ object TunnelRuleLoader {
      * Loads scriptlets JS from the active browser rule package (adguard_scriptlets.js / remote updates).
      */
     fun loadScriptletsJs(context: Context): String {
-        val ytSanitizer = runCatching {
-            context.assets.open("browser/youtube_sanitizer.js").bufferedReader().use { it.readText() }
-        }.getOrDefault("")
-
-        val baseScriptlets = try {
-            val storage = BrowserRuleStorage(context)
-            val pkg = storage.getActivePackage()
-            val raw = pkg.scriptletsJs?.trim()
-            if (raw.isNullOrBlank() || raw.startsWith("http://") || raw.startsWith("https://")) {
-                context.assets.open("browser/adguard_scriptlets.js").bufferedReader().use { it.readText() }
-            } else {
-                raw
-            }
-        } catch (e: Exception) {
-            Timber.w(e, "Failed to load scriptlets JS from storage, trying assets directly")
+        val ytSanitizer =
             runCatching {
-                context.assets.open("browser/adguard_scriptlets.js").bufferedReader().use { it.readText() }
+                context.assets.open("browser/youtube_sanitizer.js").bufferedReader().use { it.readText() }
             }.getOrDefault("")
-        }
+
+        val baseScriptlets =
+            try {
+                val storage = BrowserRuleStorage(context)
+                val pkg = storage.getActivePackage()
+                val raw = pkg.scriptletsJs?.trim()
+                if (raw.isNullOrBlank() || raw.startsWith("http://") || raw.startsWith("https://")) {
+                    context.assets.open("browser/adguard_scriptlets.js").bufferedReader().use { it.readText() }
+                } else {
+                    raw
+                }
+            } catch (e: Exception) {
+                Timber.w(e, "Failed to load scriptlets JS from storage, trying assets directly")
+                runCatching {
+                    context.assets.open("browser/adguard_scriptlets.js").bufferedReader().use { it.readText() }
+                }.getOrDefault("")
+            }
 
         return if (ytSanitizer.isNotBlank()) {
             "$baseScriptlets\n\n$ytSanitizer"

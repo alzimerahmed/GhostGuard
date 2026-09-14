@@ -34,7 +34,7 @@ import app.ghostguard.ui.theme.TextSecondary
 fun HomeActivityChart(
     hourlyStats: List<HourlyStat>,
     dailyStats: List<DailyStat>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (hourlyStats.isEmpty() && dailyStats.isEmpty()) return
 
@@ -44,11 +44,12 @@ fun HomeActivityChart(
         Spacer(modifier = Modifier.height(20.dp))
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp, bottom = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp, bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             FilterChip(
                 selected = selectedChartTab == 0,
@@ -56,13 +57,14 @@ fun HomeActivityChart(
                 label = {
                     Text(
                         text = stringResource(R.string.home_chart_24h),
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = AccentBlue.copy(alpha = 0.2f),
-                    selectedLabelColor = AccentBlue
-                )
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = AccentBlue.copy(alpha = 0.2f),
+                        selectedLabelColor = AccentBlue,
+                    ),
             )
             FilterChip(
                 selected = selectedChartTab == 1,
@@ -70,44 +72,48 @@ fun HomeActivityChart(
                 label = {
                     Text(
                         text = stringResource(R.string.home_chart_7d),
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 },
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = AccentBlue.copy(alpha = 0.2f),
-                    selectedLabelColor = AccentBlue
-                )
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = AccentBlue.copy(alpha = 0.2f),
+                        selectedLabelColor = AccentBlue,
+                    ),
             )
         }
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
-            shape = RoundedCornerShape(16.dp)
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            shape = RoundedCornerShape(16.dp),
         ) {
             when (selectedChartTab) {
                 0 -> {
                     if (hourlyStats.isNotEmpty()) {
                         StatsChart(
                             stats = hourlyStats,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(180.dp)
-                                .padding(16.dp)
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .padding(16.dp),
                         )
                     } else {
                         Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(180.dp),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = stringResource(R.string.home_chart_no_data),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                         }
                     }
@@ -117,22 +123,24 @@ fun HomeActivityChart(
                     if (dailyStats.isNotEmpty()) {
                         DailyStatsChart(
                             stats = dailyStats,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(180.dp)
-                                .padding(16.dp)
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                                    .padding(16.dp),
                         )
                     } else {
                         Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(180.dp),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = stringResource(R.string.home_chart_no_data),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                         }
                     }

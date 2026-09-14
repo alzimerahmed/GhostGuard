@@ -13,42 +13,50 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class BootReceiver : BroadcastReceiver() {
-
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         val intentAction = intent.action
         if (intentAction != Intent.ACTION_BOOT_COMPLETED &&
             intentAction != Intent.ACTION_MY_PACKAGE_REPLACED &&
             intentAction != Intent.ACTION_LOCKED_BOOT_COMPLETED
-        ) return
+        ) {
+            return
+        }
 
         val pendingResult = goAsync()
 
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
             try {
                 val userManager = context.getSystemService(Context.USER_SERVICE) as? android.os.UserManager
-                val isLocked = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+                val isLocked =
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
                         userManager != null && !userManager.isUserUnlocked
 
-                val (autoReconnect, wasEnabled, routingMode) = if (isLocked) {
-                    val directPrefs = app.ghostguard.data.datastore.DirectBootPreferences(context)
-                    Triple(directPrefs.autoReconnect, directPrefs.wasVpnEnabled, directPrefs.routingMode)
-                } else {
-                    val prefs = AppPreferences(context)
-                    Triple(prefs.autoReconnect.first(), prefs.vpnEnabled.first(), prefs.routingMode.first())
-                }
+                val (autoReconnect, wasEnabled, routingMode) =
+                    if (isLocked) {
+                        val directPrefs = app.ghostguard.data.datastore.DirectBootPreferences(context)
+                        Triple(directPrefs.autoReconnect, directPrefs.wasVpnEnabled, directPrefs.routingMode)
+                    } else {
+                        val prefs = AppPreferences(context)
+                        Triple(prefs.autoReconnect.first(), prefs.vpnEnabled.first(), prefs.routingMode.first())
+                    }
 
                 if (autoReconnect && wasEnabled) {
-                    val trigger = when (intentAction) {
-                        Intent.ACTION_MY_PACKAGE_REPLACED -> "app update"
-                        Intent.ACTION_LOCKED_BOOT_COMPLETED -> "locked direct boot"
-                        else -> "boot"
-                    }
+                    val trigger =
+                        when (intentAction) {
+                            Intent.ACTION_MY_PACKAGE_REPLACED -> "app update"
+                            Intent.ACTION_LOCKED_BOOT_COMPLETED -> "locked direct boot"
+                            else -> "boot"
+                        }
                     if (routingMode == AppPreferences.ROUTING_MODE_ROOT) {
                         Timber.d("Auto-starting Root Proxy mode after $trigger")
-                        val serviceIntent = Intent(context, RootProxyService::class.java).apply {
-                            action = RootProxyService.ACTION_START
-                            putExtra(RootProxyService.EXTRA_STARTED_FROM_BOOT, true)
-                        }
+                        val serviceIntent =
+                            Intent(context, RootProxyService::class.java).apply {
+                                action = RootProxyService.ACTION_START
+                                putExtra(RootProxyService.EXTRA_STARTED_FROM_BOOT, true)
+                            }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             context.startForegroundService(serviceIntent)
                         } else {
@@ -56,10 +64,11 @@ class BootReceiver : BroadcastReceiver() {
                         }
                     } else {
                         Timber.d("Auto-reconnecting VPN after $trigger")
-                        val serviceIntent = Intent(context, AdBlockVpnService::class.java).apply {
-                            action = AdBlockVpnService.ACTION_START
-                            putExtra(AdBlockVpnService.EXTRA_STARTED_FROM_BOOT, true)
-                        }
+                        val serviceIntent =
+                            Intent(context, AdBlockVpnService::class.java).apply {
+                                action = AdBlockVpnService.ACTION_START
+                                putExtra(AdBlockVpnService.EXTRA_STARTED_FROM_BOOT, true)
+                            }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             context.startForegroundService(serviceIntent)
                         } else {

@@ -23,15 +23,15 @@ import app.ghostguard.data.entities.SettingsBackup
 import app.ghostguard.data.entities.WhitelistDomain
 import app.ghostguard.data.repository.FilterListRepository
 import app.ghostguard.service.AdBlockVpnService
+import app.ghostguard.service.IptablesManager
+import app.ghostguard.service.RootProxyService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
+import app.ghostguard.utils.CrashReportingManager
 import app.ghostguard.utils.CustomRuleParser
 import app.ghostguard.worker.DailySummaryScheduler
 import app.ghostguard.worker.FilterUpdateScheduler
-import app.ghostguard.service.IptablesManager
-import app.ghostguard.service.RootProxyService
-import app.ghostguard.utils.CrashReportingManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -55,77 +55,93 @@ class SettingsViewModel(
     private val firewallRuleDao: FirewallRuleDao,
     application: Application,
 ) : AndroidViewModel(application) {
+    val autoReconnect: StateFlow<Boolean> =
+        appPrefs.autoReconnect
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val autoReconnect: StateFlow<Boolean> = appPrefs.autoReconnect
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val filterLists: StateFlow<List<FilterList>> =
+        filterListDao.getAll()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val filterLists: StateFlow<List<FilterList>> = filterListDao.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val crashReportingEnabled: StateFlow<Boolean> =
+        appPrefs.crashReportingEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val crashReportingEnabled: StateFlow<Boolean> = appPrefs.crashReportingEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val hideFromRecents: StateFlow<Boolean> =
+        appPrefs.hideFromRecents
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val hideFromRecents: StateFlow<Boolean> = appPrefs.hideFromRecents
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val autoUpdateEnabled: StateFlow<Boolean> =
+        appPrefs.autoUpdateEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val autoUpdateEnabled: StateFlow<Boolean> = appPrefs.autoUpdateEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val autoUpdateFrequency: StateFlow<String> =
+        appPrefs.autoUpdateFrequency
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AppPreferences.UPDATE_FREQUENCY_24H,
+            )
 
-    val autoUpdateFrequency: StateFlow<String> = appPrefs.autoUpdateFrequency
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppPreferences.UPDATE_FREQUENCY_24H
-        )
+    val autoUpdateWifiOnly: StateFlow<Boolean> =
+        appPrefs.autoUpdateWifiOnly
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val autoUpdateWifiOnly: StateFlow<Boolean> = appPrefs.autoUpdateWifiOnly
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val autoUpdateNotification: StateFlow<String> =
+        appPrefs.autoUpdateNotification
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AppPreferences.NOTIFICATION_NORMAL,
+            )
 
-    val autoUpdateNotification: StateFlow<String> = appPrefs.autoUpdateNotification
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppPreferences.NOTIFICATION_NORMAL
-        )
+    val dnsResponseType: StateFlow<String> =
+        appPrefs.dnsResponseType
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AppPreferences.DNS_RESPONSE_CUSTOM_IP,
+            )
 
-    val dnsResponseType: StateFlow<String> = appPrefs.dnsResponseType
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppPreferences.DNS_RESPONSE_CUSTOM_IP
-        )
+    val safeSearchEnabled: StateFlow<Boolean> =
+        appPrefs.safeSearchEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val safeSearchEnabled: StateFlow<Boolean> = appPrefs.safeSearchEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val youtubeRestrictedMode: StateFlow<Boolean> =
+        appPrefs.youtubeRestrictedMode
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val dailySummaryEnabled: StateFlow<Boolean> =
+        appPrefs.dailySummaryEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val youtubeRestrictedMode: StateFlow<Boolean> = appPrefs.youtubeRestrictedMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val milestoneNotificationsEnabled: StateFlow<Boolean> =
+        appPrefs.milestoneNotificationsEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
-    val dailySummaryEnabled: StateFlow<Boolean> = appPrefs.dailySummaryEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val upstreamDns: StateFlow<String> =
+        appPrefs.upstreamDns
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AppPreferences.DEFAULT_UPSTREAM_DNS,
+            )
 
-    val milestoneNotificationsEnabled: StateFlow<Boolean> = appPrefs.milestoneNotificationsEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val networkSwitchDelayEnabled: StateFlow<Boolean> =
+        appPrefs.networkSwitchDelayEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val upstreamDns: StateFlow<String> = appPrefs.upstreamDns
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppPreferences.DEFAULT_UPSTREAM_DNS
-        )
+    val networkSwitchDelaySec: StateFlow<Int> =
+        appPrefs.networkSwitchDelaySec
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 30)
 
-    val networkSwitchDelayEnabled: StateFlow<Boolean> = appPrefs.networkSwitchDelayEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val routingMode: StateFlow<String> =
+        appPrefs.routingMode
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.ROUTING_MODE_DIRECT)
 
-    val networkSwitchDelaySec: StateFlow<Int> = appPrefs.networkSwitchDelaySec
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 30)
-
-    val routingMode: StateFlow<String> = appPrefs.routingMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.ROUTING_MODE_DIRECT)
-
-    val excludeLan: StateFlow<Boolean> = appPrefs.excludeLan
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val excludeLan: StateFlow<Boolean> =
+        appPrefs.excludeLan
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     private val _events = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<UiEvent> = _events.asSharedFlow()
@@ -191,18 +207,20 @@ class SettingsViewModel(
 
         if (AdBlockVpnService.isRunning || RootProxyService.isRunning) {
             if (isRoot) {
-                val stopIntent = Intent(context, AdBlockVpnService::class.java).apply {
-                    action = AdBlockVpnService.ACTION_STOP
-                }
+                val stopIntent =
+                    Intent(context, AdBlockVpnService::class.java).apply {
+                        action = AdBlockVpnService.ACTION_STOP
+                    }
                 context.startService(stopIntent)
                 delay(800)
                 RootProxyService.start(context)
             } else {
                 RootProxyService.stop(context)
                 delay(800)
-                val startIntent = Intent(context, AdBlockVpnService::class.java).apply {
-                    action = AdBlockVpnService.ACTION_START
-                }
+                val startIntent =
+                    Intent(context, AdBlockVpnService::class.java).apply {
+                        action = AdBlockVpnService.ACTION_START
+                    }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(startIntent)
                 } else {
@@ -217,7 +235,7 @@ class SettingsViewModel(
             appPrefs.setAutoUpdateEnabled(enabled)
             FilterUpdateScheduler.scheduleFilterUpdate(
                 getApplication<Application>().applicationContext,
-                appPrefs
+                appPrefs,
             )
         }
     }
@@ -227,7 +245,7 @@ class SettingsViewModel(
             appPrefs.setAutoUpdateFrequency(frequency)
             FilterUpdateScheduler.scheduleFilterUpdate(
                 getApplication<Application>().applicationContext,
-                appPrefs
+                appPrefs,
             )
         }
     }
@@ -237,7 +255,7 @@ class SettingsViewModel(
             appPrefs.setAutoUpdateWifiOnly(wifiOnly)
             FilterUpdateScheduler.scheduleFilterUpdate(
                 getApplication<Application>().applicationContext,
-                appPrefs
+                appPrefs,
             )
         }
     }
@@ -262,7 +280,6 @@ class SettingsViewModel(
         }
     }
 
-
     fun setYoutubeRestrictedMode(enabled: Boolean) {
         viewModelScope.launch {
             appPrefs.setYoutubeRestrictedMode(enabled)
@@ -275,11 +292,11 @@ class SettingsViewModel(
             appPrefs.setDailySummaryEnabled(enabled)
             if (enabled) {
                 DailySummaryScheduler.scheduleDailySummary(
-                    getApplication<Application>().applicationContext
+                    getApplication<Application>().applicationContext,
                 )
             } else {
                 DailySummaryScheduler.cancelDailySummary(
-                    getApplication<Application>().applicationContext
+                    getApplication<Application>().applicationContext,
                 )
             }
         }
@@ -303,45 +320,48 @@ class SettingsViewModel(
         viewModelScope.launch {
             try {
                 val activeProfile = profileDao.getActive()
-                val backup = SettingsBackup(
-                    upstreamDns = appPrefs.upstreamDns.first(),
-                    fallbackDns = appPrefs.fallbackDns.first(),
-                    autoReconnect = appPrefs.autoReconnect.first(),
-                    themeMode = appPrefs.themeMode.first(),
-                    appLanguage = appPrefs.appLanguage.first(),
-                    safeSearchEnabled = appPrefs.safeSearchEnabled.first(),
-                    youtubeRestrictedMode = appPrefs.youtubeRestrictedMode.first(),
-                    dailySummaryEnabled = appPrefs.dailySummaryEnabled.first(),
-                    milestoneNotificationsEnabled = appPrefs.milestoneNotificationsEnabled.first(),
-                    activeProfileType = activeProfile?.profileType ?: "",
-                    firewallEnabled = appPrefs.firewallEnabled.first(),
-                    filterLists = filterListDao.getAllSync().map { f ->
-                        FilterListBackup(name = f.name, url = f.url, isEnabled = f.isEnabled)
-                    },
-                    whitelistDomains = whitelistDomainDao.getAllDomains(),
-                    whitelistedApps = appPrefs.getWhitelistedAppsSnapshot().toList(),
-                    customRules = customDnsRuleDao.getAll().map { it.rule },
-                    firewallRules = firewallRuleDao.getEnabledRules().map { r ->
-                        FirewallRuleBackup(
-                            packageName = r.packageName,
-                            blockWifi = r.blockWifi,
-                            blockMobileData = r.blockMobileData,
-                            scheduleEnabled = r.scheduleEnabled,
-                            scheduleStartHour = r.scheduleStartHour,
-                            scheduleStartMinute = r.scheduleStartMinute,
-                            scheduleEndHour = r.scheduleEndHour,
-                            scheduleEndMinute = r.scheduleEndMinute,
-                            isEnabled = r.isEnabled
-                        )
-                    }
-                )
+                val backup =
+                    SettingsBackup(
+                        upstreamDns = appPrefs.upstreamDns.first(),
+                        fallbackDns = appPrefs.fallbackDns.first(),
+                        autoReconnect = appPrefs.autoReconnect.first(),
+                        themeMode = appPrefs.themeMode.first(),
+                        appLanguage = appPrefs.appLanguage.first(),
+                        safeSearchEnabled = appPrefs.safeSearchEnabled.first(),
+                        youtubeRestrictedMode = appPrefs.youtubeRestrictedMode.first(),
+                        dailySummaryEnabled = appPrefs.dailySummaryEnabled.first(),
+                        milestoneNotificationsEnabled = appPrefs.milestoneNotificationsEnabled.first(),
+                        activeProfileType = activeProfile?.profileType ?: "",
+                        firewallEnabled = appPrefs.firewallEnabled.first(),
+                        filterLists =
+                            filterListDao.getAllSync().map { f ->
+                                FilterListBackup(name = f.name, url = f.url, isEnabled = f.isEnabled)
+                            },
+                        whitelistDomains = whitelistDomainDao.getAllDomains(),
+                        whitelistedApps = appPrefs.getWhitelistedAppsSnapshot().toList(),
+                        customRules = customDnsRuleDao.getAll().map { it.rule },
+                        firewallRules =
+                            firewallRuleDao.getEnabledRules().map { r ->
+                                FirewallRuleBackup(
+                                    packageName = r.packageName,
+                                    blockWifi = r.blockWifi,
+                                    blockMobileData = r.blockMobileData,
+                                    scheduleEnabled = r.scheduleEnabled,
+                                    scheduleStartHour = r.scheduleStartHour,
+                                    scheduleStartMinute = r.scheduleStartMinute,
+                                    scheduleEndHour = r.scheduleEndHour,
+                                    scheduleEndMinute = r.scheduleEndMinute,
+                                    isEnabled = r.isEnabled,
+                                )
+                            },
+                    )
 
                 val jsonFormat = kotlinx.serialization.json.Json { prettyPrint = true }
                 getApplication<Application>().applicationContext.contentResolver.openOutputStream(
-                    uri
+                    uri,
                 )?.use { out ->
                     out.write(
-                        jsonFormat.encodeToString(SettingsBackup.serializer(), backup).toByteArray()
+                        jsonFormat.encodeToString(SettingsBackup.serializer(), backup).toByteArray(),
                     )
                 }
                 _events.toast(R.string.filter_settings_export)
@@ -357,7 +377,7 @@ class SettingsViewModel(
             try {
                 val jsonStr =
                     getApplication<Application>().applicationContext.contentResolver.openInputStream(
-                        uri
+                        uri,
                     )?.use { input ->
                         input.bufferedReader().readText()
                     } ?: throw Exception("Cannot read file")
@@ -395,8 +415,8 @@ class SettingsViewModel(
                             FilterList(
                                 name = f.name,
                                 url = f.url,
-                                isEnabled = f.isEnabled
-                            )
+                                isEnabled = f.isEnabled,
+                            ),
                         )
                     }
                 }
@@ -436,8 +456,8 @@ class SettingsViewModel(
                                 scheduleStartMinute = r.scheduleStartMinute,
                                 scheduleEndHour = r.scheduleEndHour,
                                 scheduleEndMinute = r.scheduleEndMinute,
-                                isEnabled = r.isEnabled
-                            )
+                                isEnabled = r.isEnabled,
+                            ),
                         )
                     }
                 }

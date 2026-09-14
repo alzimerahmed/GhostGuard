@@ -23,30 +23,31 @@ fun SettingIconBadge(
     icon: ImageVector? = null,
     painter: Painter? = null,
     tint: Color = Color(0xFF2563EB),
-    contentDescription: String? = null
+    contentDescription: String? = null,
 ) {
     Box(
-        modifier = modifier
-            .size(36.dp)
-            .background(
-                color = tint.copy(alpha = 0.12f),
-                shape = RoundedCornerShape(10.dp)
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .size(36.dp)
+                .background(
+                    color = tint.copy(alpha = 0.12f),
+                    shape = RoundedCornerShape(10.dp),
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         if (painter != null) {
             Icon(
                 painter = painter,
                 contentDescription = contentDescription,
                 tint = tint,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
         } else if (icon != null) {
             Icon(
                 imageVector = icon,
                 contentDescription = contentDescription,
                 tint = tint,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
         }
     }

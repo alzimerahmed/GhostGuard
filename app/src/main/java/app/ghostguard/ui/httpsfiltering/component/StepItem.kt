@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -32,31 +31,32 @@ fun StepItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         // Step number circle
         Box(
-            modifier = Modifier
-                .size(28.dp)
-                .clip(CircleShape)
-                .background(
-                    if (isDone) Color(0xFF4CAF50) else MaterialTheme.colorScheme.primary
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(28.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (isDone) Color(0xFF4CAF50) else MaterialTheme.colorScheme.primary,
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             if (isDone) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
             } else {
                 Text(
                     text = stepNumber.toString(),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.White,
                 )
             }
         }
@@ -68,16 +68,17 @@ fun StepItem(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = if (isDone) {
-                    Color(0xFF4CAF50)
-                } else {
-                    MaterialTheme.colorScheme.onSurface
-                }
+                color =
+                    if (isDone) {
+                        Color(0xFF4CAF50)
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    },
             )
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

@@ -28,7 +28,7 @@ import app.ghostguard.utils.formatCount
 @Composable
 fun TopBlockedSection(
     topBlockedDomains: List<TopBlockedDomain>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (topBlockedDomains.isEmpty()) return
 
@@ -40,32 +40,35 @@ fun TopBlockedSection(
             style = MaterialTheme.typography.labelMedium,
             color = TextSecondary,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp, bottom = 8.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp, bottom = 8.dp),
         )
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
-            shape = RoundedCornerShape(16.dp)
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            shape = RoundedCornerShape(16.dp),
         ) {
             Column(modifier = Modifier.padding(vertical = 4.dp)) {
                 topBlockedDomains.forEachIndexed { index, entry ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = "${index + 1}",
                             style = MaterialTheme.typography.labelMedium,
                             color = TextSecondary,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.width(24.dp)
+                            modifier = Modifier.width(24.dp),
                         )
                         Text(
                             text = entry.domain,
@@ -73,13 +76,13 @@ fun TopBlockedSection(
                             color = MaterialTheme.colorScheme.onBackground,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         )
                         Text(
                             text = formatCount(entry.count),
                             style = MaterialTheme.typography.labelSmall,
                             color = DangerRed,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }

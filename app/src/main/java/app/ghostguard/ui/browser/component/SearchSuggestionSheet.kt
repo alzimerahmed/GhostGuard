@@ -1,6 +1,5 @@
 package app.ghostguard.ui.browser.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -25,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Language
@@ -73,7 +71,7 @@ fun SearchSuggestionSheet(
     onSubmitSearch: (String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
 ) {
     if (!isVisible) return
 
@@ -89,13 +87,14 @@ fun SearchSuggestionSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface,
-        modifier = modifier.imePadding()
+        modifier = modifier.imePadding(),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(horizontal = 16.dp, vertical = 6.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
         ) {
             // Search Input Field
             OutlinedTextField(
@@ -104,7 +103,10 @@ fun SearchSuggestionSheet(
                 placeholder = {
                     Text(
                         "Nhập từ khóa hoặc địa chỉ web...",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f))
+                        style =
+                            MaterialTheme.typography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                            ),
                     )
                 },
                 leadingIcon = {
@@ -112,7 +114,7 @@ fun SearchSuggestionSheet(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search",
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(20.dp),
                     )
                 },
                 trailingIcon = {
@@ -120,24 +122,24 @@ fun SearchSuggestionSheet(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             IconButton(
                                 onClick = { onQueryChange("") },
-                                modifier = Modifier.size(36.dp)
+                                modifier = Modifier.size(36.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
                                     contentDescription = "Clear",
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(18.dp),
                                 )
                             }
                             IconButton(
                                 onClick = { if (query.isNotBlank()) onSubmitSearch(query) },
-                                modifier = Modifier.size(36.dp)
+                                modifier = Modifier.size(36.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                     contentDescription = "Go",
                                     tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(20.dp),
                                 )
                             }
                         }
@@ -145,32 +147,36 @@ fun SearchSuggestionSheet(
                 },
                 singleLine = true,
                 shape = RoundedCornerShape(16.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)
-                ),
+                colors =
+                    OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
+                    ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-                keyboardActions = KeyboardActions(
-                    onSearch = { if (query.isNotBlank()) onSubmitSearch(query) },
-                    onGo = { if (query.isNotBlank()) onSubmitSearch(query) },
-                    onDone = { if (query.isNotBlank()) onSubmitSearch(query) },
-                    onSend = { if (query.isNotBlank()) onSubmitSearch(query) }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester)
+                keyboardActions =
+                    KeyboardActions(
+                        onSearch = { if (query.isNotBlank()) onSubmitSearch(query) },
+                        onGo = { if (query.isNotBlank()) onSubmitSearch(query) },
+                        onDone = { if (query.isNotBlank()) onSubmitSearch(query) },
+                        onSend = { if (query.isNotBlank()) onSubmitSearch(query) },
+                    ),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             // Search Engine Picker Chips
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 SearchEngine.entries.forEach { engine ->
                     val isSelected = engine == selectedEngine
@@ -180,17 +186,19 @@ fun SearchSuggestionSheet(
                         label = {
                             Text(
                                 engine.displayName,
-                                style = MaterialTheme.typography.labelMedium.copy(
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                    fontSize = 12.sp
-                                )
+                                style =
+                                    MaterialTheme.typography.labelMedium.copy(
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        fontSize = 12.sp,
+                                    ),
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        ),
-                        shape = RoundedCornerShape(12.dp)
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            ),
+                        shape = RoundedCornerShape(12.dp),
                     )
                 }
             }
@@ -201,24 +209,26 @@ fun SearchSuggestionSheet(
             // Autocomplete Suggestions List or Direct Action Tile
             if (suggestions.isNotEmpty()) {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 280.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 280.dp),
                 ) {
                     items(suggestions) { suggestion ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable { onSubmitSearch(suggestion) }
-                                .padding(horizontal = 8.dp, vertical = 10.dp)
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable { onSubmitSearch(suggestion) }
+                                    .padding(horizontal = 8.dp, vertical = 10.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
@@ -227,17 +237,17 @@ fun SearchSuggestionSheet(
                                 color = MaterialTheme.colorScheme.onSurface,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
                             )
                             IconButton(
                                 onClick = { onQueryChange(suggestion) },
-                                modifier = Modifier.size(30.dp)
+                                modifier = Modifier.size(30.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.NorthWest,
                                     contentDescription = "Insert",
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                                    modifier = Modifier.size(15.dp)
+                                    modifier = Modifier.size(15.dp),
                                 )
                             }
                         }
@@ -245,59 +255,63 @@ fun SearchSuggestionSheet(
                 }
             } else if (query.isNotBlank()) {
                 val trimmedQuery = query.trim()
-                val isUrl = trimmedQuery.startsWith("http://") ||
-                    trimmedQuery.startsWith("https://") ||
-                    (trimmedQuery.contains(".") && !trimmedQuery.contains(" "))
+                val isUrl =
+                    trimmedQuery.startsWith("http://") ||
+                        trimmedQuery.startsWith("https://") ||
+                        (trimmedQuery.contains(".") && !trimmedQuery.contains(" "))
 
                 Surface(
                     shape = RoundedCornerShape(14.dp),
                     color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp, bottom = 8.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .clickable { onSubmitSearch(trimmedQuery) }
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp, bottom = 8.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .clickable { onSubmitSearch(trimmedQuery) },
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
                     ) {
                         Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Icon(
                                 imageVector = if (isUrl) Icons.Default.Language else Icons.Default.Search,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier.size(18.dp),
                             )
                         }
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = if (isUrl) "Truy cập trang web" else "Tìm kiếm với ${selectedEngine.displayName}",
-                                style = MaterialTheme.typography.labelSmall.copy(
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.SemiBold
-                                )
+                                style =
+                                    MaterialTheme.typography.labelSmall.copy(
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontWeight = FontWeight.SemiBold,
+                                    ),
                             )
                             Text(
                                 text = trimmedQuery,
                                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
                                 color = MaterialTheme.colorScheme.onSurface,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = "Go",
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(18.dp),
                         )
                     }
                 }
@@ -305,40 +319,44 @@ fun SearchSuggestionSheet(
                 // Quick Shortcuts when search query is empty
                 Text(
                     text = "Lối tắt phổ biến",
-                    style = MaterialTheme.typography.labelMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.padding(top = 10.dp, bottom = 8.dp)
+                    style =
+                        MaterialTheme.typography.labelMedium.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
+                    modifier = Modifier.padding(top = 10.dp, bottom = 8.dp),
                 )
 
-                val quickSites = listOf(
-                    "YouTube" to "https://m.youtube.com",
-                    "Google" to "https://www.google.com",
-                    "VnExpress" to "https://vnexpress.net",
-                    "HentaiVN" to "https://www.hentaivnx.com",
-                    "Wikipedia" to "https://vi.m.wikipedia.org"
-                )
+                val quickSites =
+                    listOf(
+                        "YouTube" to "https://m.youtube.com",
+                        "Google" to "https://www.google.com",
+                        "VnExpress" to "https://vnexpress.net",
+                        "HentaiVN" to "https://www.hentaivnx.com",
+                        "Wikipedia" to "https://vi.m.wikipedia.org",
+                    )
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     quickSites.forEach { (name, url) ->
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(12.dp))
-                                .clickable { onSubmitSearch(url) }
+                            modifier =
+                                Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .clickable { onSubmitSearch(url) },
                         ) {
                             Text(
                                 text = name,
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
                                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }

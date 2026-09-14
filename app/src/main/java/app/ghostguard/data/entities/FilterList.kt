@@ -20,7 +20,7 @@ data class FilterList(
     val cssUrl: String = "",
     val scriptletsUrl: String = "",
     val ruleCount: Int = 0,
-    val originalUrl: String = ""
+    val originalUrl: String = "",
 ) {
     companion object {
         const val CATEGORY_AD = "AD"

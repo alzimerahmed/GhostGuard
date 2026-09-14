@@ -20,25 +20,26 @@ import app.ghostguard.ui.theme.TextSecondary
 @Composable
 fun EmptyState(message: String) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(32.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Icon(
                 Icons.Default.Block,
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
-                tint = TextSecondary.copy(alpha = 0.4f)
+                tint = TextSecondary.copy(alpha = 0.4f),
             )
             Text(
                 message,
                 style = MaterialTheme.typography.bodyLarge,
-                color = TextSecondary
+                color = TextSecondary,
             )
         }
     }

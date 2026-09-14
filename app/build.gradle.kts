@@ -8,29 +8,39 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sentry)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.detekt)
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom(rootProject.files("config/detekt/detekt.yml"))
+    baseline = file("config/detekt/baseline.xml")
+    parallel = true
 }
 
 tasks.register<Exec>("buildGoTunnel") {
     val libsDir = file("libs")
     val aarFile = file("libs/tunnel.aar")
     val tunnelDir = rootProject.file("tunnel")
-    
+
     // Only rebuild if the tunnel source code changes (or if aar is missing)
     inputs.dir(tunnelDir)
     outputs.file(aarFile)
 
     workingDir = tunnelDir
-    
+
     // For local development, gomobile might not be in PATH for Gradle, so we use bash
     // to load user's profile which usually exports GOPATH/bin to PATH.
     commandLine(
-        "bash", "-c",
+        "bash",
+        "-c",
         "mkdir -p \"${libsDir.absolutePath}\" && " +
-        "export GOFLAGS=\"-buildvcs=false\" && " +
-        "export PATH=\"\$PATH:\$GOPATH/bin:\$HOME/go/bin:/usr/local/go/bin\" && " +
-        "gomobile bind -target=android -androidapi 24 -trimpath " +
-        "-ldflags=\"-s -w -buildid= -extldflags=-Wl,-z,max-page-size=16384\" " +
-        "-o ${aarFile.absolutePath} github.com/alzimerahmed/ghostguard-tunnel"
+            "export GOFLAGS=\"-buildvcs=false\" && " +
+            "export PATH=\"\$PATH:\$GOPATH/bin:\$HOME/go/bin:/usr/local/go/bin\" && " +
+            "gomobile bind -target=android -androidapi 24 -trimpath " +
+            "-ldflags=\"-s -w -buildid= -extldflags=-Wl,-z,max-page-size=16384\" " +
+            "-o ${aarFile.absolutePath} github.com/alzimerahmed/ghostguard-tunnel",
     )
 
     doFirst {
@@ -39,7 +49,7 @@ tasks.register<Exec>("buildGoTunnel") {
         }
         println("Building Go tunnel for Android...")
     }
-    
+
     doLast {
         println("Go tunnel built successfully.")
     }
@@ -67,9 +77,10 @@ android {
     val useReleaseKeystore = keyPropertiesFile.exists()
 
     if (useReleaseKeystore) {
-        val keyProperties = Properties().apply {
-            load(keyPropertiesFile.inputStream())
-        }
+        val keyProperties =
+            Properties().apply {
+                load(keyPropertiesFile.inputStream())
+            }
         signingConfigs {
             create("release") {
                 val ksPath = keyProperties["storeFile"] as String
@@ -88,7 +99,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             if (useReleaseKeystore) {
                 signingConfig = signingConfigs.getByName("release")
@@ -175,7 +186,7 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.logging)
-    
+
     // Go Tunnel backend
     implementation(files("libs/tunnel.aar"))
 

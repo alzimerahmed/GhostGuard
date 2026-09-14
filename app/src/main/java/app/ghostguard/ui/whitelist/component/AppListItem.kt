@@ -36,37 +36,42 @@ fun AppListItem(
     app: AppInfoData,
     isWhitelisted: Boolean,
     onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isWhitelisted)
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
-        else
-            Color.Transparent,
+        targetValue =
+            if (isWhitelisted) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+            } else {
+                Color.Transparent
+            },
         animationSpec = tween(300),
-        label = "app_bg"
+        label = "app_bg",
     )
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // App icon
             Image(
                 painter = rememberDrawablePainter(drawable = app.icon),
                 contentDescription = app.label,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -79,14 +84,14 @@ fun AppListItem(
                     fontWeight = FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
                     text = app.packageName,
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
@@ -94,10 +99,11 @@ fun AppListItem(
             Switch(
                 checked = isWhitelisted,
                 onCheckedChange = { onToggle() },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary
-                )
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    ),
             )
         }
     }

@@ -47,14 +47,14 @@ fun ProtectionSection(
     onNavigateToDNSProvider: () -> Unit,
     onNavigateToWireGuardImport: () -> Unit,
     onNavigateToHttpsFiltering: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
 
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_protection),
-            description = stringResource(R.string.settings_category_protection_desc)
+            description = stringResource(R.string.settings_category_protection_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -66,7 +66,7 @@ fun ProtectionSection(
                     iconTint = Color(0xFF2563EB),
                     title = stringResource(R.string.dns_provider_title),
                     statusValue = upstreamDNS,
-                    onClick = onNavigateToDNSProvider
+                    onClick = onNavigateToDNSProvider,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -76,12 +76,13 @@ fun ProtectionSection(
                     iconPainter = painterResource(R.drawable.ic_settings_block_mode),
                     iconTint = Color(0xFFEA580C),
                     title = stringResource(R.string.settings_dns_response_type),
-                    desc = when (dnsResponseType) {
-                        AppPreferences.DNS_RESPONSE_NXDOMAIN -> stringResource(R.string.dns_response_nxdomain)
-                        AppPreferences.DNS_RESPONSE_REFUSED -> stringResource(R.string.dns_response_refused)
-                        else -> stringResource(R.string.dns_response_custom_ip)
-                    },
-                    onClick = onShowDnsResponseTypeDialog
+                    desc =
+                        when (dnsResponseType) {
+                            AppPreferences.DNS_RESPONSE_NXDOMAIN -> stringResource(R.string.dns_response_nxdomain)
+                            AppPreferences.DNS_RESPONSE_REFUSED -> stringResource(R.string.dns_response_refused)
+                            else -> stringResource(R.string.dns_response_custom_ip)
+                        },
+                    onClick = onShowDnsResponseTypeDialog,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -92,7 +93,7 @@ fun ProtectionSection(
                     iconTint = Color(0xFF7C3AED),
                     title = stringResource(R.string.https_filtering_title) + " (BETA)",
                     desc = stringResource(R.string.https_filtering_settings_desc),
-                    onClick = onNavigateToHttpsFiltering
+                    onClick = onNavigateToHttpsFiltering,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -103,7 +104,7 @@ fun ProtectionSection(
                     iconTint = Color(0xFF7C3AED),
                     title = stringResource(R.string.wireguard_import_title) + " (BETA)",
                     desc = stringResource(R.string.wireguard_empty_desc),
-                    onClick = onNavigateToWireGuardImport
+                    onClick = onNavigateToWireGuardImport,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -115,7 +116,7 @@ fun ProtectionSection(
                     title = stringResource(R.string.settings_auto_reconnect),
                     subtitle = stringResource(R.string.settings_auto_reconnect_desc),
                     isChecked = autoReconnect,
-                    onCheckedChange = onSetAutoReconnect
+                    onCheckedChange = onSetAutoReconnect,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -127,36 +128,36 @@ fun ProtectionSection(
                     title = stringResource(R.string.settings_network_switch_delay),
                     subtitle = stringResource(R.string.settings_network_switch_delay_desc),
                     isChecked = networkSwitchDelayEnabled,
-                    onCheckedChange = onSetNetworkSwitchDelayEnabled
+                    onCheckedChange = onSetNetworkSwitchDelayEnabled,
                 )
 
                 AnimatedVisibility(
                     visible = networkSwitchDelayEnabled,
                     enter = expandVertically() + fadeIn(),
-                    exit = shrinkVertically() + fadeOut()
+                    exit = shrinkVertically() + fadeOut(),
                 ) {
                     Column(
-                        modifier = Modifier.padding(start = 66.dp, end = 16.dp, bottom = 12.dp)
+                        modifier = Modifier.padding(start = 66.dp, end = 16.dp, bottom = 12.dp),
                     ) {
                         Text(
                             stringResource(
                                 R.string.settings_network_switch_delay_value,
-                                networkSwitchDelaySec
+                                networkSwitchDelaySec,
                             ),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.horizontalScroll(rememberScrollState())
+                            modifier = Modifier.horizontalScroll(rememberScrollState()),
                         ) {
                             listOf(5, 10, 30, 60, 120).forEach { sec ->
                                 FilterChip(
                                     selected = networkSwitchDelaySec == sec,
                                     onClick = { onSetNetworkSwitchDelaySec(sec) },
-                                    label = { Text("${sec}s") }
+                                    label = { Text("${sec}s") },
                                 )
                             }
                         }
@@ -172,7 +173,7 @@ fun ProtectionSection(
                     title = stringResource(R.string.settings_safe_search),
                     subtitle = stringResource(R.string.settings_safe_search_desc),
                     isChecked = safeSearchEnabled,
-                    onCheckedChange = onSetSafeSearchEnabled
+                    onCheckedChange = onSetSafeSearchEnabled,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -184,7 +185,7 @@ fun ProtectionSection(
                     title = stringResource(R.string.settings_youtube_restricted),
                     subtitle = stringResource(R.string.settings_youtube_restricted_desc),
                     isChecked = youtubeRestrictedMode,
-                    onCheckedChange = onSetYoutubeRestrictedMode
+                    onCheckedChange = onSetYoutubeRestrictedMode,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -196,7 +197,7 @@ fun ProtectionSection(
                     title = stringResource(R.string.settings_root_proxy),
                     subtitle = stringResource(R.string.settings_root_proxy_desc),
                     isChecked = routingMode == AppPreferences.ROUTING_MODE_ROOT,
-                    onCheckedChange = onSetRoutingMode
+                    onCheckedChange = onSetRoutingMode,
                 )
             }
         }

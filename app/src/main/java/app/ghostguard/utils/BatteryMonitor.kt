@@ -33,7 +33,7 @@ class BatteryMonitor(private val context: Context) {
         val batteryStatus = getBatteryStatus()
         val status = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
         return status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL
+            status == BatteryManager.BATTERY_STATUS_FULL
     }
 
     /**
@@ -97,7 +97,7 @@ class BatteryMonitor(private val context: Context) {
             chargingMethod = getChargingMethod(),
             health = getBatteryHealth(),
             temperature = getBatteryTemperature(),
-            voltage = getBatteryVoltage()
+            voltage = getBatteryVoltage(),
         )
     }
 
@@ -107,8 +107,9 @@ class BatteryMonitor(private val context: Context) {
     fun logBatteryStatus() {
         val info = getBatteryInfo()
         Timber.d(
-            "%snull", "Battery Status: ${info.level}%, Charging: ${info.isCharging}, " +
-                    "Method: ${info.chargingMethod}, Health: ${info.health}, "
+            "%snull",
+            "Battery Status: ${info.level}%, Charging: ${info.isCharging}, " +
+                "Method: ${info.chargingMethod}, Health: ${info.health}, ",
         )
     }
 
@@ -118,11 +119,19 @@ class BatteryMonitor(private val context: Context) {
     }
 
     enum class ChargingMethod {
-        NONE, USB, AC, WIRELESS
+        NONE,
+        USB,
+        AC,
+        WIRELESS,
     }
 
     enum class BatteryHealth {
-        UNKNOWN, GOOD, OVERHEAT, DEAD, OVER_VOLTAGE, COLD
+        UNKNOWN,
+        GOOD,
+        OVERHEAT,
+        DEAD,
+        OVER_VOLTAGE,
+        COLD,
     }
 
     data class BatteryInfo(
@@ -131,11 +140,11 @@ class BatteryMonitor(private val context: Context) {
         val chargingMethod: ChargingMethod,
         val health: BatteryHealth,
         val temperature: Float,
-        val voltage: Int
+        val voltage: Int,
     ) {
         override fun toString(): String {
             return "Battery: $level%, Charging: $isCharging ($chargingMethod), " +
-                    "Health: $health, Temp: ${temperature}°C, Voltage: ${voltage}mV"
+                "Health: $health, Temp: $temperature°C, Voltage: ${voltage}mV"
         }
     }
 }

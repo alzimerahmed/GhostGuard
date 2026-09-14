@@ -16,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap
  * Handles fast domain/path matching, HTTP 204 responses, and scriptlet caching.
  */
 object BrowserAdBlocker {
-
     private val scriptCache = ConcurrentHashMap<String, String>()
 
     @Volatile
@@ -90,7 +89,10 @@ object BrowserAdBlocker {
      * Evaluates whether an outgoing page navigation should be blocked.
      * Blocks known ad/gambling/tracking URLs according to active rules.
      */
-    fun shouldBlockNavigation(request: WebResourceRequest, currentUrl: String?): Boolean {
+    fun shouldBlockNavigation(
+        request: WebResourceRequest,
+        currentUrl: String?,
+    ): Boolean {
         return shouldBlock(request)
     }
 
@@ -99,14 +101,20 @@ object BrowserAdBlocker {
      * ensuring JavaScript fetch/XHR and test suites properly detect the network block.
      */
     fun createBlockedResponse(): WebResourceResponse {
-        val errorStream = object : java.io.InputStream() {
-            override fun read(): Int = throw java.io.IOException("ERR_BLOCKED_BY_CLIENT")
-            override fun read(b: ByteArray, off: Int, len: Int): Int = throw java.io.IOException("ERR_BLOCKED_BY_CLIENT")
-        }
+        val errorStream =
+            object : java.io.InputStream() {
+                override fun read(): Int = throw java.io.IOException("ERR_BLOCKED_BY_CLIENT")
+
+                override fun read(
+                    b: ByteArray,
+                    off: Int,
+                    len: Int,
+                ): Int = throw java.io.IOException("ERR_BLOCKED_BY_CLIENT")
+            }
         return WebResourceResponse(
             "text/plain",
             "UTF-8",
-            errorStream
+            errorStream,
         )
     }
 
@@ -115,7 +123,8 @@ object BrowserAdBlocker {
      * preventing players from getting trapped in infinite wait loops.
      */
     fun getMockInplayerAdxResponse(): WebResourceResponse {
-        val mockJs = """
+        val mockJs =
+            """
             window.show_adx = 0;
             window.COUNT_VAST = 0;
             window.vastAdx = [];
@@ -124,26 +133,28 @@ object BrowserAdBlocker {
             window.funcJWonReadyVAST = function() {};
             window.bannerAdxAllowed = function() { return false; };
             window.hideInplayerBanner = function() {};
-        """.trimIndent()
-        val headers = mapOf(
-            "Access-Control-Allow-Origin" to "*",
-            "Cache-Control" to "no-store, no-cache, must-revalidate",
-            "Content-Type" to "application/javascript; charset=UTF-8"
-        )
+            """.trimIndent()
+        val headers =
+            mapOf(
+                "Access-Control-Allow-Origin" to "*",
+                "Cache-Control" to "no-store, no-cache, must-revalidate",
+                "Content-Type" to "application/javascript; charset=UTF-8",
+            )
         return WebResourceResponse(
             "application/javascript",
             "UTF-8",
             200,
             "OK",
             headers,
-            ByteArrayInputStream(mockJs.toByteArray(Charsets.UTF_8))
+            ByteArrayInputStream(mockJs.toByteArray(Charsets.UTF_8)),
         )
     }
 
-    private val TRANSPARENT_1X1_GIF = android.util.Base64.decode(
-        "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-        android.util.Base64.DEFAULT
-    )
+    private val TRANSPARENT_1X1_GIF =
+        android.util.Base64.decode(
+            "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            android.util.Base64.DEFAULT,
+        )
 
     /**
      * Checks if a request requires an AdGuard-style surrogate response (stub JS or 1x1 pixel)
@@ -168,57 +179,61 @@ object BrowserAdBlocker {
     }
 
     private fun getMockEmptyJsResponse(): WebResourceResponse {
-        val headers = mapOf(
-            "Access-Control-Allow-Origin" to "*",
-            "Cache-Control" to "no-store, no-cache, must-revalidate",
-            "Content-Type" to "application/javascript; charset=UTF-8"
-        )
+        val headers =
+            mapOf(
+                "Access-Control-Allow-Origin" to "*",
+                "Cache-Control" to "no-store, no-cache, must-revalidate",
+                "Content-Type" to "application/javascript; charset=UTF-8",
+            )
         return WebResourceResponse(
             "application/javascript",
             "UTF-8",
             200,
             "OK",
             headers,
-            ByteArrayInputStream(ByteArray(0))
+            ByteArrayInputStream(ByteArray(0)),
         )
     }
 
     private fun getMockAdsByGoogleResponse(): WebResourceResponse {
-        val mockJs = """
+        val mockJs =
+            """
             (function() {
                 window.adsbygoogle = window.adsbygoogle || [];
                 window.adsbygoogle.loaded = true;
                 window.adsbygoogle.push = function() {};
             })();
-        """.trimIndent()
-        val headers = mapOf(
-            "Access-Control-Allow-Origin" to "*",
-            "Cache-Control" to "no-store, no-cache, must-revalidate",
-            "Content-Type" to "application/javascript; charset=UTF-8"
-        )
+            """.trimIndent()
+        val headers =
+            mapOf(
+                "Access-Control-Allow-Origin" to "*",
+                "Cache-Control" to "no-store, no-cache, must-revalidate",
+                "Content-Type" to "application/javascript; charset=UTF-8",
+            )
         return WebResourceResponse(
             "application/javascript",
             "UTF-8",
             200,
             "OK",
             headers,
-            ByteArrayInputStream(mockJs.toByteArray(Charsets.UTF_8))
+            ByteArrayInputStream(mockJs.toByteArray(Charsets.UTF_8)),
         )
     }
 
     private fun getTransparentPixelResponse(): WebResourceResponse {
-        val headers = mapOf(
-            "Access-Control-Allow-Origin" to "*",
-            "Cache-Control" to "no-store, no-cache, must-revalidate",
-            "Content-Type" to "image/gif"
-        )
+        val headers =
+            mapOf(
+                "Access-Control-Allow-Origin" to "*",
+                "Cache-Control" to "no-store, no-cache, must-revalidate",
+                "Content-Type" to "image/gif",
+            )
         return WebResourceResponse(
             "image/gif",
             "UTF-8",
             200,
             "OK",
             headers,
-            ByteArrayInputStream(TRANSPARENT_1X1_GIF)
+            ByteArrayInputStream(TRANSPARENT_1X1_GIF),
         )
     }
 
@@ -258,12 +273,15 @@ object BrowserAdBlocker {
 
     fun getCosmeticCssScript(context: Context): String {
         return scriptCache.getOrPut("adblock_cosmetic.css") {
-            val rawCss = (activeCosmeticCss?.takeIf { it.isNotBlank() }
-                ?: readAsset(context, "browser/adblock_cosmetic.css"))
-                .replace("\\", "\\\\")
-                .replace("\n", " ")
-                .replace("\r", "")
-                .replace("\"", "\\\"")
+            val rawCss =
+                (
+                    activeCosmeticCss?.takeIf { it.isNotBlank() }
+                        ?: readAsset(context, "browser/adblock_cosmetic.css")
+                )
+                    .replace("\\", "\\\\")
+                    .replace("\n", " ")
+                    .replace("\r", "")
+                    .replace("\"", "\\\"")
             """
             (function() {
                 function inject() {
@@ -293,7 +311,11 @@ object BrowserAdBlocker {
         }
     }
 
-    fun injectEarlyScripts(context: Context, view: WebView?, url: String?) {
+    fun injectEarlyScripts(
+        context: Context,
+        view: WebView?,
+        url: String?,
+    ) {
         // 1. Cosmetic CSS injected early so layout never renders ad gaps
         val cssScript = getCosmeticCssScript(context)
         if (cssScript.isNotEmpty()) view?.evaluateJavascript(cssScript, null)
@@ -317,7 +339,11 @@ object BrowserAdBlocker {
         }
     }
 
-    fun injectLateScripts(context: Context, view: WebView?, url: String?) {
+    fun injectLateScripts(
+        context: Context,
+        view: WebView?,
+        url: String?,
+    ) {
         val cssScript = getCosmeticCssScript(context)
         if (cssScript.isNotEmpty()) view?.evaluateJavascript(cssScript, null)
 
@@ -333,7 +359,10 @@ object BrowserAdBlocker {
         }
     }
 
-    fun injectUserElementRules(view: WebView?, selectors: List<String>) {
+    fun injectUserElementRules(
+        view: WebView?,
+        selectors: List<String>,
+    ) {
         if (view == null) return
         if (selectors.isEmpty()) {
             val clearJs = "(function(){ var el = document.getElementById('__blockads_user_css__'); if(el) el.remove(); })();"
@@ -356,7 +385,10 @@ object BrowserAdBlocker {
         view.evaluateJavascript(js, null)
     }
 
-    private fun readAsset(context: Context, filename: String): String {
+    private fun readAsset(
+        context: Context,
+        filename: String,
+    ): String {
         return runCatching {
             context.assets.open(filename).bufferedReader().use { it.readText() }
         }.getOrDefault("")

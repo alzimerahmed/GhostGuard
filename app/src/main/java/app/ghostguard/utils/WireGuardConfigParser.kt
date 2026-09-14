@@ -14,7 +14,6 @@ import app.ghostguard.data.entities.WireGuardPeer
  * - Whitespace around keys and values
  */
 object WireGuardConfigParser {
-
     private enum class Section { NONE, INTERFACE, PEER }
 
     private val sectionRegex = Regex("""^\[(\w+)]$""", RegexOption.IGNORE_CASE)
@@ -84,13 +83,15 @@ object WireGuardConfigParser {
                 Section.INTERFACE -> {
                     when (key.lowercase()) {
                         "privatekey" -> privateKey = value
-                        "address" -> addresses.addAll(
-                            value.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-                        )
+                        "address" ->
+                            addresses.addAll(
+                                value.split(",").map { it.trim() }.filter { it.isNotEmpty() },
+                            )
                         "listenport" -> listenPort = value.toIntOrNull()
-                        "dns" -> dns.addAll(
-                            value.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-                        )
+                        "dns" ->
+                            dns.addAll(
+                                value.split(",").map { it.trim() }.filter { it.isNotEmpty() },
+                            )
                     }
                 }
                 Section.PEER -> {
@@ -99,9 +100,10 @@ object WireGuardConfigParser {
                         "publickey" -> peer.publicKey = value
                         "presharedkey" -> peer.presharedKey = value
                         "endpoint" -> peer.endpoint = value
-                        "allowedips" -> peer.allowedIPs.addAll(
-                            value.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-                        )
+                        "allowedips" ->
+                            peer.allowedIPs.addAll(
+                                value.split(",").map { it.trim() }.filter { it.isNotEmpty() },
+                            )
                         "persistentkeepalive" -> peer.persistentKeepalive = value.toIntOrNull()
                     }
                 }
@@ -116,25 +118,27 @@ object WireGuardConfigParser {
         requireNotNull(privateKey) { "Missing required field: PrivateKey in [Interface]" }
         require(addresses.isNotEmpty()) { "Missing required field: Address in [Interface]" }
 
-        val parsedPeers = peers.map { pb ->
-            requireNotNull(pb.publicKey) { "Missing required field: PublicKey in [Peer]" }
-            WireGuardPeer(
-                publicKey = pb.publicKey!!,
-                presharedKey = pb.presharedKey,
-                endpoint = pb.endpoint,
-                allowedIPs = pb.allowedIPs.toList(),
-                persistentKeepalive = pb.persistentKeepalive
-            )
-        }
+        val parsedPeers =
+            peers.map { pb ->
+                requireNotNull(pb.publicKey) { "Missing required field: PublicKey in [Peer]" }
+                WireGuardPeer(
+                    publicKey = pb.publicKey!!,
+                    presharedKey = pb.presharedKey,
+                    endpoint = pb.endpoint,
+                    allowedIPs = pb.allowedIPs.toList(),
+                    persistentKeepalive = pb.persistentKeepalive,
+                )
+            }
 
         return WireGuardConfig(
-            interfaceConfig = WireGuardInterface(
-                privateKey = privateKey,
-                address = addresses.toList(),
-                listenPort = listenPort,
-                dns = dns.toList()
-            ),
-            peers = parsedPeers
+            interfaceConfig =
+                WireGuardInterface(
+                    privateKey = privateKey,
+                    address = addresses.toList(),
+                    listenPort = listenPort,
+                    dns = dns.toList(),
+                ),
+            peers = parsedPeers,
         )
     }
 }

@@ -31,32 +31,35 @@ import java.util.Date
 @Composable
 fun StatsChart(
     stats: List<HourlyStat>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val textColor = TextSecondary
-    val chartData = remember(stats) {
-        val fmt = hourFormat.get()!!
-        val labels = stats.map { fmt.format(Date(it.hour)) }
-        val totalLine = Line(
-            label = "Total",
-            values = stats.map { it.total.toDouble() },
-            color = SolidColor(AccentBlue),
-            firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.dp),
-            curvedEdges = true,
-        )
-        val blockedLine = Line(
-            label = "Blocked",
-            values = stats.map { it.blocked.toDouble() },
-            color = SolidColor(DangerRed),
-            firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.dp),
-            curvedEdges = true,
-        )
-        Triple(listOf(totalLine, blockedLine), labels, labels)
-    }
+    val chartData =
+        remember(stats) {
+            val fmt = hourFormat.get()!!
+            val labels = stats.map { fmt.format(Date(it.hour)) }
+            val totalLine =
+                Line(
+                    label = "Total",
+                    values = stats.map { it.total.toDouble() },
+                    color = SolidColor(AccentBlue),
+                    firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.dp),
+                    curvedEdges = true,
+                )
+            val blockedLine =
+                Line(
+                    label = "Blocked",
+                    values = stats.map { it.blocked.toDouble() },
+                    color = SolidColor(DangerRed),
+                    firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.dp),
+                    curvedEdges = true,
+                )
+            Triple(listOf(totalLine, blockedLine), labels, labels)
+        }
 
     if (stats.isEmpty()) return
 
@@ -64,11 +67,12 @@ fun StatsChart(
         modifier = modifier.fillMaxSize(),
         data = chartData.first,
         curvedEdges = true,
-        labelProperties = LabelProperties(
-            enabled = true,
-            textStyle = TextStyle(color = textColor, fontSize = 9.sp),
-            labels = chartData.second,
-        ),
+        labelProperties =
+            LabelProperties(
+                enabled = true,
+                textStyle = TextStyle(color = textColor, fontSize = 9.sp),
+                labels = chartData.second,
+            ),
         indicatorProperties = HorizontalIndicatorProperties(enabled = false),
         gridProperties = GridProperties(enabled = false),
         dividerProperties = DividerProperties(enabled = false),
@@ -80,32 +84,35 @@ fun StatsChart(
 @Composable
 fun DailyStatsChart(
     stats: List<DailyStat>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val textColor = TextSecondary
-    val chartData = remember(stats) {
-        val fmt = dayFormat.get()!!
-        val labels = stats.map { fmt.format(Date(it.day)) }
-        val totalLine = Line(
-            label = "Total",
-            values = stats.map { it.total.toDouble() },
-            color = SolidColor(AccentBlue),
-            firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        val blockedLine = Line(
-            label = "Blocked",
-            values = stats.map { it.blocked.toDouble() },
-            color = SolidColor(DangerRed),
-            firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        Pair(listOf(totalLine, blockedLine), labels)
-    }
+    val chartData =
+        remember(stats) {
+            val fmt = dayFormat.get()!!
+            val labels = stats.map { fmt.format(Date(it.day)) }
+            val totalLine =
+                Line(
+                    label = "Total",
+                    values = stats.map { it.total.toDouble() },
+                    color = SolidColor(AccentBlue),
+                    firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            val blockedLine =
+                Line(
+                    label = "Blocked",
+                    values = stats.map { it.blocked.toDouble() },
+                    color = SolidColor(DangerRed),
+                    firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            Pair(listOf(totalLine, blockedLine), labels)
+        }
 
     if (stats.isEmpty()) return
 
@@ -113,11 +120,12 @@ fun DailyStatsChart(
         modifier = modifier.fillMaxSize(),
         data = chartData.first,
         curvedEdges = true,
-        labelProperties = LabelProperties(
-            enabled = true,
-            textStyle = TextStyle(color = textColor, fontSize = 10.sp),
-            labels = chartData.second,
-        ),
+        labelProperties =
+            LabelProperties(
+                enabled = true,
+                textStyle = TextStyle(color = textColor, fontSize = 10.sp),
+                labels = chartData.second,
+            ),
         indicatorProperties = HorizontalIndicatorProperties(enabled = false),
         gridProperties = GridProperties(enabled = false),
         dividerProperties = DividerProperties(enabled = false),
@@ -129,33 +137,37 @@ fun DailyStatsChart(
 @Composable
 fun WeeklyStatsChart(
     stats: List<WeeklyStat>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val textColor = TextSecondary
-    val chartData = remember(stats) {
-        val labels = stats.map {
-            if (it.week.contains("W")) "W${it.week.substringAfterLast("W")}" else it.week
+    val chartData =
+        remember(stats) {
+            val labels =
+                stats.map {
+                    if (it.week.contains("W")) "W${it.week.substringAfterLast("W")}" else it.week
+                }
+            val totalLine =
+                Line(
+                    label = "Total",
+                    values = stats.map { it.total.toDouble() },
+                    color = SolidColor(AccentBlue),
+                    firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            val blockedLine =
+                Line(
+                    label = "Blocked",
+                    values = stats.map { it.blocked.toDouble() },
+                    color = SolidColor(DangerRed),
+                    firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            Pair(listOf(totalLine, blockedLine), labels)
         }
-        val totalLine = Line(
-            label = "Total",
-            values = stats.map { it.total.toDouble() },
-            color = SolidColor(AccentBlue),
-            firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        val blockedLine = Line(
-            label = "Blocked",
-            values = stats.map { it.blocked.toDouble() },
-            color = SolidColor(DangerRed),
-            firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        Pair(listOf(totalLine, blockedLine), labels)
-    }
 
     if (stats.isEmpty()) return
 
@@ -163,11 +175,12 @@ fun WeeklyStatsChart(
         modifier = modifier.fillMaxSize(),
         data = chartData.first,
         curvedEdges = true,
-        labelProperties = LabelProperties(
-            enabled = true,
-            textStyle = TextStyle(color = textColor, fontSize = 10.sp),
-            labels = chartData.second,
-        ),
+        labelProperties =
+            LabelProperties(
+                enabled = true,
+                textStyle = TextStyle(color = textColor, fontSize = 10.sp),
+                labels = chartData.second,
+            ),
         indicatorProperties = HorizontalIndicatorProperties(enabled = false),
         gridProperties = GridProperties(enabled = false),
         dividerProperties = DividerProperties(enabled = false),
@@ -179,33 +192,37 @@ fun WeeklyStatsChart(
 @Composable
 fun MonthlyStatsChart(
     stats: List<MonthlyStat>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val textColor = TextSecondary
-    val chartData = remember(stats) {
-        val labels = stats.map {
-            if (it.month.contains("-")) it.month.substringAfterLast("-") else it.month
+    val chartData =
+        remember(stats) {
+            val labels =
+                stats.map {
+                    if (it.month.contains("-")) it.month.substringAfterLast("-") else it.month
+                }
+            val totalLine =
+                Line(
+                    label = "Total",
+                    values = stats.map { it.total.toDouble() },
+                    color = SolidColor(AccentBlue),
+                    firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            val blockedLine =
+                Line(
+                    label = "Blocked",
+                    values = stats.map { it.blocked.toDouble() },
+                    color = SolidColor(DangerRed),
+                    firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
+                    secondGradientFillColor = Color.Transparent,
+                    drawStyle = DrawStyle.Stroke(width = 2.5.dp),
+                    curvedEdges = true,
+                )
+            Pair(listOf(totalLine, blockedLine), labels)
         }
-        val totalLine = Line(
-            label = "Total",
-            values = stats.map { it.total.toDouble() },
-            color = SolidColor(AccentBlue),
-            firstGradientFillColor = AccentBlue.copy(alpha = 0.3f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        val blockedLine = Line(
-            label = "Blocked",
-            values = stats.map { it.blocked.toDouble() },
-            color = SolidColor(DangerRed),
-            firstGradientFillColor = DangerRed.copy(alpha = 0.2f),
-            secondGradientFillColor = Color.Transparent,
-            drawStyle = DrawStyle.Stroke(width = 2.5.dp),
-            curvedEdges = true,
-        )
-        Pair(listOf(totalLine, blockedLine), labels)
-    }
 
     if (stats.isEmpty()) return
 
@@ -213,11 +230,12 @@ fun MonthlyStatsChart(
         modifier = modifier.fillMaxSize(),
         data = chartData.first,
         curvedEdges = true,
-        labelProperties = LabelProperties(
-            enabled = true,
-            textStyle = TextStyle(color = textColor, fontSize = 9.sp),
-            labels = chartData.second,
-        ),
+        labelProperties =
+            LabelProperties(
+                enabled = true,
+                textStyle = TextStyle(color = textColor, fontSize = 9.sp),
+                labels = chartData.second,
+            ),
         indicatorProperties = HorizontalIndicatorProperties(enabled = false),
         gridProperties = GridProperties(enabled = false),
         dividerProperties = DividerProperties(enabled = false),

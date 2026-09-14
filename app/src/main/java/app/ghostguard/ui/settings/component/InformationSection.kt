@@ -22,7 +22,7 @@ import app.ghostguard.R
 @Composable
 fun InformationSection(
     onNavigateToAbout: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
@@ -30,7 +30,7 @@ fun InformationSection(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_info),
-            description = stringResource(R.string.settings_category_info_desc)
+            description = stringResource(R.string.settings_category_info_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
         SettingsCard {
@@ -39,11 +39,11 @@ fun InformationSection(
                 iconTint = Color(0xFF64748B),
                 title = stringResource(R.string.settings_about),
                 desc = stringResource(R.string.settings_about_desc),
-                onClick = onNavigateToAbout
+                onClick = onNavigateToAbout,
             )
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = dividerColor
+                color = dividerColor,
             )
             SettingItem(
                 icon = Icons.Default.Favorite,
@@ -53,7 +53,7 @@ fun InformationSection(
                 onClick = {
                     val uri = "https://github.com/sponsors/pass-with-high-score".toUri()
                     context.startActivity(Intent(Intent.ACTION_VIEW, uri))
-                }
+                },
             )
         }
     }

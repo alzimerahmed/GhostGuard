@@ -59,21 +59,23 @@ fun TrustedNetworksScreen(
     val enabled by viewModel.pauseOnTrustedEnabled.collectAsStateWithLifecycle()
     val currentSsid by viewModel.currentSsid.collectAsStateWithLifecycle()
 
-    val locationLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        if (granted) {
-            viewModel.refreshCurrentSsid()
-            viewModel.addCurrentNetwork()
+    val locationLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { granted ->
+            if (granted) {
+                viewModel.refreshCurrentSsid()
+                viewModel.addCurrentNetwork()
+            }
         }
-    }
 
     LaunchedEffect(Unit) { viewModel.refreshCurrentSsid() }
 
     fun addCurrent() {
-        val hasLocation = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+        val hasLocation =
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_FINE_LOCATION,
+            ) == PackageManager.PERMISSION_GRANTED
         if (hasLocation) {
             viewModel.refreshCurrentSsid()
             viewModel.addCurrentNetwork()
@@ -94,44 +96,47 @@ fun TrustedNetworksScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.accessibility_navigate_back))
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
             // Master toggle
             SettingsCard {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     SettingIconBadge(
                         painter = painterResource(R.drawable.ic_settings_trusted_wifi),
-                        tint = Color(0xFF059669)
+                        tint = Color(0xFF059669),
                     )
                     Spacer(modifier = Modifier.width(14.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             stringResource(R.string.trusted_networks_toggle),
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                         Text(
                             stringResource(R.string.trusted_networks_desc),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
@@ -144,26 +149,27 @@ fun TrustedNetworksScreen(
             // Add current network
             SettingsCard(onClick = { addCurrent() }) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     SettingIconBadge(
                         icon = Icons.Default.Add,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(modifier = Modifier.width(14.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             stringResource(R.string.trusted_networks_add_current),
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                         Text(
                             currentSsid ?: stringResource(R.string.trusted_networks_no_wifi),
                             style = MaterialTheme.typography.bodySmall,
-                            color = if (currentSsid != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            color = if (currentSsid != null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
@@ -172,7 +178,7 @@ fun TrustedNetworksScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             SectionHeader(
-                title = stringResource(R.string.trusted_networks_list_header)
+                title = stringResource(R.string.trusted_networks_list_header),
             )
 
             if (trusted.isEmpty()) {
@@ -181,7 +187,7 @@ fun TrustedNetworksScreen(
                         stringResource(R.string.trusted_networks_empty),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp),
                     )
                 }
             } else {
@@ -190,14 +196,15 @@ fun TrustedNetworksScreen(
                         val trustedList = trusted.toList()
                         trustedList.forEachIndexed { index, ssid ->
                             Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 SettingIconBadge(
                                     painter = painterResource(R.drawable.ic_settings_trusted_wifi),
-                                    tint = Color(0xFF059669)
+                                    tint = Color(0xFF059669),
                                 )
                                 Spacer(modifier = Modifier.width(14.dp))
                                 Text(
@@ -205,21 +212,21 @@ fun TrustedNetworksScreen(
                                     style = MaterialTheme.typography.bodyLarge,
                                     fontWeight = FontWeight.Medium,
                                     color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.weight(1f)
+                                    modifier = Modifier.weight(1f),
                                 )
                                 IconButton(onClick = { viewModel.removeSsid(ssid) }) {
                                     Icon(
                                         painter = painterResource(R.drawable.ic_settings_trash),
                                         contentDescription = null,
                                         tint = MaterialTheme.colorScheme.error.copy(alpha = 0.8f),
-                                        modifier = Modifier.size(20.dp)
+                                        modifier = Modifier.size(20.dp),
                                     )
                                 }
                             }
                             if (index < trustedList.lastIndex) {
                                 HorizontalDivider(
                                     modifier = Modifier.padding(horizontal = 16.dp),
-                                    color = dividerColor
+                                    color = dividerColor,
                                 )
                             }
                         }
@@ -231,4 +238,3 @@ fun TrustedNetworksScreen(
         }
     }
 }
-

@@ -32,7 +32,6 @@ import org.koin.core.component.inject
 class WireGuardImportViewModel(
     application: Application,
 ) : AndroidViewModel(application), KoinComponent {
-
     private val appPrefs: AppPreferences by inject()
 
     private val _profiles = MutableStateFlow<List<WireGuardProfile>>(emptyList())
@@ -84,17 +83,21 @@ class WireGuardImportViewModel(
      * Read a .conf file via SAF URI, parse it, and save it as a new profile.
      * If no profile is currently active, the new one becomes active.
      */
-    fun importFromUri(uri: Uri, fallbackName: String? = null) {
+    fun importFromUri(
+        uri: Uri,
+        fallbackName: String? = null,
+    ) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             try {
-                val rawText = withContext(Dispatchers.IO) {
-                    getApplication<Application>().contentResolver
-                        .openInputStream(uri)
-                        ?.use { it.bufferedReader(Charsets.UTF_8).readText() }
-                        ?: throw Exception("Cannot open input stream")
-                }
+                val rawText =
+                    withContext(Dispatchers.IO) {
+                        getApplication<Application>().contentResolver
+                            .openInputStream(uri)
+                            ?.use { it.bufferedReader(Charsets.UTF_8).readText() }
+                            ?: throw Exception("Cannot open input stream")
+                    }
 
                 if (rawText.isBlank()) {
                     _error.value = "File is empty"
@@ -102,14 +105,16 @@ class WireGuardImportViewModel(
                 }
 
                 val parsed = WireGuardConfigParser.parse(rawText)
-                val displayName = fallbackName?.takeIf { it.isNotBlank() }
-                    ?: deriveNameFromUri(uri)
-                    ?: defaultUniqueName()
-                val profile = WireGuardProfile(
-                    id = WireGuardProfile.newId(),
-                    name = displayName,
-                    config = parsed,
-                )
+                val displayName =
+                    fallbackName?.takeIf { it.isNotBlank() }
+                        ?: deriveNameFromUri(uri)
+                        ?: defaultUniqueName()
+                val profile =
+                    WireGuardProfile(
+                        id = WireGuardProfile.newId(),
+                        name = displayName,
+                        config = parsed,
+                    )
                 val makeActive = appPrefs.getActiveWgProfileSnapshot() == null
                 appPrefs.addOrUpdateWgProfile(profile, makeActive = makeActive)
                 _events.emit(WireGuardUiEvent.ProfileImported(displayName))
@@ -138,7 +143,10 @@ class WireGuardImportViewModel(
         }
     }
 
-    fun renameProfile(id: String, newName: String) {
+    fun renameProfile(
+        id: String,
+        newName: String,
+    ) {
         val name = newName.trim()
         if (name.isEmpty()) return
         viewModelScope.launch {
@@ -219,7 +227,9 @@ class WireGuardImportViewModel(
                 val nameIdx = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
                 if (nameIdx >= 0 && cursor.moveToFirst()) {
                     cursor.getString(nameIdx)?.removeSuffix(".conf")?.takeIf { it.isNotBlank() }
-                } else null
+                } else {
+                    null
+                }
             }
         } catch (_: Exception) {
             null

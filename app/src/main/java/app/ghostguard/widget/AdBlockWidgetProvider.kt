@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 import app.ghostguard.MainActivity
@@ -21,19 +20,20 @@ import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.getKoin
 
 class AdBlockWidgetProvider : AppWidgetProvider() {
-
     companion object {
         private const val EXPANDED_MIN_WIDTH_DP = 160
         private const val EXPANDED_MIN_HEIGHT_DP = 90
 
         fun sendUpdateBroadcast(context: Context) {
-            val intent = Intent(context, AdBlockWidgetProvider::class.java).apply {
-                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            }
+            val intent =
+                Intent(context, AdBlockWidgetProvider::class.java).apply {
+                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                }
             val widgetManager = AppWidgetManager.getInstance(context)
-            val ids = widgetManager.getAppWidgetIds(
-                ComponentName(context, AdBlockWidgetProvider::class.java)
-            )
+            val ids =
+                widgetManager.getAppWidgetIds(
+                    ComponentName(context, AdBlockWidgetProvider::class.java),
+                )
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             context.sendBroadcast(intent)
         }
@@ -42,7 +42,7 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
+        appWidgetIds: IntArray,
     ) {
         for (id in appWidgetIds) {
             val options = appWidgetManager.getAppWidgetOptions(id)
@@ -54,12 +54,15 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        newOptions: Bundle
+        newOptions: Bundle,
     ) {
         updateWidgetInternal(context, appWidgetManager, appWidgetId, newOptions)
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         super.onReceive(context, intent)
     }
 
@@ -67,14 +70,14 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        options: Bundle
+        options: Bundle,
     ) {
         val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0)
         val minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
 
         val isExpanded =
             minWidth >= EXPANDED_MIN_WIDTH_DP &&
-                    minHeight >= EXPANDED_MIN_HEIGHT_DP
+                minHeight >= EXPANDED_MIN_HEIGHT_DP
 
         val isRunning = AdBlockVpnService.isRunning || RootProxyService.isRunning
 
@@ -89,29 +92,38 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        isRunning: Boolean
+        isRunning: Boolean,
     ) {
         val views = RemoteViews(context.packageName, R.layout.widget_collapsed)
 
         views.setTextViewText(
             R.id.widget_status,
             context.getString(
-                if (isRunning) R.string.widget_protected
-                else R.string.widget_unprotected
-            )
+                if (isRunning) {
+                    R.string.widget_protected
+                } else {
+                    R.string.widget_unprotected
+                },
+            ),
         )
 
         views.setInt(
             R.id.widget_toggle_btn,
             "setBackgroundResource",
-            if (isRunning) R.drawable.widget_toggle_on
-            else R.drawable.widget_toggle_off
+            if (isRunning) {
+                R.drawable.widget_toggle_on
+            } else {
+                R.drawable.widget_toggle_off
+            },
         )
 
         views.setTextColor(
             R.id.widget_status,
-            if (isRunning) 0xFF4CAF50.toInt()
-            else 0xFF757575.toInt()
+            if (isRunning) {
+                0xFF4CAF50.toInt()
+            } else {
+                0xFF757575.toInt()
+            },
         )
 
         bindClicks(context, views)
@@ -122,30 +134,39 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
-        isRunning: Boolean
+        isRunning: Boolean,
     ) {
         val views = RemoteViews(context.packageName, R.layout.widget_expanded)
 
         views.setTextViewText(
             R.id.widget_status,
             context.getString(
-                if (isRunning) R.string.widget_protected
-                else R.string.widget_unprotected
-            )
+                if (isRunning) {
+                    R.string.widget_protected
+                } else {
+                    R.string.widget_unprotected
+                },
+            ),
         )
 
         views.setInt(
             R.id.widget_toggle_btn,
             "setBackgroundResource",
-            if (isRunning) R.drawable.widget_toggle_on
-            else R.drawable.widget_toggle_off
+            if (isRunning) {
+                R.drawable.widget_toggle_on
+            } else {
+                R.drawable.widget_toggle_off
+            },
         )
 
         views.setInt(
             R.id.widget_status,
             "setBackgroundResource",
-            if (isRunning) R.drawable.widget_toggle_on
-            else R.drawable.widget_toggle_off
+            if (isRunning) {
+                R.drawable.widget_toggle_on
+            } else {
+                R.drawable.widget_toggle_off
+            },
         )
 
         bindClicks(context, views)
@@ -161,7 +182,7 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
 
                 views.setTextViewText(
                     R.id.widget_blocked_count,
-                    blockedToday.toString()
+                    blockedToday.toString(),
                 )
 
                 appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -171,23 +192,34 @@ class AdBlockWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    private fun bindClicks(context: Context, views: RemoteViews) {
-        val toggleIntent = Intent(context, WidgetToggleReceiver::class.java).apply {
-            action = WidgetToggleReceiver.ACTION_TOGGLE_VPN
-        }
-        val togglePending = PendingIntent.getBroadcast(
-            context, 0, toggleIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+    private fun bindClicks(
+        context: Context,
+        views: RemoteViews,
+    ) {
+        val toggleIntent =
+            Intent(context, WidgetToggleReceiver::class.java).apply {
+                action = WidgetToggleReceiver.ACTION_TOGGLE_VPN
+            }
+        val togglePending =
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                toggleIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
         views.setOnClickPendingIntent(R.id.widget_toggle_btn, togglePending)
 
-        val openAppIntent = Intent(context, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        }
-        val openAppPending = PendingIntent.getActivity(
-            context, 1, openAppIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val openAppIntent =
+            Intent(context, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
+        val openAppPending =
+            PendingIntent.getActivity(
+                context,
+                1,
+                openAppIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
         views.setOnClickPendingIntent(R.id.widget_root, openAppPending)
     }
 }

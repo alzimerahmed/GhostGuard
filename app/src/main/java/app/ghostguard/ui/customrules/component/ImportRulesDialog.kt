@@ -24,7 +24,7 @@ import app.ghostguard.R
 fun ImportRulesDialog(
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var rulesText by remember { mutableStateOf("") }
 
@@ -38,7 +38,7 @@ fun ImportRulesDialog(
                 Text(
                     text = stringResource(R.string.import_rules_hint),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
@@ -48,14 +48,14 @@ fun ImportRulesDialog(
                     placeholder = { Text("||example1.com^\n||example2.com^") },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = false,
-                    minLines = 5
+                    minLines = 5,
                 )
             }
         },
         confirmButton = {
             TextButton(
                 onClick = { onConfirm(rulesText) },
-                enabled = rulesText.isNotBlank()
+                enabled = rulesText.isNotBlank(),
             ) {
                 Text(stringResource(R.string.import_label))
             }
@@ -64,6 +64,6 @@ fun ImportRulesDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

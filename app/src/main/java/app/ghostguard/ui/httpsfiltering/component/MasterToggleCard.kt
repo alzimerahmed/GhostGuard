@@ -34,32 +34,33 @@ import app.ghostguard.ui.settings.component.SettingsCard
 fun MasterToggleCard(
     isEnabled: Boolean,
     isProxyRunning: Boolean,
-    onToggle: (Boolean) -> Unit
+    onToggle: (Boolean) -> Unit,
 ) {
     val statusColor by animateColorAsState(
         targetValue = if (isProxyRunning) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
-        label = "statusColor"
+        label = "statusColor",
     )
 
     SettingsCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             SettingIconBadge(
                 painter = painterResource(R.drawable.ic_settings_https),
-                tint = Color(0xFF7C3AED)
+                tint = Color(0xFF7C3AED),
             )
             Spacer(modifier = Modifier.width(14.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.https_filtering_toggle_label),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -67,17 +68,18 @@ fun MasterToggleCard(
                         imageVector = if (isProxyRunning) Icons.Default.CheckCircle else Icons.Default.Error,
                         contentDescription = null,
                         tint = statusColor,
-                        modifier = Modifier.size(14.dp)
+                        modifier = Modifier.size(14.dp),
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = if (isProxyRunning) {
-                            stringResource(R.string.https_filtering_status_active)
-                        } else {
-                            stringResource(R.string.https_filtering_status_inactive)
-                        },
+                        text =
+                            if (isProxyRunning) {
+                                stringResource(R.string.https_filtering_status_active)
+                            } else {
+                                stringResource(R.string.https_filtering_status_inactive)
+                            },
                         style = MaterialTheme.typography.bodySmall,
-                        color = statusColor
+                        color = statusColor,
                     )
                 }
             }
@@ -85,12 +87,12 @@ fun MasterToggleCard(
             Switch(
                 checked = isEnabled,
                 onCheckedChange = onToggle,
-                colors = SwitchDefaults.colors(
-                    checkedTrackColor = MaterialTheme.colorScheme.primary,
-                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary
-                )
+                colors =
+                    SwitchDefaults.colors(
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
             )
         }
     }
 }
-

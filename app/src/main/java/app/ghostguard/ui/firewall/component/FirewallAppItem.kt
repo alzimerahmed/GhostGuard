@@ -43,38 +43,43 @@ fun FirewallAppItem(
     rule: FirewallRule?,
     onToggle: () -> Unit,
     onConfigure: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val isBlocked = rule?.isEnabled == true
     val backgroundColor by animateColorAsState(
-        targetValue = if (isBlocked)
-            MaterialTheme.colorScheme.error.copy(alpha = 0.08f)
-        else
-            Color.Transparent,
+        targetValue =
+            if (isBlocked) {
+                MaterialTheme.colorScheme.error.copy(alpha = 0.08f)
+            } else {
+                Color.Transparent
+            },
         animationSpec = tween(300),
-        label = "firewall_bg"
+        label = "firewall_bg",
     )
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // App icon
             Image(
                 painter = rememberDrawablePainter(drawable = app.icon),
                 contentDescription = app.label,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -87,34 +92,36 @@ fun FirewallAppItem(
                     fontWeight = FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 if (isBlocked) {
                     val statusParts = mutableListOf<String>()
                     if (rule.blockWifi) statusParts.add(stringResource(R.string.firewall_network_wifi))
                     if (rule.blockMobileData) statusParts.add(stringResource(R.string.firewall_network_mobile))
-                    val networkText = if (statusParts.size == 2) {
-                        stringResource(R.string.firewall_network_all)
-                    } else {
-                        statusParts.joinToString()
-                    }
-                    val scheduleText = if (rule.scheduleEnabled) {
-                        stringResource(
-                            R.string.firewall_status_schedule,
-                            rule.scheduleStartHour,
-                            rule.scheduleStartMinute,
-                            rule.scheduleEndHour,
-                            rule.scheduleEndMinute
-                        )
-                    } else {
-                        ""
-                    }
+                    val networkText =
+                        if (statusParts.size == 2) {
+                            stringResource(R.string.firewall_network_all)
+                        } else {
+                            statusParts.joinToString()
+                        }
+                    val scheduleText =
+                        if (rule.scheduleEnabled) {
+                            stringResource(
+                                R.string.firewall_status_schedule,
+                                rule.scheduleStartHour,
+                                rule.scheduleStartMinute,
+                                rule.scheduleEndHour,
+                                rule.scheduleEndMinute,
+                            )
+                        } else {
+                            ""
+                        }
                     Text(
                         text = stringResource(R.string.firewall_app_blocked) + " ($networkText$scheduleText)",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 } else {
                     Text(
@@ -122,18 +129,18 @@ fun FirewallAppItem(
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
 
             if (isBlocked) {
                 IconButton(
-                    onClick = onConfigure
+                    onClick = onConfigure,
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_setting),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             }
@@ -142,10 +149,11 @@ fun FirewallAppItem(
             Switch(
                 checked = isBlocked,
                 onCheckedChange = { onToggle() },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = MaterialTheme.colorScheme.error
-                )
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = MaterialTheme.colorScheme.error,
+                    ),
             )
         }
     }

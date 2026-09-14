@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FirewallRuleDao {
-
     @Query("SELECT * FROM firewall_rules ORDER BY packageName ASC")
     fun getAll(): Flow<List<FirewallRule>>
 

@@ -48,7 +48,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AppearanceScreen(
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Unit = { },
-    viewModel: AppearanceViewModel = koinViewModel()
+    viewModel: AppearanceViewModel = koinViewModel(),
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
     val appLanguage by viewModel.appLanguage.collectAsStateWithLifecycle()
@@ -64,40 +64,42 @@ fun AppearanceScreen(
                 title = {
                     Text(
                         stringResource(R.string.settings_category_interface),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.accessibility_navigate_back)
+                            contentDescription = stringResource(R.string.accessibility_navigate_back),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
             // ── Theme ──────────────────────────────────────────────
             SectionHeader(
                 title = stringResource(R.string.settings_theme),
-                icon = Icons.Default.DarkMode
+                icon = Icons.Default.DarkMode,
             )
             ThemeSelectionCard(
                 currentTheme = themeMode,
-                onSelectTheme = { viewModel.setThemeMode(it) }
+                onSelectTheme = { viewModel.setThemeMode(it) },
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -105,12 +107,12 @@ fun AppearanceScreen(
             // ── Accent Color ───────────────────────────────────────
             SectionHeader(
                 title = stringResource(R.string.settings_accent_color),
-                icon = Icons.Default.Palette
+                icon = Icons.Default.Palette,
             )
             AccentColorCard(
                 accentColor = accentColor,
                 onSelectAccentColor = { viewModel.setAccentColor(it) },
-                onOpenColorPicker = { showColorPicker = true }
+                onOpenColorPicker = { showColorPicker = true },
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -118,11 +120,11 @@ fun AppearanceScreen(
             // ── Navigation ─────────────────────────────────────────
             SectionHeader(
                 title = stringResource(R.string.settings_navigation),
-                icon = Icons.Default.Menu
+                icon = Icons.Default.Menu,
             )
             NavigationCard(
                 showBottomNavLabels = showBottomNavLabels,
-                onToggleShowBottomNavLabels = { viewModel.setShowBottomNavLabels(it) }
+                onToggleShowBottomNavLabels = { viewModel.setShowBottomNavLabels(it) },
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -130,11 +132,11 @@ fun AppearanceScreen(
             // ── Language ───────────────────────────────────────────
             SectionHeader(
                 title = stringResource(R.string.settings_language),
-                icon = Icons.Default.Language
+                icon = Icons.Default.Language,
             )
             LanguageSelectionCard(
                 currentLanguage = appLanguage,
-                onSelectLanguage = { viewModel.setAppLanguage(it) }
+                onSelectLanguage = { viewModel.setAppLanguage(it) },
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -142,15 +144,16 @@ fun AppearanceScreen(
     }
 
     if (showColorPicker) {
-        val initialCustomColor = if (accentColor.startsWith("custom_#")) {
-            try {
-                Color(accentColor.removePrefix("custom_").toColorInt())
-            } catch (_: Exception) {
+        val initialCustomColor =
+            if (accentColor.startsWith("custom_#")) {
+                try {
+                    Color(accentColor.removePrefix("custom_").toColorInt())
+                } catch (_: Exception) {
+                    Color.Red
+                }
+            } else {
                 Color.Red
             }
-        } else {
-            Color.Red
-        }
         ColorPickerDialog(
             initialColor = initialCustomColor,
             onDismiss = { showColorPicker = false },
@@ -158,7 +161,7 @@ fun AppearanceScreen(
                 val hex = String.format("#%06X", 0xFFFFFF and color.toArgb())
                 viewModel.setAccentColor("custom_$hex")
                 showColorPicker = false
-            }
+            },
         )
     }
 }

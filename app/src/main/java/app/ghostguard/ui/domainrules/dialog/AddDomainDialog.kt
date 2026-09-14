@@ -23,7 +23,7 @@ fun AddDomainDialog(
     isAllow: Boolean,
     onDismiss: () -> Unit,
     onAdd: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var domain by remember { mutableStateOf("") }
 
@@ -39,17 +39,17 @@ fun AddDomainDialog(
                 label = { Text(stringResource(R.string.settings_add_domain_hint)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             )
         },
         confirmButton = {
             Button(
                 onClick = { if (domain.isNotBlank()) onAdd(domain) },
-                enabled = domain.isNotBlank()
+                enabled = domain.isNotBlank(),
             ) { Text(stringResource(R.string.settings_add)) }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) { Text(stringResource(R.string.settings_cancel)) }
-        }
+        },
     )
 }

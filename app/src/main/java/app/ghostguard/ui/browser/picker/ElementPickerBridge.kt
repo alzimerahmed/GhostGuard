@@ -15,7 +15,10 @@ class ElementPickerBridge(
     private val mainHandler = Handler(Looper.getMainLooper())
 
     @JavascriptInterface
-    fun onPickerCompleted(cssSelector: String, domain: String) {
+    fun onPickerCompleted(
+        cssSelector: String,
+        domain: String,
+    ) {
         mainHandler.post { onRulePicked(cssSelector, domain) }
     }
 

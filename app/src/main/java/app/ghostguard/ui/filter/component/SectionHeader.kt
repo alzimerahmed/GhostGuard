@@ -15,17 +15,21 @@ import app.ghostguard.R
 import app.ghostguard.ui.theme.TextSecondary
 
 @Composable
-fun SectionHeader(title: String, modifier: Modifier = Modifier, activeCount: Int? = null) {
+fun SectionHeader(
+    title: String,
+    modifier: Modifier = Modifier,
+    activeCount: Int? = null,
+) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             text = title.uppercase(),
             style = MaterialTheme.typography.labelMedium,
             color = TextSecondary,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
+            modifier = Modifier.padding(bottom = 8.dp, start = 4.dp),
         )
 
         activeCount?.let {
@@ -34,7 +38,7 @@ fun SectionHeader(title: String, modifier: Modifier = Modifier, activeCount: Int
                 style = MaterialTheme.typography.labelMedium,
                 color = TextSecondary,
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(bottom = 8.dp, end = 4.dp)
+                modifier = Modifier.padding(bottom = 8.dp, end = 4.dp),
             )
         }
     }

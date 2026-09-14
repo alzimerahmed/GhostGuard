@@ -1,15 +1,14 @@
 package app.ghostguard.ui.firewall
 
 import android.app.Application
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
+import app.ghostguard.data.dao.FirewallRuleDao
 import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.data.entities.FirewallRule
-import app.ghostguard.data.dao.FirewallRuleDao
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.whitelist.data.AppInfoData
 import kotlinx.coroutines.Dispatchers
@@ -24,17 +23,19 @@ import kotlinx.coroutines.withContext
 class FirewallViewModel(
     private val appPrefs: AppPreferences,
     private val firewallRuleDao: FirewallRuleDao,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
+    val firewallEnabled: StateFlow<Boolean> =
+        appPrefs.firewallEnabled
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val firewallEnabled: StateFlow<Boolean> = appPrefs.firewallEnabled
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val firewallRules: StateFlow<List<FirewallRule>> =
+        firewallRuleDao.getAll()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val firewallRules: StateFlow<List<FirewallRule>> = firewallRuleDao.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val enabledCount: StateFlow<Int> = firewallRuleDao.getEnabledCount()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+    val enabledCount: StateFlow<Int> =
+        firewallRuleDao.getEnabledCount()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     private val _installedApps = MutableStateFlow<List<AppInfoData>>(emptyList())
     val installedApps: StateFlow<List<AppInfoData>> = _installedApps.asStateFlow()
@@ -49,21 +50,22 @@ class FirewallViewModel(
     private fun loadApps() {
         viewModelScope.launch {
             _isLoading.value = true
-            val apps = withContext(Dispatchers.IO) {
-                val pm = application.applicationContext.packageManager
-                pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
-                    .filter { it.packageName != application.applicationContext.packageName }
-                    .map { appInfo ->
-                        val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
-                        AppInfoData(
-                            packageName = appInfo.packageName,
-                            label = appInfo.loadLabel(pm).toString(),
-                            icon = appInfo.loadIcon(pm),
-                            isSystemApp = isSystem
-                        )
-                    }
-                    .sortedBy { it.label.lowercase() }
-            }
+            val apps =
+                withContext(Dispatchers.IO) {
+                    val pm = application.applicationContext.packageManager
+                    pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                        .filter { it.packageName != application.applicationContext.packageName }
+                        .map { appInfo ->
+                            val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                            AppInfoData(
+                                packageName = appInfo.packageName,
+                                label = appInfo.loadLabel(pm).toString(),
+                                icon = appInfo.loadIcon(pm),
+                                isSystemApp = isSystem,
+                            )
+                        }
+                        .sortedBy { it.label.lowercase() }
+                }
             _installedApps.value = apps
             _isLoading.value = false
         }
@@ -87,7 +89,7 @@ class FirewallViewModel(
                 firewallRuleDao.deleteByPackageName(packageName)
             } else {
                 firewallRuleDao.insert(
-                    FirewallRule(packageName = packageName)
+                    FirewallRule(packageName = packageName),
                 )
             }
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
@@ -110,9 +112,10 @@ class FirewallViewModel(
 
     fun enableAllUserApps() {
         viewModelScope.launch {
-            val userPackages = _installedApps.value
-                .filter { !it.isSystemApp }
-                .map { FirewallRule(packageName = it.packageName) }
+            val userPackages =
+                _installedApps.value
+                    .filter { !it.isSystemApp }
+                    .map { FirewallRule(packageName = it.packageName) }
             firewallRuleDao.insertAll(userPackages)
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
         }
@@ -120,9 +123,10 @@ class FirewallViewModel(
 
     fun disableAllUserApps() {
         viewModelScope.launch {
-            val userPackages = _installedApps.value
-                .filter { !it.isSystemApp }
-                .map { it.packageName }
+            val userPackages =
+                _installedApps.value
+                    .filter { !it.isSystemApp }
+                    .map { it.packageName }
             firewallRuleDao.deleteByPackageNames(userPackages)
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
         }
@@ -130,9 +134,10 @@ class FirewallViewModel(
 
     fun enableAllSystemApps() {
         viewModelScope.launch {
-            val systemPackages = _installedApps.value
-                .filter { it.isSystemApp }
-                .map { FirewallRule(packageName = it.packageName) }
+            val systemPackages =
+                _installedApps.value
+                    .filter { it.isSystemApp }
+                    .map { FirewallRule(packageName = it.packageName) }
             firewallRuleDao.insertAll(systemPackages)
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
         }
@@ -140,9 +145,10 @@ class FirewallViewModel(
 
     fun disableAllSystemApps() {
         viewModelScope.launch {
-            val systemPackages = _installedApps.value
-                .filter { it.isSystemApp }
-                .map { it.packageName }
+            val systemPackages =
+                _installedApps.value
+                    .filter { it.isSystemApp }
+                    .map { it.packageName }
             firewallRuleDao.deleteByPackageNames(systemPackages)
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
         }

@@ -41,7 +41,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 fun RecentBlockedSection(
     recentBlocked: List<DnsLogEntry>,
     securityFilterIds: Set<String>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (recentBlocked.isEmpty()) return
     val context = LocalContext.current
@@ -54,53 +54,64 @@ fun RecentBlockedSection(
             style = MaterialTheme.typography.labelMedium,
             color = TextSecondary,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp, bottom = 8.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp, bottom = 8.dp),
         )
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
-            shape = RoundedCornerShape(16.dp)
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            shape = RoundedCornerShape(16.dp),
         ) {
             Column(modifier = Modifier.padding(vertical = 4.dp)) {
                 recentBlocked.forEach { entry ->
                     val blockedByIds = entry.blockedBy.split(",")
                     val dotColor =
-                        if (blockedByIds.any { it == FilterListRepository.BLOCK_REASON_SECURITY || securityFilterIds.contains(it) })
-                            SecurityOrange else DangerRed
-                    val recentAppIcon: Drawable? = remember(entry.packageName) {
-                        if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
-                            try {
-                                context.packageManager.getApplicationIcon(entry.packageName)
-                            } catch (_: Exception) {
+                        if (blockedByIds.any { it == FilterListRepository.BLOCK_REASON_SECURITY || securityFilterIds.contains(it) }) {
+                            SecurityOrange
+                        } else {
+                            DangerRed
+                        }
+                    val recentAppIcon: Drawable? =
+                        remember(entry.packageName) {
+                            if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
+                                try {
+                                    context.packageManager.getApplicationIcon(entry.packageName)
+                                } catch (_: Exception) {
+                                    null
+                                }
+                            } else {
                                 null
                             }
-                        } else null
-                    }
+                        }
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         if (recentAppIcon != null) {
                             Image(
                                 painter = rememberDrawablePainter(drawable = recentAppIcon),
                                 contentDescription = entry.appName,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(RoundedCornerShape(4.dp))
+                                modifier =
+                                    Modifier
+                                        .size(24.dp)
+                                        .clip(RoundedCornerShape(4.dp)),
                             )
                         } else {
                             Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .clip(CircleShape)
-                                    .background(dotColor)
+                                modifier =
+                                    Modifier
+                                        .size(8.dp)
+                                        .clip(CircleShape)
+                                        .background(dotColor),
                             )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
@@ -110,7 +121,7 @@ fun RecentBlockedSection(
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onBackground,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                             if (entry.appName.isNotEmpty()) {
                                 Text(
@@ -118,14 +129,14 @@ fun RecentBlockedSection(
                                     style = MaterialTheme.typography.labelSmall,
                                     color = TextSecondary,
                                     maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }
                         }
                         Text(
                             text = formatTimeSince(entry.timestamp),
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }

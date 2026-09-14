@@ -10,18 +10,18 @@ import timber.log.Timber
 
 class RootProxyResumeWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params) {
-
     companion object {
         const val WORK_NAME = "root_proxy_resume_work"
     }
 
     override suspend fun doWork(): Result {
         return try {
-            val intent = Intent(applicationContext, RootProxyService::class.java).apply {
-                action = RootProxyService.ACTION_START
-            }
+            val intent =
+                Intent(applicationContext, RootProxyService::class.java).apply {
+                    action = RootProxyService.ACTION_START
+                }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 applicationContext.startForegroundService(intent)
             } else {

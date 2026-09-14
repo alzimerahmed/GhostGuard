@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
 class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
-
     companion object {
         val KEY_VPN_ENABLED = booleanPreferencesKey("vpn_enabled")
         val KEY_AUTO_RECONNECT = booleanPreferencesKey("auto_reconnect")
@@ -42,89 +41,110 @@ class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
         val KEY_PAUSED_TRUSTED_SSID = stringPreferencesKey("paused_trusted_ssid")
     }
 
-    val vpnEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_VPN_ENABLED] ?: false
-    }
+    val vpnEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_VPN_ENABLED] ?: false
+        }
 
-    val autoReconnect: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_AUTO_RECONNECT] ?: true
-    }
+    val autoReconnect: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_AUTO_RECONNECT] ?: true
+        }
 
-    val networkSwitchDelayEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_NETWORK_SWITCH_DELAY_ENABLED] ?: false
-    }
+    val networkSwitchDelayEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_NETWORK_SWITCH_DELAY_ENABLED] ?: false
+        }
 
-    val networkSwitchDelaySec: Flow<Int> = dataStore.data.map { prefs ->
-        prefs[KEY_NETWORK_SWITCH_DELAY_SEC] ?: 30
-    }
+    val networkSwitchDelaySec: Flow<Int> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_NETWORK_SWITCH_DELAY_SEC] ?: 30
+        }
 
-    val onboardingCompleted: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_ONBOARDING_COMPLETED] ?: false
-    }
+    val onboardingCompleted: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_ONBOARDING_COMPLETED] ?: false
+        }
 
-    val whitelistedApps: Flow<Set<String>> = dataStore.data.map { prefs ->
-        prefs[KEY_WHITELISTED_APPS] ?: emptySet()
-    }
+    val whitelistedApps: Flow<Set<String>> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_WHITELISTED_APPS] ?: emptySet()
+        }
 
-    val dailySummaryEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_DAILY_SUMMARY_ENABLED] ?: false
-    }
+    val dailySummaryEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_DAILY_SUMMARY_ENABLED] ?: false
+        }
 
-    val milestoneNotificationsEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_MILESTONE_NOTIFICATIONS_ENABLED] ?: false
-    }
+    val milestoneNotificationsEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_MILESTONE_NOTIFICATIONS_ENABLED] ?: false
+        }
 
-    val lastMilestoneBlocked: Flow<Long> = dataStore.data.map { prefs ->
-        prefs[KEY_LAST_MILESTONE_BLOCKED] ?: 0L
-    }
+    val lastMilestoneBlocked: Flow<Long> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_LAST_MILESTONE_BLOCKED] ?: 0L
+        }
 
-    val lastSeenMilestoneDialog: Flow<Long> = dataStore.data.map { prefs ->
-        prefs[KEY_LAST_SEEN_MILESTONE_DIALOG] ?: 0L
-    }
+    val lastSeenMilestoneDialog: Flow<Long> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_LAST_SEEN_MILESTONE_DIALOG] ?: 0L
+        }
 
-    val activeProfileId: Flow<Long> = dataStore.data.map { prefs ->
-        prefs[KEY_ACTIVE_PROFILE_ID] ?: -1L
-    }
+    val activeProfileId: Flow<Long> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_ACTIVE_PROFILE_ID] ?: -1L
+        }
 
-    val recordDnsLogs: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_RECORD_DNS_LOGS] ?: true
-    }
+    val recordDnsLogs: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_RECORD_DNS_LOGS] ?: true
+        }
 
-    val firewallEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_FIREWALL_ENABLED] ?: false
-    }
+    val firewallEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_FIREWALL_ENABLED] ?: false
+        }
 
-    val httpsFilteringEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_HTTPS_FILTERING_ENABLED] ?: false
-    }
+    val httpsFilteringEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_HTTPS_FILTERING_ENABLED] ?: false
+        }
 
-    val filterHttp3: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_FILTER_HTTP3] ?: true
-    }
+    val filterHttp3: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_FILTER_HTTP3] ?: true
+        }
 
-    val crashReportingEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_CRASH_REPORTING_ENABLED] ?: false
-    }
+    val crashReportingEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_CRASH_REPORTING_ENABLED] ?: false
+        }
 
-    val hideFromRecents: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_HIDE_FROM_RECENTS] ?: false
-    }
+    val hideFromRecents: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_HIDE_FROM_RECENTS] ?: false
+        }
 
-    val trustedSsids: Flow<Set<String>> = dataStore.data.map { prefs ->
-        prefs[KEY_TRUSTED_SSIDS] ?: emptySet()
-    }
+    val trustedSsids: Flow<Set<String>> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_TRUSTED_SSIDS] ?: emptySet()
+        }
 
-    val pauseOnTrustedEnabled: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_PAUSE_ON_TRUSTED] ?: false
-    }
+    val pauseOnTrustedEnabled: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_PAUSE_ON_TRUSTED] ?: false
+        }
 
-    val pausedByTrusted: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_PAUSED_BY_TRUSTED] ?: false
-    }
+    val pausedByTrusted: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_PAUSED_BY_TRUSTED] ?: false
+        }
 
-    val pausedTrustedSsid: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_PAUSED_TRUSTED_SSID] ?: ""
-    }
+    val pausedTrustedSsid: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_PAUSED_TRUSTED_SSID] ?: ""
+        }
 
     suspend fun setVpnEnabled(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[KEY_VPN_ENABLED] = enabled }
@@ -153,11 +173,12 @@ class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun toggleWhitelistedApp(packageName: String) {
         dataStore.edit { prefs ->
             val current = prefs[KEY_WHITELISTED_APPS] ?: emptySet()
-            prefs[KEY_WHITELISTED_APPS] = if (packageName in current) {
-                current - packageName
-            } else {
-                current + packageName
-            }
+            prefs[KEY_WHITELISTED_APPS] =
+                if (packageName in current) {
+                    current - packageName
+                } else {
+                    current + packageName
+                }
         }
     }
 
@@ -195,15 +216,13 @@ class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { prefs -> prefs[KEY_HTTPS_FILTERING_ENABLED] = enabled }
     }
 
-    suspend fun getHttpsFilteringEnabledSnapshot(): Boolean =
-        dataStore.data.first()[KEY_HTTPS_FILTERING_ENABLED] ?: false
+    suspend fun getHttpsFilteringEnabledSnapshot(): Boolean = dataStore.data.first()[KEY_HTTPS_FILTERING_ENABLED] ?: false
 
     suspend fun setFilterHttp3(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[KEY_FILTER_HTTP3] = enabled }
     }
 
-    suspend fun getFilterHttp3Snapshot(): Boolean =
-        dataStore.data.first()[KEY_FILTER_HTTP3] ?: true
+    suspend fun getFilterHttp3Snapshot(): Boolean = dataStore.data.first()[KEY_FILTER_HTTP3] ?: true
 
     suspend fun setSelectedBrowsers(packages: Set<String>) {
         dataStore.edit { prefs -> prefs[KEY_SELECTED_BROWSERS] = packages }
@@ -242,19 +261,19 @@ class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { it[KEY_PAUSE_ON_TRUSTED] = enabled }
     }
 
-    suspend fun getTrustedSsidsSnapshot(): Set<String> =
-        dataStore.data.map { it[KEY_TRUSTED_SSIDS] ?: emptySet() }.first()
+    suspend fun getTrustedSsidsSnapshot(): Set<String> = dataStore.data.map { it[KEY_TRUSTED_SSIDS] ?: emptySet() }.first()
 
-    suspend fun getPauseOnTrustedEnabledSnapshot(): Boolean =
-        dataStore.data.map { it[KEY_PAUSE_ON_TRUSTED] ?: false }.first()
+    suspend fun getPauseOnTrustedEnabledSnapshot(): Boolean = dataStore.data.map { it[KEY_PAUSE_ON_TRUSTED] ?: false }.first()
 
-    suspend fun setPausedByTrusted(value: Boolean, ssid: String = "") {
+    suspend fun setPausedByTrusted(
+        value: Boolean,
+        ssid: String = "",
+    ) {
         dataStore.edit {
             it[KEY_PAUSED_BY_TRUSTED] = value
             it[KEY_PAUSED_TRUSTED_SSID] = if (value) ssid else ""
         }
     }
 
-    suspend fun getPausedByTrustedSnapshot(): Boolean =
-        dataStore.data.map { it[KEY_PAUSED_BY_TRUSTED] ?: false }.first()
+    suspend fun getPausedByTrustedSnapshot(): Boolean = dataStore.data.map { it[KEY_PAUSED_BY_TRUSTED] ?: false }.first()
 }

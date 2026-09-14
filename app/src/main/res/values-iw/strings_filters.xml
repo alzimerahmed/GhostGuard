@@ -105,7 +105,7 @@
     <string name="https_filtering_ca_desc">בצע את השלבים הבאים כדי להגדיר סינון קוסמטי HTTPS:</string>
     <string name="https_filtering_export_ca">שמור בהורדות (Downloads)</string>
     <string name="https_filtering_cert_saved">האישור נשמר בהורדות!</string>
-    <string name="https_filtering_install_steps">1. עבור אל הגדרות → אבטחה → הצפנה והרשאות\n2. הקש על \&quot;התקן אישור\&quot; → \&quot;אישור CA\&quot;\n3. בחר \&quot;BlockAds-RootCA.crt\&quot; מההורדות\n4. אשר את ההתקנה</string>
+    <string name="https_filtering_install_steps">1. עבור אל הגדרות → אבטחה → הצפנה והרשאות\n2. הקש על \&quot;התקן אישור\&quot; → \&quot;אישור CA\&quot;\n3. בחר \&quot;GhostGuard-RootCA.crt\&quot; מההורדות\n4. אשר את ההתקנה</string>
     <string name="https_filtering_open_settings">פתח הגדרות אבטחה</string>
     <string name="https_filtering_browser_section">בחירת דפדפן</string>
     <string name="https_filtering_browser_desc">בחר דפדפנים כדי להחיל סינון פרסומות קוסמטי. רק אפליקציות שנבחרו יסוננו.</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">הגדרת תעודה</string>
     <string name="https_wizard_step_indicator_format">שלב %1$d מתוך %2$d: %3$s</string>
     <string name="https_wizard_overview_title">סקירה כללית ופרטיות</string>
-    <string name="https_wizard_overview_subtitle">מדוע BlockAds זקוקה לתעודה מקומית</string>
+    <string name="https_wizard_overview_subtitle">מדוע GhostGuard זקוקה לתעודה מקומית</string>
     <string name="https_wizard_security_title">אבטחה ופרטיות</string>
-    <string name="https_wizard_security_desc">תעודת ה-Root CA נוצרת מקומית במכשיר שלך ולעולם אינה עוזבת את הטלפון שלך. BlockAds משתמשת בה אך ורק כדי להסיר מודעות באתרי אינטרנט. שירותים רגישים כגון אפליקציות בנקאיות וחשבונות Google אינם מיורטים לעולם.</string>
+    <string name="https_wizard_security_desc">תעודת ה-Root CA נוצרת מקומית במכשיר שלך ולעולם אינה עוזבת את הטלפון שלך. GhostGuard משתמשת בה אך ורק כדי להסיר מודעות באתרי אינטרנט. שירותים רגישים כגון אפליקציות בנקאיות וחשבונות Google אינם מיורטים לעולם.</string>
     <string name="https_wizard_explain_title">למה סינון HTTPS?</string>
-    <string name="https_wizard_explain_desc">רוב האתרים והמודעות המודרניים משתמשים בחיבורי HTTPS מוצפנים. כדי להסתיר שומרי מקום של מודעות, באנרים וחלונות קופצים, BlockAds דורשת תעודה מקומית כדי לבדוק ולסנן דפי אינטרנט בבטחה במכשיר שלך.</string>
+    <string name="https_wizard_explain_desc">רוב האתרים והמודעות המודרניים משתמשים בחיבורי HTTPS מוצפנים. כדי להסתיר שומרי מקום של מודעות, באנרים וחלונות קופצים, GhostGuard דורשת תעודה מקומית כדי לבדוק ולסנן דפי אינטרנט בבטחה במכשיר שלך.</string>
     <string name="https_wizard_benefits_title">יתרונות מרכזיים</string>
     <string name="https_wizard_benefit_1">הסרת מודעות בפלטפורמות וידאו ובאתרי חדשות</string>
     <string name="https_wizard_benefit_2">הסתרת שומרי מקום ריקים, באנרים וחלונות קופצים פולשניים</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">זוהתה גישת Root (מומלץ)</string>
     <string name="https_wizard_root_detected_desc">למכשיר שלך יש גישת root. באפשרותך להתקין את תעודת ה-CA באופן אוטומטי ללא הגדרה ידנית.</string>
     <string name="https_wizard_checking_title">מאמת תעודה…</string>
-    <string name="https_wizard_checking_desc">סורק את מאגר האמון של Android עבור BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA מאומת ופעיל במאגר האמון של המכשיר שלך. סינון HTTPS מתקדם מוכן לפעולה!</string>
+    <string name="https_wizard_checking_desc">סורק את מאגר האמון של Android עבור GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA מאומת ופעיל במאגר האמון של המכשיר שלך. סינון HTTPS מתקדם מוכן לפעולה!</string>
     <string name="https_wizard_not_installed_title">התעודה לא זוהתה</string>
-    <string name="https_wizard_not_installed_desc">BlockAds עדיין לא מצאה את התעודה במאגר האמון שלך. אם זה עתה סיימת להתקין אותה בהגדרות, הקש למטה כדי לבדוק שוב.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard עדיין לא מצאה את התעודה במאגר האמון שלך. אם זה עתה סיימת להתקין אותה בהגדרות, הקש למטה כדי לבדוק שוב.</string>
     <string name="https_wizard_troubleshooting_title">טיפים לפתרון בעיות</string>
     <string name="https_wizard_troubleshooting_tip1">ודא שבחרת ב-\"תעודת CA\" בהגדרות (לא תעודת משתמש או תעודת משתמש של VPN ואפליקציות).</string>
     <string name="https_wizard_troubleshooting_tip2">אם ההתקנה בוצעה באמצעות מודול Magisk/KernelSU, נדרש אתחול מחדש של המכשיר.</string>

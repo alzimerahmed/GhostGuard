@@ -30,42 +30,47 @@ import app.ghostguard.ui.theme.TextSecondary
 fun FallbackDnsCard(
     fallbackDns: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     SettingsCard(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             SettingIconBadge(
                 icon = Icons.Default.Shield,
-                tint = Color(0xFF059669)
+                tint = Color(0xFF059669),
             )
             Spacer(modifier = Modifier.width(14.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.settings_fallback_dns),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = stringResource(R.string.settings_fallback_dns_short_desc),
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = fallbackDns.ifBlank { stringResource(R.string.settings_fallback_dns_not_set) },
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (fallbackDns.isBlank()) MaterialTheme.colorScheme.error
-                            else MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium
+                    color =
+                        if (fallbackDns.isBlank()) {
+                            MaterialTheme.colorScheme.error
+                        } else {
+                            MaterialTheme.colorScheme.primary
+                        },
+                    fontWeight = FontWeight.Medium,
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -73,9 +78,8 @@ fun FallbackDnsCard(
                 Icons.Default.Edit,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
         }
     }
 }
-

@@ -44,11 +44,12 @@ fun SplashScreen(
 
     val scale by animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0.5f,
-        animationSpec = tween(
-            durationMillis = 400,
-            easing = FastOutSlowInEasing
-        ),
-        label = "scale_animation"
+        animationSpec =
+            tween(
+                durationMillis = 400,
+                easing = FastOutSlowInEasing,
+            ),
+        label = "scale_animation",
     )
 
     LaunchedEffect(viewModel.events) {
@@ -62,35 +63,40 @@ fun SplashScreen(
                 is SplashEvent.Onboarding -> {
                     onNavigateToOnboarding()
                 }
-
             }
         }
     }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.background,
-                        MaterialTheme.colorScheme.surface
-                    )
-                )
-            ),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors =
+                            listOf(
+                                MaterialTheme.colorScheme.background,
+                                MaterialTheme.colorScheme.surface,
+                            ),
+                    ),
+                ),
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.graphicsLayer { scaleX = scale; scaleY = scale }
+            modifier =
+                Modifier.graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                },
         ) {
             // App Logo
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = "App Logo",
                 modifier = Modifier.size(120.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -100,7 +106,7 @@ fun SplashScreen(
                 text = stringResource(R.string.app_name),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -109,7 +115,7 @@ fun SplashScreen(
             Text(
                 text = stringResource(R.string.app_tagline),
                 fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

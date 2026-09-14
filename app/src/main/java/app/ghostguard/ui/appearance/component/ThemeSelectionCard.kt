@@ -33,13 +33,14 @@ import app.ghostguard.ui.settings.component.SettingsCard
 fun ThemeSelectionCard(
     currentTheme: String,
     onSelectTheme: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val themes = listOf(
-        Triple(R.string.settings_theme_system, Icons.Default.SettingsBrightness, AppPreferences.THEME_SYSTEM),
-        Triple(R.string.settings_theme_light, Icons.Default.LightMode, AppPreferences.THEME_LIGHT),
-        Triple(R.string.settings_theme_dark, Icons.Default.DarkMode, AppPreferences.THEME_DARK),
-    )
+    val themes =
+        listOf(
+            Triple(R.string.settings_theme_system, Icons.Default.SettingsBrightness, AppPreferences.THEME_SYSTEM),
+            Triple(R.string.settings_theme_light, Icons.Default.LightMode, AppPreferences.THEME_LIGHT),
+            Triple(R.string.settings_theme_dark, Icons.Default.DarkMode, AppPreferences.THEME_DARK),
+        )
 
     val badgeTint = Color(0xFF2563EB)
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
@@ -49,15 +50,16 @@ fun ThemeSelectionCard(
             themes.forEachIndexed { index, (labelRes, icon, themeCode) ->
                 val isSelected = currentTheme == themeCode
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onSelectTheme(themeCode) }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable { onSelectTheme(themeCode) }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     SettingIconBadge(
                         icon = icon,
-                        tint = if (isSelected) badgeTint else MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = if (isSelected) badgeTint else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(modifier = Modifier.width(14.dp))
                     Text(
@@ -65,21 +67,21 @@ fun ThemeSelectionCard(
                         modifier = Modifier.weight(1f),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                     )
                     if (isSelected) {
                         Icon(
                             Icons.Default.Check,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
                         )
                     }
                 }
                 if (index < themes.lastIndex) {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = dividerColor
+                        color = dividerColor,
                     )
                 }
             }

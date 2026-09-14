@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,7 +33,7 @@ fun DnsProviderGroupCard(
     providers: List<DnsProvider>,
     selectedProviderId: String?,
     onSelectProvider: (DnsProvider) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
 
@@ -43,16 +42,19 @@ fun DnsProviderGroupCard(
             providers.forEachIndexed { index, provider ->
                 val isSelected = provider.id == selectedProviderId
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .then(
-                            if (isSelected) {
-                                Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.06f))
-                            } else Modifier
-                        )
-                        .clickable { onSelectProvider(provider) }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .then(
+                                if (isSelected) {
+                                    Modifier.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.06f))
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .clickable { onSelectProvider(provider) }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -60,25 +62,26 @@ fun DnsProviderGroupCard(
                                 text = provider.name,
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
-                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                             )
                             if (provider.dohUrl != null) {
-                                val badgeText = if (provider.dohUrl.startsWith("quic://", ignoreCase = true)) {
-                                    "DoQ"
-                                } else {
-                                    stringResource(R.string.dns_doh_badge)
-                                }
+                                val badgeText =
+                                    if (provider.dohUrl.startsWith("quic://", ignoreCase = true)) {
+                                        "DoQ"
+                                    } else {
+                                        stringResource(R.string.dns_doh_badge)
+                                    }
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Surface(
                                     color = MaterialTheme.colorScheme.secondaryContainer,
-                                    shape = RoundedCornerShape(6.dp)
+                                    shape = RoundedCornerShape(6.dp),
                                 ) {
                                     Text(
                                         text = badgeText,
                                         style = MaterialTheme.typography.labelSmall,
                                         fontWeight = FontWeight.Medium,
                                         color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                                     )
                                 }
                             }
@@ -87,14 +90,14 @@ fun DnsProviderGroupCard(
                         Text(
                             text = provider.description,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = provider.ipAddress,
                             style = MaterialTheme.typography.bodySmall,
                             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Medium,
                         )
                     }
                     if (isSelected) {
@@ -103,14 +106,14 @@ fun DnsProviderGroupCard(
                             Icons.Default.CheckCircle,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 }
                 if (index < providers.lastIndex) {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = dividerColor
+                        color = dividerColor,
                     )
                 }
             }

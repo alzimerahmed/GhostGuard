@@ -1,14 +1,12 @@
 package app.ghostguard.ui.whitelist
 
 import android.app.Application
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.data.datastore.AppPreferences
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.whitelist.data.AppInfoData
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +18,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class AppWhitelistViewModel(
     private val appPrefs: AppPreferences,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
-
-    val whitelistedApps: StateFlow<Set<String>> = appPrefs.whitelistedApps
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+    val whitelistedApps: StateFlow<Set<String>> =
+        appPrefs.whitelistedApps
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 
     private val _installedApps = MutableStateFlow<List<AppInfoData>>(emptyList())
     val installedApps: StateFlow<List<AppInfoData>> = _installedApps.asStateFlow()
@@ -42,21 +39,22 @@ class AppWhitelistViewModel(
     private fun loadApps() {
         viewModelScope.launch {
             _isLoading.value = true
-            val apps = withContext(Dispatchers.IO) {
-                val pm = application.applicationContext.packageManager
-                pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
-                    .filter { it.packageName != application.applicationContext.packageName }
-                    .map { appInfo ->
-                        val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
-                        AppInfoData(
-                            packageName = appInfo.packageName,
-                            label = appInfo.loadLabel(pm).toString(),
-                            icon = appInfo.loadIcon(pm),
-                            isSystemApp = isSystem
-                        )
-                    }
-                    .sortedBy { it.label.lowercase() }
-            }
+            val apps =
+                withContext(Dispatchers.IO) {
+                    val pm = application.applicationContext.packageManager
+                    pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                        .filter { it.packageName != application.applicationContext.packageName }
+                        .map { appInfo ->
+                            val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                            AppInfoData(
+                                packageName = appInfo.packageName,
+                                label = appInfo.loadLabel(pm).toString(),
+                                icon = appInfo.loadIcon(pm),
+                                isSystemApp = isSystem,
+                            )
+                        }
+                        .sortedBy { it.label.lowercase() }
+                }
             _installedApps.value = apps
             _isLoading.value = false
         }

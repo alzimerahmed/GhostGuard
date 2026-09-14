@@ -33,39 +33,41 @@ import app.ghostguard.ui.httpsfiltering.wizard.WizardStep
 fun WizardStepIndicator(
     currentStep: WizardStep,
     onStepClick: (WizardStep) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val totalSteps = WizardStep.entries.size
     val currentStepNumber = currentStep.stepIndex + 1
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
     ) {
         // Step label & title
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(
-                    R.string.https_wizard_step_indicator_format,
-                    currentStepNumber,
-                    totalSteps,
-                    stringResource(currentStep.titleRes)
-                ),
+                text =
+                    stringResource(
+                        R.string.https_wizard_step_indicator_format,
+                        currentStepNumber,
+                        totalSteps,
+                        stringResource(currentStep.titleRes),
+                    ),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             Text(
                 text = "${(currentStepNumber * 100) / totalSteps}%",
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
 
@@ -75,33 +77,35 @@ fun WizardStepIndicator(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             WizardStep.entries.forEach { step ->
                 val isCompleted = step.stepIndex < currentStep.stepIndex
                 val isCurrent = step == currentStep
 
                 val segmentColor by animateColorAsState(
-                    targetValue = when {
-                        isCurrent -> MaterialTheme.colorScheme.primary
-                        isCompleted -> MaterialTheme.colorScheme.primary.copy(alpha = 0.65f)
-                        else -> MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
-                    },
+                    targetValue =
+                        when {
+                            isCurrent -> MaterialTheme.colorScheme.primary
+                            isCompleted -> MaterialTheme.colorScheme.primary.copy(alpha = 0.65f)
+                            else -> MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
+                        },
                     animationSpec = tween(300),
-                    label = "segmentColor"
+                    label = "segmentColor",
                 )
 
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(6.dp)
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(segmentColor)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = ripple(bounded = true),
-                            onClick = { onStepClick(step) }
-                        )
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .height(6.dp)
+                            .clip(RoundedCornerShape(3.dp))
+                            .background(segmentColor)
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = ripple(bounded = true),
+                                onClick = { onStepClick(step) },
+                            ),
                 )
             }
         }

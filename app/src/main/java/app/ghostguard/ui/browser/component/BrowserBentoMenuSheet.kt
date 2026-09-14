@@ -67,7 +67,7 @@ fun BrowserBentoMenuSheet(
     onCheckRuleUpdates: () -> Unit,
     onActivateElementPicker: () -> Unit = {},
     onNavigateToElementRules: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (!isVisible) return
 
@@ -82,31 +82,34 @@ fun BrowserBentoMenuSheet(
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         dragHandle = {
             Box(
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 8.dp)
-                    .size(width = 36.dp, height = 4.dp)
-                    .background(Color.White.copy(alpha = 0.24f), CircleShape)
+                modifier =
+                    Modifier
+                        .padding(top = 12.dp, bottom = 8.dp)
+                        .size(width = 36.dp, height = 4.dp)
+                        .background(Color.White.copy(alpha = 0.24f), CircleShape),
             )
         },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             // Header
             BentoHeader()
 
             // Row 1: Bento Grid (Stats Card on Left + 2 Toggle Cards on Right)
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 // Left Card: Adblock Stats & Rule Version
                 BentoStatsCard(
@@ -115,17 +118,19 @@ fun BrowserBentoMenuSheet(
                     ruleDomainsCount = ruleDomainsCount,
                     isCheckingRuleUpdates = isCheckingRuleUpdates,
                     onCheckRuleUpdates = onCheckRuleUpdates,
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                 )
 
                 // Right Column: Toggle AdBlock + Toggle Popup Block
                 Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     BentoToggleCard(
                         title = "Chặn Quảng cáo",
@@ -134,7 +139,7 @@ fun BrowserBentoMenuSheet(
                         checked = adBlockEnabled,
                         onCheckedChange = { onToggleAdBlock() },
                         activeColor = Color(0xFF10B981),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
 
                     BentoToggleCard(
@@ -144,7 +149,7 @@ fun BrowserBentoMenuSheet(
                         checked = popupBlockEnabled,
                         onCheckedChange = { onTogglePopupBlock() },
                         activeColor = Color(0xFFEC4899),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
@@ -157,7 +162,7 @@ fun BrowserBentoMenuSheet(
                 checked = isDesktopMode,
                 onCheckedChange = { onToggleDesktopMode() },
                 activeColor = Color(0xFF6366F1),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             // Row 3: Picture-in-Picture Card
@@ -183,7 +188,7 @@ fun BrowserBentoMenuSheet(
                 onHome = {
                     onDismiss()
                     onHome()
-                }
+                },
             )
 
             // Row 4: Block Element CTA
@@ -194,7 +199,7 @@ fun BrowserBentoMenuSheet(
                 onClick = {
                     onDismiss()
                     onActivateElementPicker()
-                }
+                },
             )
 
             // Row 5: Manage Rules CTA
@@ -205,7 +210,7 @@ fun BrowserBentoMenuSheet(
                 onClick = {
                     onDismiss()
                     onNavigateToElementRules()
-                }
+                },
             )
 
             // Row 6: Set as Default Browser CTA
@@ -218,33 +223,34 @@ fun BrowserBentoMenuSheet(
                         val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
                         context.startActivity(intent)
                     }
-                }
+                },
             )
 
             // Row 5: Exit Browser
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(14.dp))
-                    .clickable {
-                        onDismiss()
-                        onCloseBrowser()
-                    }
-                    .padding(vertical = 12.dp, horizontal = 16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(14.dp))
+                        .clickable {
+                            onDismiss()
+                            onCloseBrowser()
+                        }
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                     contentDescription = null,
                     tint = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Đóng trình duyệt",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White.copy(alpha = 0.6f)
+                    color = Color.White.copy(alpha = 0.6f),
                 )
             }
 

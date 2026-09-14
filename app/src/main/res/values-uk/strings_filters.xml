@@ -105,7 +105,7 @@
     <string name="https_filtering_ca_desc">Виконайте ці кроки, щоб налаштувати косметичну фільтрацію HTTPS:</string>
     <string name="https_filtering_export_ca">Зберегти в Завантаження</string>
     <string name="https_filtering_cert_saved">Сертифікат збережено в Завантаження!</string>
-    <string name="https_filtering_install_steps">1. Перейдіть до Налаштування → Безпека → Шифрування та облікові дані\n2. Натисніть \&quot;Встановити сертифікат\&quot; → \&quot;Сертифікат ЦС (CA)\&quot;\n3. Виберіть \&quot;BlockAds-RootCA.crt\&quot; з папки Завантаження\n4. Підтвердьте встановлення</string>
+    <string name="https_filtering_install_steps">1. Перейдіть до Налаштування → Безпека → Шифрування та облікові дані\n2. Натисніть \&quot;Встановити сертифікат\&quot; → \&quot;Сертифікат ЦС (CA)\&quot;\n3. Виберіть \&quot;GhostGuard-RootCA.crt\&quot; з папки Завантаження\n4. Підтвердьте встановлення</string>
     <string name="https_filtering_open_settings">Відкрити налаштування безпеки</string>
     <string name="https_filtering_browser_section">Вибір браузера</string>
     <string name="https_filtering_browser_desc">Виберіть браузери, щоб застосувати косметичну фільтрацію реклами. Фільтруються лише вибрані додатки.</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">Налаштування сертифіката</string>
     <string name="https_wizard_step_indicator_format">Крок %1$d з %2$d: %3$s</string>
     <string name="https_wizard_overview_title">Огляд та конфіденційність</string>
-    <string name="https_wizard_overview_subtitle">Чому BlockAds потрібен локальний сертифікат</string>
+    <string name="https_wizard_overview_subtitle">Чому GhostGuard потрібен локальний сертифікат</string>
     <string name="https_wizard_security_title">Безпека та конфіденційність</string>
-    <string name="https_wizard_security_desc">Сертифікат Root CA створюється локально на вашому пристрої і ніколи не залишає телефон. BlockAds використовує його виключно для видалення реклами на веб-сайтах. Конфіденційні служби, такі як банківські додатки та облікові записи Google, ніколи не перехоплюються.</string>
+    <string name="https_wizard_security_desc">Сертифікат Root CA створюється локально на вашому пристрої і ніколи не залишає телефон. GhostGuard використовує його виключно для видалення реклами на веб-сайтах. Конфіденційні служби, такі як банківські додатки та облікові записи Google, ніколи не перехоплюються.</string>
     <string name="https_wizard_explain_title">Чому фільтрація HTTPS?</string>
-    <string name="https_wizard_explain_desc">Більшість сучасних веб-сайтів і реклами використовують зашифровані з\'єднання HTTPS. Щоб приховати порожні місця для реклами, банери та спливаючі вікна, BlockAds потрібен локальний сертифікат для безпечної перевірки та фільтрації сторінок на вашому пристрої.</string>
+    <string name="https_wizard_explain_desc">Більшість сучасних веб-сайтів і реклами використовують зашифровані з\'єднання HTTPS. Щоб приховати порожні місця для реклами, банери та спливаючі вікна, GhostGuard потрібен локальний сертифікат для безпечної перевірки та фільтрації сторінок на вашому пристрої.</string>
     <string name="https_wizard_benefits_title">Основні переваги</string>
     <string name="https_wizard_benefit_1">Усунення реклами на відеоплатформах та новинних сайтах</string>
     <string name="https_wizard_benefit_2">Приховування порожніх блоків, банерів і нав\'язливих спливаючих вікон</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Виявлено Root-доступ (рекомендовано)</string>
     <string name="https_wizard_root_detected_desc">Ваш пристрій має root-доступ. Ви можете встановити сертифікат CA автоматично без ручного налаштування.</string>
     <string name="https_wizard_checking_title">Перевірка сертифіката…</string>
-    <string name="https_wizard_checking_desc">Сканування сховища довірених сертифікатів Android для BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA перевірено та активовано в сховищі довірених сертифікатів пристрою. Розширена фільтрація HTTPS готова до роботи!</string>
+    <string name="https_wizard_checking_desc">Сканування сховища довірених сертифікатів Android для GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA перевірено та активовано в сховищі довірених сертифікатів пристрою. Розширена фільтрація HTTPS готова до роботи!</string>
     <string name="https_wizard_not_installed_title">Сертифікат не виявлено</string>
-    <string name="https_wizard_not_installed_desc">BlockAds ще не знайшов сертифікат у вашому сховищі довірених сертифікатів. Якщо ви щойно встановили його в Налаштуваннях, торкніться нижче, щоб перевірити знову.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard ще не знайшов сертифікат у вашому сховищі довірених сертифікатів. Якщо ви щойно встановили його в Налаштуваннях, торкніться нижче, щоб перевірити знову.</string>
     <string name="https_wizard_troubleshooting_title">Поради щодо усунення несправностей</string>
     <string name="https_wizard_troubleshooting_tip1">Переконайтеся, що в Налаштуваннях ви вибрали «Сертифікат CA» (а не Сертифікат користувача чи Сертифікат VPN і додатків).</string>
     <string name="https_wizard_troubleshooting_tip2">У разі встановлення через модуль Magisk/KernelSU потрібне перезавантаження пристрою.</string>

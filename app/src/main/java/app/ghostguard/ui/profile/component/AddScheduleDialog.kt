@@ -35,7 +35,7 @@ import app.ghostguard.ui.theme.TextSecondary
 fun AddScheduleDialog(
     onDismiss: () -> Unit,
     onAdd: (Int, Int, Int, Int, String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var startHour by rememberSaveable { mutableIntStateOf(18) }
     var startMinute by rememberSaveable { mutableIntStateOf(0) }
@@ -43,15 +43,16 @@ fun AddScheduleDialog(
     var endMinute by rememberSaveable { mutableIntStateOf(0) }
     var selectedDays by rememberSaveable { mutableStateOf(setOf(1, 2, 3, 4, 5, 6, 7)) }
 
-    val dayLabels = listOf(
-        1 to stringResource(R.string.profile_day_mon),
-        2 to stringResource(R.string.profile_day_tue),
-        3 to stringResource(R.string.profile_day_wed),
-        4 to stringResource(R.string.profile_day_thu),
-        5 to stringResource(R.string.profile_day_fri),
-        6 to stringResource(R.string.profile_day_sat),
-        7 to stringResource(R.string.profile_day_sun)
-    )
+    val dayLabels =
+        listOf(
+            1 to stringResource(R.string.profile_day_mon),
+            2 to stringResource(R.string.profile_day_tue),
+            3 to stringResource(R.string.profile_day_wed),
+            4 to stringResource(R.string.profile_day_thu),
+            5 to stringResource(R.string.profile_day_fri),
+            6 to stringResource(R.string.profile_day_sat),
+            7 to stringResource(R.string.profile_day_sun),
+        )
 
     AlertDialog(
         modifier = modifier,
@@ -63,82 +64,94 @@ fun AddScheduleDialog(
                 Text(
                     stringResource(R.string.profile_schedule_start),
                     style = MaterialTheme.typography.labelMedium,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     OutlinedTextField(
                         value = startHour.toString(),
                         onValueChange = { startHour = it.toIntOrNull()?.coerceIn(0, 23) ?: 0 },
                         modifier = Modifier.width(70.dp),
-                        singleLine = true
+                        singleLine = true,
                     )
                     Text(":")
                     OutlinedTextField(
                         value = startMinute.toString().padStart(2, '0'),
                         onValueChange = { startMinute = it.toIntOrNull()?.coerceIn(0, 59) ?: 0 },
                         modifier = Modifier.width(70.dp),
-                        singleLine = true
+                        singleLine = true,
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     stringResource(R.string.profile_schedule_end),
                     style = MaterialTheme.typography.labelMedium,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     OutlinedTextField(
                         value = endHour.toString(),
                         onValueChange = { endHour = it.toIntOrNull()?.coerceIn(0, 23) ?: 0 },
                         modifier = Modifier.width(70.dp),
-                        singleLine = true
+                        singleLine = true,
                     )
                     Text(":")
                     OutlinedTextField(
                         value = endMinute.toString().padStart(2, '0'),
                         onValueChange = { endMinute = it.toIntOrNull()?.coerceIn(0, 59) ?: 0 },
                         modifier = Modifier.width(70.dp),
-                        singleLine = true
+                        singleLine = true,
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     stringResource(R.string.profile_schedule_days),
                     style = MaterialTheme.typography.labelMedium,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     dayLabels.forEach { (dayNum, label) ->
                         val isSelected = dayNum in selectedDays
                         Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(
-                                    if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-                                    else MaterialTheme.colorScheme.surfaceVariant
-                                )
-                                .clickable {
-                                    selectedDays = if (isSelected) selectedDays - dayNum
-                                    else selectedDays + dayNum
-                                },
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (isSelected) {
+                                            MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                                        } else {
+                                            MaterialTheme.colorScheme.surfaceVariant
+                                        },
+                                    )
+                                    .clickable {
+                                        selectedDays =
+                                            if (isSelected) {
+                                                selectedDays - dayNum
+                                            } else {
+                                                selectedDays + dayNum
+                                            }
+                                    },
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = label,
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (isSelected) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                color =
+                                    if (isSelected) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                    },
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                             )
                         }
                     }
@@ -151,7 +164,7 @@ fun AddScheduleDialog(
                     val days = selectedDays.sorted().joinToString(",")
                     onAdd(startHour, startMinute, endHour, endMinute, days)
                 },
-                enabled = selectedDays.isNotEmpty()
+                enabled = selectedDays.isNotEmpty(),
             ) {
                 Text(stringResource(R.string.settings_add))
             }
@@ -160,6 +173,6 @@ fun AddScheduleDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.settings_cancel))
             }
-        }
+        },
     )
 }

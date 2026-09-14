@@ -32,55 +32,62 @@ fun CustomRuleItem(
     rule: CustomDnsRule,
     onToggle: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        )
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                imageVector = when (rule.ruleType) {
-                    RuleType.BLOCK -> Icons.Default.Block
-                    RuleType.ALLOW -> Icons.Default.CheckCircle
-                    RuleType.COMMENT -> Icons.Default.Info
-                },
+                imageVector =
+                    when (rule.ruleType) {
+                        RuleType.BLOCK -> Icons.Default.Block
+                        RuleType.ALLOW -> Icons.Default.CheckCircle
+                        RuleType.COMMENT -> Icons.Default.Info
+                    },
                 contentDescription = null,
-                tint = when (rule.ruleType) {
-                    RuleType.BLOCK -> Color(0xFFF44336)
-                    RuleType.ALLOW -> Color(0xFF4CAF50)
-                    RuleType.COMMENT -> Color.Gray
-                },
-                modifier = Modifier.size(24.dp)
+                tint =
+                    when (rule.ruleType) {
+                        RuleType.BLOCK -> Color(0xFFF44336)
+                        RuleType.ALLOW -> Color(0xFF4CAF50)
+                        RuleType.COMMENT -> Color.Gray
+                    },
+                modifier = Modifier.size(24.dp),
             )
 
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp)
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .padding(horizontal = 12.dp),
             ) {
                 Text(
                     text = rule.rule,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontFamily = FontFamily.Monospace,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    color = if (rule.isEnabled) MaterialTheme.colorScheme.onSurface else Color.Gray
+                    style =
+                        MaterialTheme.typography.bodyMedium.copy(
+                            fontFamily = FontFamily.Monospace,
+                            fontWeight = FontWeight.Medium,
+                        ),
+                    color = if (rule.isEnabled) MaterialTheme.colorScheme.onSurface else Color.Gray,
                 )
                 if (rule.domain.isNotEmpty()) {
                     Text(
                         text = rule.domain,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
+                        color = Color.Gray,
                     )
                 }
             }
@@ -88,7 +95,7 @@ fun CustomRuleItem(
             if (rule.ruleType != RuleType.COMMENT) {
                 Switch(
                     checked = rule.isEnabled,
-                    onCheckedChange = { onToggle() }
+                    onCheckedChange = { onToggle() },
                 )
             }
 
@@ -96,7 +103,7 @@ fun CustomRuleItem(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
-                    tint = Color(0xFFF44336)
+                    tint = Color(0xFFF44336),
                 )
             }
         }

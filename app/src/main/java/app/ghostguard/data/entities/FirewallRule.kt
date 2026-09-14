@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "firewall_rules",
-    indices = [Index(value = ["packageName"], unique = true)]
+    indices = [Index(value = ["packageName"], unique = true)],
 )
 data class FirewallRule(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -18,5 +18,5 @@ data class FirewallRule(
     val scheduleStartMinute: Int = 0,
     val scheduleEndHour: Int = 6,
     val scheduleEndMinute: Int = 0,
-    val isEnabled: Boolean = true
+    val isEnabled: Boolean = true,
 )

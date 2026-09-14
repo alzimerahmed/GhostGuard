@@ -11,9 +11,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    val appPrefs: AppPreferences
+    val appPrefs: AppPreferences,
 ) : ViewModel() {
-
     private val _events = MutableSharedFlow<SplashEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<SplashEvent> = _events.asSharedFlow()
 

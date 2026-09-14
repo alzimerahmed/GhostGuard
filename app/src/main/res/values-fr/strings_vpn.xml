@@ -2,17 +2,17 @@
 <resources>
     <string name="notification_channel_name">Service de blocage des publicités</string>
     <string name="notification_channel_description">Indique quand le bloqueur de publicités VPN est activé</string>
-    <string name="vpn_notification_title">BlockAds est activé</string>
+    <string name="vpn_notification_title">GhostGuard est activé</string>
     <string name="vpn_notification_text">Protéger votre appareil contre les publicités</string>
-    <string name="vpn_notification_reconnecting">BlockAds se reconnecte</string>
+    <string name="vpn_notification_reconnecting">GhostGuard se reconnecte</string>
     <string name="vpn_notification_reconnecting_text">Changement de réseau, reconnexion au VPN…</string>
-    <string name="vpn_notification_retrying">BlockAds effectue une nouvelle tentative</string>
+    <string name="vpn_notification_retrying">GhostGuard effectue une nouvelle tentative</string>
     <string name="vpn_notification_retry_text">Reconnexion de %1$d dans %2$d secondes</string>
     <string name="vpn_alert_channel_name">Alertes VPN</string>
     <string name="vpn_alert_channel_description">Alertes importantes concernant les changements d\'état du VPN</string>
     <string name="vpn_revoked_title">Le blocage des publicités a été désactivé</string>
-    <string name="vpn_revoked_text">Une autre application VPN a pris le contrôle de la connexion. Appuyez ici pour réactiver BlockAds.</string>
-    <string name="vpn_stopped_title">BlockAds est désactivé</string>
+    <string name="vpn_revoked_text">Une autre application VPN a pris le contrôle de la connexion. Appuyez ici pour réactiver GhostGuard.</string>
+    <string name="vpn_stopped_title">GhostGuard est désactivé</string>
     <string name="vpn_stopped_text">Le blocage des publicités est désactivé. Appuyez sur « Activer » pour continuer.</string>
     <string name="vpn_stopped_action_enable">Activer</string>
     <string name="status_protected">Protégé</string>
@@ -26,7 +26,7 @@
     <string name="shortcut_toggle_vpn">Activer/désactiver le blocage des publicités</string>
     <string name="shortcut_toggle_vpn_short">Activer/désactiver le VPN</string>
     <string name="vpn_conflict_title">Connexion bloquée</string>
-    <string name="vpn_conflict_desc">Android n\'autorise qu\'une seule connexion VPN à la fois. Un autre VPN est actuellement actif sur votre appareil.\n\nVeuillez d\'abord vous déconnecter de l\'autre VPN ou désactiver l\'option « VPN toujours actif » dans les Paramètres avant de vous connecter à BlockAds.</string>
+    <string name="vpn_conflict_desc">Android n\'autorise qu\'une seule connexion VPN à la fois. Un autre VPN est actuellement actif sur votre appareil.\n\nVeuillez d\'abord vous déconnecter de l\'autre VPN ou désactiver l\'option « VPN toujours actif » dans les Paramètres avant de vous connecter à GhostGuard.</string>
     <string name="vpn_phase_loading_filters">Chargement des listes de filtres…</string>
     <string name="vpn_phase_preparing_dns">Préparation du DNS…</string>
     <string name="vpn_phase_establishing">Établissement du VPN…</string>
@@ -34,7 +34,7 @@
     <string name="vpn_notification_stats_today">%1$d publicités bloquées aujourd\'hui | Temps de fonctionnement : %2$s</string>
     <string name="vpn_notification_action_pause">Pause d\'une heure</string>
     <string name="vpn_notification_action_stop">Arrêter</string>
-    <string name="vpn_paused_title">BlockAds est en pause</string>
+    <string name="vpn_paused_title">GhostGuard est en pause</string>
     <string name="vpn_paused_text">Le blocage des publicités a été suspendu pendant 1 heure. Il reprendra automatiquement.</string>
     <string name="accessibility_toggle_vpn">Activer/désactiver la protection VPN</string>
     <string name="accessibility_vpn_active">La protection VPN est activée</string>
@@ -50,7 +50,7 @@
     <string name="root_not_available">L\'accès root n\'est pas disponible. Veuillez accorder l\'autorisation dans votre gestionnaire root (par exemple, Magisk/KernelSU).</string>
     <string name="root_proxy_notification_text">Mode proxy root activé — Trafic DNS redirigé via iptables</string>
     <string name="status_disconnecting">Déconnexion</string>
-    <string name="vpn_notification_stopping">BlockAds s\'arrête</string>
+    <string name="vpn_notification_stopping">GhostGuard s\'arrête</string>
     <string name="vpn_notification_stopping_text">Fermeture du tunnel VPN…</string>
     <string name="wireguard_https_filtering_disabled">Filtrage HTTPS désactivé (incompatible avec WireGuard)</string>
     <string name="wireguard_imported">Importé \'%1$s\'</string>
@@ -69,10 +69,10 @@
     <string name="wireguard_more_options">Plus d\'options</string>
     <string name="wireguard_no_peer">(aucun pair)</string>
     <string name="wireguard_rename_dialog_title">Renommer le profil</string>
-    <string name="root_proxy_start_failed_title">Échec du démarrage de BlockAds</string>
+    <string name="root_proxy_start_failed_title">Échec du démarrage de GhostGuard</string>
     <string name="root_proxy_start_failed_text">Impossible d\'obtenir l\'accès root pour démarrer la protection. Appuyez sur Activer pour réessayer.</string>
     <string name="private_dns_warning_title">DNS privé activé</string>
-    <string name="private_dns_warning_text">Le DNS privé d\'Android contourne BlockAds, le filtrage peut donc ne pas s\'appliquer. Réglez le DNS privé sur Désactivé ou Automatique dans les paramètres système.</string>
+    <string name="private_dns_warning_text">Le DNS privé d\'Android contourne GhostGuard, le filtrage peut donc ne pas s\'appliquer. Réglez le DNS privé sur Désactivé ou Automatique dans les paramètres système.</string>
     <string name="status_paused">En pause</string>
     <string name="vpn_notification_action_retry">Réessayer</string>
     <string name="vpn_notification_no_internet_title">Pas de connexion Internet</string>

@@ -1,7 +1,6 @@
 package app.ghostguard.ui.browser.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -71,19 +70,20 @@ fun BrowserTopBar(
     onCloseBrowser: () -> Unit,
     onEnterPip: () -> Unit = {},
     onOpenShieldSheet: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var text by remember(displayUrl) { mutableStateOf(displayUrl) }
     var menuExpanded by remember { mutableStateOf(false) }
     var isEditing by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    val domain = remember(displayUrl) {
-        runCatching {
-            val uri = android.net.Uri.parse(displayUrl)
-            uri.host?.removePrefix("www.") ?: displayUrl
-        }.getOrDefault(displayUrl)
-    }
+    val domain =
+        remember(displayUrl) {
+            runCatching {
+                val uri = android.net.Uri.parse(displayUrl)
+                uri.host?.removePrefix("www.") ?: displayUrl
+            }.getOrDefault(displayUrl)
+        }
 
     Column(modifier = modifier.fillMaxWidth()) {
         TopAppBar(
@@ -91,59 +91,64 @@ fun BrowserTopBar(
                 Surface(
                     shape = RoundedCornerShape(24.dp),
                     color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(44.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(44.dp),
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 12.dp)
+                        modifier = Modifier.padding(horizontal = 12.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Default.Lock,
                             contentDescription = "Secure Connection",
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(15.dp)
+                            modifier = Modifier.size(15.dp),
                         )
 
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Box(
                             modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.CenterStart
+                            contentAlignment = Alignment.CenterStart,
                         ) {
                             if (!isEditing && text == displayUrl) {
                                 Text(
                                     text = domain,
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontWeight = FontWeight.Medium
-                                    ),
+                                    style =
+                                        MaterialTheme.typography.bodyMedium.copy(
+                                            fontWeight = FontWeight.Medium,
+                                        ),
                                     color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .clickable { isEditing = true }
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .clickable { isEditing = true },
                                 )
                             } else {
                                 BasicTextField(
                                     value = text,
                                     onValueChange = { text = it },
                                     singleLine = true,
-                                    textStyle = MaterialTheme.typography.bodyMedium.copy(
-                                        color = MaterialTheme.colorScheme.onSurface
-                                    ),
+                                    textStyle =
+                                        MaterialTheme.typography.bodyMedium.copy(
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                        ),
                                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-                                    keyboardActions = KeyboardActions(
-                                        onGo = {
-                                            isEditing = false
-                                            focusManager.clearFocus()
-                                            onUrlSubmit(text)
-                                        }
-                                    ),
-                                    modifier = Modifier.fillMaxWidth()
+                                    keyboardActions =
+                                        KeyboardActions(
+                                            onGo = {
+                                                isEditing = false
+                                                focusManager.clearFocus()
+                                                onUrlSubmit(text)
+                                            },
+                                        ),
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
                             }
                         }
@@ -154,12 +159,12 @@ fun BrowserTopBar(
                                     text = ""
                                     isEditing = true
                                 },
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(24.dp),
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
                                     contentDescription = "Clear",
-                                    modifier = Modifier.size(16.dp)
+                                    modifier = Modifier.size(16.dp),
                                 )
                             }
                         }
@@ -170,26 +175,27 @@ fun BrowserTopBar(
                             Surface(
                                 shape = CircleShape,
                                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .clickable { onOpenShieldSheet() }
+                                modifier =
+                                    Modifier
+                                        .clip(CircleShape)
+                                        .clickable { onOpenShieldSheet() },
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp)
+                                    modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Shield,
                                         contentDescription = null,
                                         tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.size(12.dp)
+                                        modifier = Modifier.size(12.dp),
                                     )
                                     Spacer(modifier = Modifier.width(3.dp))
                                     Text(
                                         text = "$blockedCount",
                                         color = MaterialTheme.colorScheme.primary,
                                         fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
                                     )
                                 }
                             }
@@ -201,7 +207,7 @@ fun BrowserTopBar(
                 IconButton(onClick = onCloseBrowser) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
                     )
                 }
             },
@@ -209,7 +215,7 @@ fun BrowserTopBar(
                 IconButton(onClick = onReload) {
                     Icon(
                         imageVector = Icons.Default.Refresh,
-                        contentDescription = "Reload"
+                        contentDescription = "Reload",
                     )
                 }
 
@@ -217,13 +223,13 @@ fun BrowserTopBar(
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
                             imageVector = Icons.Default.MoreVert,
-                            contentDescription = "More"
+                            contentDescription = "More",
                         )
                     }
 
                     DropdownMenu(
                         expanded = menuExpanded,
-                        onDismissRequest = { menuExpanded = false }
+                        onDismissRequest = { menuExpanded = false },
                     ) {
                         DropdownMenuItem(
                             text = { Text("Chế độ Thu nhỏ (PiP)") },
@@ -231,13 +237,13 @@ fun BrowserTopBar(
                                 Icon(
                                     painter = painterResource(R.drawable.ic_pip),
                                     contentDescription = null,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(20.dp),
                                 )
                             },
                             onClick = {
                                 menuExpanded = false
                                 onEnterPip()
-                            }
+                            },
                         )
                         DropdownMenuItem(
                             text = { Text(if (isDesktopMode) "Giao diện Di động" else "Giao diện Máy tính (Desktop)") },
@@ -245,7 +251,7 @@ fun BrowserTopBar(
                             onClick = {
                                 menuExpanded = false
                                 onToggleDesktopMode()
-                            }
+                            },
                         )
                         DropdownMenuItem(
                             text = { Text("Mở trên trình duyệt ngoài") },
@@ -253,7 +259,7 @@ fun BrowserTopBar(
                             onClick = {
                                 menuExpanded = false
                                 onOpenExternal()
-                            }
+                            },
                         )
                         DropdownMenuItem(
                             text = { Text("Xóa Cookie & Cache") },
@@ -261,25 +267,27 @@ fun BrowserTopBar(
                             onClick = {
                                 menuExpanded = false
                                 onClearData()
-                            }
+                            },
                         )
                     }
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            )
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
         )
 
         // Web load progress indicator
         AnimatedVisibility(visible = isLoading) {
             LinearProgressIndicator(
                 progress = { progress / 100f },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.5.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(2.5.dp),
                 color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         }
     }

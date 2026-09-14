@@ -14,12 +14,12 @@ import app.ghostguard.R
 @Composable
 fun InterfaceSection(
     onNavigateToAppearance: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_interface),
-            description = stringResource(R.string.settings_category_interface_desc)
+            description = stringResource(R.string.settings_category_interface_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
         SettingsCard {
@@ -28,7 +28,7 @@ fun InterfaceSection(
                 iconTint = Color(0xFF8B5CF6),
                 title = stringResource(R.string.settings_category_interface),
                 desc = stringResource(R.string.settings_category_interface_desc),
-                onClick = onNavigateToAppearance
+                onClick = onNavigateToAppearance,
             )
         }
     }

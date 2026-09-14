@@ -6,12 +6,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import app.ghostguard.R
-import androidx.compose.ui.Modifier
 
 @Composable
-fun InfoDialog(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+fun InfoDialog(
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     AlertDialog(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.background,
@@ -21,7 +24,7 @@ fun InfoDialog(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
             Column {
                 Text(
                     text = stringResource(R.string.custom_rules_help_text),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         },
@@ -29,6 +32,6 @@ fun InfoDialog(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.ok))
             }
-        }
+        },
     )
 }

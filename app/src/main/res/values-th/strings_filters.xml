@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">ทำตามขั้นตอนเหล่านี้เพื่อตั้งค่าตัวกรองโฆษณา HTTPS:</string>
     <string name="https_filtering_export_ca">ขั้นตอนที่ 1: บันทึกใบรับรองไปที่ดาวน์โหลด</string>
     <string name="https_filtering_cert_saved">บันทึกใบรับรองไปที่ดาวน์โหลดแล้ว!</string>
-    <string name="https_filtering_install_steps">ขั้นตอนที่ 2: ติดตั้งใบรับรองด้วยตนเอง:\n\n1. ไปที่ การตั้งค่า → ความปลอดภัย → การเข้ารหัส &amp; ข้อมูลรับรอง\n2. แตะ \&quot;ติดตั้งใบรับรอง\&quot; → \&quot;ใบรับรอง CA\&quot;\n3. เลือก \&quot;BlockAds-RootCA.crt\&quot; จากดาวน์โหลด\n4. ยืนยันการติดตั้ง</string>
+    <string name="https_filtering_install_steps">ขั้นตอนที่ 2: ติดตั้งใบรับรองด้วยตนเอง:\n\n1. ไปที่ การตั้งค่า → ความปลอดภัย → การเข้ารหัส &amp; ข้อมูลรับรอง\n2. แตะ \&quot;ติดตั้งใบรับรอง\&quot; → \&quot;ใบรับรอง CA\&quot;\n3. เลือก \&quot;GhostGuard-RootCA.crt\&quot; จากดาวน์โหลด\n4. ยืนยันการติดตั้ง</string>
     <string name="https_filtering_open_settings">เปิดการตั้งค่าความปลอดภัย</string>
     <string name="https_filtering_step1_title">ขั้นตอนที่ 1: บันทึกใบรับรอง</string>
     <string name="https_filtering_step1_desc">ดาวน์โหลดใบรับรอง Root CA ไปยังอุปกรณ์ของคุณ</string>
@@ -149,11 +149,11 @@
     <string name="https_wizard_title">การตั้งค่าใบรับรอง</string>
     <string name="https_wizard_step_indicator_format">ขั้นตอนที่ %1$d จาก %2$d: %3$s</string>
     <string name="https_wizard_overview_title">ภาพรวมและความเป็นส่วนตัว</string>
-    <string name="https_wizard_overview_subtitle">ทำไม BlockAds ถึงต้องใช้ใบรับรองภายในเครื่อง</string>
+    <string name="https_wizard_overview_subtitle">ทำไม GhostGuard ถึงต้องใช้ใบรับรองภายในเครื่อง</string>
     <string name="https_wizard_security_title">ความปลอดภัยและความเป็นส่วนตัว</string>
-    <string name="https_wizard_security_desc">ใบรับรอง Root CA ถูกสร้างขึ้นภายในอุปกรณ์ของคุณและไม่เคยออกจากโทรศัพท์ของคุณ BlockAds ใช้ใบรับรองนี้เพื่อลบโฆษณาบนเว็บไซต์เท่านั้น บริการที่ละเอียดอ่อน เช่น แอปธนาคารและบัญชี Google จะไม่ถูกดักจับข้อมูลโดยเด็ดขาด</string>
+    <string name="https_wizard_security_desc">ใบรับรอง Root CA ถูกสร้างขึ้นภายในอุปกรณ์ของคุณและไม่เคยออกจากโทรศัพท์ของคุณ GhostGuard ใช้ใบรับรองนี้เพื่อลบโฆษณาบนเว็บไซต์เท่านั้น บริการที่ละเอียดอ่อน เช่น แอปธนาคารและบัญชี Google จะไม่ถูกดักจับข้อมูลโดยเด็ดขาด</string>
     <string name="https_wizard_explain_title">ทำไมต้องกรอง HTTPS?</string>
-    <string name="https_wizard_explain_desc">เว็บไซต์และโฆษณาสมัยใหม่ส่วนใหญ่ใช้การเชื่อมต่อ HTTPS ที่เข้ารหัส ในการซ่อนพื้นที่โฆษณา แบนเนอร์ และป๊อปอัป BlockAds จำเป็นต้องมีใบรับรองภายในเครื่องเพื่อตรวจสอบและกรองหน้าเว็บอย่างปลอดภัยบนอุปกรณ์ของคุณ</string>
+    <string name="https_wizard_explain_desc">เว็บไซต์และโฆษณาสมัยใหม่ส่วนใหญ่ใช้การเชื่อมต่อ HTTPS ที่เข้ารหัส ในการซ่อนพื้นที่โฆษณา แบนเนอร์ และป๊อปอัป GhostGuard จำเป็นต้องมีใบรับรองภายในเครื่องเพื่อตรวจสอบและกรองหน้าเว็บอย่างปลอดภัยบนอุปกรณ์ของคุณ</string>
     <string name="https_wizard_benefits_title">ประโยชน์หลัก</string>
     <string name="https_wizard_benefit_1">กำจัดโฆษณาบนแพลตฟอร์มวิดีโอและเว็บไซต์ข่าว</string>
     <string name="https_wizard_benefit_2">ซ่อนพื้นที่ว่าง แบนเนอร์ และป๊อปอัปที่รบกวน</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">ตรวจพบสิทธิ์ Root (แนะนำ)</string>
     <string name="https_wizard_root_detected_desc">อุปกรณ์ของคุณมีสิทธิ์ root คุณสามารถติดตั้งใบรับรอง CA ได้โดยอัตโนมัติโดยไม่ต้องกำหนดค่าด้วยตนเอง</string>
     <string name="https_wizard_checking_title">กำลังตรวจสอบใบรับรอง…</string>
-    <string name="https_wizard_checking_desc">กำลังสแกนที่เก็บที่เชื่อถือได้ของ Android สำหรับ BlockAds CA…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA ได้รับการยืนยันและเปิดใช้งานในที่เก็บที่เชื่อถือได้ของอุปกรณ์แล้ว การกรอง HTTPS ขั้นสูงพร้อมใช้งานแล้ว!</string>
+    <string name="https_wizard_checking_desc">กำลังสแกนที่เก็บที่เชื่อถือได้ของ Android สำหรับ GhostGuard CA…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA ได้รับการยืนยันและเปิดใช้งานในที่เก็บที่เชื่อถือได้ของอุปกรณ์แล้ว การกรอง HTTPS ขั้นสูงพร้อมใช้งานแล้ว!</string>
     <string name="https_wizard_not_installed_title">ตรวจไม่พบใบรับรอง</string>
-    <string name="https_wizard_not_installed_desc">BlockAds ยังไม่พบใบรับรองในที่เก็บที่เชื่อถือได้ หากคุณเพิ่งติดตั้งเสร็จในการตั้งค่า ให้แตะด้านล่างเพื่อตรวจสอบอีกครั้ง</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard ยังไม่พบใบรับรองในที่เก็บที่เชื่อถือได้ หากคุณเพิ่งติดตั้งเสร็จในการตั้งค่า ให้แตะด้านล่างเพื่อตรวจสอบอีกครั้ง</string>
     <string name="https_wizard_troubleshooting_title">เคล็ดลับการแก้ปัญหา</string>
     <string name="https_wizard_troubleshooting_tip1">ตรวจสอบให้แน่ใจว่าคุณได้เลือก \"ใบรับรอง CA\" ในการตั้งค่า (ไม่ใช่ใบรับรองผู้ใช้หรือใบรับรอง VPN และแอป)</string>
     <string name="https_wizard_troubleshooting_tip2">หากติดตั้งผ่านโมดูล Magisk/KernelSU จำเป็นต้องรีสตาร์ทอุปกรณ์</string>

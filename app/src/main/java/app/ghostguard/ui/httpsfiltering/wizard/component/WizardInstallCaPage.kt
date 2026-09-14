@@ -52,32 +52,34 @@ fun WizardInstallCaPage(
     onOpenSettings: () -> Unit,
     onInstallRootFast: () -> Unit,
     onInstallRootModule: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp),
     ) {
         // Hero Icon
         Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.tertiaryContainer)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f),
-                    shape = RoundedCornerShape(20.dp)
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(20.dp),
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Outlined.InstallMobile,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(32.dp),
             )
         }
 
@@ -87,37 +89,39 @@ fun WizardInstallCaPage(
             text = stringResource(R.string.https_filtering_step2_title),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Device Brand Pill
-        val deviceLabel = if (brandName.isNotBlank()) {
-            stringResource(R.string.https_wizard_device_brand_format, brandName)
-        } else {
-            stringResource(R.string.https_wizard_device_brand_generic)
-        }
+        val deviceLabel =
+            if (brandName.isNotBlank()) {
+                stringResource(R.string.https_wizard_device_brand_format, brandName)
+            } else {
+                stringResource(R.string.https_wizard_device_brand_generic)
+            }
 
         Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
-                .padding(horizontal = 10.dp, vertical = 6.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = Icons.Outlined.Smartphone,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(16.dp),
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = deviceLabel,
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -128,7 +132,7 @@ fun WizardInstallCaPage(
             RootInstallCard(
                 isExecutingRoot = isExecutingRoot,
                 onInstallFast = onInstallRootFast,
-                onInstallModule = onInstallRootModule
+                onInstallModule = onInstallRootModule,
             )
             Spacer(modifier = Modifier.height(18.dp))
         }
@@ -137,20 +141,22 @@ fun WizardInstallCaPage(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
-            ),
-            border = BorderStroke(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
-            )
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
+                ),
+            border =
+                BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f),
+                ),
         ) {
             Column(modifier = Modifier.padding(18.dp)) {
                 Text(
                     text = stringResource(R.string.https_wizard_install_instructions_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -159,7 +165,7 @@ fun WizardInstallCaPage(
                     TimelineStepItem(
                         number = index + 1,
                         text = step,
-                        isLast = index == installSteps.lastIndex
+                        isLast = index == installSteps.lastIndex,
                     )
                 }
             }
@@ -170,21 +176,22 @@ fun WizardInstallCaPage(
         // Open Security Settings Button
         Button(
             onClick = onOpenSettings,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(14.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+            shape = RoundedCornerShape(14.dp),
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.OpenInNew,
                 contentDescription = null,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(18.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = stringResource(R.string.https_filtering_open_settings),
                 style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         }
 
@@ -196,40 +203,43 @@ fun WizardInstallCaPage(
 private fun TimelineStepItem(
     number: Int,
     text: String,
-    isLast: Boolean
+    isLast: Boolean,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
     ) {
         // Vertical Timeline Column
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.width(28.dp)
+            modifier = Modifier.width(28.dp),
         ) {
             Box(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(24.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = number.toString(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
             if (!isLast) {
                 Box(
-                    modifier = Modifier
-                        .width(2.dp)
-                        .fillMaxHeight()
-                        .padding(vertical = 4.dp)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f))
+                    modifier =
+                        Modifier
+                            .width(2.dp)
+                            .fillMaxHeight()
+                            .padding(vertical = 4.dp)
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
                 )
             }
         }
@@ -240,10 +250,11 @@ private fun TimelineStepItem(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier
-                .weight(1f)
-                .padding(bottom = if (isLast) 0.dp else 16.dp),
-            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(bottom = if (isLast) 0.dp else 16.dp),
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
         )
     }
 }
@@ -252,18 +263,20 @@ private fun TimelineStepItem(
 private fun RootInstallCard(
     isExecutingRoot: Boolean,
     onInstallFast: () -> Unit,
-    onInstallModule: () -> Unit
+    onInstallModule: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-        ),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+            ),
+        border =
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.35f),
+            ),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -271,14 +284,14 @@ private fun RootInstallCard(
                     imageVector = Icons.Outlined.Security,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(20.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = stringResource(R.string.https_wizard_root_detected_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
 
@@ -287,62 +300,65 @@ private fun RootInstallCard(
             Text(
                 text = stringResource(R.string.https_wizard_root_detected_desc),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             if (isExecutingRoot) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(modifier = Modifier.size(26.dp))
                 }
             } else {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Button(
                         onClick = onInstallFast,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(12.dp)
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .height(44.dp),
+                        shape = RoundedCornerShape(12.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Default.Bolt,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = stringResource(R.string.https_wizard_root_fast),
                             style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
 
                     OutlinedButton(
                         onClick = onInstallModule,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(12.dp)
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .height(44.dp),
+                        shape = RoundedCornerShape(12.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Default.Extension,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = stringResource(R.string.https_wizard_root_module),
                             style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                 }

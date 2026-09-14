@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">以下の手順にHTTPSコスメティックフィルタリングを設定してください：</string>
     <string name="https_filtering_export_ca">ステップ 1: 証明書をダウンロードに保存</string>
     <string name="https_filtering_cert_saved">証明書をダウンロードに保存しました！</string>
-    <string name="https_filtering_install_steps">ステップ 2: 証明書を手動でインストールします:\n\n1. 設定 → セキュリティ → 暗号化 &amp; 認証情報 に移動します\n2. \&quot;証明書のインストール\&quot; → \&quot;CA 証明書\&quot; をタップします\n3. ダウンロードから \&quot;BlockAds-RootCA.crt\&quot; を選択します\n4. インストールを確定します</string>
+    <string name="https_filtering_install_steps">ステップ 2: 証明書を手動でインストールします:\n\n1. 設定 → セキュリティ → 暗号化 &amp; 認証情報 に移動します\n2. \&quot;証明書のインストール\&quot; → \&quot;CA 証明書\&quot; をタップします\n3. ダウンロードから \&quot;GhostGuard-RootCA.crt\&quot; を選択します\n4. インストールを確定します</string>
     <string name="https_filtering_open_settings">セキュリティ設定を開く</string>
     <string name="https_filtering_step1_title">ステップ 1: 証明書を保存</string>
     <string name="https_filtering_step1_desc">ルート CA 証明書をデバイスにダウンロードします</string>
@@ -149,9 +149,9 @@
     <string name="https_wizard_title">証明書の設定</string>
     <string name="https_wizard_step_indicator_format">ステップ %1$d / %2$d: %3$s</string>
     <string name="https_wizard_overview_title">概要とプライバシー</string>
-    <string name="https_wizard_overview_subtitle">BlockAdsにローカル証明書が必要な理由</string>
+    <string name="https_wizard_overview_subtitle">GhostGuardにローカル証明書が必要な理由</string>
     <string name="https_wizard_security_title">セキュリティとプライバシー</string>
-    <string name="https_wizard_security_desc">ルートCA証明書はお使いの端末上でローカルに生成され、外部に送信されることはありません。BlockAdsはウェブサイト上の広告を削除するためのみに使用します。銀行アプリやGoogleアカウントなどの機密サービスが傍受されることはありません。</string>
+    <string name="https_wizard_security_desc">ルートCA証明書はお使いの端末上でローカルに生成され、外部に送信されることはありません。GhostGuardはウェブサイト上の広告を削除するためのみに使用します。銀行アプリやGoogleアカウントなどの機密サービスが傍受されることはありません。</string>
     <string name="https_wizard_explain_title">なぜHTTPSフィルタリングが必要なのか？</string>
     <string name="https_wizard_explain_desc">現代のウェブサイトや広告のほとんどは暗号化されたHTTPS接続を使用しています。広告枠、バナー、ポップアップを非表示にするには、端末上で安全にウェブページを検査・フィルタリングするためのローカル証明書が必要です。</string>
     <string name="https_wizard_benefits_title">主なメリット</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Rootアクセスを検出 (推奨)</string>
     <string name="https_wizard_root_detected_desc">端末のRootアクセスが確認されました。手動設定なしでCA証明書を自動的にインストールできます。</string>
     <string name="https_wizard_checking_title">証明書を確認中…</string>
-    <string name="https_wizard_checking_desc">Androidの信頼ストアでBlockAds CAをスキャンしています…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CAが検証され、端末の信頼ストアで有効になりました。高度なHTTPSフィルタリングの準備が整いました！</string>
+    <string name="https_wizard_checking_desc">Androidの信頼ストアでGhostGuard CAをスキャンしています…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CAが検証され、端末の信頼ストアで有効になりました。高度なHTTPSフィルタリングの準備が整いました！</string>
     <string name="https_wizard_not_installed_title">証明書が検出されません</string>
-    <string name="https_wizard_not_installed_desc">BlockAdsは信頼ストアで証明書をまだ見つけていません。設定でインストールが完了した場合は、下をタップして再確認してください。</string>
+    <string name="https_wizard_not_installed_desc">GhostGuardは信頼ストアで証明書をまだ見つけていません。設定でインストールが完了した場合は、下をタップして再確認してください。</string>
     <string name="https_wizard_troubleshooting_title">トラブルシューティングのヒント</string>
     <string name="https_wizard_troubleshooting_tip1">設定で「CA証明書」を選択したことを確認してください (ユーザー証明書やVPN・アプリのユーザー証明書ではありません)。</string>
     <string name="https_wizard_troubleshooting_tip2">Magisk/KernelSUモジュール経由でインストールした場合は、端末の再起動が必要です。</string>

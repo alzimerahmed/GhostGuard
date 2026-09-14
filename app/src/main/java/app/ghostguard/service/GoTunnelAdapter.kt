@@ -72,7 +72,10 @@ class GoTunnelAdapter(
     /**
      * Configure SafeSearch and YouTube restricted mode.
      */
-    fun configureSafeSearch(safeSearchEnabled: Boolean, youtubeRestricted: Boolean) {
+    fun configureSafeSearch(
+        safeSearchEnabled: Boolean,
+        youtubeRestricted: Boolean,
+    ) {
         engine.setSafeSearch(safeSearchEnabled)
         engine.setYouTubeRestricted(youtubeRestricted)
     }
@@ -92,40 +95,49 @@ class GoTunnelAdapter(
     }
 
     private fun setupDomainChecker() {
-        engine.setDomainChecker(object : DomainChecker {
-            override fun isBlocked(domain: String): Boolean = filterRepo.isBlocked(domain)
-            override fun getBlockReason(domain: String): String = filterRepo.getBlockReason(domain)
-            override fun hasCustomRule(domain: String): Long = filterRepo.hasCustomRule(domain)
-        })
+        engine.setDomainChecker(
+            object : DomainChecker {
+                override fun isBlocked(domain: String): Boolean = filterRepo.isBlocked(domain)
+
+                override fun getBlockReason(domain: String): String = filterRepo.getBlockReason(domain)
+
+                override fun hasCustomRule(domain: String): Long = filterRepo.hasCustomRule(domain)
+            },
+        )
     }
 
     private fun setupUidResolver() {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
         if (cm == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return
-        engine.setUIDResolver(UIDResolver { protocol, localIP, localPort, remoteIP, remotePort ->
-            try {
-                val proto = when (protocol.toInt()) {
-                    6 -> OsConstants.IPPROTO_TCP
-                    17 -> OsConstants.IPPROTO_UDP
-                    else -> return@UIDResolver -1L
+        engine.setUIDResolver(
+            UIDResolver { protocol, localIP, localPort, remoteIP, remotePort ->
+                try {
+                    val proto =
+                        when (protocol.toInt()) {
+                            6 -> OsConstants.IPPROTO_TCP
+                            17 -> OsConstants.IPPROTO_UDP
+                            else -> return@UIDResolver -1L
+                        }
+                    val local = InetSocketAddress(InetAddress.getByName(localIP), localPort.toInt())
+                    val remote = InetSocketAddress(InetAddress.getByName(remoteIP), remotePort.toInt())
+                    cm.getConnectionOwnerUid(proto, local, remote).toLong()
+                } catch (e: Exception) {
+                    -1L
                 }
-                val local = InetSocketAddress(InetAddress.getByName(localIP), localPort.toInt())
-                val remote = InetSocketAddress(InetAddress.getByName(remoteIP), remotePort.toInt())
-                cm.getConnectionOwnerUid(proto, local, remote).toLong()
-            } catch (e: Exception) {
-                -1L
-            }
-        })
+            },
+        )
     }
 
     private fun setupAppUidResolver() {
-        engine.setAppUidResolver(tunnel.AppUidResolver { uid ->
-            try {
-                context.packageManager.getPackagesForUid(uid.toInt())?.firstOrNull() ?: ""
-            } catch (e: Exception) {
-                ""
-            }
-        })
+        engine.setAppUidResolver(
+            tunnel.AppUidResolver { uid ->
+                try {
+                    context.packageManager.getPackagesForUid(uid.toInt())?.firstOrNull() ?: ""
+                } catch (e: Exception) {
+                    ""
+                }
+            },
+        )
     }
 
     /**
@@ -133,25 +145,31 @@ class GoTunnelAdapter(
      * Uses [AppNameResolver] to map source port → UID → app name.
      */
     private fun setupAppResolver() {
-        engine.setAppResolver(AppResolver { sourcePort, sourceIP, destIP, destPort ->
-            try {
-                val identity = appNameResolver.resolveIdentity(
-                    sourcePort.toInt(), sourceIP, destIP, destPort.toInt()
-                )
-                // Prefer packageName so the LogCallback can resolve a real
-                // app label. For system UIDs (netd 1052, dns_resolver, …)
-                // there is no package — fall back to the friendly appName
-                // so Go doesn't keep its "RootProxy" default.
-                when {
-                    identity.packageName.isNotEmpty() -> identity.packageName
-                    identity.appName.isNotEmpty() -> identity.appName
-                    else -> ""
+        engine.setAppResolver(
+            AppResolver { sourcePort, sourceIP, destIP, destPort ->
+                try {
+                    val identity =
+                        appNameResolver.resolveIdentity(
+                            sourcePort.toInt(),
+                            sourceIP,
+                            destIP,
+                            destPort.toInt(),
+                        )
+                    // Prefer packageName so the LogCallback can resolve a real
+                    // app label. For system UIDs (netd 1052, dns_resolver, …)
+                    // there is no package — fall back to the friendly appName
+                    // so Go doesn't keep its "RootProxy" default.
+                    when {
+                        identity.packageName.isNotEmpty() -> identity.packageName
+                        identity.appName.isNotEmpty() -> identity.appName
+                        else -> ""
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e, "App resolve failed")
+                    ""
                 }
-            } catch (e: Exception) {
-                Timber.e(e, "App resolve failed")
-                ""
-            }
-        })
+            },
+        )
     }
 
     /**
@@ -159,17 +177,19 @@ class GoTunnelAdapter(
      * Receives the already resolved appName from Go, and checks [FirewallManager.shouldBlock].
      */
     private fun setupFirewallChecker() {
-        engine.setFirewallChecker(FirewallChecker { appName ->
-            val fwManager = firewallManagerProvider() ?: return@FirewallChecker false
-            try {
-                if (appName.isEmpty()) return@FirewallChecker false
-                // appName here is actually the packageName from AppResolver
-                fwManager.shouldBlock(appName)
-            } catch (e: Exception) {
-                Timber.e(e, "Firewall check failed")
-                false
-            }
-        })
+        engine.setFirewallChecker(
+            FirewallChecker { appName ->
+                val fwManager = firewallManagerProvider() ?: return@FirewallChecker false
+                try {
+                    if (appName.isEmpty()) return@FirewallChecker false
+                    // appName here is actually the packageName from AppResolver
+                    fwManager.shouldBlock(appName)
+                } catch (e: Exception) {
+                    Timber.e(e, "Firewall check failed")
+                    false
+                }
+            },
+        )
     }
 
     /**
@@ -188,10 +208,11 @@ class GoTunnelAdapter(
     fun setBlockDohBypass(enabled: Boolean) {
         try {
             if (enabled) {
-                val loaded = BlocklistInfo.fromAsset(context, "blocklist_doh.txt")?.use { info ->
-                    engine.setDoHBlocklistFromFd(info.fd, info.startOffset, info.length)
-                    true
-                } ?: false
+                val loaded =
+                    BlocklistInfo.fromAsset(context, "blocklist_doh.txt")?.use { info ->
+                        engine.setDoHBlocklistFromFd(info.fd, info.startOffset, info.length)
+                        true
+                    } ?: false
                 if (!loaded) {
                     val list = context.assets.open("blocklist_doh.txt").bufferedReader().use { it.readText() }
                     engine.setDoHBlocklist(list)
@@ -216,29 +237,31 @@ class GoTunnelAdapter(
             scope.launch(Dispatchers.IO) {
                 try {
                     // Try to resolve the user-friendly App Name string from the package name
-                    val friendlyAppName = if (packageNameOrAppName.isNotEmpty() && packageNameOrAppName.contains(".")) {
-                        try {
-                            val pm = context.packageManager
-                            val info = pm.getApplicationInfo(packageNameOrAppName, 0)
-                            pm.getApplicationLabel(info).toString()
-                        } catch (e: Exception) {
+                    val friendlyAppName =
+                        if (packageNameOrAppName.isNotEmpty() && packageNameOrAppName.contains(".")) {
+                            try {
+                                val pm = context.packageManager
+                                val info = pm.getApplicationInfo(packageNameOrAppName, 0)
+                                pm.getApplicationLabel(info).toString()
+                            } catch (e: Exception) {
+                                packageNameOrAppName
+                            }
+                        } else {
                             packageNameOrAppName
                         }
-                    } else {
-                        packageNameOrAppName
-                    }
 
-                    val entry = DnsLogEntry(
-                        domain = domain,
-                        isBlocked = blocked,
-                        queryType = dnsQueryTypeToString(queryType.toInt()),
-                        responseTimeMs = responseTimeMs,
-                        appName = friendlyAppName,
-                        packageName = packageNameOrAppName,
-                        resolvedIp = resolvedIP,
-                        blockedBy = blockedBy,
-                        timestamp = System.currentTimeMillis(),
-                    )
+                    val entry =
+                        DnsLogEntry(
+                            domain = domain,
+                            isBlocked = blocked,
+                            queryType = dnsQueryTypeToString(queryType.toInt()),
+                            responseTimeMs = responseTimeMs,
+                            appName = friendlyAppName,
+                            packageName = packageNameOrAppName,
+                            resolvedIp = resolvedIP,
+                            blockedBy = blockedBy,
+                            timestamp = System.currentTimeMillis(),
+                        )
                     dnsLogDao.insert(entry)
                 } catch (e: Exception) {
                     Timber.e(e, "Error logging DNS query for $domain")
@@ -258,14 +281,14 @@ class GoTunnelAdapter(
      * @param certDir Directory to store the proxy's root CA certificate
      */
     fun start(
-        vpnInterface: android.os.ParcelFileDescriptor, 
+        vpnInterface: android.os.ParcelFileDescriptor,
         wgConfigJson: String = "",
         httpsFilteringEnabled: Boolean = false,
         selectedBrowsers: Set<String> = emptySet(),
         certDir: String = "",
         filterHttp3: Boolean = false,
         blockDohBypass: Boolean = false,
-        socketProtector: ((Int) -> Boolean)? = null
+        socketProtector: ((Int) -> Boolean)? = null,
     ) {
         if (isRunning) return
         isRunning = true
@@ -279,13 +302,14 @@ class GoTunnelAdapter(
         if (httpsFilteringEnabled && certDir.isNotEmpty()) {
             try {
                 val pm = context.packageManager
-                val uids = selectedBrowsers.mapNotNull { pkg ->
-                    try {
-                        pm.getPackageUid(pkg, 0)
-                    } catch (e: Exception) {
-                        null
-                    }
-                }.joinToString(",")
+                val uids =
+                    selectedBrowsers.mapNotNull { pkg ->
+                        try {
+                            pm.getPackageUid(pkg, 0)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }.joinToString(",")
 
                 // Enable the stack, init CA + filter, register UIDs.
                 engine.setUseTcpStack(true)
@@ -295,13 +319,15 @@ class GoTunnelAdapter(
 
                 // Load curated passthrough domains via zero-copy mmap
                 try {
-                    val loaded = BlocklistInfo.fromAsset(context, "https_passthrough.txt")?.use { info ->
-                        engine.setExtraPassthroughSuffixesFromFd(info.fd, info.startOffset, info.length)
-                        true
-                    } ?: false
+                    val loaded =
+                        BlocklistInfo.fromAsset(context, "https_passthrough.txt")?.use { info ->
+                            engine.setExtraPassthroughSuffixesFromFd(info.fd, info.startOffset, info.length)
+                            true
+                        } ?: false
                     if (!loaded) {
-                        val passthrough = context.assets.open("https_passthrough.txt")
-                            .bufferedReader().use { it.readText() }
+                        val passthrough =
+                            context.assets.open("https_passthrough.txt")
+                                .bufferedReader().use { it.readText() }
                         engine.setExtraPassthroughSuffixes(passthrough)
                     }
                 } catch (e: Exception) {
@@ -332,9 +358,10 @@ class GoTunnelAdapter(
         Timber.d("Starting Go tunnel engine with fd=$fd, wg=${wgConfigJson.isNotEmpty()}")
 
         // Create socket protector that delegates to VpnService.protect() (if provided)
-        val protector = SocketProtector { fd ->
-            socketProtector?.invoke(fd.toInt()) ?: false
-        }
+        val protector =
+            SocketProtector { fd ->
+                socketProtector?.invoke(fd.toInt()) ?: false
+            }
 
         // Engine selection:
         //   • WireGuard → engine.start (WG handles its own full-route
@@ -425,7 +452,7 @@ class GoTunnelAdapter(
             filterRepo.getAdTriePath(),
             filterRepo.getSecurityTriePath(),
             filterRepo.getAdBloomPath(),
-            filterRepo.getSecurityBloomPath()
+            filterRepo.getSecurityBloomPath(),
         )
     }
 
@@ -483,8 +510,12 @@ class GoTunnelAdapter(
     }
 
     companion object {
-        private fun dnsQueryTypeToString(type: Int): String = when (type) {
-            1 -> "A"; 28 -> "AAAA"; 5 -> "CNAME"; else -> "OTHER"
-        }
+        private fun dnsQueryTypeToString(type: Int): String =
+            when (type) {
+                1 -> "A"
+                28 -> "AAAA"
+                5 -> "CNAME"
+                else -> "OTHER"
+            }
     }
 }

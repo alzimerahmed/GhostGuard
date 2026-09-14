@@ -41,14 +41,15 @@ import java.util.Locale
 fun MilestoneBottomSheet(
     milestone: Long,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val configuration = LocalConfiguration.current
     val currentLocale = configuration.locales[0]
-    val formattedCount = remember(milestone, currentLocale) {
-        NumberFormat.getNumberInstance(currentLocale).format(milestone)
-    }
+    val formattedCount =
+        remember(milestone, currentLocale) {
+            NumberFormat.getNumberInstance(currentLocale).format(milestone)
+        }
 
     // Rough averages for ad payloads and rendering delay
     val estimatedDataMb = (milestone * 50L) / 1024L // ~50 KB per blocked ad request
@@ -58,28 +59,30 @@ fun MilestoneBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .padding(bottom = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Achievement Icon Badge
             Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(72.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_settings_milestone),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(36.dp)
+                    modifier = Modifier.size(36.dp),
                 )
             }
 
@@ -89,7 +92,7 @@ fun MilestoneBottomSheet(
                 text = stringResource(R.string.milestone_sheet_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -98,7 +101,7 @@ fun MilestoneBottomSheet(
                 text = stringResource(R.string.milestone_sheet_subtitle, formattedCount),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -106,17 +109,26 @@ fun MilestoneBottomSheet(
             // Impact metric cards
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 MetricCard(
-                    value = if (estimatedDataMb >= 1024) String.format(Locale.US, "%.1f GB", estimatedDataMb / 1024f) else "$estimatedDataMb MB",
+                    value =
+                        if (estimatedDataMb >= 1024) {
+                            String.format(
+                                Locale.US,
+                                "%.1f GB",
+                                estimatedDataMb / 1024f,
+                            )
+                        } else {
+                            "$estimatedDataMb MB"
+                        },
                     label = stringResource(R.string.milestone_sheet_data_saved),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 MetricCard(
                     value = formatSavedTime(estimatedTimeSec),
                     label = stringResource(R.string.milestone_sheet_time_saved),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
             }
 
@@ -125,13 +137,14 @@ fun MilestoneBottomSheet(
             Button(
                 onClick = onDismiss,
                 shape = RoundedCornerShape(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
             ) {
                 Text(
                     text = stringResource(R.string.milestone_sheet_action),
-                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp)
+                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp),
                 )
             }
         }
@@ -142,29 +155,29 @@ fun MilestoneBottomSheet(
 private fun MetricCard(
     value: String,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }

@@ -6,11 +6,14 @@ package app.ghostguard.utils
  * under a text field.
  */
 object WireGuardValidators {
-
     private val base64Regex = Regex("^[A-Za-z0-9+/]{43}=$")
 
     /** WireGuard keys are 32 raw bytes encoded as 44-char base64 ending with '='. */
-    fun key(value: String, fieldLabel: String, optional: Boolean = false): String? {
+    fun key(
+        value: String,
+        fieldLabel: String,
+        optional: Boolean = false,
+    ): String? {
         if (value.isEmpty()) return if (optional) null else "$fieldLabel is required"
         return if (base64Regex.matches(value)) null else "$fieldLabel must be a 44-char base64 key"
     }
@@ -38,7 +41,10 @@ object WireGuardValidators {
     }
 
     /** "host:port" — host can be hostname or IP (IPv6 in brackets), port 1-65535. */
-    fun endpoint(value: String, optional: Boolean = false): String? {
+    fun endpoint(
+        value: String,
+        optional: Boolean = false,
+    ): String? {
         val v = value.trim()
         if (v.isEmpty()) return if (optional) null else "Endpoint is required"
         // IPv6 literal in brackets: [::1]:51820
@@ -63,7 +69,10 @@ object WireGuardValidators {
         return null
     }
 
-    fun port(value: String, optional: Boolean = true): String? {
+    fun port(
+        value: String,
+        optional: Boolean = true,
+    ): String? {
         val v = value.trim()
         if (v.isEmpty()) return if (optional) null else "Port is required"
         val p = v.toIntOrNull() ?: return "Invalid port"
@@ -78,14 +87,19 @@ object WireGuardValidators {
         return if (n in 0..65_535) null else "Out of range (0-65535)"
     }
 
-    private fun isValidIp(ip: String, isIPv6: Boolean): Boolean = try {
-        if (isIPv6) java.net.Inet6Address.getByName(ip) != null
-        else {
-            // InetAddress.getByName resolves hostnames too; require dotted-quad shape first.
-            val parts = ip.split('.')
-            parts.size == 4 && parts.all { it.toIntOrNull()?.let { n -> n in 0..255 } == true }
+    private fun isValidIp(
+        ip: String,
+        isIPv6: Boolean,
+    ): Boolean =
+        try {
+            if (isIPv6) {
+                java.net.Inet6Address.getByName(ip) != null
+            } else {
+                // InetAddress.getByName resolves hostnames too; require dotted-quad shape first.
+                val parts = ip.split('.')
+                parts.size == 4 && parts.all { it.toIntOrNull()?.let { n -> n in 0..255 } == true }
+            }
+        } catch (_: Exception) {
+            false
         }
-    } catch (_: Exception) {
-        false
-    }
 }

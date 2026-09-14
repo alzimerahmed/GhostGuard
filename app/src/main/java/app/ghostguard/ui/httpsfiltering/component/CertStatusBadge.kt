@@ -29,74 +29,84 @@ import app.ghostguard.ui.httpsfiltering.CertStatus
 
 @Composable
 fun CertStatusBadge(certStatus: CertStatus) {
-    val (bgColor, textColor, text) = when (certStatus) {
-        CertStatus.INSTALLED -> Triple(
-            Color(0xFF4CAF50).copy(alpha = 0.1f),
-            Color(0xFF4CAF50),
-            stringResource(R.string.https_filtering_cert_installed)
-        )
+    val (bgColor, textColor, text) =
+        when (certStatus) {
+            CertStatus.INSTALLED ->
+                Triple(
+                    Color(0xFF4CAF50).copy(alpha = 0.1f),
+                    Color(0xFF4CAF50),
+                    stringResource(R.string.https_filtering_cert_installed),
+                )
 
-        CertStatus.NOT_INSTALLED -> Triple(
-            MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
-            MaterialTheme.colorScheme.error,
-            stringResource(R.string.https_filtering_cert_not_installed)
-        )
+            CertStatus.NOT_INSTALLED ->
+                Triple(
+                    MaterialTheme.colorScheme.error.copy(alpha = 0.1f),
+                    MaterialTheme.colorScheme.error,
+                    stringResource(R.string.https_filtering_cert_not_installed),
+                )
 
-        CertStatus.CHECKING -> Triple(
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-            MaterialTheme.colorScheme.primary,
-            stringResource(R.string.https_filtering_cert_checking)
-        )
+            CertStatus.CHECKING ->
+                Triple(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                    MaterialTheme.colorScheme.primary,
+                    stringResource(R.string.https_filtering_cert_checking),
+                )
 
-        CertStatus.UNKNOWN -> Triple(
-            MaterialTheme.colorScheme.surfaceVariant,
-            MaterialTheme.colorScheme.onSurfaceVariant,
-            stringResource(R.string.https_filtering_cert_vpn_required)
-        )
-    }
+            CertStatus.UNKNOWN ->
+                Triple(
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    MaterialTheme.colorScheme.onSurfaceVariant,
+                    stringResource(R.string.https_filtering_cert_vpn_required),
+                )
+        }
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .background(bgColor)
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(bgColor)
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         when (certStatus) {
-            CertStatus.INSTALLED -> Icon(
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = null,
-                tint = textColor,
-                modifier = Modifier.size(18.dp)
-            )
+            CertStatus.INSTALLED ->
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = null,
+                    tint = textColor,
+                    modifier = Modifier.size(18.dp),
+                )
 
-            CertStatus.NOT_INSTALLED -> Icon(
-                imageVector = Icons.Default.Error,
-                contentDescription = null,
-                tint = textColor,
-                modifier = Modifier.size(18.dp)
-            )
+            CertStatus.NOT_INSTALLED ->
+                Icon(
+                    imageVector = Icons.Default.Error,
+                    contentDescription = null,
+                    tint = textColor,
+                    modifier = Modifier.size(18.dp),
+                )
 
-            CertStatus.CHECKING -> CircularProgressIndicator(
-                modifier = Modifier.size(18.dp),
-                strokeWidth = 2.dp,
-                color = textColor
-            )
+            CertStatus.CHECKING ->
+                CircularProgressIndicator(
+                    modifier = Modifier.size(18.dp),
+                    strokeWidth = 2.dp,
+                    color = textColor,
+                )
 
-            CertStatus.UNKNOWN -> Icon(
-                imageVector = Icons.Outlined.Info,
-                contentDescription = null,
-                tint = textColor,
-                modifier = Modifier.size(18.dp)
-            )
+            CertStatus.UNKNOWN ->
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = null,
+                    tint = textColor,
+                    modifier = Modifier.size(18.dp),
+                )
         }
         Spacer(modifier = Modifier.width(10.dp))
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Medium,
-            color = textColor
+            color = textColor,
         )
     }
 }

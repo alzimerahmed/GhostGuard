@@ -41,37 +41,42 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 fun AppManagementItem(
     app: AppManagementData,
     onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (app.isWhitelisted)
-            MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
-        else
-            Color.Transparent,
+        targetValue =
+            if (app.isWhitelisted) {
+                MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+            } else {
+                Color.Transparent
+            },
         animationSpec = tween(300),
-        label = "app_bg"
+        label = "app_bg",
     )
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // App icon
             Image(
                 painter = rememberDrawablePainter(drawable = app.icon),
                 contentDescription = app.label,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(40.dp)
+                        .clip(CircleShape),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -86,14 +91,14 @@ fun AppManagementItem(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.weight(1f, fill = false)
+                        modifier = Modifier.weight(1f, fill = false),
                     )
                     if (app.isSystemApp) {
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = stringResource(R.string.app_management_system),
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
                         )
                     }
                 }
@@ -102,28 +107,30 @@ fun AppManagementItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 if (app.totalQueries > 0) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(top = 4.dp)
+                        modifier = Modifier.padding(top = 4.dp),
                     ) {
                         Text(
-                            text = stringResource(
-                                R.string.app_management_queries,
-                                app.totalQueries
-                            ),
+                            text =
+                                stringResource(
+                                    R.string.app_management_queries,
+                                    app.totalQueries,
+                                ),
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                         Text(
-                            text = stringResource(
-                                R.string.app_management_blocked,
-                                app.blockedQueries
-                            ),
+                            text =
+                                stringResource(
+                                    R.string.app_management_blocked,
+                                    app.blockedQueries,
+                                ),
                             style = MaterialTheme.typography.labelSmall,
-                            color = if (app.blockedQueries > 0) DangerRed else TextSecondary
+                            color = if (app.blockedQueries > 0) DangerRed else TextSecondary,
                         )
                     }
                 }
@@ -135,10 +142,11 @@ fun AppManagementItem(
                 checked = !app.isWhitelisted,
                 onCheckedChange = { onToggle() },
                 modifier = Modifier.semantics { contentDescription = vpnToggleDescription },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = Color.White,
-                    checkedTrackColor = MaterialTheme.colorScheme.primary
-                )
+                colors =
+                    SwitchDefaults.colors(
+                        checkedThumbColor = Color.White,
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    ),
             )
         }
     }

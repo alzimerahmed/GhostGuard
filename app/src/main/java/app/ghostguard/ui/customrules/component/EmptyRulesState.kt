@@ -23,29 +23,30 @@ import app.ghostguard.R
 @Composable
 fun EmptyRulesState(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(32.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Icon(
             imageVector = Icons.Default.Block,
             contentDescription = null,
             modifier = Modifier.size(64.dp),
-            tint = Color.Gray
+            tint = Color.Gray,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.no_custom_rules),
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Gray
+            color = Color.Gray,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.tap_add_to_create_rule),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray
+            color = Color.Gray,
         )
     }
 }

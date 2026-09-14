@@ -26,7 +26,7 @@ import app.ghostguard.R
 fun CreateCustomProfileDialog(
     onDismiss: () -> Unit,
     onCreate: (String, Boolean, Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var name by rememberSaveable { mutableStateOf("") }
     var safeSearch by rememberSaveable { mutableStateOf(false) }
@@ -44,45 +44,48 @@ fun CreateCustomProfileDialog(
                     onValueChange = { name = it },
                     label = { Text(stringResource(R.string.profile_name_label)) },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         stringResource(R.string.settings_safe_search),
                         modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                     Switch(checked = safeSearch, onCheckedChange = { safeSearch = it })
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         stringResource(R.string.settings_youtube_restricted),
                         modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                     Switch(
                         checked = youtubeRestricted,
-                        onCheckedChange = { youtubeRestricted = it })
+                        onCheckedChange = { youtubeRestricted = it },
+                    )
                 }
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (name.isNotBlank()) onCreate(
-                        name.trim(),
-                        safeSearch,
-                        youtubeRestricted
-                    )
+                    if (name.isNotBlank()) {
+                        onCreate(
+                            name.trim(),
+                            safeSearch,
+                            youtubeRestricted,
+                        )
+                    }
                 },
-                enabled = name.isNotBlank()
+                enabled = name.isNotBlank(),
             ) {
                 Text(stringResource(R.string.settings_add))
             }
@@ -91,6 +94,6 @@ fun CreateCustomProfileDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.settings_cancel))
             }
-        }
+        },
     )
 }

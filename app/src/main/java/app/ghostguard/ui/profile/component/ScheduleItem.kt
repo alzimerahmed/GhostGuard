@@ -31,44 +31,46 @@ fun ScheduleItem(
     profileName: String,
     onToggle: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = profileName,
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
             )
             Text(
                 text = "${formatTime(schedule.startHour, schedule.startMinute)} – ${
                     formatTime(
                         schedule.endHour,
-                        schedule.endMinute
+                        schedule.endMinute,
                     )
                 }",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = TextSecondary,
             )
             Text(
                 text = formatDays(schedule.daysOfWeek),
                 style = MaterialTheme.typography.labelSmall,
-                color = TextSecondary
+                color = TextSecondary,
             )
         }
 
         Switch(
             checked = schedule.isEnabled,
             onCheckedChange = { onToggle() },
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                ),
         )
 
         IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
@@ -76,7 +78,7 @@ fun ScheduleItem(
                 Icons.Default.Delete,
                 contentDescription = stringResource(R.string.delete),
                 tint = TextSecondary,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(18.dp),
             )
         }
     }

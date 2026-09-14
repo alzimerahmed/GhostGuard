@@ -10,26 +10,26 @@ enum class BottomBarScreen(
 ) {
     Home(
         labelRes = R.string.nav_home,
-        icon = R.drawable.ic_home
+        icon = R.drawable.ic_home,
     ),
 
     FilterSetup(
         labelRes = R.string.nav_filter,
-        icon = R.drawable.ic_shield
+        icon = R.drawable.ic_shield,
     ),
 
     Firewall(
         labelRes = R.string.settings_firewall,
-        icon = R.drawable.ic_fire
+        icon = R.drawable.ic_fire,
     ),
 
     DomainRule(
         labelRes = R.string.domain_rules_title,
-        icon = R.drawable.ic_crown
+        icon = R.drawable.ic_crown,
     ),
 
     Settings(
         labelRes = R.string.nav_settings,
-        icon = R.drawable.ic_setting
-    )
+        icon = R.drawable.ic_setting,
+    ),
 }

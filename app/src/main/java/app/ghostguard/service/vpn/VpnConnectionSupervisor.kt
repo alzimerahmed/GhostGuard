@@ -34,9 +34,8 @@ class VpnConnectionSupervisor(
     private val onLinkPropertiesChanged: (LinkProperties?) -> Unit,
     private val onPhysicalNetworkLostChanged: (Boolean) -> Unit,
     private val onNetworkActiveChanged: (Network?) -> Unit,
-    private val onRequestRestart: () -> Unit
+    private val onRequestRestart: () -> Unit,
 ) {
-
     companion object {
         private const val NETWORK_STABILIZATION_DELAY_MS = 2000L
         private const val BATTERY_CHECK_INTERVAL_MS = 5 * 60 * 1000L
@@ -54,19 +53,20 @@ class VpnConnectionSupervisor(
     private var connectionProbeJob: Job? = null
 
     fun initializeNetworkMonitor() {
-        networkMonitor = NetworkMonitor(
-            context = context,
-            onNetworkAvailable = {
-                onPhysicalNetworkLostChanged(false)
-                onNetworkAvailable()
-            },
-            onNetworkLost = {
-                Timber.d("Network lost")
-                onPhysicalNetworkLostChanged(true)
-            },
-            onLinkPropertiesChanged = onLinkPropertiesChanged,
-            onNetworkActiveChanged = onNetworkActiveChanged
-        )
+        networkMonitor =
+            NetworkMonitor(
+                context = context,
+                onNetworkAvailable = {
+                    onPhysicalNetworkLostChanged(false)
+                    onNetworkAvailable()
+                },
+                onNetworkLost = {
+                    Timber.d("Network lost")
+                    onPhysicalNetworkLostChanged(true)
+                },
+                onLinkPropertiesChanged = onLinkPropertiesChanged,
+                onNetworkActiveChanged = onNetworkActiveChanged,
+            )
     }
 
     fun startNetworkMonitoring() {
@@ -86,42 +86,43 @@ class VpnConnectionSupervisor(
         networkAvailableFlow.tryEmit(Unit)
 
         networkSwitchJob?.cancel()
-        networkSwitchJob = scope.launch {
-            val autoReconnect = appPrefs.autoReconnect.first()
-            val vpnWasEnabled = appPrefs.vpnEnabled.first()
-            val delayEnabled = appPrefs.networkSwitchDelayEnabled.first()
-            val delaySec = appPrefs.networkSwitchDelaySec.first()
+        networkSwitchJob =
+            scope.launch {
+                val autoReconnect = appPrefs.autoReconnect.first()
+                val vpnWasEnabled = appPrefs.vpnEnabled.first()
+                val delayEnabled = appPrefs.networkSwitchDelayEnabled.first()
+                val delaySec = appPrefs.networkSwitchDelaySec.first()
 
-            if (delayEnabled && isRunningProvider()) {
-                Timber.d("Network changed while VPN running — pausing for ${delaySec}s")
-                onTearDownForRestart()
-                for (remaining in delaySec downTo 1) {
-                    onPhaseChanged(context.getString(R.string.vpn_network_switch_waiting, remaining))
-                    onUpdateNotification()
-                    delay(1000L)
-                }
-                onPhaseChanged("")
-                onStartVpn()
-                return@launch
-            }
-
-            if (autoReconnect && vpnWasEnabled && isIdleProvider()) {
-                Timber.d("Auto-reconnecting VPN after network became available")
-                if (delayEnabled) {
+                if (delayEnabled && isRunningProvider()) {
+                    Timber.d("Network changed while VPN running — pausing for ${delaySec}s")
+                    onTearDownForRestart()
                     for (remaining in delaySec downTo 1) {
                         onPhaseChanged(context.getString(R.string.vpn_network_switch_waiting, remaining))
                         onUpdateNotification()
                         delay(1000L)
                     }
                     onPhaseChanged("")
-                } else {
-                    delay(NETWORK_STABILIZATION_DELAY_MS)
-                }
-                if (isIdleProvider()) {
                     onStartVpn()
+                    return@launch
+                }
+
+                if (autoReconnect && vpnWasEnabled && isIdleProvider()) {
+                    Timber.d("Auto-reconnecting VPN after network became available")
+                    if (delayEnabled) {
+                        for (remaining in delaySec downTo 1) {
+                            onPhaseChanged(context.getString(R.string.vpn_network_switch_waiting, remaining))
+                            onUpdateNotification()
+                            delay(1000L)
+                        }
+                        onPhaseChanged("")
+                    } else {
+                        delay(NETWORK_STABILIZATION_DELAY_MS)
+                    }
+                    if (isIdleProvider()) {
+                        onStartVpn()
+                    }
                 }
             }
-        }
     }
 
     fun cancelNetworkSwitch() {
@@ -145,38 +146,39 @@ class VpnConnectionSupervisor(
         connectionProbeJob?.cancel()
         connectionQualityProbe = ConnectionQualityProbe(socketProtector)
 
-        connectionProbeJob = scope.launch {
-            var consecutiveVpnStalls = 0
-            while (isRunningProvider()) {
-                delay(CONNECTION_PROBE_INTERVAL_MS)
-                if (!isRunningProvider()) break
+        connectionProbeJob =
+            scope.launch {
+                var consecutiveVpnStalls = 0
+                while (isRunningProvider()) {
+                    delay(CONNECTION_PROBE_INTERVAL_MS)
+                    if (!isRunningProvider()) break
 
-                val probe = connectionQualityProbe ?: break
-                val result = probe.runDiagnosis()
-                Timber.d("ConnectionQualityProbe result: ${result.status} (physical=${result.physicalOk}, vpnDns=${result.vpnDnsOk}, latency=${result.latencyMs}ms)")
+                    val probe = connectionQualityProbe ?: break
+                    val result = probe.runDiagnosis()
+                    Timber.d("ConnectionQualityProbe result: ${result.status} (physical=${result.physicalOk}, vpnDns=${result.vpnDnsOk}, latency=${result.latencyMs}ms)")
 
-                when (result.status) {
-                    ConnectionStatus.NO_PHYSICAL_INTERNET -> {
-                        consecutiveVpnStalls = 0
-                        onPhysicalNetworkLostChanged(true)
-                    }
-                    ConnectionStatus.HEALTHY -> {
-                        consecutiveVpnStalls = 0
-                        onPhysicalNetworkLostChanged(false)
-                    }
-                    ConnectionStatus.VPN_TUNNEL_STALLED -> {
-                        onPhysicalNetworkLostChanged(false)
-                        consecutiveVpnStalls++
-                        Timber.w("VPN tunnel or DNS probe failed (consecutive failures=$consecutiveVpnStalls)")
-                        if (consecutiveVpnStalls >= 2) {
-                            Timber.w("VPN tunnel is stalled while physical internet is healthy - restarting VPN session")
+                    when (result.status) {
+                        ConnectionStatus.NO_PHYSICAL_INTERNET -> {
                             consecutiveVpnStalls = 0
-                            onRequestRestart()
+                            onPhysicalNetworkLostChanged(true)
+                        }
+                        ConnectionStatus.HEALTHY -> {
+                            consecutiveVpnStalls = 0
+                            onPhysicalNetworkLostChanged(false)
+                        }
+                        ConnectionStatus.VPN_TUNNEL_STALLED -> {
+                            onPhysicalNetworkLostChanged(false)
+                            consecutiveVpnStalls++
+                            Timber.w("VPN tunnel or DNS probe failed (consecutive failures=$consecutiveVpnStalls)")
+                            if (consecutiveVpnStalls >= 2) {
+                                Timber.w("VPN tunnel is stalled while physical internet is healthy - restarting VPN session")
+                                consecutiveVpnStalls = 0
+                                onRequestRestart()
+                            }
                         }
                     }
                 }
             }
-        }
     }
 
     private fun stopConnectionProbing() {
@@ -187,19 +189,20 @@ class VpnConnectionSupervisor(
 
     private fun startBatteryMonitoring() {
         batteryMonitoringJob?.cancel()
-        batteryMonitoringJob = scope.launch {
-            while (isRunningProvider()) {
-                try {
-                    delay(BATTERY_CHECK_INTERVAL_MS)
-                    if (isRunningProvider()) {
-                        batteryMonitor.logBatteryStatus()
+        batteryMonitoringJob =
+            scope.launch {
+                while (isRunningProvider()) {
+                    try {
+                        delay(BATTERY_CHECK_INTERVAL_MS)
+                        if (isRunningProvider()) {
+                            batteryMonitor.logBatteryStatus()
+                        }
+                    } catch (e: Exception) {
+                        Timber.e("Error monitoring battery: $e")
+                        break
                     }
-                } catch (e: Exception) {
-                    Timber.e("Error monitoring battery: $e")
-                    break
                 }
             }
-        }
     }
 
     private fun stopBatteryMonitoring() {
@@ -209,21 +212,22 @@ class VpnConnectionSupervisor(
 
     private fun startNotificationUpdates() {
         notificationUpdateJob?.cancel()
-        notificationUpdateJob = scope.launch {
-            val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-            while (isRunningProvider()) {
-                try {
-                    onRefreshStats()
-                    delay(NOTIFICATION_UPDATE_INTERVAL_MS)
-                    if (isRunningProvider() && powerManager?.isInteractive == true) {
-                        onUpdateNotification()
+        notificationUpdateJob =
+            scope.launch {
+                val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+                while (isRunningProvider()) {
+                    try {
+                        onRefreshStats()
+                        delay(NOTIFICATION_UPDATE_INTERVAL_MS)
+                        if (isRunningProvider() && powerManager?.isInteractive == true) {
+                            onUpdateNotification()
+                        }
+                    } catch (e: Exception) {
+                        Timber.e(e, "Error updating notification")
+                        break
                     }
-                } catch (e: Exception) {
-                    Timber.e(e, "Error updating notification")
-                    break
                 }
             }
-        }
     }
 
     private fun stopNotificationUpdates() {

@@ -39,30 +39,35 @@ fun ProfileItem(
     onSelect: () -> Unit,
     onDelete: (() -> Unit)?,
     onSchedule: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onSelect() }
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable { onSelect() }
+                .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(
-                    if (isActive) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                    else MaterialTheme.colorScheme.surfaceVariant
-                ),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (isActive) {
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                        } else {
+                            MaterialTheme.colorScheme.surfaceVariant
+                        },
+                    ),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = profileIcon(profile.profileType),
                 contentDescription = null,
                 tint = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(22.dp),
             )
         }
 
@@ -73,12 +78,12 @@ fun ProfileItem(
                 text = profile.name,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = if (isActive) FontWeight.Bold else FontWeight.Normal,
-                color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                color = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
             )
             Text(
                 text = profileDescription(profile.profileType),
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = TextSecondary,
             )
         }
 
@@ -87,7 +92,7 @@ fun ProfileItem(
                 Icons.Default.Schedule,
                 contentDescription = stringResource(R.string.profile_add_schedule),
                 tint = TextSecondary,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(18.dp),
             )
         }
 
@@ -97,7 +102,7 @@ fun ProfileItem(
                     Icons.Default.Delete,
                     contentDescription = stringResource(R.string.delete),
                     tint = TextSecondary,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
                 )
             }
         }
@@ -107,7 +112,7 @@ fun ProfileItem(
                 Icons.Default.CheckCircle,
                 contentDescription = stringResource(R.string.profile_active),
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(22.dp),
             )
         }
     }

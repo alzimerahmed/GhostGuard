@@ -16,5 +16,5 @@ data class FilterList(
     val trieUrl: String,
     val cssUrl: String? = null,
     val scriptletsUrl: String? = null,
-    val originalUrl: String? = null
+    val originalUrl: String? = null,
 )

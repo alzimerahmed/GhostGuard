@@ -33,16 +33,17 @@ fun SettingItem(
     iconPainter: Painter? = null,
     iconBadge: (@Composable () -> Unit)? = null,
     iconTint: Color = MaterialTheme.colorScheme.primary,
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
 ) {
-    val rowModifier = modifier
-        .fillMaxWidth()
-        .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-        .padding(horizontal = 16.dp, vertical = 14.dp)
+    val rowModifier =
+        modifier
+            .fillMaxWidth()
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
+            .padding(horizontal = 16.dp, vertical = 14.dp)
 
     Row(
         modifier = rowModifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconBadge != null) {
             iconBadge()
@@ -59,14 +60,14 @@ fun SettingItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
             )
             if (!desc.isNullOrBlank()) {
                 Spacer(modifier = Modifier.padding(top = 1.dp))
                 Text(
                     text = desc,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
             }
         }
@@ -77,7 +78,7 @@ fun SettingItem(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Normal,
-                modifier = Modifier.padding(horizontal = 8.dp)
+                modifier = Modifier.padding(horizontal = 8.dp),
             )
         }
 
@@ -86,7 +87,7 @@ fun SettingItem(
                 Icons.AutoMirrored.Filled.ArrowForwardIos,
                 contentDescription = null,
                 tint = TextSecondary.copy(alpha = 0.6f),
-                modifier = Modifier.size(14.dp)
+                modifier = Modifier.size(14.dp),
             )
         }
     }

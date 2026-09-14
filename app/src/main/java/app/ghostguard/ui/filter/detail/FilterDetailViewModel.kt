@@ -4,12 +4,12 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.R
-import app.ghostguard.data.entities.FilterList
 import app.ghostguard.data.dao.DnsLogDao
 import app.ghostguard.data.dao.FilterListDao
+import app.ghostguard.data.entities.FilterList
+import app.ghostguard.data.entities.ProfileManager
 import app.ghostguard.data.repository.CustomFilterManager
 import app.ghostguard.data.repository.FilterListRepository
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
@@ -23,8 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-import app.ghostguard.data.entities.ProfileManager
-
 class FilterDetailViewModel(
     private val filterId: Long,
     private val filterListDao: FilterListDao,
@@ -32,14 +30,15 @@ class FilterDetailViewModel(
     private val filterRepo: FilterListRepository,
     private val profileManager: ProfileManager,
     private val application: Application,
-    private val customFilterManager: CustomFilterManager
+    private val customFilterManager: CustomFilterManager,
 ) : ViewModel() {
+    val filter: StateFlow<FilterList?> =
+        filterListDao.getByIdFlow(filterId)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    val filter: StateFlow<FilterList?> = filterListDao.getByIdFlow(filterId)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
-    val blockedCount: StateFlow<Int> = dnsLogDao.getBlockedCountByReason(filterId.toString())
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+    val blockedCount: StateFlow<Int> =
+        dnsLogDao.getBlockedCountByReason(filterId.toString())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     private val _testDomainQuery = MutableStateFlow("")
     val testDomainQuery: StateFlow<String> = _testDomainQuery.asStateFlow()
@@ -79,7 +78,7 @@ class FilterDetailViewModel(
     fun testDomain() {
         val domain = _testDomainQuery.value.trim()
         if (domain.isBlank()) return
-        
+
         viewModelScope.launch {
             _isTestingDomain.value = true
             _testDomainResult.value = filterRepo.checkDomainInFilter(filterId, domain)
@@ -100,27 +99,28 @@ class FilterDetailViewModel(
         viewModelScope.launch {
             val f = filter.value ?: return@launch
             _isUpdating.value = true
-            
+
             // Re-compile custom filters via backend API, else just download built-in files normally
-            val result = if (f.isBuiltIn) {
-                filterRepo.updateSingleFilter(f)
-            } else {
-                // CustomFilterManager.updateCustomFilter returns Result<FilterList>
-                customFilterManager.updateCustomFilter(f).map { it.ruleCount }
-            }
-            
+            val result =
+                if (f.isBuiltIn) {
+                    filterRepo.updateSingleFilter(f)
+                } else {
+                    // CustomFilterManager.updateCustomFilter returns Result<FilterList>
+                    customFilterManager.updateCustomFilter(f).map { it.ruleCount }
+                }
+
             _isUpdating.value = false
 
             result.fold(
                 onSuccess = { count ->
                     _events.toast(R.string.filter_updated, listOf(count))
-                    
+
                     // Reload the filter engine if the binary files were re-downloaded
                     filterRepo.loadAllEnabledFilters()
                 },
                 onFailure = {
                     _events.toast(R.string.filter_update_failed)
-                }
+                },
             )
         }
     }
@@ -135,9 +135,10 @@ class FilterDetailViewModel(
             if (isCurrentlyLocal) {
                 // Switch to server: re-compile via backend API
                 _isUpdating.value = true
-                val result = customFilterManager.updateCustomFilter(
-                    f.copy(trieUrl = "", bloomUrl = "")
-                )
+                val result =
+                    customFilterManager.updateCustomFilter(
+                        f.copy(trieUrl = "", bloomUrl = ""),
+                    )
                 _isUpdating.value = false
 
                 result.fold(
@@ -148,7 +149,7 @@ class FilterDetailViewModel(
                     },
                     onFailure = {
                         _events.toast(R.string.filter_update_failed)
-                    }
+                    },
                 )
             } else {
                 // Switch to local: enqueue WorkManager job
@@ -225,7 +226,7 @@ class FilterDetailViewModel(
                 },
                 onFailure = { error ->
                     _editError.value = error.message ?: "Failed to edit filter"
-                }
+                },
             )
         }
     }

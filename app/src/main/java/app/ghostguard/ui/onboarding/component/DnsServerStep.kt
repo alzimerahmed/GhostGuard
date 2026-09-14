@@ -33,34 +33,36 @@ import app.ghostguard.R
 import app.ghostguard.data.entities.DnsProvider
 import app.ghostguard.data.entities.DnsProviders
 
-private val ONBOARDING_DNS_PROVIDERS = listOf(
-    DnsProviders.SYSTEM,
-    DnsProviders.ADGUARD,
-    DnsProviders.CLOUDFLARE,
-    DnsProviders.GOOGLE,
-    DnsProviders.QUAD9,
-)
+private val ONBOARDING_DNS_PROVIDERS =
+    listOf(
+        DnsProviders.SYSTEM,
+        DnsProviders.ADGUARD,
+        DnsProviders.CLOUDFLARE,
+        DnsProviders.GOOGLE,
+        DnsProviders.QUAD9,
+    )
 
 @Composable
 fun DnsServerStep(
     selectedProvider: DnsProvider,
     onProviderSelect: (DnsProvider) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(R.string.onboarding_dns_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -70,7 +72,7 @@ fun DnsServerStep(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            lineHeight = 24.sp
+            lineHeight = 24.sp,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -81,7 +83,7 @@ fun DnsServerStep(
                 provider = provider,
                 isSelected = selectedProvider.id == provider.id,
                 isRecommended = isRecommended,
-                onClick = { onProviderSelect(provider) }
+                onClick = { onProviderSelect(provider) },
             )
             if (index < ONBOARDING_DNS_PROVIDERS.size - 1) {
                 Spacer(modifier = Modifier.height(12.dp))
@@ -95,32 +97,36 @@ private fun DnsProviderCard(
     provider: DnsProvider,
     isSelected: Boolean,
     isRecommended: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (isSelected)
-                MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-            else
-                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-        ),
-        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null
+        colors =
+            CardDefaults.cardColors(
+                containerColor =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    },
+            ),
+        border = if (isSelected) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Icon(
                 imageVector = Icons.Filled.Dns,
                 contentDescription = null,
                 modifier = Modifier.size(32.dp),
-                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
             Column(modifier = Modifier.weight(1f)) {
@@ -131,14 +137,14 @@ private fun DnsProviderCard(
                         text = provider.name,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                     )
                     if (isRecommended) {
                         Text(
                             text = stringResource(R.string.onboarding_recommended),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                 }
@@ -147,7 +153,7 @@ private fun DnsProviderCard(
                     text = provider.description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 18.sp
+                    lineHeight = 18.sp,
                 )
             }
 
@@ -156,7 +162,7 @@ private fun DnsProviderCard(
                     imageVector = Icons.Filled.CheckCircle,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
                 )
             }
         }

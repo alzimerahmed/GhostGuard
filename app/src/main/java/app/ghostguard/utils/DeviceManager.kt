@@ -8,7 +8,6 @@ import java.util.Locale
  * device-specific instructions for installing CA certificates.
  */
 object DeviceManager {
-
     enum class Manufacturer {
         SAMSUNG,
         GOOGLE,
@@ -17,7 +16,7 @@ object DeviceManager {
         VIVO,
         HUAWEI_HONOR,
         MOTOROLA,
-        GENERIC
+        GENERIC,
     }
 
     val currentManufacturer: Manufacturer by lazy {
@@ -44,80 +43,91 @@ object DeviceManager {
     fun getInstallSteps(): List<String> {
         val sdk = Build.VERSION.SDK_INT
         return when (currentManufacturer) {
-            Manufacturer.SAMSUNG -> when {
-                sdk >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> listOf(
-                    "Mở Cài đặt hệ thống (Settings)",
-                    "Chọn Bảo mật và quyền riêng tư (Security and privacy)",
-                    "Cuộn xuống chọn Cài đặt bảo mật khác (More security settings)",
-                    "Chọn Cài đặt từ bộ nhớ thiết bị (Install from device storage)",
-                    "Chọn Chứng chỉ CA (CA certificate) và xác nhận 'Vẫn cài đặt'",
-                    "Chọn file BlockAds-RootCA.crt vừa tải về"
-                )
-                sdk >= Build.VERSION_CODES.S -> listOf(
-                    "Mở Cài đặt hệ thống (Settings)",
-                    "Chọn Sinh trắc học và bảo mật (Biometrics and security)",
-                    "Chọn Cài đặt bảo mật khác (Other security settings)",
-                    "Chọn Cài đặt từ bộ nhớ thiết bị (Install from device storage)",
-                    "Chọn Chứng chỉ CA (CA certificate) và xác nhận cảnh báo",
-                    "Chọn file BlockAds-RootCA.crt vừa tải về"
-                )
-                else -> listOf(
-                    "Mở Cài đặt hệ thống (Settings)",
-                    "Chọn Sinh trắc học và bảo mật (Biometrics and security)",
-                    "Chọn Cài đặt bảo mật khác > Cài đặt từ bộ nhớ",
-                    "Chọn Chứng chỉ CA (CA certificate)",
-                    "Chọn file BlockAds-RootCA.crt vừa tải về"
-                )
-            }
+            Manufacturer.SAMSUNG ->
+                when {
+                    sdk >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ->
+                        listOf(
+                            "Mở Cài đặt hệ thống (Settings)",
+                            "Chọn Bảo mật và quyền riêng tư (Security and privacy)",
+                            "Cuộn xuống chọn Cài đặt bảo mật khác (More security settings)",
+                            "Chọn Cài đặt từ bộ nhớ thiết bị (Install from device storage)",
+                            "Chọn Chứng chỉ CA (CA certificate) và xác nhận 'Vẫn cài đặt'",
+                            "Chọn file GhostGuard-RootCA.crt vừa tải về",
+                        )
+                    sdk >= Build.VERSION_CODES.S ->
+                        listOf(
+                            "Mở Cài đặt hệ thống (Settings)",
+                            "Chọn Sinh trắc học và bảo mật (Biometrics and security)",
+                            "Chọn Cài đặt bảo mật khác (Other security settings)",
+                            "Chọn Cài đặt từ bộ nhớ thiết bị (Install from device storage)",
+                            "Chọn Chứng chỉ CA (CA certificate) và xác nhận cảnh báo",
+                            "Chọn file GhostGuard-RootCA.crt vừa tải về",
+                        )
+                    else ->
+                        listOf(
+                            "Mở Cài đặt hệ thống (Settings)",
+                            "Chọn Sinh trắc học và bảo mật (Biometrics and security)",
+                            "Chọn Cài đặt bảo mật khác > Cài đặt từ bộ nhớ",
+                            "Chọn Chứng chỉ CA (CA certificate)",
+                            "Chọn file GhostGuard-RootCA.crt vừa tải về",
+                        )
+                }
 
-            Manufacturer.GOOGLE, Manufacturer.MOTOROLA -> when {
-                sdk >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> listOf(
-                    "Mở Cài đặt hệ thống (Settings)",
-                    "Chọn Bảo mật & quyền riêng tư (Security & privacy)",
-                    "Chọn Cài đặt bảo mật khác (More security settings)",
-                    "Chọn Mã hóa & thông tin xác thực (Encryption & credentials)",
-                    "Chọn Cài đặt chứng chỉ > Chứng chỉ CA (Install a certificate > CA certificate)",
-                    "Bấm 'Vẫn cài đặt' và chọn file BlockAds-RootCA.crt"
+            Manufacturer.GOOGLE, Manufacturer.MOTOROLA ->
+                when {
+                    sdk >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ->
+                        listOf(
+                            "Mở Cài đặt hệ thống (Settings)",
+                            "Chọn Bảo mật & quyền riêng tư (Security & privacy)",
+                            "Chọn Cài đặt bảo mật khác (More security settings)",
+                            "Chọn Mã hóa & thông tin xác thực (Encryption & credentials)",
+                            "Chọn Cài đặt chứng chỉ > Chứng chỉ CA (Install a certificate > CA certificate)",
+                            "Bấm 'Vẫn cài đặt' và chọn file GhostGuard-RootCA.crt",
+                        )
+                    else ->
+                        listOf(
+                            "Mở Cài đặt hệ thống (Settings)",
+                            "Chọn Bảo mật (Security) > Mã hóa & thông tin xác thực (Encryption & credentials)",
+                            "Chọn Cài đặt chứng chỉ (Install a certificate)",
+                            "Chọn Chứng chỉ CA (CA certificate) và xác nhận",
+                            "Chọn file GhostGuard-RootCA.crt vừa tải về",
+                        )
+                }
+
+            Manufacturer.XIAOMI ->
+                listOf(
+                    "Mở Cài đặt (Settings)",
+                    "Chọn Mật khẩu & bảo mật (Passwords & security)",
+                    "Chọn Quyền riêng tư (Privacy) > Mã hóa & thông tin xác thực",
+                    "Chọn Cài đặt chứng chỉ > Chứng chỉ CA (CA certificate)",
+                    "Xác nhận cảnh báo và chọn file GhostGuard-RootCA.crt",
                 )
-                else -> listOf(
-                    "Mở Cài đặt hệ thống (Settings)",
-                    "Chọn Bảo mật (Security) > Mã hóa & thông tin xác thực (Encryption & credentials)",
-                    "Chọn Cài đặt chứng chỉ (Install a certificate)",
-                    "Chọn Chứng chỉ CA (CA certificate) và xác nhận",
-                    "Chọn file BlockAds-RootCA.crt vừa tải về"
+
+            Manufacturer.OPPO_REALME ->
+                listOf(
+                    "Mở Cài đặt (Settings)",
+                    "Chọn Bảo mật (Security) > Cài đặt bảo mật khác",
+                    "Chọn Lưu trữ thông tin xác thực (Credential storage)",
+                    "Chọn Cài đặt từ bộ nhớ thiết bị > Chứng chỉ CA",
+                    "Chọn file GhostGuard-RootCA.crt vừa tải về",
                 )
-            }
 
-            Manufacturer.XIAOMI -> listOf(
-                "Mở Cài đặt (Settings)",
-                "Chọn Mật khẩu & bảo mật (Passwords & security)",
-                "Chọn Quyền riêng tư (Privacy) > Mã hóa & thông tin xác thực",
-                "Chọn Cài đặt chứng chỉ > Chứng chỉ CA (CA certificate)",
-                "Xác nhận cảnh báo và chọn file BlockAds-RootCA.crt"
-            )
+            Manufacturer.VIVO ->
+                listOf(
+                    "Mở Cài đặt (Settings)",
+                    "Chọn Bảo mật (Security) > Mã hóa & thông tin xác thực",
+                    "Chọn Cài đặt chứng chỉ > Chứng chỉ CA",
+                    "Chọn file GhostGuard-RootCA.crt vừa tải về",
+                )
 
-            Manufacturer.OPPO_REALME -> listOf(
-                "Mở Cài đặt (Settings)",
-                "Chọn Bảo mật (Security) > Cài đặt bảo mật khác",
-                "Chọn Lưu trữ thông tin xác thực (Credential storage)",
-                "Chọn Cài đặt từ bộ nhớ thiết bị > Chứng chỉ CA",
-                "Chọn file BlockAds-RootCA.crt vừa tải về"
-            )
-
-            Manufacturer.VIVO -> listOf(
-                "Mở Cài đặt (Settings)",
-                "Chọn Bảo mật (Security) > Mã hóa & thông tin xác thực",
-                "Chọn Cài đặt chứng chỉ > Chứng chỉ CA",
-                "Chọn file BlockAds-RootCA.crt vừa tải về"
-            )
-
-            else -> listOf(
-                "Mở Cài đặt hệ thống (Settings)",
-                "Tìm kiếm 'Chứng chỉ' hoặc 'Certificate' trong thanh tìm kiếm",
-                "Chọn 'Chứng chỉ CA' hoặc 'Cài đặt từ bộ nhớ'",
-                "Bấm xác nhận 'Vẫn cài đặt' nếu có cảnh báo",
-                "Chọn file BlockAds-RootCA.crt từ thư mục Downloads"
-            )
+            else ->
+                listOf(
+                    "Mở Cài đặt hệ thống (Settings)",
+                    "Tìm kiếm 'Chứng chỉ' hoặc 'Certificate' trong thanh tìm kiếm",
+                    "Chọn 'Chứng chỉ CA' hoặc 'Cài đặt từ bộ nhớ'",
+                    "Bấm xác nhận 'Vẫn cài đặt' nếu có cảnh báo",
+                    "Chọn file GhostGuard-RootCA.crt từ thư mục Downloads",
+                )
         }
     }
 }

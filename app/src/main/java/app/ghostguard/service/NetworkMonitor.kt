@@ -19,38 +19,45 @@ class NetworkMonitor(
     private val onNetworkAvailable: () -> Unit,
     private val onNetworkLost: () -> Unit,
     private val onLinkPropertiesChanged: ((android.net.LinkProperties) -> Unit)? = null,
-    private val onNetworkActiveChanged: ((android.net.Network?) -> Unit)? = null
+    private val onNetworkActiveChanged: ((android.net.Network?) -> Unit)? = null,
 ) {
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private var isRegistered = false
 
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            Timber.d("Network available: $network")
-            onNetworkActiveChanged?.invoke(network)
-            onNetworkAvailable()
-        }
+    private val networkCallback =
+        object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                Timber.d("Network available: $network")
+                onNetworkActiveChanged?.invoke(network)
+                onNetworkAvailable()
+            }
 
-        override fun onLost(network: Network) {
-            Timber.d("Network lost: $network")
-            onNetworkActiveChanged?.invoke(connectivityManager.activeNetwork)
-            onNetworkLost()
-        }
+            override fun onLost(network: Network) {
+                Timber.d("Network lost: $network")
+                onNetworkActiveChanged?.invoke(connectivityManager.activeNetwork)
+                onNetworkLost()
+            }
 
-        override fun onCapabilitiesChanged(network: Network, capabilities: NetworkCapabilities) {
-            val hasInternet =
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            val hasValidated =
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-            Timber.d("Network capabilities changed: hasInternet=$hasInternet, validated=$hasValidated")
-        }
+            override fun onCapabilitiesChanged(
+                network: Network,
+                capabilities: NetworkCapabilities,
+            ) {
+                val hasInternet =
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                val hasValidated =
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                Timber.d("Network capabilities changed: hasInternet=$hasInternet, validated=$hasValidated")
+            }
 
-        override fun onLinkPropertiesChanged(network: Network, linkProperties: android.net.LinkProperties) {
-            super.onLinkPropertiesChanged(network, linkProperties)
-            onLinkPropertiesChanged?.invoke(linkProperties)
+            override fun onLinkPropertiesChanged(
+                network: Network,
+                linkProperties: android.net.LinkProperties,
+            ) {
+                super.onLinkPropertiesChanged(network, linkProperties)
+                onLinkPropertiesChanged?.invoke(linkProperties)
+            }
         }
-    }
 
     /**
      * Start monitoring network connectivity changes.
@@ -62,10 +69,11 @@ class NetworkMonitor(
         }
 
         try {
-            val networkRequest = NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                .build()
+            val networkRequest =
+                NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                    .build()
 
             connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
             isRegistered = true
@@ -97,6 +105,6 @@ class NetworkMonitor(
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 }

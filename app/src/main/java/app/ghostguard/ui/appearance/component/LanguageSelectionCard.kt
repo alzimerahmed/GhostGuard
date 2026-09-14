@@ -33,37 +33,39 @@ import app.ghostguard.ui.settings.component.SettingsCard
 fun LanguageSelectionCard(
     currentLanguage: String,
     onSelectLanguage: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val languages = remember {
-        listOf(
-            Triple(R.string.settings_lang_system, Icons.Default.SettingsBrightness, AppPreferences.LANGUAGE_SYSTEM),
-            Triple(R.string.settings_lang_en, Icons.Default.Language, AppPreferences.LANGUAGE_EN),
-            Triple(R.string.settings_lang_ar, Icons.Default.Language, AppPreferences.LANGUAGE_AR),
-            Triple(R.string.settings_lang_cs, Icons.Default.Language, AppPreferences.LANGUAGE_CS),
-            Triple(R.string.settings_lang_de, Icons.Default.Language, AppPreferences.LANGUAGE_DE),
-            Triple(R.string.settings_lang_es, Icons.Default.Language, AppPreferences.LANGUAGE_ES),
-            Triple(R.string.settings_lang_in, Icons.Default.Language, AppPreferences.LANGUAGE_IN),
-            Triple(R.string.settings_lang_it, Icons.Default.Language, AppPreferences.LANGUAGE_IT),
-            Triple(R.string.settings_lang_iw, Icons.Default.Language, AppPreferences.LANGUAGE_IW),
-            Triple(R.string.settings_lang_ja, Icons.Default.Language, AppPreferences.LANGUAGE_JA),
-            Triple(R.string.settings_lang_ko, Icons.Default.Language, AppPreferences.LANGUAGE_KO),
-            Triple(R.string.settings_lang_pl, Icons.Default.Language, AppPreferences.LANGUAGE_PL),
-            Triple(R.string.settings_lang_pt_br, Icons.Default.Language, AppPreferences.LANGUAGE_PT_BR),
-            Triple(R.string.settings_lang_ru, Icons.Default.Language, AppPreferences.LANGUAGE_RU),
-            Triple(R.string.settings_lang_th, Icons.Default.Language, AppPreferences.LANGUAGE_TH),
-            Triple(R.string.settings_lang_tr, Icons.Default.Language, AppPreferences.LANGUAGE_TR),
-            Triple(R.string.settings_lang_uk, Icons.Default.Language, AppPreferences.LANGUAGE_UK),
-            Triple(R.string.settings_lang_vi, Icons.Default.Language, AppPreferences.LANGUAGE_VI),
-            Triple(R.string.settings_lang_zh, Icons.Default.Language, AppPreferences.LANGUAGE_ZH),
-            Triple(R.string.settings_lang_fr, Icons.Default.Language, AppPreferences.LANGUAGE_FR),
-            Triple(R.string.settings_lang_kk, Icons.Default.Language, AppPreferences.LANGUAGE_KK),
-        )
-    }
+    val languages =
+        remember {
+            listOf(
+                Triple(R.string.settings_lang_system, Icons.Default.SettingsBrightness, AppPreferences.LANGUAGE_SYSTEM),
+                Triple(R.string.settings_lang_en, Icons.Default.Language, AppPreferences.LANGUAGE_EN),
+                Triple(R.string.settings_lang_ar, Icons.Default.Language, AppPreferences.LANGUAGE_AR),
+                Triple(R.string.settings_lang_cs, Icons.Default.Language, AppPreferences.LANGUAGE_CS),
+                Triple(R.string.settings_lang_de, Icons.Default.Language, AppPreferences.LANGUAGE_DE),
+                Triple(R.string.settings_lang_es, Icons.Default.Language, AppPreferences.LANGUAGE_ES),
+                Triple(R.string.settings_lang_in, Icons.Default.Language, AppPreferences.LANGUAGE_IN),
+                Triple(R.string.settings_lang_it, Icons.Default.Language, AppPreferences.LANGUAGE_IT),
+                Triple(R.string.settings_lang_iw, Icons.Default.Language, AppPreferences.LANGUAGE_IW),
+                Triple(R.string.settings_lang_ja, Icons.Default.Language, AppPreferences.LANGUAGE_JA),
+                Triple(R.string.settings_lang_ko, Icons.Default.Language, AppPreferences.LANGUAGE_KO),
+                Triple(R.string.settings_lang_pl, Icons.Default.Language, AppPreferences.LANGUAGE_PL),
+                Triple(R.string.settings_lang_pt_br, Icons.Default.Language, AppPreferences.LANGUAGE_PT_BR),
+                Triple(R.string.settings_lang_ru, Icons.Default.Language, AppPreferences.LANGUAGE_RU),
+                Triple(R.string.settings_lang_th, Icons.Default.Language, AppPreferences.LANGUAGE_TH),
+                Triple(R.string.settings_lang_tr, Icons.Default.Language, AppPreferences.LANGUAGE_TR),
+                Triple(R.string.settings_lang_uk, Icons.Default.Language, AppPreferences.LANGUAGE_UK),
+                Triple(R.string.settings_lang_vi, Icons.Default.Language, AppPreferences.LANGUAGE_VI),
+                Triple(R.string.settings_lang_zh, Icons.Default.Language, AppPreferences.LANGUAGE_ZH),
+                Triple(R.string.settings_lang_fr, Icons.Default.Language, AppPreferences.LANGUAGE_FR),
+                Triple(R.string.settings_lang_kk, Icons.Default.Language, AppPreferences.LANGUAGE_KK),
+            )
+        }
 
-    val sortedLanguages = remember(languages) {
-        languages.subList(0, 2) + languages.drop(2).sortedBy { it.third }
-    }
+    val sortedLanguages =
+        remember(languages) {
+            languages.subList(0, 2) + languages.drop(2).sortedBy { it.third }
+        }
 
     val badgeTint = Color(0xFFEA580C)
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
@@ -73,15 +75,16 @@ fun LanguageSelectionCard(
             sortedLanguages.forEachIndexed { index, (labelRes, icon, langCode) ->
                 val isSelected = currentLanguage == langCode
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onSelectLanguage(langCode) }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable { onSelectLanguage(langCode) }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     SettingIconBadge(
                         icon = icon,
-                        tint = if (isSelected) badgeTint else MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = if (isSelected) badgeTint else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(modifier = Modifier.width(14.dp))
                     Text(
@@ -89,21 +92,21 @@ fun LanguageSelectionCard(
                         modifier = Modifier.weight(1f),
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                     )
                     if (isSelected) {
                         Icon(
                             Icons.Default.Check,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
                         )
                     }
                 }
                 if (index < sortedLanguages.lastIndex) {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = dividerColor
+                        color = dividerColor,
                     )
                 }
             }

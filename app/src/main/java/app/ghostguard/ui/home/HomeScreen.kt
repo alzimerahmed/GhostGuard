@@ -1,7 +1,5 @@
 package app.ghostguard.ui.home
 
-import android.graphics.drawable.Drawable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,8 +31,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -43,10 +38,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,32 +51,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ghostguard.R
 import app.ghostguard.data.datastore.AppPreferences
-import app.ghostguard.data.repository.FilterListRepository
-import app.ghostguard.ui.home.component.HomeAppBar
 import app.ghostguard.ui.home.component.HomeActivityChart
+import app.ghostguard.ui.home.component.HomeAppBar
 import app.ghostguard.ui.home.component.MilestoneBottomSheet
 import app.ghostguard.ui.home.component.PowerButton
 import app.ghostguard.ui.home.component.RecentBlockedSection
 import app.ghostguard.ui.home.component.StatCard
 import app.ghostguard.ui.home.component.TopBlockedSection
+import app.ghostguard.ui.logs.data.LogFilterStatus
 import app.ghostguard.ui.theme.AccentBlue
 import app.ghostguard.ui.theme.DangerRed
 import app.ghostguard.ui.theme.SecurityOrange
-import app.ghostguard.ui.logs.data.LogFilterStatus
 import app.ghostguard.ui.theme.TextSecondary
 import app.ghostguard.utils.AppConstants.AVG_AD_SIZE_KB
 import app.ghostguard.utils.VpnUtils
 import app.ghostguard.utils.formatCount
 import app.ghostguard.utils.formatDataSize
-import app.ghostguard.utils.formatTimeSince
 import app.ghostguard.utils.formatUptimeShort
 import app.ghostguard.utils.profileIcon
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.koin.androidx.compose.koinViewModel
 import java.util.Locale
 
@@ -137,51 +126,54 @@ fun HomeScreen(
                 viewModel = viewModel,
                 onNavigateToStatisticsScreen = onNavigateToStatisticsScreen,
                 onNavigateToLogScreen = { onNavigateToLogScreen(LogFilterStatus.ALL) },
-                onNavigateToBrowser = onNavigateToBrowser
+                onNavigateToBrowser = onNavigateToBrowser,
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Private DNS warning — DoT bypasses BlockAds filtering (#145)
+            // Private DNS warning — DoT bypasses GhostGuard filtering (#145)
             if (privateDnsWarning) {
                 Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    )
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                        ),
                 ) {
                     Row(
                         modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onErrorContainer
+                            tint = MaterialTheme.colorScheme.onErrorContainer,
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
                                 text = stringResource(R.string.private_dns_warning_title),
                                 style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onErrorContainer
+                                color = MaterialTheme.colorScheme.onErrorContainer,
                             )
                             Text(
                                 text = stringResource(R.string.private_dns_warning_text),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onErrorContainer
+                                color = MaterialTheme.colorScheme.onErrorContainer,
                             )
                         }
                     }
@@ -190,35 +182,44 @@ fun HomeScreen(
 
             // Status text
             Text(
-                text = when {
-                    vpnStopping -> stringResource(R.string.status_disconnecting)
-                    vpnConnecting -> stringResource(R.string.status_connecting)
-                    vpnEnabled -> stringResource(R.string.status_protected)
-                    showTrustedPause -> stringResource(R.string.status_paused)
-                    else -> stringResource(R.string.status_unprotected)
-                },
+                text =
+                    when {
+                        vpnStopping -> stringResource(R.string.status_disconnecting)
+                        vpnConnecting -> stringResource(R.string.status_connecting)
+                        vpnEnabled -> stringResource(R.string.status_protected)
+                        showTrustedPause -> stringResource(R.string.status_paused)
+                        else -> stringResource(R.string.status_unprotected)
+                    },
                 style = MaterialTheme.typography.headlineMedium,
-                color = when {
-                    vpnStopping -> SecurityOrange
-                    vpnConnecting -> AccentBlue
-                    vpnEnabled -> MaterialTheme.colorScheme.primary
-                    showTrustedPause -> SecurityOrange
-                    else -> DangerRed
-                },
-                fontWeight = FontWeight.Bold
+                color =
+                    when {
+                        vpnStopping -> SecurityOrange
+                        vpnConnecting -> AccentBlue
+                        vpnEnabled -> MaterialTheme.colorScheme.primary
+                        showTrustedPause -> SecurityOrange
+                        else -> DangerRed
+                    },
+                fontWeight = FontWeight.Bold,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             val isRootMode = routingMode == AppPreferences.ROUTING_MODE_ROOT
             Text(
-                text = when {
-                    vpnStopping -> stringResource(if (isRootMode) R.string.home_disconnecting_desc_root else R.string.home_disconnecting_desc)
-                    vpnConnecting -> stringResource(if (isRootMode) R.string.home_connecting_desc_root else R.string.home_connecting_desc)
-                    vpnEnabled -> stringResource(R.string.home_protected_desc)
-                    showTrustedPause -> stringResource(R.string.home_paused_trusted_short)
-                    else -> stringResource(R.string.home_unprotected_desc)
-                },
+                text =
+                    when {
+                        vpnStopping ->
+                            stringResource(
+                                if (isRootMode) R.string.home_disconnecting_desc_root else R.string.home_disconnecting_desc,
+                            )
+                        vpnConnecting ->
+                            stringResource(
+                                if (isRootMode) R.string.home_connecting_desc_root else R.string.home_connecting_desc,
+                            )
+                        vpnEnabled -> stringResource(R.string.home_protected_desc)
+                        showTrustedPause -> stringResource(R.string.home_paused_trusted_short)
+                        else -> stringResource(R.string.home_unprotected_desc)
+                    },
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextSecondary,
                 textAlign = TextAlign.Center,
@@ -227,44 +228,47 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             if (showTrustedPause) {
-                // Trusted-network pill: shows which Wi-Fi paused BlockAds.
+                // Trusted-network pill: shows which Wi-Fi paused GhostGuard.
                 Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    modifier =
+                        Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.Wifi,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                     Text(
                         text = pausedTrustedSsid.ifEmpty { stringResource(R.string.trusted_networks_paused_title) },
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                 }
             } else {
                 Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer)
-                        .padding(horizontal = 10.dp, vertical = 4.dp)
+                    modifier =
+                        Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.primaryContainer)
+                            .padding(horizontal = 10.dp, vertical = 4.dp),
                 ) {
                     Text(
-                        text = when (routingMode) {
-                            AppPreferences.ROUTING_MODE_ROOT -> "Root Proxy Mode"
-                            AppPreferences.ROUTING_MODE_WIREGUARD -> "WireGuard Mode"
-                            else -> "Local VPN Mode"
-                        },
+                        text =
+                            when (routingMode) {
+                                AppPreferences.ROUTING_MODE_ROOT -> "Root Proxy Mode"
+                                AppPreferences.ROUTING_MODE_WIREGUARD -> "WireGuard Mode"
+                                else -> "Local VPN Mode"
+                            },
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                 }
             }
@@ -272,31 +276,32 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(12.dp))
             Button(
                 onClick = onNavigateToProfileScreen,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                ),
-                shape = RoundedCornerShape(8.dp)
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                    ),
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Icon(
                         imageVector = profileIcon(activeProfile?.profileType),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                     Text(
                         text = activeProfile?.name ?: stringResource(R.string.profile_name_default),
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                     Icon(
                         painter = painterResource(R.drawable.ic_edit),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                 }
             }
@@ -330,48 +335,51 @@ fun HomeScreen(
                             }
                         }
                     }
-                }
+                },
             )
 
             Spacer(modifier = Modifier.height(36.dp))
 
-
             // Stats cards
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 StatCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                     icon = Icons.Default.QueryStats,
                     label = stringResource(R.string.total_queries),
                     value = formatCount(totalCount),
                     color = MaterialTheme.colorScheme.secondary,
-                    onClick = { onNavigateToLogScreen(LogFilterStatus.ALL) }
+                    onClick = { onNavigateToLogScreen(LogFilterStatus.ALL) },
                 )
                 StatCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                     icon = Icons.Default.Block,
                     label = stringResource(R.string.blocked_queries),
                     value = formatCount(blockedCount),
                     color = DangerRed,
-                    onClick = { onNavigateToLogScreen(LogFilterStatus.BLOCKED) }
+                    onClick = { onNavigateToLogScreen(LogFilterStatus.BLOCKED) },
                 )
                 StatCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                     icon = Icons.Default.GppGood,
                     label = stringResource(R.string.home_security_threats),
                     value = formatCount(securityThreatsBlocked),
                     color = SecurityOrange,
-                    onClick = { onNavigateToLogScreen(LogFilterStatus.THREATS) }
+                    onClick = { onNavigateToLogScreen(LogFilterStatus.THREATS) },
                 )
             }
 
@@ -382,48 +390,50 @@ fun HomeScreen(
             val dataSavedKb = blockedCount * AVG_AD_SIZE_KB
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                shape = RoundedCornerShape(16.dp)
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
+                shape = RoundedCornerShape(16.dp),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Shield,
                         contentDescription = stringResource(R.string.home_block_rate),
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(32.dp),
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = stringResource(R.string.home_block_rate),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                         Text(
                             text = "${String.format(androidx.compose.ui.text.intl.Locale.current.platformLocale, "%.1f", blockRate)}%",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
                             text = stringResource(R.string.home_filter_rules),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                         Text(
                             text = formatCount(domainCount),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
                         )
                     }
                 }
@@ -433,35 +443,38 @@ fun HomeScreen(
 
             // Data saved + Protection uptime row
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 StatCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                     icon = Icons.Default.DataSaverOn,
                     label = stringResource(R.string.home_data_saved),
                     value = formatDataSize(dataSavedKb),
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
                 StatCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight(),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
                     icon = Icons.Default.Timer,
                     label = stringResource(R.string.home_protection_uptime),
                     value = formatUptimeShort(protectionUptimeMs),
-                    color = AccentBlue
+                    color = AccentBlue,
                 )
             }
 
             // Activity Chart with time range selector
             HomeActivityChart(
                 hourlyStats = hourlyStats,
-                dailyStats = dailyStats
+                dailyStats = dailyStats,
             )
 
             // Top blocked domains
@@ -470,7 +483,7 @@ fun HomeScreen(
             // Recent blocked domains
             RecentBlockedSection(
                 recentBlocked = recentBlocked,
-                securityFilterIds = securityFilterIds
+                securityFilterIds = securityFilterIds,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -479,7 +492,7 @@ fun HomeScreen(
         milestoneReached?.let { milestone ->
             MilestoneBottomSheet(
                 milestone = milestone,
-                onDismiss = { viewModel.dismissMilestoneDialog(milestone) }
+                onDismiss = { viewModel.dismissMilestoneDialog(milestone) },
             )
         }
     }

@@ -56,18 +56,20 @@ fun DomainDetailBottomSheet(
     onAddToCustomBlockRules: () -> Unit,
     onAddWildcardWhitelist: () -> Unit,
     viewModel: app.ghostguard.ui.logs.LogViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val statusColor = when {
-        isWhitelisted -> WhitelistAmber
-        entry.isBlocked -> DangerRed
-        else -> MaterialTheme.colorScheme.primary
-    }
-    val statusText = when {
-        isWhitelisted -> stringResource(R.string.log_status_whitelisted)
-        entry.isBlocked -> stringResource(R.string.log_status_blocked)
-        else -> stringResource(R.string.log_status_allowed)
-    }
+    val statusColor =
+        when {
+            isWhitelisted -> WhitelistAmber
+            entry.isBlocked -> DangerRed
+            else -> MaterialTheme.colorScheme.primary
+        }
+    val statusText =
+        when {
+            isWhitelisted -> stringResource(R.string.log_status_whitelisted)
+            entry.isBlocked -> stringResource(R.string.log_status_blocked)
+            else -> stringResource(R.string.log_status_allowed)
+        }
 
     // State for fetching specific blocking lists
     val blockingLists = remember { androidx.compose.runtime.mutableStateOf<List<String>?>(null) }
@@ -84,34 +86,41 @@ fun DomainDetailBottomSheet(
         modifier = modifier,
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(),
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 8.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
         ) {
             // Header with optional app icon
             val context = LocalContext.current
-            val appIcon: Drawable? = remember(entry.packageName) {
-                if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
-                    try {
-                        context.packageManager.getApplicationIcon(entry.packageName)
-                    } catch (e: Exception) { null }
-                } else null
-            }
+            val appIcon: Drawable? =
+                remember(entry.packageName) {
+                    if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
+                        try {
+                            context.packageManager.getApplicationIcon(entry.packageName)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    } else {
+                        null
+                    }
+                }
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 if (appIcon != null) {
                     Image(
                         painter = rememberDrawablePainter(drawable = appIcon),
                         contentDescription = entry.appName,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                        modifier =
+                            Modifier
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(8.dp)),
                     )
                 }
                 Column {
@@ -119,14 +128,14 @@ fun DomainDetailBottomSheet(
                         text = entry.domain,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = statusText,
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold,
-                        color = statusColor
+                        color = statusColor,
                     )
                 }
             }
@@ -135,77 +144,84 @@ fun DomainDetailBottomSheet(
             // Detail info card
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                shape = RoundedCornerShape(12.dp)
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     DetailRow(
                         label = stringResource(R.string.log_detail_query_type),
-                        value = entry.queryType
+                        value = entry.queryType,
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     DetailRow(
                         label = stringResource(R.string.log_detail_response_time),
-                        value = if (entry.responseTimeMs > 0) "${entry.responseTimeMs}ms"
-                        else stringResource(R.string.log_detail_na)
+                        value =
+                            if (entry.responseTimeMs > 0) {
+                                "${entry.responseTimeMs}ms"
+                            } else {
+                                stringResource(R.string.log_detail_na)
+                            },
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     DetailRow(
                         label = stringResource(R.string.log_detail_timestamp),
-                        value = formatTimestamp(entry.timestamp)
+                        value = formatTimestamp(entry.timestamp),
                     )
                     if (entry.appName.isNotEmpty()) {
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         DetailRow(
                             label = stringResource(R.string.log_detail_app),
-                            value = entry.appName
+                            value = entry.appName,
                         )
                     }
                     if (entry.resolvedIp.isNotEmpty()) {
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         DetailRow(
                             label = stringResource(R.string.log_detail_resolved_ip),
-                            value = entry.resolvedIp
+                            value = entry.resolvedIp,
                         )
                     }
                     if (entry.blockedBy.isNotEmpty()) {
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                        val blockedByText = when (entry.blockedBy.uppercase()) {
-                            FilterListRepository.BLOCK_REASON_CUSTOM_RULE ->
-                                stringResource(R.string.block_reason_custom_rule)
-                            FilterListRepository.BLOCK_REASON_FILTER_LIST -> {
-                                val baseText = stringResource(R.string.block_reason_filter_list)
-                                val lists = blockingLists.value
-                                if (lists == null) {
-                                    "$baseText (Loading...)"
-                                } else if (lists.isEmpty()) {
-                                    baseText
-                                } else {
-                                    "$baseText (${lists.joinToString(", ")})"
+                        val blockedByText =
+                            when (entry.blockedBy.uppercase()) {
+                                FilterListRepository.BLOCK_REASON_CUSTOM_RULE ->
+                                    stringResource(R.string.block_reason_custom_rule)
+                                FilterListRepository.BLOCK_REASON_FILTER_LIST -> {
+                                    val baseText = stringResource(R.string.block_reason_filter_list)
+                                    val lists = blockingLists.value
+                                    if (lists == null) {
+                                        "$baseText (Loading...)"
+                                    } else if (lists.isEmpty()) {
+                                        baseText
+                                    } else {
+                                        "$baseText (${lists.joinToString(", ")})"
+                                    }
+                                }
+                                FilterListRepository.BLOCK_REASON_SECURITY ->
+                                    stringResource(R.string.block_reason_security)
+                                FilterListRepository.BLOCK_REASON_FIREWALL ->
+                                    stringResource(R.string.block_reason_firewall)
+                                FilterListRepository.BLOCK_REASON_UPSTREAM_DNS.uppercase() ->
+                                    stringResource(R.string.block_reason_upstream_dns)
+                                else -> {
+                                    val ids = entry.blockedBy.split(",")
+                                    val names = ids.mapNotNull { filterNames[it] }
+                                    if (names.isNotEmpty()) names.joinToString(", ") else entry.blockedBy
                                 }
                             }
-                            FilterListRepository.BLOCK_REASON_SECURITY ->
-                                stringResource(R.string.block_reason_security)
-                            FilterListRepository.BLOCK_REASON_FIREWALL ->
-                                stringResource(R.string.block_reason_firewall)
-                            FilterListRepository.BLOCK_REASON_UPSTREAM_DNS.uppercase() ->
-                                stringResource(R.string.block_reason_upstream_dns)
-                            else -> {
-                                val ids = entry.blockedBy.split(",")
-                                val names = ids.mapNotNull { filterNames[it] }
-                                if (names.isNotEmpty()) names.joinToString(", ") else entry.blockedBy
-                            }
-                        }
                         DetailRow(
                             label = stringResource(R.string.log_detail_blocked_by),
-                            value = blockedByText
+                            value = blockedByText,
                         )
                     }
                 }
@@ -219,28 +235,30 @@ fun DomainDetailBottomSheet(
                 Card(
                     onClick = onAddToCustomBlockRules,
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    shape = RoundedCornerShape(12.dp)
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Icon(
                             Icons.Default.Block,
                             contentDescription = null,
                             tint = DangerRed,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                         Text(
                             text = stringResource(R.string.block_this_domain),
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -252,59 +270,63 @@ fun DomainDetailBottomSheet(
                 Card(
                     onClick = onAddToWhiteList,
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    shape = RoundedCornerShape(12.dp)
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.PlaylistAdd,
                             contentDescription = null,
                             tint = WhitelistAmber,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                         Text(
                             text = stringResource(R.string.log_action_whitelist),
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                
+
                 // Wildcard Whitelist action
                 Card(
                     onClick = onAddWildcardWhitelist,
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    shape = RoundedCornerShape(12.dp)
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.PlaylistAdd,
                             contentDescription = null,
                             tint = WhitelistAmber,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                         Text(
                             text = stringResource(R.string.log_wildcard_whitelist_domain),
                             style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -315,28 +337,30 @@ fun DomainDetailBottomSheet(
             Card(
                 onClick = onCopyDomain,
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                ),
-                shape = RoundedCornerShape(12.dp)
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Icon(
                         Icons.Default.ContentCopy,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
                     )
                     Text(
                         text = stringResource(R.string.log_action_copy),
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }
@@ -347,23 +371,26 @@ fun DomainDetailBottomSheet(
 }
 
 @Composable
-private fun DetailRow(label: String, value: String) {
+private fun DetailRow(
+    label: String,
+    value: String,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = TextSecondary
+            color = TextSecondary,
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = value,
             style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

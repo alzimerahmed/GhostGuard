@@ -22,18 +22,18 @@ fun SectionHeader(
     title: String,
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
-    description: String? = null
+    description: String? = null,
 ) {
     Row(
         verticalAlignment = Alignment.Top,
-        modifier = modifier.padding(bottom = 8.dp, start = 4.dp)
+        modifier = modifier.padding(bottom = 8.dp, start = 4.dp),
     ) {
         if (icon != null) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
         }

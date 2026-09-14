@@ -39,7 +39,7 @@ fun FirewallRuleDialog(
     onSave: (FirewallRule) -> Unit,
     onDelete: () -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var blockWifi by remember { mutableStateOf(existingRule?.blockWifi ?: true) }
     var blockMobileData by remember { mutableStateOf(existingRule?.blockMobileData ?: true) }
@@ -57,7 +57,7 @@ fun FirewallRuleDialog(
         title = {
             Text(
                 text = stringResource(R.string.firewall_configure),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
         },
         text = {
@@ -65,12 +65,12 @@ fun FirewallRuleDialog(
                 Text(
                     text = appName,
                     style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
                 Text(
                     text = packageName,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -79,14 +79,14 @@ fun FirewallRuleDialog(
                 SwitchRow(
                     label = stringResource(R.string.firewall_block_wifi),
                     checked = blockWifi,
-                    onCheckedChange = { blockWifi = it }
+                    onCheckedChange = { blockWifi = it },
                 )
 
                 // Block Mobile Data toggle
                 SwitchRow(
                     label = stringResource(R.string.firewall_block_mobile),
                     checked = blockMobileData,
-                    onCheckedChange = { blockMobileData = it }
+                    onCheckedChange = { blockMobileData = it },
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -96,31 +96,32 @@ fun FirewallRuleDialog(
                     label = stringResource(R.string.firewall_schedule),
                     description = stringResource(R.string.firewall_schedule_desc),
                     checked = scheduleEnabled,
-                    onCheckedChange = { scheduleEnabled = it }
+                    onCheckedChange = { scheduleEnabled = it },
                 )
 
                 if (scheduleEnabled) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 stringResource(R.string.firewall_schedule_from),
                                 style = MaterialTheme.typography.labelMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                             Text(
-                                text = String.format(
-                                    Locale.US,
-                                    "%02d:%02d",
-                                    startHour,
-                                    startMinute
-                                ),
+                                text =
+                                    String.format(
+                                        Locale.US,
+                                        "%02d:%02d",
+                                        startHour,
+                                        startMinute,
+                                    ),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.primary,
                             )
                             Row {
                                 TextButton(onClick = {
@@ -135,18 +136,19 @@ fun FirewallRuleDialog(
                             Text(
                                 stringResource(R.string.firewall_schedule_to),
                                 style = MaterialTheme.typography.labelMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                             Text(
-                                text = String.format(
-                                    Locale.US,
-                                    "%02d:%02d",
-                                    endHour,
-                                    endMinute
-                                ),
+                                text =
+                                    String.format(
+                                        Locale.US,
+                                        "%02d:%02d",
+                                        endHour,
+                                        endMinute,
+                                    ),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.primary,
                             )
                             Row {
                                 TextButton(onClick = {
@@ -174,14 +176,14 @@ fun FirewallRuleDialog(
                         scheduleStartMinute = startMinute,
                         scheduleEndHour = endHour,
                         scheduleEndMinute = endMinute,
-                        isEnabled = true
-                    )
+                        isEnabled = true,
+                    ),
                 )
             }) {
                 Text(
                     stringResource(android.R.string.ok),
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
         },
@@ -191,7 +193,7 @@ fun FirewallRuleDialog(
                     TextButton(onClick = onDelete) {
                         Text(
                             stringResource(R.string.delete),
-                            color = MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.error,
                         )
                     }
                 }
@@ -199,7 +201,7 @@ fun FirewallRuleDialog(
                     Text(stringResource(android.R.string.cancel))
                 }
             }
-        }
+        },
     )
 }
 
@@ -208,35 +210,37 @@ private fun SwitchRow(
     label: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    description: String? = null
+    description: String? = null,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
             )
             if (description != null) {
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
             }
         }
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = Color.White,
-                checkedTrackColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = Color.White,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                ),
         )
     }
 }

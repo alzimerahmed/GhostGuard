@@ -26,7 +26,7 @@ import app.ghostguard.ui.theme.DangerRed
 @Composable
 fun SwipeToDismissItem(
     onDismiss: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val dismissState = rememberSwipeToDismissBoxState()
 
@@ -40,27 +40,29 @@ fun SwipeToDismissItem(
         state = dismissState,
         backgroundContent = {
             val color by animateColorAsState(
-                targetValue = when (dismissState.targetValue) {
-                    SwipeToDismissBoxValue.EndToStart -> DangerRed.copy(alpha = 0.15f)
-                    else -> Color.Transparent
-                },
-                label = "swipe_color"
+                targetValue =
+                    when (dismissState.targetValue) {
+                        SwipeToDismissBoxValue.EndToStart -> DangerRed.copy(alpha = 0.15f)
+                        else -> Color.Transparent
+                    },
+                label = "swipe_color",
             )
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color, RoundedCornerShape(12.dp))
-                    .padding(horizontal = 20.dp),
-                contentAlignment = Alignment.CenterEnd
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(color, RoundedCornerShape(12.dp))
+                        .padding(horizontal = 20.dp),
+                contentAlignment = Alignment.CenterEnd,
             ) {
                 Icon(
                     Icons.Default.Delete,
                     contentDescription = "Delete",
-                    tint = DangerRed
+                    tint = DangerRed,
                 )
             }
         },
-        enableDismissFromStartToEnd = false
+        enableDismissFromStartToEnd = false,
     ) {
         content()
     }

@@ -8,8 +8,8 @@ import android.net.VpnService
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -18,23 +18,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import app.ghostguard.data.datastore.AppPreferences
-import app.ghostguard.utils.LocaleHelper
 import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.IptablesManager
 import app.ghostguard.service.RootProxyService
-import app.ghostguard.ui.BlockAdsApp
+import app.ghostguard.ui.GhostGuardApp
 import app.ghostguard.ui.theme.BlockadsTheme
+import app.ghostguard.utils.LocaleHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.getKoin
 
 class MainActivity : ComponentActivity() {
-
     companion object {
         const val EXTRA_START_VPN = "extra_start_vpn"
         const val EXTRA_SHOW_VPN_CONFLICT_DIALOG = "extra_show_vpn_conflict_dialog"
@@ -44,20 +43,22 @@ class MainActivity : ComponentActivity() {
     private var widgetIntentHandled = false
     private val _showVpnConflictDialog = mutableStateOf(false)
 
-    private val vpnPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            startVpnService()
+    private val vpnPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                startVpnService()
+            }
         }
-    }
 
-    private val notificationPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { _ ->
-        // Proceed regardless — notification is optional but nice to have
-        continueVpnToggle()
-    }
+    private val notificationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { _ ->
+            // Proceed regardless — notification is optional but nice to have
+            continueVpnToggle()
+        }
 
     override fun attachBaseContext(newBase: Context) {
         // Apply saved locale for pre-API 33 devices
@@ -81,41 +82,44 @@ class MainActivity : ComponentActivity() {
             val themeMode by appPrefs.themeMode.collectAsState(initial = AppPreferences.THEME_SYSTEM)
             val accentColor by appPrefs.accentColor.collectAsState(initial = AppPreferences.ACCENT_GREEN)
 
-            val isDark = when (themeMode) {
-                AppPreferences.THEME_DARK -> true
-                AppPreferences.THEME_LIGHT -> false
-                else -> isSystemInDarkTheme()
-            }
+            val isDark =
+                when (themeMode) {
+                    AppPreferences.THEME_DARK -> true
+                    AppPreferences.THEME_LIGHT -> false
+                    else -> isSystemInDarkTheme()
+                }
 
             // Update status bar icons when theme changes
             DisposableEffect(isDark) {
                 enableEdgeToEdge(
-                    statusBarStyle = if (isDark) {
-                        SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
-                    } else {
-                        SystemBarStyle.light(
-                            android.graphics.Color.TRANSPARENT,
-                            android.graphics.Color.TRANSPARENT
-                        )
-                    },
-                    navigationBarStyle = if (isDark) {
-                        SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
-                    } else {
-                        SystemBarStyle.light(
-                            android.graphics.Color.TRANSPARENT,
-                            android.graphics.Color.TRANSPARENT
-                        )
-                    }
+                    statusBarStyle =
+                        if (isDark) {
+                            SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                        } else {
+                            SystemBarStyle.light(
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT,
+                            )
+                        },
+                    navigationBarStyle =
+                        if (isDark) {
+                            SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+                        } else {
+                            SystemBarStyle.light(
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT,
+                            )
+                        },
                 )
                 onDispose {}
             }
 
             BlockadsTheme(themeMode = themeMode, accentColor = accentColor) {
-                BlockAdsApp(
+                GhostGuardApp(
                     showVpnConflictDialog = _showVpnConflictDialog.value,
                     onDismissVpnConflictDialog = { _showVpnConflictDialog.value = false },
                     onShowVpnConflictDialog = { _showVpnConflictDialog.value = true },
-                    onRequestVpnPermission = { handleVpnToggle() }
+                    onRequestVpnPermission = { handleVpnToggle() },
                 )
             }
         }
@@ -166,9 +170,10 @@ class MainActivity : ComponentActivity() {
                 }
             } else {
                 if (AdBlockVpnService.isRunning) {
-                    val stopIntent = Intent(this, AdBlockVpnService::class.java).apply {
-                        action = AdBlockVpnService.ACTION_STOP
-                    }
+                    val stopIntent =
+                        Intent(this, AdBlockVpnService::class.java).apply {
+                            action = AdBlockVpnService.ACTION_STOP
+                        }
                     startService(stopIntent)
                 } else {
                     handleVpnToggle()
@@ -183,7 +188,7 @@ class MainActivity : ComponentActivity() {
         // Check notification permission first (Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
+                    this, Manifest.permission.POST_NOTIFICATIONS,
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -229,9 +234,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startVpnService() {
-        val intent = Intent(this, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_START
-        }
+        val intent =
+            Intent(this, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_START
+            }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent)
         } else {

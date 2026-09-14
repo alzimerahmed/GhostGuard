@@ -58,7 +58,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AppWhitelistScreen(
     modifier: Modifier = Modifier,
     viewModel: AppWhitelistViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = { }
+    onNavigateBack: () -> Unit = { },
 ) {
     val whitelistedApps by viewModel.whitelistedApps.collectAsStateWithLifecycle()
     val installedApps by viewModel.installedApps.collectAsStateWithLifecycle()
@@ -67,20 +67,23 @@ fun AppWhitelistScreen(
     // 0 = All, 1 = Enabled, 2 = Disabled
     var filterOption by remember { mutableIntStateOf(0) }
 
-    val userApps = remember(installedApps) {
-        installedApps.filter { !it.isSystemApp }
-    }
-    val systemApps = remember(installedApps) {
-        installedApps.filter { it.isSystemApp }
-    }
+    val userApps =
+        remember(installedApps) {
+            installedApps.filter { !it.isSystemApp }
+        }
+    val systemApps =
+        remember(installedApps) {
+            installedApps.filter { it.isSystemApp }
+        }
 
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
 
-    val tabs = listOf(
-        stringResource(R.string.whitelist_tab_user),
-        stringResource(R.string.whitelist_tab_system)
-    )
+    val tabs =
+        listOf(
+            stringResource(R.string.whitelist_tab_user),
+            stringResource(R.string.whitelist_tab_system),
+        )
 
     Scaffold(
         modifier = modifier,
@@ -90,12 +93,12 @@ fun AppWhitelistScreen(
                     Column {
                         Text(
                             stringResource(R.string.whitelist_apps_title),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Text(
                             stringResource(R.string.whitelist_apps_count, whitelistedApps.size),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 },
@@ -103,7 +106,7 @@ fun AppWhitelistScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
                         )
                     }
                 },
@@ -111,20 +114,22 @@ fun AppWhitelistScreen(
                     IconButton(onClick = { viewModel.refreshApps() }) {
                         Icon(
                             Icons.Filled.Refresh,
-                            contentDescription = stringResource(R.string.app_management_refresh)
+                            contentDescription = stringResource(R.string.app_management_refresh),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             // Search bar
             TextField(
@@ -133,62 +138,68 @@ fun AppWhitelistScreen(
                 placeholder = {
                     Text(
                         stringResource(R.string.whitelist_apps_search),
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                 },
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Search,
                         contentDescription = null,
-                        tint = TextSecondary
+                        tint = TextSecondary,
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                singleLine = true
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                singleLine = true,
             )
 
             // Filter chips
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 FilterChip(
                     selected = filterOption == 0,
                     onClick = { filterOption = 0 },
                     label = { Text(stringResource(R.string.filter_chip_all)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
                 FilterChip(
                     selected = filterOption == 1,
                     onClick = { filterOption = 1 },
                     label = { Text(stringResource(R.string.filter_chip_enabled)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
                 FilterChip(
                     selected = filterOption == 2,
                     onClick = { filterOption = 2 },
                     label = { Text(stringResource(R.string.filter_chip_disabled)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
             }
 
@@ -199,10 +210,11 @@ fun AppWhitelistScreen(
                 contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 tabs.forEachIndexed { index, title ->
-                    val count = when (index) {
-                        0 -> userApps.size
-                        else -> systemApps.size
-                    }
+                    val count =
+                        when (index) {
+                            0 -> userApps.size
+                            else -> systemApps.size
+                        }
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -213,10 +225,14 @@ fun AppWhitelistScreen(
                         text = {
                             Text(
                                 "$title ($count)",
-                                fontWeight = if (pagerState.currentPage == index)
-                                    FontWeight.Bold else FontWeight.Normal
+                                fontWeight =
+                                    if (pagerState.currentPage == index) {
+                                        FontWeight.Bold
+                                    } else {
+                                        FontWeight.Normal
+                                    },
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -224,19 +240,19 @@ fun AppWhitelistScreen(
             if (isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(40.dp),
-                            strokeWidth = 3.dp
+                            strokeWidth = 3.dp,
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Text(
                             text = "Loading apps…",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
@@ -244,23 +260,26 @@ fun AppWhitelistScreen(
                 // Pager content
                 HorizontalPager(
                     state = pagerState,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) { page ->
-                    val appsForPage = when (page) {
-                        0 -> userApps
-                        else -> systemApps
-                    }
+                    val appsForPage =
+                        when (page) {
+                            0 -> userApps
+                            else -> systemApps
+                        }
                     val filteredApps =
                         remember(searchQuery, appsForPage, whitelistedApps, filterOption) {
                             appsForPage.filter { app ->
-                                val matchesSearch = searchQuery.isBlank() ||
+                                val matchesSearch =
+                                    searchQuery.isBlank() ||
                                         app.label.contains(searchQuery, ignoreCase = true) ||
                                         app.packageName.contains(searchQuery, ignoreCase = true)
-                                val matchesFilter = when (filterOption) {
-                                    1 -> app.packageName in whitelistedApps
-                                    2 -> app.packageName !in whitelistedApps
-                                    else -> true
-                                }
+                                val matchesFilter =
+                                    when (filterOption) {
+                                        1 -> app.packageName in whitelistedApps
+                                        2 -> app.packageName !in whitelistedApps
+                                        else -> true
+                                    }
                                 matchesSearch && matchesFilter
                             }
                         }
@@ -268,25 +287,25 @@ fun AppWhitelistScreen(
                     if (filteredApps.isEmpty()) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 stringResource(R.string.whitelist_apps_empty),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                         }
                     } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(2.dp)
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
                         ) {
                             items(filteredApps, key = { it.packageName }) { app ->
                                 val isWhitelisted = app.packageName in whitelistedApps
                                 AppListItem(
                                     app = app,
                                     isWhitelisted = isWhitelisted,
-                                    onToggle = { viewModel.toggleApp(app.packageName) }
+                                    onToggle = { viewModel.toggleApp(app.packageName) },
                                 )
                             }
                         }

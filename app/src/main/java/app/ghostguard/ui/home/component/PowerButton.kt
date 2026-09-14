@@ -49,42 +49,45 @@ fun PowerButton(
     isConnecting: Boolean,
     isStopping: Boolean = false,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val isBusy = isConnecting || isStopping
-    val vpnStateDescription = when {
-        isStopping -> stringResource(R.string.status_disconnecting)
-        isConnecting -> stringResource(R.string.accessibility_vpn_connecting)
-        isActive -> stringResource(R.string.accessibility_vpn_active)
-        else -> stringResource(R.string.accessibility_vpn_inactive)
-    }
+    val vpnStateDescription =
+        when {
+            isStopping -> stringResource(R.string.status_disconnecting)
+            isConnecting -> stringResource(R.string.accessibility_vpn_connecting)
+            isActive -> stringResource(R.string.accessibility_vpn_active)
+            else -> stringResource(R.string.accessibility_vpn_inactive)
+        }
     val toggleDescription = stringResource(R.string.accessibility_toggle_vpn)
 
     val buttonColor by animateColorAsState(
-        targetValue = when {
-            isStopping -> SecurityOrange
-            isConnecting -> AccentBlue
-            isActive -> MaterialTheme.colorScheme.primary
-            else -> DangerRed
-        },
+        targetValue =
+            when {
+                isStopping -> SecurityOrange
+                isConnecting -> AccentBlue
+                isActive -> MaterialTheme.colorScheme.primary
+                else -> DangerRed
+            },
         animationSpec = tween(500),
-        label = "buttonColor"
+        label = "buttonColor",
     )
 
     val scale by animateFloatAsState(
         targetValue = if (isActive || isBusy) 1f else 0.95f,
         animationSpec = tween(300),
-        label = "scale"
+        label = "scale",
     )
 
     val glowAlpha by animateFloatAsState(
-        targetValue = when {
-            isBusy -> 0.3f
-            isActive -> 0.4f
-            else -> 0.2f
-        },
+        targetValue =
+            when {
+                isBusy -> 0.3f
+                isActive -> 0.4f
+                else -> 0.2f
+            },
         animationSpec = tween(500),
-        label = "glow"
+        label = "glow",
     )
 
     // Pulsing animation when active
@@ -92,11 +95,12 @@ fun PowerButton(
     val pulseScale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = if (isActive && !isBusy) 1.08f else 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulseScale"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(1500, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+        label = "pulseScale",
     )
 
     // Track focus so the button is visibly highlighted when navigated to
@@ -107,91 +111,104 @@ fun PowerButton(
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.size(180.dp)
+        modifier = modifier.size(180.dp),
     ) {
         // Outer glow ring
         Box(
-            modifier = Modifier
-                .size(180.dp)
-                .graphicsLayer { scaleX = pulseScale; scaleY = pulseScale }
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            buttonColor.copy(alpha = glowAlpha),
-                            Color.Transparent
-                        )
-                    )
-                )
+            modifier =
+                Modifier
+                    .size(180.dp)
+                    .graphicsLayer {
+                        scaleX = pulseScale
+                        scaleY = pulseScale
+                    }
+                    .clip(CircleShape)
+                    .background(
+                        Brush.radialGradient(
+                            colors =
+                                listOf(
+                                    buttonColor.copy(alpha = glowAlpha),
+                                    Color.Transparent,
+                                ),
+                        ),
+                    ),
         )
 
         // Focus ring (visible only while focused via D-pad/keyboard)
         if (isFocused) {
             Box(
-                modifier = Modifier
-                    .size(158.dp)
-                    .border(
-                        width = 3.dp,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        shape = CircleShape
-                    )
+                modifier =
+                    Modifier
+                        .size(158.dp)
+                        .border(
+                            width = 3.dp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            shape = CircleShape,
+                        ),
             )
         }
 
         // Main button
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(140.dp)
-                .graphicsLayer { scaleX = scale; scaleY = scale }
-                .shadow(
-                    elevation = if (isActive || isBusy) 20.dp else 8.dp,
-                    shape = CircleShape,
-                    ambientColor = buttonColor.copy(alpha = 0.3f),
-                    spotColor = buttonColor.copy(alpha = 0.3f)
-                )
-                .clip(CircleShape)
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            buttonColor.copy(alpha = 0.2f),
-                            MaterialTheme.colorScheme.surface
-                        )
+            modifier =
+                Modifier
+                    .size(140.dp)
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                    }
+                    .shadow(
+                        elevation = if (isActive || isBusy) 20.dp else 8.dp,
+                        shape = CircleShape,
+                        ambientColor = buttonColor.copy(alpha = 0.3f),
+                        spotColor = buttonColor.copy(alpha = 0.3f),
                     )
-                )
-                .border(
-                    width = 3.dp,
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            buttonColor,
-                            buttonColor.copy(alpha = 0.5f)
-                        )
-                    ),
-                    shape = CircleShape
-                )
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    enabled = !isBusy
-                ) { onClick() }
-                .semantics {
-                    contentDescription = toggleDescription
-                    stateDescription = vpnStateDescription
-                    role = Role.Button
-                }
+                    .clip(CircleShape)
+                    .background(
+                        Brush.radialGradient(
+                            colors =
+                                listOf(
+                                    buttonColor.copy(alpha = 0.2f),
+                                    MaterialTheme.colorScheme.surface,
+                                ),
+                        ),
+                    )
+                    .border(
+                        width = 3.dp,
+                        brush =
+                            Brush.linearGradient(
+                                colors =
+                                    listOf(
+                                        buttonColor,
+                                        buttonColor.copy(alpha = 0.5f),
+                                    ),
+                            ),
+                        shape = CircleShape,
+                    )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        enabled = !isBusy,
+                    ) { onClick() }
+                    .semantics {
+                        contentDescription = toggleDescription
+                        stateDescription = vpnStateDescription
+                        role = Role.Button
+                    },
         ) {
             if (isBusy) {
                 CircularProgressIndicator(
                     color = buttonColor,
                     modifier = Modifier.size(56.dp),
-                    strokeWidth = 3.dp
+                    strokeWidth = 3.dp,
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.PowerSettingsNew,
                     contentDescription = null,
                     tint = buttonColor,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier.size(64.dp),
                 )
             }
         }

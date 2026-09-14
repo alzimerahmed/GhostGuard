@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FilterListDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(filterList: FilterList): Long
 
@@ -31,10 +30,17 @@ interface FilterListDao {
     suspend fun count(): Int
 
     @Query("UPDATE filter_lists SET isEnabled = :enabled WHERE id = :id")
-    suspend fun setEnabled(id: Long, enabled: Boolean)
+    suspend fun setEnabled(
+        id: Long,
+        enabled: Boolean,
+    )
 
     @Query("UPDATE filter_lists SET domainCount = :count, lastUpdated = :timestamp WHERE id = :id")
-    suspend fun updateStats(id: Long, count: Int, timestamp: Long)
+    suspend fun updateStats(
+        id: Long,
+        count: Int,
+        timestamp: Long,
+    )
 
     @Query("SELECT * FROM filter_lists WHERE url = :url LIMIT 1")
     suspend fun getByUrl(url: String): FilterList?

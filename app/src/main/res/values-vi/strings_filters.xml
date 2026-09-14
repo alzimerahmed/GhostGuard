@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">Làm theo các bước sau để thiết lập bộ lọc quảng cáo HTTPS:</string>
     <string name="https_filtering_export_ca">Bước 1: Lưu chứng chỉ vào thư mục Tải xuống</string>
     <string name="https_filtering_cert_saved">Đã lưu chứng chỉ vào thư mục Tải xuống!</string>
-    <string name="https_filtering_install_steps">Bước 2: Cài đặt chứng chỉ theo cách thủ công:\n\n1. Đi tới Cài đặt → Bảo mật → Mã hóa &amp; thông tin xác thực\n2. Chạm vào \&quot;Cài đặt chứng chỉ\&quot; → \&quot;Chứng chỉ CA\&quot;\n3. Chọn \&quot;BlockAds-RootCA.crt\&quot; từ Tải xuống\n4. Xác nhận cài đặt</string>
+    <string name="https_filtering_install_steps">Bước 2: Cài đặt chứng chỉ theo cách thủ công:\n\n1. Đi tới Cài đặt → Bảo mật → Mã hóa &amp; thông tin xác thực\n2. Chạm vào \&quot;Cài đặt chứng chỉ\&quot; → \&quot;Chứng chỉ CA\&quot;\n3. Chọn \&quot;GhostGuard-RootCA.crt\&quot; từ Tải xuống\n4. Xác nhận cài đặt</string>
     <string name="https_filtering_open_settings">Mở cài đặt bảo mật</string>
     <string name="https_filtering_step1_title">Bước 1: Lưu chứng chỉ</string>
     <string name="https_filtering_step1_desc">Tải chứng chỉ Root CA xuống thiết bị của bạn</string>
@@ -151,11 +151,11 @@
     <string name="https_wizard_title">Cài đặt Chứng chỉ</string>
     <string name="https_wizard_step_indicator_format">Bước %1$d/%2$d: %3$s</string>
     <string name="https_wizard_overview_title">Tổng quan &amp; An toàn</string>
-    <string name="https_wizard_overview_subtitle">Tại sao BlockAds cần chứng chỉ cục bộ?</string>
+    <string name="https_wizard_overview_subtitle">Tại sao GhostGuard cần chứng chỉ cục bộ?</string>
     <string name="https_wizard_security_title">Bảo mật &amp; Quyền riêng tư</string>
-    <string name="https_wizard_security_desc">Chứng chỉ Root CA được tạo cục bộ ngay trên thiết bị của bạn và không bao giờ rời khỏi máy. BlockAds sử dụng nó để loại bỏ quảng cáo trên các trang web. Các dịch vụ nhạy cảm như ứng dụng ngân hàng và tài khoản Google hoàn toàn không bị can thiệp.</string>
+    <string name="https_wizard_security_desc">Chứng chỉ Root CA được tạo cục bộ ngay trên thiết bị của bạn và không bao giờ rời khỏi máy. GhostGuard sử dụng nó để loại bỏ quảng cáo trên các trang web. Các dịch vụ nhạy cảm như ứng dụng ngân hàng và tài khoản Google hoàn toàn không bị can thiệp.</string>
     <string name="https_wizard_explain_title">Tại sao cần lọc HTTPS?</string>
-    <string name="https_wizard_explain_desc">Hầu hết các trang web và quảng cáo hiện nay đều sử dụng kết nối HTTPS đã mã hóa. Để ẩn các khung quảng cáo, banner và popup phiền toái, BlockAds cần một chứng chỉ cục bộ để xử lý và lọc các trang web một cách an toàn trên máy bạn.</string>
+    <string name="https_wizard_explain_desc">Hầu hết các trang web và quảng cáo hiện nay đều sử dụng kết nối HTTPS đã mã hóa. Để ẩn các khung quảng cáo, banner và popup phiền toái, GhostGuard cần một chứng chỉ cục bộ để xử lý và lọc các trang web một cách an toàn trên máy bạn.</string>
     <string name="https_wizard_benefits_title">Lợi ích khi kích hoạt</string>
     <string name="https_wizard_benefit_1">Chặn sạch quảng cáo trên các trang video &amp; báo chí</string>
     <string name="https_wizard_benefit_2">Ẩn hoàn toàn khung trống, banner và pop-up phiền toái</string>
@@ -180,9 +180,9 @@
     <string name="https_wizard_root_detected_desc">Thiết bị của bạn đã có quyền Root. Bạn có thể cài đặt trực tiếp vào hệ thống mà không cần thao tác thủ công.</string>
     <string name="https_wizard_checking_title">Đang kiểm tra chứng chỉ…</string>
     <string name="https_wizard_checking_desc">Đang quét kho chứng chỉ tin cậy của Android…</string>
-    <string name="https_wizard_installed_desc">Chứng chỉ BlockAds Root CA đã được phát hiện trong kho tin cậy của thiết bị. Lọc HTTPS đã sẵn sàng hoạt động!</string>
+    <string name="https_wizard_installed_desc">Chứng chỉ GhostGuard Root CA đã được phát hiện trong kho tin cậy của thiết bị. Lọc HTTPS đã sẵn sàng hoạt động!</string>
     <string name="https_wizard_not_installed_title">Chưa phát hiện chứng chỉ</string>
-    <string name="https_wizard_not_installed_desc">BlockAds chưa tìm thấy chứng chỉ trong kho chứng chỉ CA của máy. Nếu bạn vừa hoàn tất cài đặt trong Cài đặt, hãy bấm Kiểm tra lại.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard chưa tìm thấy chứng chỉ trong kho chứng chỉ CA của máy. Nếu bạn vừa hoàn tất cài đặt trong Cài đặt, hãy bấm Kiểm tra lại.</string>
     <string name="https_wizard_troubleshooting_title">Mẹo khắc phục sự cố</string>
     <string name="https_wizard_troubleshooting_tip1">Đảm bảo bạn đã chọn đúng loại \"Chứng chỉ CA\" (không phải Chứng chỉ người dùng hay VPN &amp; ứng dụng).</string>
     <string name="https_wizard_troubleshooting_tip2">Nếu cài đặt qua module Magisk/KernelSU, bạn cần khởi động lại máy để có hiệu lực.</string>

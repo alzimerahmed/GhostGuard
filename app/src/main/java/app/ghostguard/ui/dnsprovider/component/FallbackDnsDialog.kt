@@ -27,7 +27,7 @@ fun FallbackDnsDialog(
     errorText: String? = null,
     onDismiss: () -> Unit,
     onSave: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var editFallback by remember { mutableStateOf(fallbackDns) }
 
@@ -41,7 +41,7 @@ fun FallbackDnsDialog(
                 Text(
                     stringResource(R.string.settings_fallback_dns_desc),
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
@@ -52,13 +52,13 @@ fun FallbackDnsDialog(
                     supportingText = errorText?.let { { Text(color = MaterialTheme.colorScheme.error, text = it) } },
                     placeholder = { Text(stringResource(R.string.settings_fallback_dns_placeholder)) },
                     singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(8.dp),
                 )
             }
         },
         confirmButton = {
             TextButton(
-                onClick = { onSave(editFallback) }
+                onClick = { onSave(editFallback) },
             ) {
                 Text(stringResource(R.string.dns_custom_save))
             }
@@ -67,6 +67,6 @@ fun FallbackDnsDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.dns_custom_cancel))
             }
-        }
+        },
     )
 }

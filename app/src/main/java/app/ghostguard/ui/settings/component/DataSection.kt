@@ -19,14 +19,14 @@ fun DataSection(
     onExport: () -> Unit,
     onImport: () -> Unit,
     onClearLogs: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val dividerColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.08f)
 
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(R.string.settings_category_data),
-            description = stringResource(R.string.settings_category_data_desc)
+            description = stringResource(R.string.settings_category_data_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -37,7 +37,7 @@ fun DataSection(
                     iconPainter = painterResource(R.drawable.ic_settings_export),
                     iconTint = Color(0xFF64748B),
                     title = stringResource(R.string.settings_export),
-                    onClick = onExport
+                    onClick = onExport,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -47,7 +47,7 @@ fun DataSection(
                     iconPainter = painterResource(R.drawable.ic_settings_import),
                     iconTint = Color(0xFF64748B),
                     title = stringResource(R.string.settings_import),
-                    onClick = onImport
+                    onClick = onImport,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -57,7 +57,7 @@ fun DataSection(
                     iconPainter = painterResource(R.drawable.ic_settings_trash),
                     iconTint = Color(0xFFE11D48),
                     title = stringResource(R.string.settings_clear_logs),
-                    onClick = onClearLogs
+                    onClick = onClearLogs,
                 )
             }
         }

@@ -3,14 +3,13 @@ package app.ghostguard.ui.dnsprovider
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import app.ghostguard.R
 import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.data.entities.DnsCategory
 import app.ghostguard.data.entities.DnsProtocol
 import app.ghostguard.data.entities.DnsProvider
 import app.ghostguard.data.entities.DnsProviders
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
-import app.ghostguard.R
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,46 +25,51 @@ import kotlinx.coroutines.launch
 
 class DnsProviderViewModel(
     private val appPrefs: AppPreferences,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
-
     private val _events = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<UiEvent> = _events.asSharedFlow()
 
-    val upstreamDns: StateFlow<String> = appPrefs.upstreamDns
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Eagerly,
-            AppPreferences.DEFAULT_UPSTREAM_DNS
-        )
+    val upstreamDns: StateFlow<String> =
+        appPrefs.upstreamDns
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Eagerly,
+                AppPreferences.DEFAULT_UPSTREAM_DNS,
+            )
 
-    val fallbackDns: StateFlow<String> = appPrefs.fallbackDns
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Eagerly,
-            AppPreferences.DEFAULT_FALLBACK_DNS
-        )
+    val fallbackDns: StateFlow<String> =
+        appPrefs.fallbackDns
+            .stateIn(
+                viewModelScope,
+                SharingStarted.Eagerly,
+                AppPreferences.DEFAULT_FALLBACK_DNS,
+            )
 
-    val selectedProviderId: StateFlow<String?> = combine(
-        appPrefs.dnsProviderId,
-        appPrefs.upstreamDns,
-        appPrefs.dnsProtocol
-    ) { providerId, upstreamDns, protocol ->
-        when {
-            providerId == AppPreferences.CUSTOM_DNS_PROVIDER_ID -> null
-            providerId != null -> providerId
-            else -> {
-                val match = DnsProviders.getByIp(upstreamDns)
-                if (match != null && protocol == DnsProtocol.PLAIN && match.dohUrl == null) {
-                    match.id
-                } else null
+    val selectedProviderId: StateFlow<String?> =
+        combine(
+            appPrefs.dnsProviderId,
+            appPrefs.upstreamDns,
+            appPrefs.dnsProtocol,
+        ) { providerId, upstreamDns, protocol ->
+            when {
+                providerId == AppPreferences.CUSTOM_DNS_PROVIDER_ID -> null
+                providerId != null -> providerId
+                else -> {
+                    val match = DnsProviders.getByIp(upstreamDns)
+                    if (match != null && protocol == DnsProtocol.PLAIN && match.dohUrl == null) {
+                        match.id
+                    } else {
+                        null
+                    }
+                }
             }
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    val customDnsEnabled: StateFlow<Boolean> = selectedProviderId
-        .map { it == null }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+    val customDnsEnabled: StateFlow<Boolean> =
+        selectedProviderId
+            .map { it == null }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     /**
      * Unified display value for the custom DNS input.
@@ -74,22 +78,23 @@ class DnsProviderViewModel(
      * - DoH: full URL (e.g., "https://dns.google/dns-query")
      * - DoT: tls:// prefix + server (e.g., "tls://dns.google")
      */
-    val customDnsDisplay: StateFlow<String> = combine(
-        appPrefs.dnsProtocol,
-        appPrefs.upstreamDns,
-        appPrefs.dohUrl
-    ) { protocol, upstream, doh ->
-        when (protocol) {
-            DnsProtocol.DOH -> doh
-            DnsProtocol.DOT -> "tls://$upstream"
-            DnsProtocol.DOQ -> if (doh.startsWith("quic://", ignoreCase = true)) doh else "quic://${doh.removePrefix("https://")}"
-            DnsProtocol.PLAIN -> upstream
-        }
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5000),
-        AppPreferences.DEFAULT_UPSTREAM_DNS
-    )
+    val customDnsDisplay: StateFlow<String> =
+        combine(
+            appPrefs.dnsProtocol,
+            appPrefs.upstreamDns,
+            appPrefs.dohUrl,
+        ) { protocol, upstream, doh ->
+            when (protocol) {
+                DnsProtocol.DOH -> doh
+                DnsProtocol.DOT -> "tls://$upstream"
+                DnsProtocol.DOQ -> if (doh.startsWith("quic://", ignoreCase = true)) doh else "quic://${doh.removePrefix("https://")}"
+                DnsProtocol.PLAIN -> upstream
+            }
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            AppPreferences.DEFAULT_UPSTREAM_DNS,
+        )
 
     fun selectProvider(provider: DnsProvider) {
         viewModelScope.launch {
@@ -111,16 +116,17 @@ class DnsProviderViewModel(
             // Only auto-set fallback DNS if it would conflict with the new primary
             val currentFallback = appPrefs.fallbackDns.first()
             if (currentFallback == provider.ipAddress) {
-                val fallbackProvider = when (provider.id) {
-                    DnsProviders.QUAD9.id, DnsProviders.QUAD9_DOQ.id -> DnsProviders.ADGUARD
-                    DnsProviders.ADGUARD.id -> DnsProviders.QUAD9
-                    DnsProviders.SYSTEM.id -> DnsProviders.QUAD9
-                    else -> {
-                        DnsProviders.ALL_PROVIDERS.firstOrNull {
-                            it.id != provider.id && it.category == DnsCategory.PRIVACY
-                        } ?: DnsProviders.QUAD9
+                val fallbackProvider =
+                    when (provider.id) {
+                        DnsProviders.QUAD9.id, DnsProviders.QUAD9_DOQ.id -> DnsProviders.ADGUARD
+                        DnsProviders.ADGUARD.id -> DnsProviders.QUAD9
+                        DnsProviders.SYSTEM.id -> DnsProviders.QUAD9
+                        else -> {
+                            DnsProviders.ALL_PROVIDERS.firstOrNull {
+                                it.id != provider.id && it.category == DnsCategory.PRIVACY
+                            } ?: DnsProviders.QUAD9
+                        }
                     }
-                }
                 appPrefs.setFallbackDns(fallbackProvider.ipAddress)
             }
             ServiceController.requestRestart(getApplication<Application>().applicationContext)
@@ -145,10 +151,20 @@ class DnsProviderViewModel(
         val trimmed = input.trim()
         return when {
             trimmed.startsWith("https://", ignoreCase = true) -> {
-                try { java.net.URL(trimmed).host } catch (_: Exception) { trimmed }
+                try {
+                    java.net.URL(trimmed).host
+                } catch (_: Exception) {
+                    trimmed
+                }
             }
             trimmed.startsWith("quic://", ignoreCase = true) -> {
-                try { java.net.URI(trimmed).host ?: trimmed.removePrefix("quic://").removePrefix("QUIC://") } catch (_: Exception) { trimmed.removePrefix("quic://").removePrefix("QUIC://") }
+                try {
+                    java.net.URI(trimmed).host ?: trimmed.removePrefix("quic://").removePrefix("QUIC://")
+                } catch (
+                    _: Exception,
+                ) {
+                    trimmed.removePrefix("quic://").removePrefix("QUIC://")
+                }
             }
             trimmed.startsWith("tls://", ignoreCase = true) -> {
                 trimmed.removePrefix("tls://").removePrefix("TLS://")
@@ -163,12 +179,13 @@ class DnsProviderViewModel(
 
         viewModelScope.launch {
             val parsedHost = getParsedHost(trimmed)
-            val protocol = when {
-                trimmed.startsWith("https://", ignoreCase = true) -> DnsProtocol.DOH
-                trimmed.startsWith("quic://", ignoreCase = true) -> DnsProtocol.DOQ
-                trimmed.startsWith("tls://", ignoreCase = true) -> DnsProtocol.DOT
-                else -> DnsProtocol.PLAIN
-            }
+            val protocol =
+                when {
+                    trimmed.startsWith("https://", ignoreCase = true) -> DnsProtocol.DOH
+                    trimmed.startsWith("quic://", ignoreCase = true) -> DnsProtocol.DOQ
+                    trimmed.startsWith("tls://", ignoreCase = true) -> DnsProtocol.DOT
+                    else -> DnsProtocol.PLAIN
+                }
 
             val currentFallback = appPrefs.fallbackDns.first().trim()
             if (protocol == DnsProtocol.PLAIN && currentFallback.equals(parsedHost, ignoreCase = true)) {
@@ -201,12 +218,13 @@ class DnsProviderViewModel(
         }
     }
 
-    val blockDohBypass: StateFlow<Boolean> = appPrefs.blockDohBypass
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            false
-        )
+    val blockDohBypass: StateFlow<Boolean> =
+        appPrefs.blockDohBypass
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                false,
+            )
 
     fun setBlockDohBypass(enabled: Boolean) {
         viewModelScope.launch {

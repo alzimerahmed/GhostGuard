@@ -29,19 +29,20 @@ fun ExplanationCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.Top,
         ) {
             Icon(
                 imageVector = Icons.Outlined.Info,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(22.dp),
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
@@ -49,14 +50,14 @@ fun ExplanationCard() {
                     text = stringResource(R.string.https_filtering_explain_title),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = stringResource(R.string.https_filtering_explain_body),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight
+                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight,
                 )
             }
         }

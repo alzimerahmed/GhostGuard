@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.R
 import app.ghostguard.data.dao.FilterListDao
+import app.ghostguard.data.dao.ProtectionProfileDao
 import app.ghostguard.data.entities.ProfileManager
 import app.ghostguard.data.entities.ProfileSchedule
 import app.ghostguard.data.entities.ProtectionProfile
-import app.ghostguard.data.dao.ProtectionProfileDao
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
 import app.ghostguard.worker.ProfileScheduleWorker
@@ -24,17 +24,19 @@ class ProfileViewModel(
     private val profileManager: ProfileManager,
     private val profileDao: ProtectionProfileDao,
     private val filterListDao: FilterListDao,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
+    val profiles: StateFlow<List<ProtectionProfile>> =
+        profileDao.getAll()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val profiles: StateFlow<List<ProtectionProfile>> = profileDao.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val activeProfile: StateFlow<ProtectionProfile?> =
+        profileDao.getActiveFlow()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    val activeProfile: StateFlow<ProtectionProfile?> = profileDao.getActiveFlow()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
-    val allSchedules: StateFlow<List<ProfileSchedule>> = profileDao.getAllSchedules()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val allSchedules: StateFlow<List<ProfileSchedule>> =
+        profileDao.getAllSchedules()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _events = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val events: SharedFlow<UiEvent> = _events.asSharedFlow()
@@ -55,21 +57,23 @@ class ProfileViewModel(
     fun createCustomProfile(
         name: String,
         safeSearchEnabled: Boolean,
-        youtubeRestrictedMode: Boolean
+        youtubeRestrictedMode: Boolean,
     ) {
         viewModelScope.launch {
             // Seed with currently enabled filter list URLs so the profile
             // starts with the user's current configuration
-            val currentUrls = filterListDao.getEnabled()
-                .map { it.url }
-                .toSet()
-            val profile = ProtectionProfile(
-                name = name,
-                profileType = ProtectionProfile.TYPE_CUSTOM,
-                enabledFilterUrls = currentUrls.joinToString(","),
-                safeSearchEnabled = safeSearchEnabled,
-                youtubeRestrictedMode = youtubeRestrictedMode
-            )
+            val currentUrls =
+                filterListDao.getEnabled()
+                    .map { it.url }
+                    .toSet()
+            val profile =
+                ProtectionProfile(
+                    name = name,
+                    profileType = ProtectionProfile.TYPE_CUSTOM,
+                    enabledFilterUrls = currentUrls.joinToString(","),
+                    safeSearchEnabled = safeSearchEnabled,
+                    youtubeRestrictedMode = youtubeRestrictedMode,
+                )
             val newId = profileDao.insert(profile)
             profileManager.switchToProfile(newId)
             _events.toast(R.string.profile_created)
@@ -97,17 +101,18 @@ class ProfileViewModel(
         startMinute: Int,
         endHour: Int,
         endMinute: Int,
-        daysOfWeek: String
+        daysOfWeek: String,
     ) {
         viewModelScope.launch {
-            val schedule = ProfileSchedule(
-                profileId = profileId,
-                startHour = startHour,
-                startMinute = startMinute,
-                endHour = endHour,
-                endMinute = endMinute,
-                daysOfWeek = daysOfWeek
-            )
+            val schedule =
+                ProfileSchedule(
+                    profileId = profileId,
+                    startHour = startHour,
+                    startMinute = startMinute,
+                    endHour = endHour,
+                    endMinute = endMinute,
+                    daysOfWeek = daysOfWeek,
+                )
             profileDao.insertSchedule(schedule)
             ProfileScheduleWorker.schedule(getApplication())
             _events.toast(R.string.profile_schedule_added)

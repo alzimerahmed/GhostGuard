@@ -15,22 +15,25 @@ class AppearanceViewModel(
     private val appPrefs: AppPreferences,
     application: Application,
 ) : AndroidViewModel(application) {
+    val themeMode: StateFlow<String> =
+        appPrefs.themeMode
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.THEME_SYSTEM)
 
-    val themeMode: StateFlow<String> = appPrefs.themeMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.THEME_SYSTEM)
+    val appLanguage: StateFlow<String> =
+        appPrefs.appLanguage
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AppPreferences.LANGUAGE_SYSTEM,
+            )
 
-    val appLanguage: StateFlow<String> = appPrefs.appLanguage
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            AppPreferences.LANGUAGE_SYSTEM
-        )
+    val accentColor: StateFlow<String> =
+        appPrefs.accentColor
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.ACCENT_GREEN)
 
-    val accentColor: StateFlow<String> = appPrefs.accentColor
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppPreferences.ACCENT_GREEN)
-
-    val showBottomNavLabels: StateFlow<Boolean> = appPrefs.showBottomNavLabels
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+    val showBottomNavLabels: StateFlow<Boolean> =
+        appPrefs.showBottomNavLabels
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     fun setShowBottomNavLabels(show: Boolean) {
         viewModelScope.launch { appPrefs.setShowBottomNavLabels(show) }

@@ -26,7 +26,7 @@ fun PrivacySection(
     onSetCrashReportingEnabled: (Boolean) -> Unit,
     hideFromRecents: Boolean,
     onSetHideFromRecents: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val resource = LocalResources.current
@@ -35,7 +35,7 @@ fun PrivacySection(
     Column(modifier = modifier) {
         SectionHeader(
             title = stringResource(id = R.string.settings_privacy_diagnostics_title),
-            description = stringResource(id = R.string.settings_privacy_diagnostics_desc)
+            description = stringResource(id = R.string.settings_privacy_diagnostics_desc),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -48,7 +48,7 @@ fun PrivacySection(
                     title = stringResource(id = R.string.settings_hide_from_recents_title),
                     subtitle = stringResource(id = R.string.settings_hide_from_recents_subtitle),
                     isChecked = hideFromRecents,
-                    onCheckedChange = onSetHideFromRecents
+                    onCheckedChange = onSetHideFromRecents,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -60,7 +60,7 @@ fun PrivacySection(
                     title = stringResource(id = R.string.settings_crash_reporting_title),
                     subtitle = stringResource(id = R.string.settings_crash_reporting_subtitle),
                     isChecked = crashReportingEnabled,
-                    onCheckedChange = onSetCrashReportingEnabled
+                    onCheckedChange = onSetCrashReportingEnabled,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
@@ -75,33 +75,35 @@ fun PrivacySection(
                         try {
                             val logFile = File(context.cacheDir, "logs/blockads_logs.txt")
                             if (logFile.exists()) {
-                                val uri = FileProvider.getUriForFile(
-                                    context,
-                                    "${context.packageName}.fileprovider",
-                                    logFile
-                                )
-                                val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                                    type = "text/plain"
-                                    putExtra(Intent.EXTRA_STREAM, uri)
-                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                }
+                                val uri =
+                                    FileProvider.getUriForFile(
+                                        context,
+                                        "${context.packageName}.fileprovider",
+                                        logFile,
+                                    )
+                                val shareIntent =
+                                    Intent(Intent.ACTION_SEND).apply {
+                                        type = "text/plain"
+                                        putExtra(Intent.EXTRA_STREAM, uri)
+                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    }
                                 context.startActivity(
                                     Intent.createChooser(
                                         shareIntent,
-                                        resource.getString(R.string.settings_export_logs_chooser_title)
-                                    )
+                                        resource.getString(R.string.settings_export_logs_chooser_title),
+                                    ),
                                 )
                             } else {
                                 Toast.makeText(
                                     context,
                                     resource.getString(R.string.settings_export_logs_not_found),
-                                    Toast.LENGTH_SHORT
+                                    Toast.LENGTH_SHORT,
                                 ).show()
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-                    }
+                    },
                 )
             }
         }

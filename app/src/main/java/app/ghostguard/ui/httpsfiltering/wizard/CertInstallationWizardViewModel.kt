@@ -33,19 +33,19 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
 class CertInstallationWizardViewModel(
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application), KoinComponent {
-
     private val appPrefs: AppPreferences by inject()
     private val engine = tunnel.Tunnel.newEngine()
 
-    private val _uiState = MutableStateFlow(
-        CertInstallationWizardUiState(
-            installSteps = DeviceManager.getInstallSteps(),
-            brandName = DeviceManager.currentBrandName,
-            isRootAvailable = SystemCertificateInstaller.isRootAvailable()
+    private val _uiState =
+        MutableStateFlow(
+            CertInstallationWizardUiState(
+                installSteps = DeviceManager.getInstallSteps(),
+                brandName = DeviceManager.currentBrandName,
+                isRootAvailable = SystemCertificateInstaller.isRootAvailable(),
+            ),
         )
-    )
     val uiState: StateFlow<CertInstallationWizardUiState> = _uiState.asStateFlow()
 
     private val _uiEffect = MutableSharedFlow<CertInstallationWizardUiEffect>()
@@ -101,7 +101,7 @@ class CertInstallationWizardViewModel(
             val installed = checkCertInTrustStore(caPem)
             _uiState.update {
                 it.copy(
-                    certStatus = if (installed) CertStatus.INSTALLED else CertStatus.NOT_INSTALLED
+                    certStatus = if (installed) CertStatus.INSTALLED else CertStatus.NOT_INSTALLED,
                 )
             }
         }
@@ -127,15 +127,17 @@ class CertInstallationWizardViewModel(
                         resolver.delete(
                             MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                             "${MediaStore.Downloads.DISPLAY_NAME} = ?",
-                            arrayOf(fileName)
+                            arrayOf(fileName),
                         )
-                        val values = ContentValues().apply {
-                            put(MediaStore.Downloads.DISPLAY_NAME, fileName)
-                            put(MediaStore.Downloads.MIME_TYPE, "application/x-x509-ca-cert")
-                            put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-                        }
-                        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
-                            ?: throw Exception("Failed to create MediaStore entry")
+                        val values =
+                            ContentValues().apply {
+                                put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+                                put(MediaStore.Downloads.MIME_TYPE, "application/x-x509-ca-cert")
+                                put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                            }
+                        val uri =
+                            resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                                ?: throw Exception("Failed to create MediaStore entry")
 
                         resolver.openOutputStream(uri)?.use { it.write(pem.toByteArray()) }
                             ?: throw Exception("Failed to write certificate")
@@ -149,8 +151,8 @@ class CertInstallationWizardViewModel(
                 val context = getApplication<Application>()
                 _uiEffect.emit(
                     CertInstallationWizardUiEffect.ShowSnackbar(
-                        context.getString(R.string.https_filtering_cert_saved_downloads, _uiState.value.fileName)
-                    )
+                        context.getString(R.string.https_filtering_cert_saved_downloads, _uiState.value.fileName),
+                    ),
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Failed to export CA cert in wizard")
@@ -167,9 +169,10 @@ class CertInstallationWizardViewModel(
             if (pem.isNullOrEmpty()) {
                 pem = withContext(Dispatchers.IO) { engine.startStackMitm(certDir) }
             }
-            val result = withContext(Dispatchers.IO) {
-                SystemCertificateInstaller.installToUserStoreViaRoot(pem ?: "")
-            }
+            val result =
+                withContext(Dispatchers.IO) {
+                    SystemCertificateInstaller.installToUserStoreViaRoot(pem ?: "")
+                }
             _uiState.update { it.copy(isExecutingRoot = false) }
 
             if (result.isSuccess) {
@@ -190,9 +193,10 @@ class CertInstallationWizardViewModel(
             if (pem.isNullOrEmpty()) {
                 pem = withContext(Dispatchers.IO) { engine.startStackMitm(certDir) }
             }
-            val result = withContext(Dispatchers.IO) {
-                SystemCertificateInstaller.installToSystemStore(pem ?: "")
-            }
+            val result =
+                withContext(Dispatchers.IO) {
+                    SystemCertificateInstaller.installToSystemStore(pem ?: "")
+                }
             _uiState.update { it.copy(isExecutingRoot = false) }
 
             if (result.isSuccess) {
@@ -206,13 +210,14 @@ class CertInstallationWizardViewModel(
     }
 
     private fun openSecuritySettings() {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Intent("android.settings.SECURITY_SETTINGS")
-        } else {
-            Intent("android.credentials.INSTALL").apply {
-                type = "application/x-x509-ca-cert"
+        val intent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                Intent("android.settings.SECURITY_SETTINGS")
+            } else {
+                Intent("android.credentials.INSTALL").apply {
+                    type = "application/x-x509-ca-cert"
+                }
             }
-        }
         viewModelScope.launch {
             _uiEffect.emit(CertInstallationWizardUiEffect.OpenSettings(intent))
         }

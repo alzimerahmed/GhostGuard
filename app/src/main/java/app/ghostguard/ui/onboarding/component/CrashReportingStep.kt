@@ -23,21 +23,20 @@ import androidx.compose.ui.unit.dp
 import app.ghostguard.R
 
 @Composable
-fun CrashReportingStep(
-    onOptInChoiceMade: (Boolean) -> Unit
-) {
+fun CrashReportingStep(onOptInChoiceMade: (Boolean) -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(id = R.string.onboarding_crash_report_title),
             style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -46,21 +45,22 @@ fun CrashReportingStep(
             text = stringResource(id = R.string.onboarding_crash_report_desc),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Spacer(modifier = Modifier.height(48.dp))
 
         Button(
             onClick = { onOptInChoiceMade(true) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = MaterialTheme.shapes.medium
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+            shape = MaterialTheme.shapes.medium,
         ) {
             Text(
                 text = stringResource(id = R.string.onboarding_crash_report_btn_yes),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
 
@@ -68,17 +68,19 @@ fun CrashReportingStep(
 
         OutlinedButton(
             onClick = { onOptInChoiceMade(false) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
             shape = MaterialTheme.shapes.medium,
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = MaterialTheme.colorScheme.onSurface
-            )
+            colors =
+                ButtonDefaults.outlinedButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ),
         ) {
             Text(
                 text = stringResource(id = R.string.onboarding_crash_report_btn_no),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }

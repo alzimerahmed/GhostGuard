@@ -32,19 +32,20 @@ fun SettingsToggleItem(
     modifier: Modifier = Modifier,
     icon: ImageVector? = null,
     iconPainter: Painter? = null,
-    iconTint: Color = MaterialTheme.colorScheme.primary
+    iconTint: Color = MaterialTheme.colorScheme.primary,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .toggleable(
-                value = isChecked,
-                onValueChange = { onCheckedChange(it) },
-                role = Role.Switch
-            )
-            .semantics(mergeDescendants = true, properties = { })
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .toggleable(
+                    value = isChecked,
+                    onValueChange = { onCheckedChange(it) },
+                    role = Role.Switch,
+                )
+                .semantics(mergeDescendants = true, properties = { })
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconPainter != null) {
             SettingIconBadge(painter = iconPainter, tint = iconTint)
@@ -58,14 +59,14 @@ fun SettingsToggleItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
             )
             if (subtitle.isNotBlank()) {
                 Spacer(modifier = Modifier.padding(top = 1.dp))
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = TextSecondary,
                 )
             }
         }
@@ -73,10 +74,11 @@ fun SettingsToggleItem(
         Switch(
             checked = isChecked,
             onCheckedChange = null,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                checkedTrackColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                ),
         )
     }
 }

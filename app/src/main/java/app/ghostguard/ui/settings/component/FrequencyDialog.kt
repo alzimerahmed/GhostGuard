@@ -26,9 +26,8 @@ fun FrequencyDialog(
     autoUpdateFrequency: String,
     onUpdateFrequencyChange: (String) -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     AlertDialog(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.background,
@@ -41,27 +40,28 @@ fun FrequencyDialog(
                     AppPreferences.UPDATE_FREQUENCY_12H to R.string.settings_auto_update_frequency_12h,
                     AppPreferences.UPDATE_FREQUENCY_24H to R.string.settings_auto_update_frequency_24h,
                     AppPreferences.UPDATE_FREQUENCY_48H to R.string.settings_auto_update_frequency_48h,
-                    AppPreferences.UPDATE_FREQUENCY_MANUAL to R.string.settings_auto_update_frequency_manual
+                    AppPreferences.UPDATE_FREQUENCY_MANUAL to R.string.settings_auto_update_frequency_manual,
                 ).forEach { (freq, labelRes) ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onUpdateFrequencyChange(freq)
-                            }
-                            .padding(vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onUpdateFrequencyChange(freq)
+                                }
+                                .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             stringResource(labelRes),
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         )
                         if (autoUpdateFrequency == freq) {
                             Icon(
                                 Icons.Default.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
                             )
                         }
                     }
@@ -72,6 +72,6 @@ fun FrequencyDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.settings_cancel))
             }
-        }
+        },
     )
 }

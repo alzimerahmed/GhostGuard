@@ -4,5 +4,5 @@ data class AppStat(
     val appName: String,
     val packageName: String,
     val totalQueries: Int,
-    val blockedQueries: Int
+    val blockedQueries: Int,
 )

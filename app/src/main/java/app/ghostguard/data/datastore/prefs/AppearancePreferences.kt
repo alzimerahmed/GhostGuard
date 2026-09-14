@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class AppearancePreferences(private val dataStore: DataStore<Preferences>) {
-
     companion object {
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
         val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
@@ -52,21 +51,25 @@ class AppearancePreferences(private val dataStore: DataStore<Preferences>) {
         const val LANGUAGE_KK = "kk"
     }
 
-    val themeMode: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_THEME_MODE] ?: THEME_SYSTEM
-    }
+    val themeMode: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_THEME_MODE] ?: THEME_SYSTEM
+        }
 
-    val appLanguage: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_APP_LANGUAGE] ?: LANGUAGE_SYSTEM
-    }
+    val appLanguage: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_APP_LANGUAGE] ?: LANGUAGE_SYSTEM
+        }
 
-    val accentColor: Flow<String> = dataStore.data.map { prefs ->
-        prefs[KEY_ACCENT_COLOR] ?: ACCENT_GREEN
-    }
+    val accentColor: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_ACCENT_COLOR] ?: ACCENT_GREEN
+        }
 
-    val showBottomNavLabels: Flow<Boolean> = dataStore.data.map { prefs ->
-        prefs[KEY_SHOW_BOTTOM_NAV_LABELS] ?: true
-    }
+    val showBottomNavLabels: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_SHOW_BOTTOM_NAV_LABELS] ?: true
+        }
 
     suspend fun setThemeMode(mode: String) {
         dataStore.edit { prefs ->

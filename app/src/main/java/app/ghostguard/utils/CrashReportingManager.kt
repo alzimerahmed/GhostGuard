@@ -7,8 +7,10 @@ import timber.log.Timber
 import java.io.File
 
 object CrashReportingManager {
-
-    fun toggleSentry(context: Context, isEnabled: Boolean) {
+    fun toggleSentry(
+        context: Context,
+        isEnabled: Boolean,
+    ) {
         if (isEnabled) {
             enableSentry(context)
         } else {

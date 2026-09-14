@@ -7,5 +7,5 @@ data class AppManagementData(
     val totalQueries: Int = 0,
     val blockedQueries: Int = 0,
     val isWhitelisted: Boolean = false,
-    val isSystemApp: Boolean = false
+    val isSystemApp: Boolean = false,
 )

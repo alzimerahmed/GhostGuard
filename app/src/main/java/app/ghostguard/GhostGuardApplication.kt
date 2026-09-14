@@ -3,6 +3,8 @@ package app.ghostguard
 import android.app.Application
 import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.di.appModule
+import app.ghostguard.utils.CrashReportingManager
+import app.ghostguard.utils.FileLoggingTree
 import app.ghostguard.worker.DailySummaryScheduler
 import app.ghostguard.worker.FilterUpdateScheduler
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +18,6 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 import timber.log.Timber.DebugTree
-import app.ghostguard.utils.CrashReportingManager
-import app.ghostguard.utils.FileLoggingTree
-
 
 class GhostGuardApplication : Application() {
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -34,7 +33,7 @@ class GhostGuardApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
-        
+
         // Plant File logging tree for all builds to allow log export
         Timber.plant(FileLoggingTree(this))
 

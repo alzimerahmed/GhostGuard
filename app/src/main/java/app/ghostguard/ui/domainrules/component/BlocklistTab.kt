@@ -22,7 +22,7 @@ import app.ghostguard.ui.theme.TextSecondary
 @Composable
 fun BlocklistTab(
     domains: List<CustomDnsRule>,
-    onRemove: (CustomDnsRule) -> Unit
+    onRemove: (CustomDnsRule) -> Unit,
 ) {
     if (domains.isEmpty()) {
         EmptyState(stringResource(R.string.blocklist_domains_empty))
@@ -32,28 +32,32 @@ fun BlocklistTab(
                 text = "${domains.size} ${stringResource(R.string.add_blocklist_domains_title).lowercase()}",
                 style = MaterialTheme.typography.labelMedium,
                 color = TextSecondary,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
             )
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                    start = 16.dp, end = 16.dp, top = 8.dp, bottom = 80.dp
-                )
+                contentPadding =
+                    androidx.compose.foundation.layout.PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp,
+                        bottom = 80.dp,
+                    ),
             ) {
                 items(
                     items = domains,
-                    key = { it.id }
+                    key = { it.id },
                 ) { rule ->
                     SwipeToDismissItem(
-                        onDismiss = { onRemove(rule) }
+                        onDismiss = { onRemove(rule) },
                     ) {
                         DomainItem(
                             domain = rule.domain,
                             addedTimestamp = rule.addedTimestamp,
                             iconTint = DangerRed.copy(alpha = 0.7f),
                             icon = Icons.Default.Block,
-                            onDelete = { onRemove(rule) }
+                            onDelete = { onRemove(rule) },
                         )
                     }
                 }

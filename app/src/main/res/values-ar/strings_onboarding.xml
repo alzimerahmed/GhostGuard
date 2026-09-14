@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="onboarding_battery_desc">استبعد BlockAds من تحسين البطارية بحيث تظل خدمة VPN نشطة في الخلفية ولا يتم إيقافها بواسطة النظام.</string>
+    <string name="onboarding_battery_desc">استبعد GhostGuard من تحسين البطارية بحيث تظل خدمة VPN نشطة في الخلفية ولا يتم إيقافها بواسطة النظام.</string>
     <string name="onboarding_battery_grant">تعطيل تحسين البطارية</string>
     <string name="onboarding_battery_title">حافظ على استمرار الحماية</string>
-    <string name="onboarding_complete_desc">تهانينا! تم تهيئة BlockAds وهو جاهز لحماية جهازك من الإعلانات والمتتبعات.</string>
+    <string name="onboarding_complete_desc">تهانينا! تم تهيئة GhostGuard وهو جاهز لحماية جهازك من الإعلانات والمتتبعات.</string>
     <string name="onboarding_complete_stats">انقر على &quot;البدء&quot; لتمكين الحماية</string>
     <string name="onboarding_complete_title">أنت محمي الآن!</string>
     <string name="onboarding_desc_1">حظر الإعلانات عبر جميع التطبيقات والمتصفحات بنقرة واحدة. يستخدم تقنية تصفية DNS - لا يتطلب صلاحيات الجذر.
@@ -28,12 +28,12 @@
     <string name="onboarding_recommended">★ موصى به</string>
     <string name="onboarding_skip">تخطي</string>
     <string name="onboarding_title_1">حظر الإعلانات بذكاء</string>
-    <string name="onboarding_vpn_desc">يستخدم BlockAds شبكة VPN محلية لتصفية استعلامات DNS وحظر الإعلانات. لا تغادر أي بيانات جهازك - تعمل شبكة VPN هذه محليًا فقط لاعتراض طلبات DNS وتصفيتها.</string>
+    <string name="onboarding_vpn_desc">يستخدم GhostGuard شبكة VPN محلية لتصفية استعلامات DNS وحظر الإعلانات. لا تغادر أي بيانات جهازك - تعمل شبكة VPN هذه محليًا فقط لاعتراض طلبات DNS وتصفيتها.</string>
     <string name="onboarding_vpn_grant">منح إذن VPN</string>
     <string name="onboarding_vpn_title">إذن VPN مطلوب</string>
     <string name="onboarding_battery_unsupported">غير مدعوم</string>
-    <string name="onboarding_crash_report_title">ساعد في تحسين BlockAds</string>
-    <string name="onboarding_crash_report_desc">تطبيق BlockAds يضع الخصوصية أولاً. نود الحصول على إذنك لجمع تقارير الأعطال المجهولة لمساعدتنا في إصلاح الأخطاء على الفور.\n\nهذا اختياري تمامًا، ولا يحتوي على معلومات تعريف شخصية (PII)، ويمكن تعطيله في أي وقت من الإعدادات.</string>
-    <string name="onboarding_crash_report_btn_yes">نعم، سأساعد في تحسين BlockAds</string>
+    <string name="onboarding_crash_report_title">ساعد في تحسين GhostGuard</string>
+    <string name="onboarding_crash_report_desc">تطبيق GhostGuard يضع الخصوصية أولاً. نود الحصول على إذنك لجمع تقارير الأعطال المجهولة لمساعدتنا في إصلاح الأخطاء على الفور.\n\nهذا اختياري تمامًا، ولا يحتوي على معلومات تعريف شخصية (PII)، ويمكن تعطيله في أي وقت من الإعدادات.</string>
+    <string name="onboarding_crash_report_btn_yes">نعم، سأساعد في تحسين GhostGuard</string>
     <string name="onboarding_crash_report_btn_no">لا، شكرًا</string>
 </resources>

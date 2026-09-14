@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 
 object FilterUpdateScheduler {
-
-    suspend fun scheduleFilterUpdate(context: Context, appPreferences: AppPreferences) {
+    suspend fun scheduleFilterUpdate(
+        context: Context,
+        appPreferences: AppPreferences,
+    ) {
         val enabled = appPreferences.autoUpdateEnabled.first()
 
         if (!enabled) {
@@ -28,29 +30,32 @@ object FilterUpdateScheduler {
             return
         }
 
-        val intervalHours = when (frequency) {
-            AppPreferences.UPDATE_FREQUENCY_6H -> 6L
-            AppPreferences.UPDATE_FREQUENCY_12H -> 12L
-            AppPreferences.UPDATE_FREQUENCY_24H -> 24L
-            AppPreferences.UPDATE_FREQUENCY_48H -> 48L
-            else -> 24L
-        }
+        val intervalHours =
+            when (frequency) {
+                AppPreferences.UPDATE_FREQUENCY_6H -> 6L
+                AppPreferences.UPDATE_FREQUENCY_12H -> 12L
+                AppPreferences.UPDATE_FREQUENCY_24H -> 24L
+                AppPreferences.UPDATE_FREQUENCY_48H -> 48L
+                else -> 24L
+            }
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+        val constraints =
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
-        val workRequest = PeriodicWorkRequestBuilder<FilterUpdateWorker>(
-            intervalHours,
-            TimeUnit.HOURS
-        )
-            .setConstraints(constraints)
-            .build()
+        val workRequest =
+            PeriodicWorkRequestBuilder<FilterUpdateWorker>(
+                intervalHours,
+                TimeUnit.HOURS,
+            )
+                .setConstraints(constraints)
+                .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             FilterUpdateWorker.WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,
-            workRequest
+            workRequest,
         )
     }
 

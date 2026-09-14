@@ -18,8 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -67,7 +67,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FirewallScreen(
     modifier: Modifier = Modifier,
-    viewModel: FirewallViewModel = koinViewModel()
+    viewModel: FirewallViewModel = koinViewModel(),
 ) {
     val firewallEnabled by viewModel.firewallEnabled.collectAsStateWithLifecycle()
     val firewallRules by viewModel.firewallRules.collectAsStateWithLifecycle()
@@ -80,25 +80,28 @@ fun FirewallScreen(
     var filterOption by remember { mutableIntStateOf(0) }
     var showMenuDropdown by remember { mutableStateOf(false) }
 
-    val rulesMap = remember(firewallRules) {
-        firewallRules.associateBy { it.packageName }
-    }
+    val rulesMap =
+        remember(firewallRules) {
+            firewallRules.associateBy { it.packageName }
+        }
 
-    val userApps = remember(installedApps) {
-        installedApps.filter { !it.isSystemApp }
-    }
-    val systemApps = remember(installedApps) {
-        installedApps.filter { it.isSystemApp }
-    }
+    val userApps =
+        remember(installedApps) {
+            installedApps.filter { !it.isSystemApp }
+        }
+    val systemApps =
+        remember(installedApps) {
+            installedApps.filter { it.isSystemApp }
+        }
 
     val pagerState = rememberPagerState(pageCount = { 2 })
     val coroutineScope = rememberCoroutineScope()
 
-    val tabs = listOf(
-        stringResource(R.string.whitelist_tab_user),
-        stringResource(R.string.whitelist_tab_system)
-    )
-
+    val tabs =
+        listOf(
+            stringResource(R.string.whitelist_tab_user),
+            stringResource(R.string.whitelist_tab_system),
+        )
 
     // Rule configuration dialog
     configurePackage?.let { pkg ->
@@ -117,7 +120,7 @@ fun FirewallScreen(
                     viewModel.deleteRule(pkg)
                     configurePackage = null
                 },
-                onDismiss = { configurePackage = null }
+                onDismiss = { configurePackage = null },
             )
         }
     }
@@ -130,23 +133,24 @@ fun FirewallScreen(
                     Column {
                         Text(
                             stringResource(R.string.firewall_title),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Text(
                             stringResource(R.string.firewall_count, enabledCount),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
                 actions = {
                     IconButton(onClick = { viewModel.refreshApps() }) {
                         Icon(
                             Icons.Filled.Refresh,
-                            contentDescription = stringResource(R.string.app_management_refresh)
+                            contentDescription = stringResource(R.string.app_management_refresh),
                         )
                     }
                     IconButton(onClick = { showMenuDropdown = true }) {
@@ -155,7 +159,7 @@ fun FirewallScreen(
                     DropdownMenu(
                         containerColor = MaterialTheme.colorScheme.background,
                         expanded = showMenuDropdown,
-                        onDismissRequest = { showMenuDropdown = false }
+                        onDismissRequest = { showMenuDropdown = false },
                     ) {
                         val allUserEnabled =
                             userApps.isNotEmpty() && userApps.all { it.packageName in rulesMap }
@@ -166,91 +170,110 @@ fun FirewallScreen(
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    if (allUserEnabled) "Disable All User Apps"
-                                    else "Enable All User Apps"
+                                    if (allUserEnabled) {
+                                        "Disable All User Apps"
+                                    } else {
+                                        "Enable All User Apps"
+                                    },
                                 )
                             },
                             onClick = {
                                 showMenuDropdown = false
-                                if (allUserEnabled) viewModel.disableAllUserApps()
-                                else viewModel.enableAllUserApps()
+                                if (allUserEnabled) {
+                                    viewModel.disableAllUserApps()
+                                } else {
+                                    viewModel.enableAllUserApps()
+                                }
                             },
                             leadingIcon = {
                                 Icon(
                                     Icons.Default.Person,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
-                            }
+                            },
                         )
                         // System app — toggle all
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    if (allSystemEnabled) "Disable All System Apps"
-                                    else "Enable All System Apps"
+                                    if (allSystemEnabled) {
+                                        "Disable All System Apps"
+                                    } else {
+                                        "Enable All System Apps"
+                                    },
                                 )
                             },
                             onClick = {
                                 showMenuDropdown = false
-                                if (allSystemEnabled) viewModel.disableAllSystemApps()
-                                else viewModel.enableAllSystemApps()
+                                if (allSystemEnabled) {
+                                    viewModel.disableAllSystemApps()
+                                } else {
+                                    viewModel.enableAllSystemApps()
+                                }
                             },
                             leadingIcon = {
                                 Icon(
                                     Icons.Default.Android,
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
-                            }
+                            },
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             // Firewall enable/disable card
             Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = if (firewallEnabled)
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-                    else
-                        MaterialTheme.colorScheme.surfaceVariant
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor =
+                            if (firewallEnabled) {
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                            } else {
+                                MaterialTheme.colorScheme.surfaceVariant
+                            },
+                    ),
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             stringResource(R.string.firewall_enable),
                             style = MaterialTheme.typography.titleSmall,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Text(
                             stringResource(R.string.firewall_enable_desc),
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Switch(
                         checked = firewallEnabled,
                         onCheckedChange = { viewModel.setFirewallEnabled(it) },
-                        colors = SwitchDefaults.colors(
-                            checkedThumbColor = Color.White,
-                            checkedTrackColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 }
             }
@@ -262,62 +285,68 @@ fun FirewallScreen(
                 placeholder = {
                     Text(
                         stringResource(R.string.firewall_search),
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                 },
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Search,
                         contentDescription = null,
-                        tint = TextSecondary
+                        tint = TextSecondary,
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                singleLine = true
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                singleLine = true,
             )
 
             // Filter chips
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 FilterChip(
                     selected = filterOption == 0,
                     onClick = { filterOption = 0 },
                     label = { Text(stringResource(R.string.filter_chip_all)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
                 FilterChip(
                     selected = filterOption == 1,
                     onClick = { filterOption = 1 },
                     label = { Text(stringResource(R.string.filter_chip_enabled)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
                 FilterChip(
                     selected = filterOption == 2,
                     onClick = { filterOption = 2 },
                     label = { Text(stringResource(R.string.filter_chip_disabled)) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
                 )
             }
 
@@ -328,10 +357,11 @@ fun FirewallScreen(
                 contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 tabs.forEachIndexed { index, title ->
-                    val count = when (index) {
-                        0 -> userApps.size
-                        else -> systemApps.size
-                    }
+                    val count =
+                        when (index) {
+                            0 -> userApps.size
+                            else -> systemApps.size
+                        }
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -342,10 +372,14 @@ fun FirewallScreen(
                         text = {
                             Text(
                                 "$title ($count)",
-                                fontWeight = if (pagerState.currentPage == index)
-                                    FontWeight.Bold else FontWeight.Normal
+                                fontWeight =
+                                    if (pagerState.currentPage == index) {
+                                        FontWeight.Bold
+                                    } else {
+                                        FontWeight.Normal
+                                    },
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -353,63 +387,67 @@ fun FirewallScreen(
             if (isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(40.dp),
-                            strokeWidth = 3.dp
+                            strokeWidth = 3.dp,
                         )
                         Spacer(modifier = Modifier.size(12.dp))
                         Text(
                             text = stringResource(R.string.app_management_loading),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
             } else {
                 HorizontalPager(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 12.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(top = 12.dp),
                     state = pagerState,
                 ) { page ->
-                    val appsForPage = when (page) {
-                        0 -> userApps
-                        else -> systemApps
-                    }
-                    val filteredApps = remember(searchQuery, appsForPage, rulesMap, filterOption) {
-                        appsForPage.filter { app ->
-                            val matchesSearch = searchQuery.isBlank() ||
-                                    app.label.contains(searchQuery, ignoreCase = true) ||
-                                    app.packageName.contains(searchQuery, ignoreCase = true)
-                            val matchesFilter = when (filterOption) {
-                                1 -> app.packageName in rulesMap
-                                2 -> app.packageName !in rulesMap
-                                else -> true
-                            }
-                            matchesSearch && matchesFilter
+                    val appsForPage =
+                        when (page) {
+                            0 -> userApps
+                            else -> systemApps
                         }
-                    }
+                    val filteredApps =
+                        remember(searchQuery, appsForPage, rulesMap, filterOption) {
+                            appsForPage.filter { app ->
+                                val matchesSearch =
+                                    searchQuery.isBlank() ||
+                                        app.label.contains(searchQuery, ignoreCase = true) ||
+                                        app.packageName.contains(searchQuery, ignoreCase = true)
+                                val matchesFilter =
+                                    when (filterOption) {
+                                        1 -> app.packageName in rulesMap
+                                        2 -> app.packageName !in rulesMap
+                                        else -> true
+                                    }
+                                matchesSearch && matchesFilter
+                            }
+                        }
 
                     if (filteredApps.isEmpty()) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 stringResource(R.string.whitelist_apps_empty),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = TextSecondary
+                                color = TextSecondary,
                             )
                         }
                     } else {
-
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(2.dp)
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
                         ) {
                             items(filteredApps, key = { it.packageName }) { app ->
                                 val rule = rulesMap[app.packageName]
@@ -417,7 +455,7 @@ fun FirewallScreen(
                                     app = app,
                                     rule = rule,
                                     onToggle = { viewModel.toggleAppFirewall(app.packageName) },
-                                    onConfigure = { configurePackage = app.packageName }
+                                    onConfigure = { configurePackage = app.packageName },
                                 )
                             }
                         }

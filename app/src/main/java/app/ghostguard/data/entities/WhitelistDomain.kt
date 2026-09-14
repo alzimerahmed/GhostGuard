@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class WhitelistDomain(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val domain: String,
-    val addedTimestamp: Long = System.currentTimeMillis()
+    val addedTimestamp: Long = System.currentTimeMillis(),
 )

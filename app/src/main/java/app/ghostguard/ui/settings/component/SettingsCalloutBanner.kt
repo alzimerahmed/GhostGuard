@@ -30,34 +30,35 @@ fun SettingsCalloutBanner(
     text: String,
     modifier: Modifier = Modifier,
     icon: ImageVector = Icons.Outlined.Info,
-    tint: Color = MaterialTheme.colorScheme.primary
+    tint: Color = MaterialTheme.colorScheme.primary,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = tint.copy(alpha = 0.08f),
-                shape = RoundedCornerShape(12.dp)
-            )
-            .border(
-                width = 1.dp,
-                color = tint.copy(alpha = 0.18f),
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .background(
+                    color = tint.copy(alpha = 0.08f),
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .border(
+                    width = 1.dp,
+                    color = tint.copy(alpha = 0.18f),
+                    shape = RoundedCornerShape(12.dp),
+                )
+                .padding(horizontal = 14.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
             tint = tint,
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(18.dp),
         )
         Spacer(modifier = Modifier.width(10.dp))
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f)
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f),
         )
     }
 }

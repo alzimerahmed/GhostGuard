@@ -81,13 +81,15 @@ fun SettingsScreen(
     var showDnsResponseTypeDialog by remember { mutableStateOf(false) }
     var showClearConfirm by remember { mutableStateOf(false) }
 
-    val exportLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("application/json")
-    ) { uri -> uri?.let { viewModel.exportSettings(it) } }
+    val exportLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.CreateDocument("application/json"),
+        ) { uri -> uri?.let { viewModel.exportSettings(it) } }
 
-    val importLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.OpenDocument()
-    ) { uri -> uri?.let { viewModel.importSettings(it) } }
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.OpenDocument(),
+        ) { uri -> uri?.let { viewModel.importSettings(it) } }
 
     UiEventEffect(viewModel.events)
 
@@ -98,21 +100,23 @@ fun SettingsScreen(
                 title = {
                     Text(
                         stringResource(R.string.settings_title),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
         ) {
             // ── Protection & Connection ──────────────────────────
             ProtectionSection(
@@ -133,7 +137,7 @@ fun SettingsScreen(
                 onShowDnsResponseTypeDialog = { showDnsResponseTypeDialog = true },
                 onNavigateToDNSProvider = onNavigateToDNSProvider,
                 onNavigateToWireGuardImport = onNavigateToWireGuardImport,
-                onNavigateToHttpsFiltering = onNavigateToHttpsFiltering
+                onNavigateToHttpsFiltering = onNavigateToHttpsFiltering,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -144,7 +148,7 @@ fun SettingsScreen(
                 onNavigateToAppManagement = onNavigateToAppManagement,
                 onNavigateToTrustedNetworks = onNavigateToTrustedNetworks,
                 excludeLan = excludeLan,
-                onSetExcludeLan = { viewModel.setExcludeLan(it) }
+                onSetExcludeLan = { viewModel.setExcludeLan(it) },
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -161,7 +165,7 @@ fun SettingsScreen(
                 onSetAutoUpdateWifiOnly = { viewModel.setAutoUpdateWifiOnly(it) },
                 onSetAutoUpdateFrequency = { viewModel.setAutoUpdateFrequency(it) },
                 onSetAutoUpdateNotification = { viewModel.setAutoUpdateNotification(it) },
-                onSetAutoUpdateEnable = { viewModel.setAutoUpdateEnabled(it) }
+                onSetAutoUpdateEnable = { viewModel.setAutoUpdateEnabled(it) },
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -176,7 +180,7 @@ fun SettingsScreen(
                 dailySummaryEnabled = dailySummaryEnabled,
                 milestoneNotificationsEnabled = milestoneNotificationsEnabled,
                 onSetDailySummaryEnabled = { viewModel.setDailySummaryEnabled(it) },
-                onSetMilestoneNotificationsEnabled = { viewModel.setMilestoneNotificationsEnabled(it) }
+                onSetMilestoneNotificationsEnabled = { viewModel.setMilestoneNotificationsEnabled(it) },
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -186,7 +190,7 @@ fun SettingsScreen(
                 crashReportingEnabled = crashReportingEnabled,
                 onSetCrashReportingEnabled = { viewModel.setCrashReportingEnabled(it) },
                 hideFromRecents = hideFromRecents,
-                onSetHideFromRecents = { viewModel.setHideFromRecents(it) }
+                onSetHideFromRecents = { viewModel.setHideFromRecents(it) },
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -212,16 +216,17 @@ fun SettingsScreen(
 
             // ── Footer ───────────────────────────────────────────
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = "${stringResource(R.string.app_name)} v${BuildConfig.VERSION_NAME}",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }
@@ -234,7 +239,7 @@ fun SettingsScreen(
                     viewModel.setDnsResponseType(type)
                     showDnsResponseTypeDialog = false
                 },
-                onDismiss = { showDnsResponseTypeDialog = false }
+                onDismiss = { showDnsResponseTypeDialog = false },
             )
         }
 
@@ -244,7 +249,7 @@ fun SettingsScreen(
                     viewModel.clearLogs()
                     showClearConfirm = false
                 },
-                onDismiss = { showClearConfirm = false }
+                onDismiss = { showClearConfirm = false },
             )
         }
     }

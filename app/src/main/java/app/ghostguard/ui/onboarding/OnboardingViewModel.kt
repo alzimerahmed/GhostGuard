@@ -2,6 +2,7 @@ package app.ghostguard.ui.onboarding
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.data.entities.DnsProtocol
 import app.ghostguard.data.entities.DnsProvider
@@ -11,13 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import androidx.lifecycle.viewModelScope
 
 class OnboardingViewModel(
     private val appPrefs: AppPreferences,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
-
     private val _selectedProtectionLevel = MutableStateFlow(ProtectionLevel.STANDARD)
     val selectedProtectionLevel: StateFlow<ProtectionLevel> = _selectedProtectionLevel.asStateFlow()
 
@@ -76,9 +75,10 @@ class OnboardingViewModel(
             DnsProviders.QUAD9.id, DnsProviders.QUAD9_DOQ.id -> DnsProviders.ADGUARD
             DnsProviders.ADGUARD.id -> DnsProviders.QUAD9
             DnsProviders.SYSTEM.id -> DnsProviders.QUAD9
-            else -> DnsProviders.ALL_PROVIDERS.firstOrNull {
-                it.id != primary.id
-            } ?: DnsProviders.QUAD9
+            else ->
+                DnsProviders.ALL_PROVIDERS.firstOrNull {
+                    it.id != primary.id
+                } ?: DnsProviders.QUAD9
         }
     }
 }

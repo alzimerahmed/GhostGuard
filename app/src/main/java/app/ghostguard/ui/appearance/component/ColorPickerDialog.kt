@@ -48,22 +48,24 @@ import app.ghostguard.R
 fun ColorPickerDialog(
     initialColor: Color = Color.Red,
     onDismiss: () -> Unit,
-    onColorSelected: (Color) -> Unit
+    onColorSelected: (Color) -> Unit,
 ) {
     // Decompose initial color to HSV
-    val hsv = remember {
-        val arr = FloatArray(3)
-        android.graphics.Color.colorToHSV(initialColor.toArgb(), arr)
-        arr
-    }
+    val hsv =
+        remember {
+            val arr = FloatArray(3)
+            android.graphics.Color.colorToHSV(initialColor.toArgb(), arr)
+            arr
+        }
 
     var hue by remember { mutableFloatStateOf(hsv[0]) }
     var saturation by remember { mutableFloatStateOf(hsv[1]) }
     var brightness by remember { mutableFloatStateOf(hsv[2]) }
 
-    val currentColor = remember(hue, saturation, brightness) {
-        Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, saturation, brightness)))
-    }
+    val currentColor =
+        remember(hue, saturation, brightness) {
+            Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, saturation, brightness)))
+        }
 
     AlertDialog(
         containerColor = MaterialTheme.colorScheme.background,
@@ -72,7 +74,7 @@ fun ColorPickerDialog(
         text = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 // Saturation-Brightness panel
                 SaturationBrightnessPanel(
@@ -83,10 +85,11 @@ fun ColorPickerDialog(
                         saturation = s
                         brightness = b
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .clip(RoundedCornerShape(12.dp)),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -95,10 +98,11 @@ fun ColorPickerDialog(
                 HueBar(
                     hue = hue,
                     onHueChanged = { hue = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(32.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(32.dp)
+                            .clip(RoundedCornerShape(16.dp)),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -107,27 +111,28 @@ fun ColorPickerDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         "Preview",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(currentColor)
-                            .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
+                        modifier =
+                            Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(currentColor)
+                                .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape),
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     val hex = String.format("#%06X", 0xFFFFFF and currentColor.toArgb())
                     Text(
                         hex,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -141,7 +146,7 @@ fun ColorPickerDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }
 
@@ -151,42 +156,53 @@ private fun SaturationBrightnessPanel(
     saturation: Float,
     brightness: Float,
     onSaturationBrightnessChanged: (Float, Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
         Canvas(
-            modifier = Modifier
-                .matchParentSize()
-                .pointerInput(Unit) {
-                    detectTapGestures { offset ->
-                        val s = (offset.x / size.width).coerceIn(0f, 1f)
-                        val b = 1f - (offset.y / size.height).coerceIn(0f, 1f)
-                        onSaturationBrightnessChanged(s, b)
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures { offset ->
+                            val s = (offset.x / size.width).coerceIn(0f, 1f)
+                            val b = 1f - (offset.y / size.height).coerceIn(0f, 1f)
+                            onSaturationBrightnessChanged(s, b)
+                        }
                     }
-                }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, _ ->
-                        val s = (change.position.x / size.width).coerceIn(0f, 1f)
-                        val b = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
-                        onSaturationBrightnessChanged(s, b)
-                    }
-                }
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, _ ->
+                            val s = (change.position.x / size.width).coerceIn(0f, 1f)
+                            val b = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
+                            onSaturationBrightnessChanged(s, b)
+                        }
+                    },
         ) {
             drawIntoCanvas { canvas ->
                 val hueColor = android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f))
 
                 // Horizontal: white → hue color (saturation)
-                val satShader = LinearGradient(
-                    0f, 0f, size.width, 0f,
-                    android.graphics.Color.WHITE, hueColor,
-                    Shader.TileMode.CLAMP
-                )
+                val satShader =
+                    LinearGradient(
+                        0f,
+                        0f,
+                        size.width,
+                        0f,
+                        android.graphics.Color.WHITE,
+                        hueColor,
+                        Shader.TileMode.CLAMP,
+                    )
                 // Vertical: transparent → black (brightness)
-                val valShader = LinearGradient(
-                    0f, 0f, 0f, size.height,
-                    android.graphics.Color.TRANSPARENT, android.graphics.Color.BLACK,
-                    Shader.TileMode.CLAMP
-                )
+                val valShader =
+                    LinearGradient(
+                        0f,
+                        0f,
+                        0f,
+                        size.height,
+                        android.graphics.Color.TRANSPARENT,
+                        android.graphics.Color.BLACK,
+                        Shader.TileMode.CLAMP,
+                    )
 
                 val composeShader = ComposeShader(satShader, valShader, PorterDuff.Mode.DARKEN)
                 val paint = Paint().apply { shader = composeShader }
@@ -205,7 +221,7 @@ private fun SaturationBrightnessPanel(
                 color = Color.Black.copy(alpha = 0.3f),
                 radius = 10.dp.toPx(),
                 center = Offset(cx, cy),
-                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx())
+                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx()),
             )
         }
     }
@@ -215,28 +231,30 @@ private fun SaturationBrightnessPanel(
 private fun HueBar(
     hue: Float,
     onHueChanged: (Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val hueColors = remember {
-        List(361) { i ->
-            Color(android.graphics.Color.HSVToColor(floatArrayOf(i.toFloat(), 1f, 1f)))
+    val hueColors =
+        remember {
+            List(361) { i ->
+                Color(android.graphics.Color.HSVToColor(floatArrayOf(i.toFloat(), 1f, 1f)))
+            }
         }
-    }
 
     Box(modifier = modifier) {
         Canvas(
-            modifier = Modifier
-                .matchParentSize()
-                .pointerInput(Unit) {
-                    detectTapGestures { offset ->
-                        onHueChanged((offset.x / size.width * 360f).coerceIn(0f, 360f))
+            modifier =
+                Modifier
+                    .matchParentSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures { offset ->
+                            onHueChanged((offset.x / size.width * 360f).coerceIn(0f, 360f))
+                        }
                     }
-                }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, _ ->
-                        onHueChanged((change.position.x / size.width * 360f).coerceIn(0f, 360f))
-                    }
-                }
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, _ ->
+                            onHueChanged((change.position.x / size.width * 360f).coerceIn(0f, 360f))
+                        }
+                    },
         ) {
             drawRect(brush = Brush.horizontalGradient(hueColors))
 
@@ -251,7 +269,7 @@ private fun HueBar(
                 color = Color.Black.copy(alpha = 0.3f),
                 radius = size.height / 2f,
                 center = Offset(x, size.height / 2f),
-                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx())
+                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx()),
             )
         }
     }

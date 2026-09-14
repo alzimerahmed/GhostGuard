@@ -23,14 +23,14 @@ data class SettingsBackup(
     val whitelistDomains: List<String> = emptyList(),
     val whitelistedApps: List<String> = emptyList(),
     val customRules: List<String> = emptyList(),
-    val firewallRules: List<FirewallRuleBackup> = emptyList()
+    val firewallRules: List<FirewallRuleBackup> = emptyList(),
 )
 
 @Serializable
 data class FilterListBackup(
     val name: String,
     val url: String,
-    val isEnabled: Boolean = true
+    val isEnabled: Boolean = true,
 )
 
 @Serializable
@@ -43,5 +43,5 @@ data class FirewallRuleBackup(
     val scheduleStartMinute: Int = 0,
     val scheduleEndHour: Int = 6,
     val scheduleEndMinute: Int = 0,
-    val isEnabled: Boolean = true
+    val isEnabled: Boolean = true,
 )

@@ -3,8 +3,8 @@ package app.ghostguard.service
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import app.ghostguard.data.entities.FirewallRule
 import app.ghostguard.data.dao.FirewallRuleDao
+import app.ghostguard.data.entities.FirewallRule
 import timber.log.Timber
 import java.util.Calendar
 import java.util.concurrent.ConcurrentHashMap
@@ -15,9 +15,8 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class FirewallManager(
     private val context: Context,
-    private val firewallRuleDao: FirewallRuleDao
+    private val firewallRuleDao: FirewallRuleDao,
 ) {
-
     // In-memory cache of enabled firewall rules, keyed by package name
     private val rulesCache = ConcurrentHashMap<String, FirewallRule>()
 

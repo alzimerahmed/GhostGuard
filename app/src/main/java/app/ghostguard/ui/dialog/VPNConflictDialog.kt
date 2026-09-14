@@ -33,16 +33,17 @@ fun VPNConflictDialog(
             TextButton(
                 onClick = {
                     onDismissVpnConflictDialog()
-                    val intent = Intent(Settings.ACTION_VPN_SETTINGS).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    }
+                    val intent =
+                        Intent(Settings.ACTION_VPN_SETTINGS).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
                     try {
                         context.startActivity(intent)
                     } catch (e: Exception) {
                         val fallbackIntent = Intent(Settings.ACTION_SETTINGS)
                         context.startActivity(fallbackIntent)
                     }
-                }
+                },
             ) {
                 Text(stringResource(R.string.open_settings))
             }
@@ -51,6 +52,6 @@ fun VPNConflictDialog(
             TextButton(onClick = onDismissVpnConflictDialog) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

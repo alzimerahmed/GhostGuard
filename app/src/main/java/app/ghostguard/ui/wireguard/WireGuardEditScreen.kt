@@ -88,17 +88,19 @@ fun WireGuardEditScreen(
                 actions = {
                     TextButton(onClick = { viewModel.save() }) { Text("Save") }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
         ) {
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -150,7 +152,11 @@ private fun SectionHeader(title: String) {
 }
 
 @Composable
-private fun ProfileNameField(name: String, error: String?, onChange: (String) -> Unit) {
+private fun ProfileNameField(
+    name: String,
+    error: String?,
+    onChange: (String) -> Unit,
+) {
     OutlinedTextField(
         value = name,
         onValueChange = onChange,
@@ -171,9 +177,10 @@ private fun InterfaceCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+            ),
     ) {
         FormColumn {
             FieldText(
@@ -218,9 +225,10 @@ private fun PeerCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+            ),
     ) {
         FormColumn {
             Row(
@@ -283,9 +291,10 @@ private fun PeerCard(
 @Composable
 private fun FormColumn(content: @Composable () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) { content() }
 }

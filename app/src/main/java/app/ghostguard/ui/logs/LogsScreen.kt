@@ -11,7 +11,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -81,7 +80,7 @@ fun LogsScreen(
     modifier: Modifier = Modifier,
     initialFilterStatus: LogFilterStatus = LogFilterStatus.ALL,
     viewModel: LogViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = { }
+    onNavigateBack: () -> Unit = { },
 ) {
     val logs by viewModel.logs.collectAsStateWithLifecycle()
     val filterStatus by viewModel.filterStatus.collectAsStateWithLifecycle()
@@ -116,7 +115,7 @@ fun LogsScreen(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
                         )
                     }
                 },
@@ -124,12 +123,12 @@ fun LogsScreen(
                     if (selectionMode) {
                         Text(
                             stringResource(R.string.log_bulk_selected, selectedIds.size),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     } else {
                         Text(
                             stringResource(R.string.nav_logs),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                 },
@@ -138,41 +137,42 @@ fun LogsScreen(
                         Icon(
                             if (isSearchVisible) Icons.Default.Close else Icons.Default.Search,
                             contentDescription = "Search",
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     }
                     IconButton(onClick = { viewModel.exportLogs() }) {
                         Icon(
                             Icons.Default.UploadFile,
                             contentDescription = "Export logs",
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     }
                     IconButton(onClick = { showClearConfirm = true }) {
                         Icon(
                             Icons.Default.DeleteSweep,
                             contentDescription = "Clear logs",
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
-
             // Search bar
             AnimatedVisibility(
                 visible = isSearchVisible,
                 enter = fadeIn(tween(200)),
-                exit = fadeOut(tween(200))
+                exit = fadeOut(tween(200)),
             ) {
                 TextField(
                     value = searchQuery,
@@ -180,14 +180,14 @@ fun LogsScreen(
                     placeholder = {
                         Text(
                             stringResource(R.string.log_search_hint),
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     },
                     leadingIcon = {
                         Icon(
                             Icons.Default.Search,
                             contentDescription = null,
-                            tint = TextSecondary
+                            tint = TextSecondary,
                         )
                     },
                     trailingIcon = {
@@ -196,32 +196,35 @@ fun LogsScreen(
                                 Icon(
                                     Icons.Default.Close,
                                     contentDescription = "Clear",
-                                    tint = TextSecondary
+                                    tint = TextSecondary,
                                 )
                             }
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 4.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    singleLine = true
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                        ),
+                    singleLine = true,
                 )
             }
 
             // Filter chips row: status + record logs
             LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 item {
                     FilterChip(
@@ -232,13 +235,14 @@ fun LogsScreen(
                             Icon(
                                 Icons.Default.Dns,
                                 contentDescription = null,
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                            selectedLabelColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                                selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 }
                 item {
@@ -250,13 +254,14 @@ fun LogsScreen(
                             Icon(
                                 Icons.Default.Block,
                                 contentDescription = null,
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = DangerRed.copy(alpha = 0.15f),
-                            selectedLabelColor = DangerRed
-                        )
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = DangerRed.copy(alpha = 0.15f),
+                                selectedLabelColor = DangerRed,
+                            ),
                     )
                 }
                 item {
@@ -268,13 +273,14 @@ fun LogsScreen(
                             Icon(
                                 Icons.Default.GppGood,
                                 contentDescription = null,
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = SecurityOrange.copy(alpha = 0.15f),
-                            selectedLabelColor = SecurityOrange
-                        )
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = SecurityOrange.copy(alpha = 0.15f),
+                                selectedLabelColor = SecurityOrange,
+                            ),
                     )
                 }
                 item {
@@ -286,31 +292,34 @@ fun LogsScreen(
                             Icon(
                                 if (recordDnsLogs) Icons.Default.Check else Icons.Default.Close,
                                 contentDescription = null,
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                            selectedLabelColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                                selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 }
             }
 
             // Time range filter chips
             LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 2.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                val timeRanges = listOf(
-                    TimeRange.ALL to R.string.log_time_range_all,
-                    TimeRange.HOUR_1 to R.string.log_time_range_1h,
-                    TimeRange.HOUR_6 to R.string.log_time_range_6h,
-                    TimeRange.HOUR_24 to R.string.log_time_range_24h,
-                    TimeRange.DAY_7 to R.string.log_time_range_7d
-                )
+                val timeRanges =
+                    listOf(
+                        TimeRange.ALL to R.string.log_time_range_all,
+                        TimeRange.HOUR_1 to R.string.log_time_range_1h,
+                        TimeRange.HOUR_6 to R.string.log_time_range_6h,
+                        TimeRange.HOUR_24 to R.string.log_time_range_24h,
+                        TimeRange.DAY_7 to R.string.log_time_range_7d,
+                    )
                 items(timeRanges) { (range, labelRes) ->
                     FilterChip(
                         selected = timeRange == range,
@@ -318,13 +327,14 @@ fun LogsScreen(
                         label = {
                             Text(
                                 stringResource(labelRes),
-                                style = MaterialTheme.typography.labelSmall
+                                style = MaterialTheme.typography.labelSmall,
                             )
                         },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                            selectedLabelColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                                selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 }
 
@@ -340,13 +350,14 @@ fun LogsScreen(
                             label = {
                                 Text(
                                     stringResource(R.string.log_filter_all_apps),
-                                    style = MaterialTheme.typography.labelSmall
+                                    style = MaterialTheme.typography.labelSmall,
                                 )
                             },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = WhitelistAmber.copy(alpha = 0.15f),
-                                selectedLabelColor = WhitelistAmber
-                            )
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = WhitelistAmber.copy(alpha = 0.15f),
+                                    selectedLabelColor = WhitelistAmber,
+                                ),
                         )
                     }
                     items(appNames) { name ->
@@ -357,13 +368,14 @@ fun LogsScreen(
                                 Text(
                                     name,
                                     style = MaterialTheme.typography.labelSmall,
-                                    maxLines = 1
+                                    maxLines = 1,
                                 )
                             },
-                            colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = WhitelistAmber.copy(alpha = 0.15f),
-                                selectedLabelColor = WhitelistAmber
-                            )
+                            colors =
+                                FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = WhitelistAmber.copy(alpha = 0.15f),
+                                    selectedLabelColor = WhitelistAmber,
+                                ),
                         )
                     }
                 }
@@ -371,39 +383,46 @@ fun LogsScreen(
 
             if (logs.isEmpty()) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
                             Icons.Default.FilterList,
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
-                            tint = TextSecondary.copy(alpha = 0.5f)
+                            tint = TextSecondary.copy(alpha = 0.5f),
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = if (searchQuery.isNotEmpty()) "No results for \"$searchQuery\""
-                            else stringResource(R.string.logs_empty),
+                            text =
+                                if (searchQuery.isNotEmpty()) {
+                                    "No results for \"$searchQuery\""
+                                } else {
+                                    stringResource(R.string.logs_empty)
+                                },
                             style = MaterialTheme.typography.bodyLarge,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     item { Spacer(modifier = Modifier.height(4.dp)) }
                     items(logs, key = { it.id }) { entry ->
-                        val isDomainWhitelisted = whitelistedDomains.contains(
-                            entry.domain.lowercase()
-                        )
+                        val isDomainWhitelisted =
+                            whitelistedDomains.contains(
+                                entry.domain.lowercase(),
+                            )
                         LogEntryItem(
                             entry = entry,
                             isWhitelisted = isDomainWhitelisted,
@@ -414,7 +433,7 @@ fun LogsScreen(
                             onLongPress = { selectedEntry = entry },
                             onToggleSelection = { viewModel.toggleSelection(entry.id) },
                             onQuickBlock = { viewModel.addToCustomBlockRules(entry.domain) },
-                            onQuickWhitelist = { viewModel.addToWhitelist(entry.domain) }
+                            onQuickWhitelist = { viewModel.addToWhitelist(entry.domain) },
                         )
                     }
                     item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -441,7 +460,7 @@ fun LogsScreen(
                     Toast.makeText(
                         context,
                         resource.getString(R.string.domain_copied),
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT,
                     ).show()
                     selectedEntry = null
                 },
@@ -453,7 +472,7 @@ fun LogsScreen(
                     viewModel.addWildcardWhitelist(entry.domain)
                     selectedEntry = null
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
     }
@@ -464,8 +483,7 @@ fun LogsScreen(
                 viewModel.clearLogs()
                 showClearConfirm = false
             },
-            onDismiss = { showClearConfirm = false }
+            onDismiss = { showClearConfirm = false },
         )
     }
-
 }

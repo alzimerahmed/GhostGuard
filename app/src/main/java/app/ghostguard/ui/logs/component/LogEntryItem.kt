@@ -38,10 +38,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.res.stringResource
 import app.ghostguard.R
 import app.ghostguard.data.entities.DnsLogEntry
 import app.ghostguard.ui.theme.DangerRed
@@ -52,7 +52,8 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 @Composable
 fun LogEntryItem(
-    entry: DnsLogEntry, modifier: Modifier = Modifier,
+    entry: DnsLogEntry,
+    modifier: Modifier = Modifier,
     isWhitelisted: Boolean = false,
     isSelectionMode: Boolean = false,
     isSelected: Boolean = false,
@@ -61,112 +62,124 @@ fun LogEntryItem(
     onLongPress: () -> Unit = {},
     onToggleSelection: () -> Unit = {},
     onQuickBlock: () -> Unit = {},
-    onQuickWhitelist: () -> Unit = {}
+    onQuickWhitelist: () -> Unit = {},
 ) {
     val statusColor by animateColorAsState(
-        targetValue = when {
-            isWhitelisted -> WhitelistAmber
-            entry.isBlocked -> DangerRed
-            else -> MaterialTheme.colorScheme.primary
-        },
+        targetValue =
+            when {
+                isWhitelisted -> WhitelistAmber
+                entry.isBlocked -> DangerRed
+                else -> MaterialTheme.colorScheme.primary
+            },
         animationSpec = tween(300),
-        label = "statusColor"
+        label = "statusColor",
     )
 
-    val statusText = when {
-        isWhitelisted -> stringResource(R.string.log_status_whitelisted)
-        entry.isBlocked -> stringResource(R.string.log_status_blocked)
-        else -> stringResource(R.string.log_status_allowed)
-    }
+    val statusText =
+        when {
+            isWhitelisted -> stringResource(R.string.log_status_whitelisted)
+            entry.isBlocked -> stringResource(R.string.log_status_blocked)
+            else -> stringResource(R.string.log_status_allowed)
+        }
 
-    val statusIcon = when {
-        isWhitelisted -> Icons.Default.Shield
-        entry.isBlocked -> Icons.Default.Block
-        else -> Icons.Default.CheckCircle
-    }
+    val statusIcon =
+        when {
+            isWhitelisted -> Icons.Default.Shield
+            entry.isBlocked -> Icons.Default.Block
+            else -> Icons.Default.CheckCircle
+        }
 
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        shape = RoundedCornerShape(12.dp)
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .combinedClickable(
-                    onClick = {
-                        if (isSelectionMode) onToggleSelection() else onTap()
-                    },
-                    onLongClick = {
-                        if (!isSelectionMode) onLongPress()
-                    }
-                )
-                .padding(14.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .combinedClickable(
+                        onClick = {
+                            if (isSelectionMode) onToggleSelection() else onTap()
+                        },
+                        onLongClick = {
+                            if (!isSelectionMode) onLongPress()
+                        },
+                    )
+                    .padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // Selection checkbox
             if (isSelectionMode) {
                 Checkbox(
                     checked = isSelected,
                     onCheckedChange = { onToggleSelection() },
-                    colors = CheckboxDefaults.colors(
-                        checkedColor = MaterialTheme.colorScheme.primary,
-                        uncheckedColor = TextSecondary
-                    ),
-                    modifier = Modifier.size(24.dp)
+                    colors =
+                        CheckboxDefaults.colors(
+                            checkedColor = MaterialTheme.colorScheme.primary,
+                            uncheckedColor = TextSecondary,
+                        ),
+                    modifier = Modifier.size(24.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
 
             // App icon with status badge, or plain status indicator
             val context = LocalContext.current
-            val appIcon: Drawable? = remember(entry.packageName) {
-                if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
-                    try {
-                        context.packageManager.getApplicationIcon(entry.packageName)
-                    } catch (e: Exception) {
+            val appIcon: Drawable? =
+                remember(entry.packageName) {
+                    if (entry.packageName.isNotEmpty() && entry.packageName.contains(".")) {
+                        try {
+                            context.packageManager.getApplicationIcon(entry.packageName)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    } else {
                         null
                     }
-                } else null
-            }
+                }
 
             if (appIcon != null) {
                 // App icon with small status badge overlay
                 Box(
                     modifier = Modifier.size(40.dp),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Image(
                         painter = rememberDrawablePainter(drawable = appIcon),
                         contentDescription = entry.appName,
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                        modifier =
+                            Modifier
+                                .size(36.dp)
+                                .clip(RoundedCornerShape(8.dp)),
                     )
                     // Status badge (bottom-end)
                     Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .offset(x = 2.dp, y = 2.dp)
-                            .size(16.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.surface),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .align(Alignment.BottomEnd)
+                                .offset(x = 2.dp, y = 2.dp)
+                                .size(16.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.surface),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .clip(CircleShape)
-                                .background(statusColor.copy(alpha = 0.2f)),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .size(12.dp)
+                                    .clip(CircleShape)
+                                    .background(statusColor.copy(alpha = 0.2f)),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Icon(
                                 imageVector = statusIcon,
                                 contentDescription = null,
                                 tint = statusColor,
-                                modifier = Modifier.size(8.dp)
+                                modifier = Modifier.size(8.dp),
                             )
                         }
                     }
@@ -174,17 +187,18 @@ fun LogEntryItem(
             } else {
                 // Fallback: plain status indicator circle
                 Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                        .background(statusColor.copy(alpha = 0.15f)),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .background(statusColor.copy(alpha = 0.15f)),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Icon(
                         imageVector = statusIcon,
                         contentDescription = null,
                         tint = statusColor,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp),
                     )
                 }
             }
@@ -198,7 +212,7 @@ fun LogEntryItem(
                     fontWeight = FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 if (entry.appName.isNotEmpty()) {
                     Text(
@@ -207,71 +221,76 @@ fun LogEntryItem(
                         fontWeight = FontWeight.Medium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
                     )
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = formatTimestamp(entry.timestamp),
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                     Text(
                         text = "·",
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                     Text(
                         text = entry.queryType,
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                     if (entry.responseTimeMs > 0) {
                         Text(
                             text = "·",
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                         Text(
                             text = "${entry.responseTimeMs}ms",
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextSecondary
+                            color = TextSecondary,
                         )
                     }
                 }
-                
+
                 // Block source tag
                 if (entry.isBlocked && entry.blockedBy.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(4.dp))
-                    val (sourceText, sourceColor) = when (entry.blockedBy.uppercase()) {
-                        app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_FILTER_LIST -> 
-                            stringResource(R.string.block_reason_filter_list) to DangerRed
-                        app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_SECURITY -> 
-                            stringResource(R.string.block_reason_security) to app.ghostguard.ui.theme.SecurityOrange
-                        app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_CUSTOM_RULE -> 
-                            stringResource(R.string.block_reason_custom_rule) to WhitelistAmber
-                        app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_FIREWALL -> 
-                            stringResource(R.string.block_reason_firewall) to MaterialTheme.colorScheme.primary
-                        app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_UPSTREAM_DNS, "UPSTREAM_DNS" -> 
-                            stringResource(R.string.block_reason_upstream_dns) to app.ghostguard.ui.theme.UpstreamDnsPurple
-                        else -> {
-                            val firstId = entry.blockedBy.split(",").first()
-                            (filterNames[firstId] ?: entry.blockedBy) to TextSecondary
+                    val (sourceText, sourceColor) =
+                        when (entry.blockedBy.uppercase()) {
+                            app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_FILTER_LIST ->
+                                stringResource(R.string.block_reason_filter_list) to DangerRed
+                            app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_SECURITY ->
+                                stringResource(R.string.block_reason_security) to app.ghostguard.ui.theme.SecurityOrange
+                            app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_CUSTOM_RULE ->
+                                stringResource(R.string.block_reason_custom_rule) to WhitelistAmber
+                            app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_FIREWALL ->
+                                stringResource(R.string.block_reason_firewall) to MaterialTheme.colorScheme.primary
+                            app.ghostguard.data.repository.FilterListRepository.BLOCK_REASON_UPSTREAM_DNS, "UPSTREAM_DNS" ->
+                                stringResource(R.string.block_reason_upstream_dns) to app.ghostguard.ui.theme.UpstreamDnsPurple
+                            else -> {
+                                val firstId = entry.blockedBy.split(",").first()
+                                (filterNames[firstId] ?: entry.blockedBy) to TextSecondary
+                            }
                         }
-                    }
-                    
+
                     Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(sourceColor.copy(alpha = 0.15f))
-                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                        modifier =
+                            Modifier
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(sourceColor.copy(alpha = 0.15f))
+                                .padding(horizontal = 6.dp, vertical = 2.dp),
                     ) {
                         Text(
                             text = sourceText,
-                            style = MaterialTheme.typography.labelSmall.copy(fontSize = androidx.compose.ui.unit.TextUnit(10f, androidx.compose.ui.unit.TextUnitType.Sp)),
+                            style =
+                                MaterialTheme.typography.labelSmall.copy(
+                                    fontSize = androidx.compose.ui.unit.TextUnit(10f, androidx.compose.ui.unit.TextUnitType.Sp),
+                                ),
                             color = sourceColor,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }
@@ -280,37 +299,37 @@ fun LogEntryItem(
             // Quick action button + status label
             if (!isSelectionMode) {
                 Column(
-                    horizontalAlignment = Alignment.End
+                    horizontalAlignment = Alignment.End,
                 ) {
                     Text(
                         text = statusText,
                         style = MaterialTheme.typography.labelSmall,
                         color = statusColor,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                     // Quick action: Block (for allowed) or Whitelist (for blocked)
                     if (entry.isBlocked && !isWhitelisted) {
                         IconButton(
                             onClick = onQuickWhitelist,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(28.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Block,
                                 contentDescription = stringResource(R.string.log_action_unblock),
                                 tint = DangerRed.copy(alpha = 0.7f),
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         }
                     } else if (!entry.isBlocked && !isWhitelisted) {
                         IconButton(
                             onClick = onQuickBlock,
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(28.dp),
                         ) {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
                                 contentDescription = stringResource(R.string.log_action_block),
                                 tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
-                                modifier = Modifier.size(16.dp)
+                                modifier = Modifier.size(16.dp),
                             )
                         }
                     }
@@ -319,5 +338,3 @@ fun LogEntryItem(
         }
     }
 }
-
-

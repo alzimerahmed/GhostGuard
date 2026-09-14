@@ -51,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DomainRulesScreen(
     modifier: Modifier = Modifier,
-    viewModel: DomainRulesViewModel = koinViewModel()
+    viewModel: DomainRulesViewModel = koinViewModel(),
 ) {
     val whitelistDomains by viewModel.whitelistDomains.collectAsStateWithLifecycle()
     val blocklistDomains by viewModel.blocklistDomains.collectAsStateWithLifecycle()
@@ -62,15 +62,23 @@ fun DomainRulesScreen(
     val pagerState = rememberPagerState(initialPage = 0) { 2 }
     val scope = rememberCoroutineScope()
 
-    val filteredWhitelist = remember(whitelistDomains, searchQuery) {
-        if (searchQuery.isBlank()) whitelistDomains
-        else whitelistDomains.filter { it.domain.contains(searchQuery, ignoreCase = true) }
-    }
+    val filteredWhitelist =
+        remember(whitelistDomains, searchQuery) {
+            if (searchQuery.isBlank()) {
+                whitelistDomains
+            } else {
+                whitelistDomains.filter { it.domain.contains(searchQuery, ignoreCase = true) }
+            }
+        }
 
-    val filteredBlocklist = remember(blocklistDomains, searchQuery) {
-        if (searchQuery.isBlank()) blocklistDomains
-        else blocklistDomains.filter { it.domain.contains(searchQuery, ignoreCase = true) }
-    }
+    val filteredBlocklist =
+        remember(blocklistDomains, searchQuery) {
+            if (searchQuery.isBlank()) {
+                blocklistDomains
+            } else {
+                blocklistDomains.filter { it.domain.contains(searchQuery, ignoreCase = true) }
+            }
+        }
 
     UiEventEffect(viewModel.events)
 
@@ -81,44 +89,46 @@ fun DomainRulesScreen(
                 title = {
                     Text(
                         stringResource(R.string.domain_rules_title),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 },
                 actions = {
                     IconButton(
-                        onClick = { showAddDialog = true }
+                        onClick = { showAddDialog = true },
                     ) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = null)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true },
                 containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                contentColor = MaterialTheme.colorScheme.onPrimary,
             ) {
                 Icon(
                     Icons.Default.Add,
-                    contentDescription = stringResource(R.string.whitelist_domains_add)
+                    contentDescription = stringResource(R.string.whitelist_domains_add),
                 )
             }
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
         ) {
             // Tab row
             PrimaryTabRow(
                 selectedTabIndex = pagerState.currentPage,
                 containerColor = MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.primary
+                contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 Tab(
                     selected = pagerState.currentPage == 0,
@@ -126,16 +136,16 @@ fun DomainRulesScreen(
                     text = {
                         Text(
                             stringResource(R.string.domain_rules_tab_whitelist),
-                            fontWeight = if (pagerState.currentPage == 0) FontWeight.Bold else FontWeight.Normal
+                            fontWeight = if (pagerState.currentPage == 0) FontWeight.Bold else FontWeight.Normal,
                         )
                     },
                     icon = {
                         Icon(
                             Icons.Default.CheckCircle,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(18.dp),
                         )
-                    }
+                    },
                 )
                 Tab(
                     selected = pagerState.currentPage == 1,
@@ -143,16 +153,16 @@ fun DomainRulesScreen(
                     text = {
                         Text(
                             stringResource(R.string.domain_rules_tab_blocklist),
-                            fontWeight = if (pagerState.currentPage == 1) FontWeight.Bold else FontWeight.Normal
+                            fontWeight = if (pagerState.currentPage == 1) FontWeight.Bold else FontWeight.Normal,
                         )
                     },
                     icon = {
                         Icon(
                             Icons.Default.Block,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp)
+                            modifier = Modifier.size(18.dp),
                         )
-                    }
+                    },
                 )
             }
 
@@ -163,43 +173,47 @@ fun DomainRulesScreen(
                 placeholder = {
                     Text(
                         stringResource(R.string.whitelist_domains_hint),
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                 },
                 leadingIcon = {
                     Icon(
                         Icons.Default.Search,
                         contentDescription = null,
-                        tint = TextSecondary
+                        tint = TextSecondary,
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                singleLine = true
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                singleLine = true,
             )
 
             // Pager content
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) { page ->
                 when (page) {
-                    0 -> WhitelistTab(
-                        domains = filteredWhitelist,
-                        onRemove = { viewModel.removeWhitelistDomain(it) }
-                    )
-                    1 -> BlocklistTab(
-                        domains = filteredBlocklist,
-                        onRemove = { viewModel.removeBlocklistDomain(it) }
-                    )
+                    0 ->
+                        WhitelistTab(
+                            domains = filteredWhitelist,
+                            onRemove = { viewModel.removeWhitelistDomain(it) },
+                        )
+                    1 ->
+                        BlocklistTab(
+                            domains = filteredBlocklist,
+                            onRemove = { viewModel.removeBlocklistDomain(it) },
+                        )
                 }
             }
         }
@@ -216,7 +230,7 @@ fun DomainRulesScreen(
                     viewModel.addBlocklistDomain(domain)
                 }
                 showAddDialog = false
-            }
+            },
         )
     }
 }

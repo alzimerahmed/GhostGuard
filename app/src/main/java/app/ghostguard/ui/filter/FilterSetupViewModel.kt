@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.R
-import app.ghostguard.data.entities.FilterList
 import app.ghostguard.data.dao.FilterListDao
+import app.ghostguard.data.entities.FilterList
+import app.ghostguard.data.entities.ProfileManager
 import app.ghostguard.data.repository.CustomFilterManager
 import app.ghostguard.data.repository.FilterListRepository
-import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.event.UiEvent
 import app.ghostguard.ui.event.toast
@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import app.ghostguard.data.entities.ProfileManager
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -31,22 +30,27 @@ class FilterSetupViewModel(
     private val profileManager: ProfileManager,
     private val application: Application,
 ) : ViewModel() {
-
-    val filterLists: StateFlow<List<FilterList>> = filterListDao.getAll()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val filterLists: StateFlow<List<FilterList>> =
+        filterListDao.getAll()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    val filteredFilterLists: StateFlow<List<FilterList>> = combine(
-        filterLists, _searchQuery
-    ) { lists, query ->
-        if (query.isBlank()) lists
-        else lists.filter {
-            it.name.contains(query, ignoreCase = true) ||
-                    it.description.contains(query, ignoreCase = true)
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val filteredFilterLists: StateFlow<List<FilterList>> =
+        combine(
+            filterLists,
+            _searchQuery,
+        ) { lists, query ->
+            if (query.isBlank()) {
+                lists
+            } else {
+                lists.filter {
+                    it.name.contains(query, ignoreCase = true) ||
+                        it.description.contains(query, ignoreCase = true)
+                }
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _isUpdatingFilter = MutableStateFlow(false)
     val isUpdatingFilter: StateFlow<Boolean> = _isUpdatingFilter.asStateFlow()
@@ -80,7 +84,11 @@ class FilterSetupViewModel(
         }
     }
 
-    fun addFilterList(name: String, url: String, buildLocally: Boolean = false) {
+    fun addFilterList(
+        name: String,
+        url: String,
+        buildLocally: Boolean = false,
+    ) {
         viewModelScope.launch {
             val trimmedUrl = url.trim()
 
@@ -113,7 +121,7 @@ class FilterSetupViewModel(
                     },
                     onFailure = { _ ->
                         _events.toast(R.string.filter_update_failed)
-                    }
+                    },
                 )
             }
         }
@@ -147,7 +155,8 @@ class FilterSetupViewModel(
             for (filter in customFilters) {
                 if (!filter.isEnabled) continue
 
-                val isLocal = filter.trieUrl.startsWith("local://") &&
+                val isLocal =
+                    filter.trieUrl.startsWith("local://") &&
                         filter.bloomUrl.startsWith("local://")
 
                 if (isLocal) {
@@ -173,7 +182,7 @@ class FilterSetupViewModel(
             if (result.isSuccess || totalCount > 0) {
                 _events.toast(
                     R.string.filter_updated,
-                    listOf(totalCount)
+                    listOf(totalCount),
                 )
             } else if (!hasLocalFilters) {
                 result.onFailure {

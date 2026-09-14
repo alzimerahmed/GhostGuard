@@ -10,11 +10,11 @@ data class CustomDnsRule(
     val ruleType: RuleType, // BLOCK, ALLOW, COMMENT
     val domain: String, // Parsed domain (empty for comments)
     val isEnabled: Boolean = true,
-    val addedTimestamp: Long = System.currentTimeMillis()
+    val addedTimestamp: Long = System.currentTimeMillis(),
 )
 
 enum class RuleType {
-    BLOCK,   // Block domain (||example.com^ or example.com)
-    ALLOW,   // Allow domain (@@||example.com^)
-    COMMENT  // Comment line (! comment)
+    BLOCK, // Block domain (||example.com^ or example.com)
+    ALLOW, // Allow domain (@@||example.com^)
+    COMMENT, // Comment line (! comment)
 }

@@ -14,15 +14,14 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class WireGuardConfig(
     val interfaceConfig: WireGuardInterface,
-    val peers: List<WireGuardPeer>
+    val peers: List<WireGuardPeer>,
 ) {
     fun toJson(): String = json.encodeToString(this)
 
     companion object {
         private val json = Json { ignoreUnknownKeys = true }
 
-        fun fromJson(jsonStr: String): WireGuardConfig =
-            json.decodeFromString<WireGuardConfig>(jsonStr)
+        fun fromJson(jsonStr: String): WireGuardConfig = json.decodeFromString<WireGuardConfig>(jsonStr)
     }
 }
 
@@ -34,7 +33,7 @@ data class WireGuardInterface(
     val privateKey: String,
     val address: List<String>,
     val listenPort: Int? = null,
-    val dns: List<String> = emptyList()
+    val dns: List<String> = emptyList(),
 )
 
 /**
@@ -48,5 +47,5 @@ data class WireGuardPeer(
     val endpoint: String? = null,
     @SerialName("allowedIPs")
     val allowedIPs: List<String> = emptyList(),
-    val persistentKeepalive: Int? = null
+    val persistentKeepalive: Int? = null,
 )

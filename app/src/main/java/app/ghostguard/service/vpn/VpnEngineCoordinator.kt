@@ -30,16 +30,15 @@ data class StartupConfig(
     val youtubeRestrictedMode: Boolean,
     val firewallEnabled: Boolean,
     val dnsProviderId: String?,
-    val firewallManager: FirewallManager?
+    val firewallManager: FirewallManager?,
 )
 
 class VpnEngineCoordinator(
     private val context: Context,
     private val appPrefs: AppPreferences,
     private val filterRepo: FilterListRepository,
-    private val firewallRuleDao: FirewallRuleDao
+    private val firewallRuleDao: FirewallRuleDao,
 ) {
-
     suspend fun prepareStartupConfig(): StartupConfig {
         filterRepo.loadWhitelist()
         filterRepo.loadCustomRules()
@@ -61,14 +60,15 @@ class VpnEngineCoordinator(
             val d10 = async { appPrefs.dnsProviderId.first() }
 
             val firewallEnabled = d9.await()
-            val fwManager = if (firewallEnabled) {
-                FirewallManager(context, firewallRuleDao).also {
-                    it.loadRules()
-                    Timber.d("Firewall enabled, rules loaded")
+            val fwManager =
+                if (firewallEnabled) {
+                    FirewallManager(context, firewallRuleDao).also {
+                        it.loadRules()
+                        Timber.d("Firewall enabled, rules loaded")
+                    }
+                } else {
+                    null
                 }
-            } else {
-                null
-            }
 
             StartupConfig(
                 upstreamDns = d1.await(),
@@ -81,12 +81,15 @@ class VpnEngineCoordinator(
                 youtubeRestrictedMode = d8.await(),
                 firewallEnabled = firewallEnabled,
                 dnsProviderId = d10.await(),
-                firewallManager = fwManager
+                firewallManager = fwManager,
             )
         }
     }
 
-    suspend fun configureEngine(goTunnelAdapter: GoTunnelAdapter, config: StartupConfig) {
+    suspend fun configureEngine(
+        goTunnelAdapter: GoTunnelAdapter,
+        config: StartupConfig,
+    ) {
         var finalUpstreamDns = config.upstreamDns
         var finalDnsProtocol = config.dnsProtocol.name
 
@@ -106,7 +109,7 @@ class VpnEngineCoordinator(
             protocol = finalDnsProtocol,
             primary = finalUpstreamDns,
             fallback = config.fallbackDns,
-            dohUrl = config.dohUrl
+            dohUrl = config.dohUrl,
         )
         goTunnelAdapter.setBlockResponseType(config.dnsResponseType)
         goTunnelAdapter.configureSafeSearch(config.safeSearchEnabled, config.youtubeRestrictedMode)
@@ -121,14 +124,15 @@ class VpnEngineCoordinator(
         resolvedWgConfigJson: String,
         httpsFilteringEnabled: Boolean,
         certDir: String,
-        socketProtector: (Int) -> Boolean
+        socketProtector: (Int) -> Boolean,
     ) {
         val routingMode = appPrefs.getRoutingModeSnapshot()
-        val wgConfigJson = if (routingMode == AppPreferences.ROUTING_MODE_WIREGUARD) {
-            resolvedWgConfigJson.ifEmpty { appPrefs.getWgConfigJsonSnapshot() ?: "" }
-        } else {
-            ""
-        }
+        val wgConfigJson =
+            if (routingMode == AppPreferences.ROUTING_MODE_WIREGUARD) {
+                resolvedWgConfigJson.ifEmpty { appPrefs.getWgConfigJsonSnapshot() ?: "" }
+            } else {
+                ""
+            }
 
         val selectedBrowsers = appPrefs.getSelectedBrowsersSnapshot()
         val filterHttp3 = if (httpsFilteringEnabled) true else appPrefs.getFilterHttp3Snapshot()
@@ -142,18 +146,19 @@ class VpnEngineCoordinator(
             certDir = certDir,
             filterHttp3 = filterHttp3,
             blockDohBypass = blockDohBypass,
-            socketProtector = socketProtector
+            socketProtector = socketProtector,
         )
     }
 
     suspend fun handleLinkPropertiesChanged(
         goTunnelAdapter: GoTunnelAdapter,
-        linkProperties: LinkProperties?
+        linkProperties: LinkProperties?,
     ) {
         val providerId = appPrefs.dnsProviderId.first()
         if (providerId == "system") {
-            val newDns = linkProperties?.dnsServers?.mapNotNull { it.hostAddress }
-                ?.filter { it.isNotEmpty() } ?: emptyList()
+            val newDns =
+                linkProperties?.dnsServers?.mapNotNull { it.hostAddress }
+                    ?.filter { it.isNotEmpty() } ?: emptyList()
             val primary = newDns.firstOrNull() ?: "8.8.8.8"
             Timber.d("Network LinkProperties changed, hot-reloading System DNS: $primary")
             val fallback = appPrefs.fallbackDns.first()
@@ -162,12 +167,15 @@ class VpnEngineCoordinator(
                 protocol = "PLAIN",
                 primary = primary,
                 fallback = fallback,
-                dohUrl = dohUrl
+                dohUrl = dohUrl,
             )
         }
     }
 
-    fun startFilterUpdateWatcher(scope: CoroutineScope, goTunnelAdapter: GoTunnelAdapter) {
+    fun startFilterUpdateWatcher(
+        scope: CoroutineScope,
+        goTunnelAdapter: GoTunnelAdapter,
+    ) {
         scope.launch {
             filterRepo.domainCountFlow.drop(1).collectLatest { count ->
                 Timber.d("Filter count changed to $count. Dynamically updating Native Go Tries.")

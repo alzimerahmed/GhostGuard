@@ -20,7 +20,10 @@ class TaskerReceiver : BroadcastReceiver() {
         const val ACTION_STOP = "app.ghostguard.TASKER_STOP"
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         val action = intent.action ?: return
         Timber.d("TaskerReceiver received action: $action")
 

@@ -43,84 +43,89 @@ import app.ghostguard.ui.theme.TextSecondary
 fun DohBypassCard(
     enabled: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     SettingsCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .toggleable(
-                value = enabled,
-                onValueChange = onCheckedChange,
-                role = Role.Switch
-            )
-            .semantics(mergeDescendants = true, properties = { })
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .toggleable(
+                    value = enabled,
+                    onValueChange = onCheckedChange,
+                    role = Role.Switch,
+                )
+                .semantics(mergeDescendants = true, properties = { }),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 SettingIconBadge(
                     icon = Icons.Default.Security,
-                    tint = Color(0xFF7C3AED)
+                    tint = Color(0xFF7C3AED),
                 )
                 Spacer(modifier = Modifier.width(14.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = stringResource(R.string.dns_block_doh_bypass_title),
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = stringResource(R.string.dns_block_doh_bypass_desc),
                         style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary
+                        color = TextSecondary,
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Switch(
                     checked = enabled,
                     onCheckedChange = null,
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                        checkedTrackColor = MaterialTheme.colorScheme.primary
-                    )
+                    colors =
+                        SwitchDefaults.colors(
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        ),
                 )
             }
 
             AnimatedVisibility(
                 visible = enabled,
                 enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
+                exit = fadeOut() + shrinkVertically(),
             ) {
                 Column {
                     Spacer(modifier = Modifier.height(12.dp))
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-                            .padding(10.dp),
-                        verticalAlignment = Alignment.Top
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                                .padding(10.dp),
+                        verticalAlignment = Alignment.Top,
                     ) {
                         Icon(
                             Icons.Default.Info,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .size(18.dp)
-                                .padding(top = 1.dp)
+                            modifier =
+                                Modifier
+                                    .size(18.dp)
+                                    .padding(top = 1.dp),
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = stringResource(R.string.dns_block_doh_bypass_notice),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }

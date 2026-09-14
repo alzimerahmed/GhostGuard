@@ -14,7 +14,6 @@ import app.ghostguard.service.VpnState
 import java.util.Locale
 
 class VpnNotificationManager(private val context: Context) {
-
     companion object {
         const val NOTIFICATION_ID = 1
         const val REVOKED_NOTIFICATION_ID = 2
@@ -27,22 +26,24 @@ class VpnNotificationManager(private val context: Context) {
 
     fun createChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val normalChannel = NotificationChannel(
-                CHANNEL_ID,
-                context.getString(R.string.notification_channel_name),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = context.getString(R.string.notification_channel_description)
-                setShowBadge(false)
-            }
+            val normalChannel =
+                NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_LOW,
+                ).apply {
+                    description = context.getString(R.string.notification_channel_description)
+                    setShowBadge(false)
+                }
 
-            val alertChannel = NotificationChannel(
-                ALERT_CHANNEL_ID,
-                context.getString(R.string.vpn_alert_channel_name),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(R.string.vpn_alert_channel_description)
-            }
+            val alertChannel =
+                NotificationChannel(
+                    ALERT_CHANNEL_ID,
+                    context.getString(R.string.vpn_alert_channel_name),
+                    NotificationManager.IMPORTANCE_HIGH,
+                ).apply {
+                    description = context.getString(R.string.vpn_alert_channel_description)
+                }
 
             notificationManager?.apply {
                 createNotificationChannel(normalChannel)
@@ -62,81 +63,103 @@ class VpnNotificationManager(private val context: Context) {
         maxRetries: Int,
         vpnStartTime: Long,
         todayBlockedCount: Int,
-        isPhysicalNetworkLost: Boolean = false
+        isPhysicalNetworkLost: Boolean = false,
     ): Notification {
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val stopIntent = Intent(context, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_STOP
-        }
-        val stopPendingIntent = PendingIntent.getService(
-            context, 1, stopIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val pauseIntent = Intent(context, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_PAUSE_1H
-        }
-        val pausePendingIntent = PendingIntent.getService(
-            context, 4, pauseIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val retryIntent = Intent(context, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_RESTART
-        }
-        val retryPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PendingIntent.getForegroundService(
-                context, 5, retryIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getService(
-                context, 5, retryIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
-
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, CHANNEL_ID)
-        } else {
-            @Suppress("DEPRECATION")
-            Notification.Builder(context)
-        }
-
-        val title = when {
-            isStopping -> context.getString(R.string.vpn_notification_stopping)
-            isPhysicalNetworkLost -> context.getString(R.string.vpn_notification_no_internet_title)
-            isReconnecting && connectingPhase.isNotEmpty() -> context.getString(R.string.vpn_notification_reconnecting)
-            isReconnecting -> context.getString(R.string.vpn_notification_reconnecting)
-            retryCount > 0 -> context.getString(R.string.vpn_notification_retrying)
-            isConnecting && connectingPhase.isNotEmpty() -> context.getString(R.string.status_connecting)
-            else -> context.getString(R.string.vpn_notification_title)
-        }
-
-        val text = when {
-            isStopping -> context.getString(R.string.vpn_notification_stopping_text)
-            isPhysicalNetworkLost -> context.getString(R.string.vpn_notification_no_internet_text)
-            isReconnecting && connectingPhase.isNotEmpty() -> connectingPhase
-            isReconnecting -> context.getString(R.string.vpn_notification_reconnecting_text)
-            retryCount > 0 -> context.getString(
-                R.string.vpn_notification_retry_text,
-                retryCount,
-                maxRetries
-            )
-            isConnecting && connectingPhase.isNotEmpty() -> connectingPhase
-            isRunning -> {
-                val uptimeStr = formatUptime(System.currentTimeMillis() - vpnStartTime)
-                context.getString(R.string.vpn_notification_stats_today, todayBlockedCount, uptimeStr)
+        val intent =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
-            else -> context.getString(R.string.vpn_notification_text)
-        }
+        val pendingIntent =
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        val stopIntent =
+            Intent(context, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_STOP
+            }
+        val stopPendingIntent =
+            PendingIntent.getService(
+                context,
+                1,
+                stopIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        val pauseIntent =
+            Intent(context, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_PAUSE_1H
+            }
+        val pausePendingIntent =
+            PendingIntent.getService(
+                context,
+                4,
+                pauseIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+
+        val retryIntent =
+            Intent(context, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_RESTART
+            }
+        val retryPendingIntent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PendingIntent.getForegroundService(
+                    context,
+                    5,
+                    retryIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            } else {
+                PendingIntent.getService(
+                    context,
+                    5,
+                    retryIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            }
+
+        val builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(context, CHANNEL_ID)
+            } else {
+                @Suppress("DEPRECATION")
+                Notification.Builder(context)
+            }
+
+        val title =
+            when {
+                isStopping -> context.getString(R.string.vpn_notification_stopping)
+                isPhysicalNetworkLost -> context.getString(R.string.vpn_notification_no_internet_title)
+                isReconnecting && connectingPhase.isNotEmpty() -> context.getString(R.string.vpn_notification_reconnecting)
+                isReconnecting -> context.getString(R.string.vpn_notification_reconnecting)
+                retryCount > 0 -> context.getString(R.string.vpn_notification_retrying)
+                isConnecting && connectingPhase.isNotEmpty() -> context.getString(R.string.status_connecting)
+                else -> context.getString(R.string.vpn_notification_title)
+            }
+
+        val text =
+            when {
+                isStopping -> context.getString(R.string.vpn_notification_stopping_text)
+                isPhysicalNetworkLost -> context.getString(R.string.vpn_notification_no_internet_text)
+                isReconnecting && connectingPhase.isNotEmpty() -> connectingPhase
+                isReconnecting -> context.getString(R.string.vpn_notification_reconnecting_text)
+                retryCount > 0 ->
+                    context.getString(
+                        R.string.vpn_notification_retry_text,
+                        retryCount,
+                        maxRetries,
+                    )
+                isConnecting && connectingPhase.isNotEmpty() -> connectingPhase
+                isRunning -> {
+                    val uptimeStr = formatUptime(System.currentTimeMillis() - vpnStartTime)
+                    context.getString(R.string.vpn_notification_stats_today, todayBlockedCount, uptimeStr)
+                }
+                else -> context.getString(R.string.vpn_notification_text)
+            }
 
         builder
             .setContentTitle(title)
@@ -148,28 +171,38 @@ class VpnNotificationManager(private val context: Context) {
         if (isPhysicalNetworkLost) {
             builder.addAction(
                 Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_notification_action_stop), stopPendingIntent
-                ).build()
+                    null,
+                    context.getString(R.string.vpn_notification_action_stop),
+                    stopPendingIntent,
+                ).build(),
             )
         } else if (isReconnecting || retryCount > 0) {
             builder.addAction(
                 Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_notification_action_retry), retryPendingIntent
-                ).build()
+                    null,
+                    context.getString(R.string.vpn_notification_action_retry),
+                    retryPendingIntent,
+                ).build(),
             ).addAction(
                 Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_notification_action_stop), stopPendingIntent
-                ).build()
+                    null,
+                    context.getString(R.string.vpn_notification_action_stop),
+                    stopPendingIntent,
+                ).build(),
             )
         } else {
             builder.addAction(
                 Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_notification_action_pause), pausePendingIntent
-                ).build()
+                    null,
+                    context.getString(R.string.vpn_notification_action_pause),
+                    pausePendingIntent,
+                ).build(),
             ).addAction(
                 Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_notification_action_stop), stopPendingIntent
-                ).build()
+                    null,
+                    context.getString(R.string.vpn_notification_action_stop),
+                    stopPendingIntent,
+                ).build(),
             )
         }
 
@@ -179,48 +212,62 @@ class VpnNotificationManager(private val context: Context) {
     fun showPausedNotification() {
         createChannels()
 
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val startIntent = Intent(context, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_START
-        }
-        val startPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PendingIntent.getForegroundService(
-                context, 3, startIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        val intent =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        val pendingIntent =
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
-        } else {
-            PendingIntent.getService(
-                context, 3, startIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
 
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, CHANNEL_ID)
-        } else {
-            @Suppress("DEPRECATION")
-            Notification.Builder(context)
-        }
+        val startIntent =
+            Intent(context, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_START
+            }
+        val startPendingIntent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PendingIntent.getForegroundService(
+                    context,
+                    3,
+                    startIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            } else {
+                PendingIntent.getService(
+                    context,
+                    3,
+                    startIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            }
 
-        val notification = builder
-            .setContentTitle(context.getString(R.string.vpn_paused_title))
-            .setContentText(context.getString(R.string.vpn_paused_text))
-            .setSmallIcon(R.drawable.ic_shield_off)
-            .setOngoing(false)
-            .setContentIntent(pendingIntent)
-            .addAction(
-                Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_stopped_action_enable), startPendingIntent
-                ).build()
-            )
-            .build()
+        val builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(context, CHANNEL_ID)
+            } else {
+                @Suppress("DEPRECATION")
+                Notification.Builder(context)
+            }
+
+        val notification =
+            builder
+                .setContentTitle(context.getString(R.string.vpn_paused_title))
+                .setContentText(context.getString(R.string.vpn_paused_text))
+                .setSmallIcon(R.drawable.ic_shield_off)
+                .setOngoing(false)
+                .setContentIntent(pendingIntent)
+                .addAction(
+                    Notification.Action.Builder(
+                        null,
+                        context.getString(R.string.vpn_stopped_action_enable),
+                        startPendingIntent,
+                    ).build(),
+                )
+                .build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
@@ -228,48 +275,62 @@ class VpnNotificationManager(private val context: Context) {
     fun showStoppedNotification() {
         createChannels()
 
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val startIntent = Intent(context, AdBlockVpnService::class.java).apply {
-            action = AdBlockVpnService.ACTION_START
-        }
-        val startPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PendingIntent.getForegroundService(
-                context, 3, startIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        val intent =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        val pendingIntent =
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
-        } else {
-            PendingIntent.getService(
-                context, 3, startIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        }
 
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, CHANNEL_ID)
-        } else {
-            @Suppress("DEPRECATION")
-            Notification.Builder(context)
-        }
+        val startIntent =
+            Intent(context, AdBlockVpnService::class.java).apply {
+                action = AdBlockVpnService.ACTION_START
+            }
+        val startPendingIntent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PendingIntent.getForegroundService(
+                    context,
+                    3,
+                    startIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            } else {
+                PendingIntent.getService(
+                    context,
+                    3,
+                    startIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+            }
 
-        val notification = builder
-            .setContentTitle(context.getString(R.string.vpn_stopped_title))
-            .setContentText(context.getString(R.string.vpn_stopped_text))
-            .setSmallIcon(R.drawable.ic_shield_off)
-            .setOngoing(false)
-            .setContentIntent(pendingIntent)
-            .addAction(
-                Notification.Action.Builder(
-                    null, context.getString(R.string.vpn_stopped_action_enable), startPendingIntent
-                ).build()
-            )
-            .build()
+        val builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(context, CHANNEL_ID)
+            } else {
+                @Suppress("DEPRECATION")
+                Notification.Builder(context)
+            }
+
+        val notification =
+            builder
+                .setContentTitle(context.getString(R.string.vpn_stopped_title))
+                .setContentText(context.getString(R.string.vpn_stopped_text))
+                .setSmallIcon(R.drawable.ic_shield_off)
+                .setOngoing(false)
+                .setContentIntent(pendingIntent)
+                .addAction(
+                    Notification.Action.Builder(
+                        null,
+                        context.getString(R.string.vpn_stopped_action_enable),
+                        startPendingIntent,
+                    ).build(),
+                )
+                .build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
@@ -277,28 +338,34 @@ class VpnNotificationManager(private val context: Context) {
     fun showRevokedNotification() {
         createChannels()
 
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            context, 2, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val intent =
+            Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        val pendingIntent =
+            PendingIntent.getActivity(
+                context,
+                2,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
 
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, ALERT_CHANNEL_ID)
-        } else {
-            @Suppress("DEPRECATION")
-            Notification.Builder(context)
-        }
+        val builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(context, ALERT_CHANNEL_ID)
+            } else {
+                @Suppress("DEPRECATION")
+                Notification.Builder(context)
+            }
 
-        val notification = builder
-            .setContentTitle(context.getString(R.string.vpn_revoked_title))
-            .setContentText(context.getString(R.string.vpn_revoked_text))
-            .setSmallIcon(R.drawable.ic_error)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .build()
+        val notification =
+            builder
+                .setContentTitle(context.getString(R.string.vpn_revoked_title))
+                .setContentText(context.getString(R.string.vpn_revoked_text))
+                .setSmallIcon(R.drawable.ic_error)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build()
 
         notificationManager?.notify(REVOKED_NOTIFICATION_ID, notification)
     }

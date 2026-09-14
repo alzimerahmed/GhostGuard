@@ -26,7 +26,7 @@ fun NotificationDialog(
     autoUpdateNotification: String,
     onUpdateNotification: (String) -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AlertDialog(
         modifier = modifier,
@@ -38,27 +38,28 @@ fun NotificationDialog(
                 listOf(
                     AppPreferences.NOTIFICATION_NORMAL to R.string.settings_auto_update_notification_normal,
                     AppPreferences.NOTIFICATION_SILENT to R.string.settings_auto_update_notification_silent,
-                    AppPreferences.NOTIFICATION_NONE to R.string.settings_auto_update_notification_none
+                    AppPreferences.NOTIFICATION_NONE to R.string.settings_auto_update_notification_none,
                 ).forEach { (type, labelRes) ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onUpdateNotification(type)
-                            }
-                            .padding(vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onUpdateNotification(type)
+                                }
+                                .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             stringResource(labelRes),
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
                         )
                         if (autoUpdateNotification == type) {
                             Icon(
                                 Icons.Default.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
                             )
                         }
                     }
@@ -69,6 +70,6 @@ fun NotificationDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.settings_cancel))
             }
-        }
+        },
     )
 }

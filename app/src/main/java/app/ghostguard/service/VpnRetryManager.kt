@@ -8,9 +8,8 @@ import timber.log.Timber
  */
 class VpnRetryManager(
     private val maxRetries: Int = 5,
-    private val maxDelayMs: Long = 60000L
+    private val maxDelayMs: Long = 60000L,
 ) {
-
     private var retryCount = 0
     private var lastAttemptTime = 0L
 
@@ -44,6 +43,7 @@ class VpnRetryManager(
      * Calculate and wait for the exponential backoff delay before next retry.
      * Returns true if waiting completed successfully, false if interrupted.
      */
+
     /**
      * Gentle Fibonacci-like delays: 1s, 1s, 2s, 3s, 5s
      * Total worst-case wait = 12s (vs 31s with exponential backoff).
@@ -60,10 +60,11 @@ class VpnRetryManager(
         lastAttemptTime = System.currentTimeMillis()
 
         // Use gentle backoff curve instead of exponential
-        val delayMs = minOf(
-            delaySteps.getOrElse(retryCount - 1) { delaySteps.last() },
-            maxDelayMs
-        )
+        val delayMs =
+            minOf(
+                delaySteps.getOrElse(retryCount - 1) { delaySteps.last() },
+                maxDelayMs,
+            )
 
         Timber.d("Retry attempt $retryCount/$maxRetries - waiting ${delayMs}ms before retry")
 

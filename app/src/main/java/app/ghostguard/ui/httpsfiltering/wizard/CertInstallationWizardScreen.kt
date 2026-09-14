@@ -65,17 +65,18 @@ import org.koin.androidx.compose.koinViewModel
 fun CertInstallationWizardScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CertInstallationWizardViewModel = koinViewModel()
+    viewModel: CertInstallationWizardViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
-    val settingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-        viewModel.processIntent(CertInstallationWizardUiIntent.VerifyCert)
-    }
+    val settingsLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) {
+            viewModel.processIntent(CertInstallationWizardUiIntent.VerifyCert)
+        }
 
     // Handle system back navigation to navigate between steps or exit
     BackHandler(enabled = true) {
@@ -121,7 +122,7 @@ fun CertInstallationWizardScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.https_wizard_title),
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
                     )
                 },
                 navigationIcon = {
@@ -134,13 +135,14 @@ fun CertInstallationWizardScreen(
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.accessibility_navigate_back)
+                            contentDescription = stringResource(R.string.accessibility_navigate_back),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ),
             )
         },
         bottomBar = {
@@ -149,16 +151,17 @@ fun CertInstallationWizardScreen(
                 WizardBottomNav(
                     currentStep = uiState.currentStep,
                     onPrev = { viewModel.processIntent(CertInstallationWizardUiIntent.PrevStep) },
-                    onNext = { viewModel.processIntent(CertInstallationWizardUiIntent.NextStep) }
+                    onNext = { viewModel.processIntent(CertInstallationWizardUiIntent.NextStep) },
                 )
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(padding),
         ) {
             // Segmented Step Indicator
             WizardStepIndicator(
@@ -166,9 +169,10 @@ fun CertInstallationWizardScreen(
                 onStepClick = { step ->
                     viewModel.processIntent(CertInstallationWizardUiIntent.GoToStep(step))
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp),
             )
 
             Spacer(modifier = Modifier.height(6.dp))
@@ -179,14 +183,14 @@ fun CertInstallationWizardScreen(
                 transitionSpec = {
                     if (targetState.ordinal > initialState.ordinal) {
                         (slideInHorizontally(tween(280)) { it / 2 } + fadeIn(tween(280))) togetherWith
-                                (slideOutHorizontally(tween(220)) { -it / 2 } + fadeOut(tween(220)))
+                            (slideOutHorizontally(tween(220)) { -it / 2 } + fadeOut(tween(220)))
                     } else {
                         (slideInHorizontally(tween(280)) { -it / 2 } + fadeIn(tween(280))) togetherWith
-                                (slideOutHorizontally(tween(220)) { it / 2 } + fadeOut(tween(220)))
+                            (slideOutHorizontally(tween(220)) { it / 2 } + fadeOut(tween(220)))
                     }
                 },
                 modifier = Modifier.weight(1f),
-                label = "WizardStepSlideTransition"
+                label = "WizardStepSlideTransition",
             ) { step ->
                 when (step) {
                     WizardStep.EXPLANATION -> {
@@ -204,7 +208,7 @@ fun CertInstallationWizardScreen(
                                 val clipboard = context.getSystemService(android.content.ClipboardManager::class.java)
                                 val clip = android.content.ClipData.newPlainText("cert_filename", uiState.fileName)
                                 clipboard?.setPrimaryClip(clip)
-                            }
+                            },
                         )
                     }
                     WizardStep.INSTALL_CA -> {
@@ -215,7 +219,7 @@ fun CertInstallationWizardScreen(
                             isExecutingRoot = uiState.isExecutingRoot,
                             onOpenSettings = { viewModel.processIntent(CertInstallationWizardUiIntent.OpenSecuritySettings) },
                             onInstallRootFast = { viewModel.processIntent(CertInstallationWizardUiIntent.InstallRootFast) },
-                            onInstallRootModule = { viewModel.processIntent(CertInstallationWizardUiIntent.InstallRootModule) }
+                            onInstallRootModule = { viewModel.processIntent(CertInstallationWizardUiIntent.InstallRootModule) },
                         )
                     }
                     WizardStep.VERIFY -> {
@@ -223,7 +227,7 @@ fun CertInstallationWizardScreen(
                             certStatus = uiState.certStatus,
                             onVerify = { viewModel.processIntent(CertInstallationWizardUiIntent.VerifyCert) },
                             onFinish = { viewModel.processIntent(CertInstallationWizardUiIntent.FinishWizard) },
-                            onPrevStep = { viewModel.processIntent(CertInstallationWizardUiIntent.PrevStep) }
+                            onPrevStep = { viewModel.processIntent(CertInstallationWizardUiIntent.PrevStep) },
                         )
                     }
                 }
@@ -236,43 +240,45 @@ fun CertInstallationWizardScreen(
 private fun WizardBottomNav(
     currentStep: WizardStep,
     onPrev: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 3.dp
+        tonalElevation = 3.dp,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding(),
         ) {
             HorizontalDivider(
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f),
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp, vertical = 14.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp, vertical = 14.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (currentStep.ordinal > 0) {
                     OutlinedButton(
                         onClick = onPrev,
-                        shape = RoundedCornerShape(14.dp)
+                        shape = RoundedCornerShape(14.dp),
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = stringResource(R.string.https_wizard_prev),
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 } else {
@@ -282,18 +288,18 @@ private fun WizardBottomNav(
                 if (currentStep != WizardStep.VERIFY) {
                     Button(
                         onClick = onNext,
-                        shape = RoundedCornerShape(14.dp)
+                        shape = RoundedCornerShape(14.dp),
                     ) {
                         Text(
                             text = stringResource(R.string.https_wizard_next),
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                     }
                 }

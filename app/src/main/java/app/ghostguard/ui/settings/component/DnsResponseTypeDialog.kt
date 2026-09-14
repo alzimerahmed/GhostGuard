@@ -28,7 +28,7 @@ fun DnsResponseTypeDialog(
     dnsResponseType: String,
     onUpdateResponseType: (String) -> Unit,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AlertDialog(
         modifier = modifier,
@@ -41,38 +41,39 @@ fun DnsResponseTypeDialog(
                     Triple(
                         AppPreferences.DNS_RESPONSE_NXDOMAIN,
                         R.string.dns_response_nxdomain,
-                        R.string.dns_response_nxdomain_desc
+                        R.string.dns_response_nxdomain_desc,
                     ),
                     Triple(
                         AppPreferences.DNS_RESPONSE_REFUSED,
                         R.string.dns_response_refused,
-                        R.string.dns_response_refused_desc
+                        R.string.dns_response_refused_desc,
                     ),
                     Triple(
                         AppPreferences.DNS_RESPONSE_CUSTOM_IP,
                         R.string.dns_response_custom_ip,
-                        R.string.dns_response_custom_ip_desc
-                    )
+                        R.string.dns_response_custom_ip_desc,
+                    ),
                 ).forEach { (type, labelRes, descRes) ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onUpdateResponseType(type)
-                            }
-                            .padding(vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onUpdateResponseType(type)
+                                }
+                                .padding(vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 stringResource(labelRes),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 stringResource(descRes),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                         if (dnsResponseType == type) {
@@ -80,7 +81,7 @@ fun DnsResponseTypeDialog(
                                 Icons.Default.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
                             )
                         }
                     }
@@ -91,6 +92,6 @@ fun DnsResponseTypeDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.settings_cancel))
             }
-        }
+        },
     )
 }

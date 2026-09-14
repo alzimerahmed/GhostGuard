@@ -11,8 +11,8 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import app.ghostguard.MainActivity
 import app.ghostguard.R
-import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.data.dao.DnsLogDao
+import app.ghostguard.data.datastore.AppPreferences
 import app.ghostguard.utils.startOfDayMillis
 import kotlinx.coroutines.flow.first
 import org.koin.core.component.KoinComponent
@@ -21,9 +21,8 @@ import timber.log.Timber
 
 class DailySummaryWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params), KoinComponent {
-
     private val dnsLogDao: DnsLogDao by inject()
     private val appPreferences: AppPreferences by inject()
 
@@ -70,35 +69,41 @@ class DailySummaryWorker(
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                applicationContext.getString(R.string.daily_summary_channel_name),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description =
-                    applicationContext.getString(R.string.daily_summary_channel_description)
-            }
+            val channel =
+                NotificationChannel(
+                    CHANNEL_ID,
+                    applicationContext.getString(R.string.daily_summary_channel_name),
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                ).apply {
+                    description =
+                        applicationContext.getString(R.string.daily_summary_channel_description)
+                }
             notificationManager.createNotificationChannel(channel)
         }
 
-        val intent = Intent(applicationContext, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle(applicationContext.getString(R.string.daily_summary_title))
-            .setContentText(
-                applicationContext.getString(R.string.daily_summary_text, blockedCount)
+        val intent =
+            Intent(applicationContext, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+        val pendingIntent =
+            PendingIntent.getActivity(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
-            .setSmallIcon(R.drawable.ic_shield_on)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .build()
+
+        val notification =
+            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                .setContentTitle(applicationContext.getString(R.string.daily_summary_title))
+                .setContentText(
+                    applicationContext.getString(R.string.daily_summary_text, blockedCount),
+                )
+                .setSmallIcon(R.drawable.ic_shield_on)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build()
 
         notificationManager.notify(NOTIFICATION_ID, notification)
     }

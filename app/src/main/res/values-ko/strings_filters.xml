@@ -102,7 +102,7 @@
     <string name="https_filtering_ca_desc">다음 단계에 따라 HTTPS 코스메틱 필터링을 설정하세요:</string>
     <string name="https_filtering_export_ca">1단계: 다운로드 폴더에 인증서 저장</string>
     <string name="https_filtering_cert_saved">인증서가 다운로드에 저장되었습니다!</string>
-    <string name="https_filtering_install_steps">2단계: 인증서 수동 설치:\n\n1. 설정 → 보안 → 암호화 &amp; 사용자 인증 정보로 이동\n2. \&quot;인증서 설치\&quot; → \&quot;CA 인증서\&quot; 탭\n3. 다운로드에서 \&quot;BlockAds-RootCA.crt\&quot; 선택\n4. 설치 확인</string>
+    <string name="https_filtering_install_steps">2단계: 인증서 수동 설치:\n\n1. 설정 → 보안 → 암호화 &amp; 사용자 인증 정보로 이동\n2. \&quot;인증서 설치\&quot; → \&quot;CA 인증서\&quot; 탭\n3. 다운로드에서 \&quot;GhostGuard-RootCA.crt\&quot; 선택\n4. 설치 확인</string>
     <string name="https_filtering_open_settings">보안 설정 열기</string>
     <string name="https_filtering_step1_title">1단계: 인증서 저장</string>
     <string name="https_filtering_step1_desc">루트 CA 인증서를 기기에 다운로드하세요</string>
@@ -149,9 +149,9 @@
     <string name="https_wizard_title">인증서 설정</string>
     <string name="https_wizard_step_indicator_format">%1$d단계 / %2$d: %3$s</string>
     <string name="https_wizard_overview_title">개요 및 개인정보 보호</string>
-    <string name="https_wizard_overview_subtitle">BlockAds에 로컬 인증서가 필요한 이유</string>
+    <string name="https_wizard_overview_subtitle">GhostGuard에 로컬 인증서가 필요한 이유</string>
     <string name="https_wizard_security_title">보안 및 개인정보 보호</string>
-    <string name="https_wizard_security_desc">루트 CA 인증서는 기기에서 로컬로 생성되며 기기 외부로 유출되지 않습니다. BlockAds는 웹사이트의 광고를 제거하는 목적으로만 이 인증서를 사용합니다. 은행 앱이나 Google 계정과 같은 민감한 서비스는 절대 가로채지 않습니다.</string>
+    <string name="https_wizard_security_desc">루트 CA 인증서는 기기에서 로컬로 생성되며 기기 외부로 유출되지 않습니다. GhostGuard는 웹사이트의 광고를 제거하는 목적으로만 이 인증서를 사용합니다. 은행 앱이나 Google 계정과 같은 민감한 서비스는 절대 가로채지 않습니다.</string>
     <string name="https_wizard_explain_title">왜 HTTPS 필터링인가요?</string>
     <string name="https_wizard_explain_desc">대부분의 최신 웹사이트와 광고는 암호화된 HTTPS 연결을 사용합니다. 광고 빈 공간, 배너, 팝업을 숨기려면 기기에서 웹페이지를 안전하게 검사하고 필터링할 로컬 인증서가 필요합니다.</string>
     <string name="https_wizard_benefits_title">주요 이점</string>
@@ -177,10 +177,10 @@
     <string name="https_wizard_root_detected_title">Root 권한 감지됨 (권장)</string>
     <string name="https_wizard_root_detected_desc">기기에 Root 권한이 있습니다. 수동 설정 없이 CA 인증서를 자동으로 설치할 수 있습니다.</string>
     <string name="https_wizard_checking_title">인증서 확인 중…</string>
-    <string name="https_wizard_checking_desc">Android 신뢰 저장소에서 BlockAds CA를 검색하는 중…</string>
-    <string name="https_wizard_installed_desc">BlockAds Root CA가 확인되었으며 기기의 신뢰할 수 있는 저장소에서 활성화되었습니다. 고급 HTTPS 필터링을 시작할 수 있습니다!</string>
+    <string name="https_wizard_checking_desc">Android 신뢰 저장소에서 GhostGuard CA를 검색하는 중…</string>
+    <string name="https_wizard_installed_desc">GhostGuard Root CA가 확인되었으며 기기의 신뢰할 수 있는 저장소에서 활성화되었습니다. 고급 HTTPS 필터링을 시작할 수 있습니다!</string>
     <string name="https_wizard_not_installed_title">인증서가 감지되지 않음</string>
-    <string name="https_wizard_not_installed_desc">BlockAds가 신뢰 저장소에서 아직 인증서를 찾지 못했습니다. 설정에서 설치를 마쳤다면 아래를 눌러 다시 확인하세요.</string>
+    <string name="https_wizard_not_installed_desc">GhostGuard가 신뢰 저장소에서 아직 인증서를 찾지 못했습니다. 설정에서 설치를 마쳤다면 아래를 눌러 다시 확인하세요.</string>
     <string name="https_wizard_troubleshooting_title">문제 해결 팁</string>
     <string name="https_wizard_troubleshooting_tip1">설정에서 \'CA 인증서\'를 선택했는지 확인하세요 (사용자 인증서 또는 VPN 및 앱 인증서가 아님).</string>
     <string name="https_wizard_troubleshooting_tip2">Magisk/KernelSU 모듈을 통해 설치한 경우 기기 재부팅이 필요합니다.</string>

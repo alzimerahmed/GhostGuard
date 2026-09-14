@@ -21,12 +21,14 @@ import timber.log.Timber
  * from toggling the VPN via broadcast.
  */
 class WidgetToggleReceiver : BroadcastReceiver() {
-
     companion object {
         const val ACTION_TOGGLE_VPN = "app.ghostguard.widget.TOGGLE_VPN"
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         if (intent.action == ACTION_TOGGLE_VPN) {
             val pendingResult = goAsync()
             CoroutineScope(Dispatchers.IO).launch {
@@ -47,17 +49,19 @@ class WidgetToggleReceiver : BroadcastReceiver() {
         if (AdBlockVpnService.isRunning || RootProxyService.isRunning) {
             // Stop AdBlockVpnService if running
             if (AdBlockVpnService.isRunning) {
-                val stopIntent = Intent(context, AdBlockVpnService::class.java).apply {
-                    action = AdBlockVpnService.ACTION_STOP
-                }
+                val stopIntent =
+                    Intent(context, AdBlockVpnService::class.java).apply {
+                        action = AdBlockVpnService.ACTION_STOP
+                    }
                 context.startService(stopIntent)
             }
-            
+
             // Stop RootProxyService if running
             if (RootProxyService.isRunning) {
-                val stopIntent = Intent(context, RootProxyService::class.java).apply {
-                    action = RootProxyService.ACTION_STOP
-                }
+                val stopIntent =
+                    Intent(context, RootProxyService::class.java).apply {
+                        action = RootProxyService.ACTION_STOP
+                    }
                 context.startService(stopIntent)
             }
         } else {
@@ -67,10 +71,11 @@ class WidgetToggleReceiver : BroadcastReceiver() {
 
             if (!isRootMode && VpnUtils.isOtherVpnActive(context)) {
                 Timber.w("Another VPN is active, dropping widget connection request")
-                val appIntent = Intent(context, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    putExtra(MainActivity.EXTRA_SHOW_VPN_CONFLICT_DIALOG, true)
-                }
+                val appIntent =
+                    Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        putExtra(MainActivity.EXTRA_SHOW_VPN_CONFLICT_DIALOG, true)
+                    }
                 context.startActivity(appIntent)
                 return
             }
@@ -79,10 +84,11 @@ class WidgetToggleReceiver : BroadcastReceiver() {
             val targetClass = if (isRootMode) RootProxyService::class.java else AdBlockVpnService::class.java
             val targetAction = if (isRootMode) RootProxyService.ACTION_START else AdBlockVpnService.ACTION_START
 
-            val startIntent = Intent(context, targetClass).apply {
-                action = targetAction
-            }
-            
+            val startIntent =
+                Intent(context, targetClass).apply {
+                    action = targetAction
+                }
+
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(startIntent)
@@ -91,9 +97,10 @@ class WidgetToggleReceiver : BroadcastReceiver() {
                 }
             } catch (e: Exception) {
                 Timber.w(e, "Cannot start VPN from widget, opening app")
-                val appIntent = Intent(context, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                }
+                val appIntent =
+                    Intent(context, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
                 context.startActivity(appIntent)
             }
         }

@@ -12,10 +12,10 @@ import androidx.room.PrimaryKey
             entity = ProtectionProfile::class,
             parentColumns = ["id"],
             childColumns = ["profileId"],
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
-    indices = [Index("profileId")]
+    indices = [Index("profileId")],
 )
 data class ProfileSchedule(
     @PrimaryKey(autoGenerate = true)
@@ -26,5 +26,5 @@ data class ProfileSchedule(
     val endHour: Int,
     val endMinute: Int,
     val isEnabled: Boolean = true,
-    val daysOfWeek: String = "1,2,3,4,5,6,7"
+    val daysOfWeek: String = "1,2,3,4,5,6,7",
 )

@@ -8,17 +8,17 @@ import android.os.Build
  * DirectBootPreferences stores essential VPN boot & connection state
  * in Device Encrypted (DE) storage via [Context.createDeviceProtectedStorageContext].
  *
- * This allows BlockAds to safely access preferences immediately upon receiving
+ * This allows GhostGuard to safely access preferences immediately upon receiving
  * [android.intent.action.LOCKED_BOOT_COMPLETED] BEFORE the user has unlocked the device
  * with their PIN/pattern/password, preventing telemetry leaks and preserving adblock protection.
  */
 class DirectBootPreferences(context: Context) {
-
-    private val deContext: Context = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        if (context.isDeviceProtectedStorage) context else context.createDeviceProtectedStorageContext()
-    } else {
-        context
-    }
+    private val deContext: Context =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (context.isDeviceProtectedStorage) context else context.createDeviceProtectedStorageContext()
+        } else {
+            context
+        }
 
     private val prefs: SharedPreferences by lazy {
         deContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

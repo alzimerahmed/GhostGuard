@@ -61,7 +61,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CustomRulesScreen(
     viewModel: CustomRulesViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = { }
+    onNavigateBack: () -> Unit = { },
 ) {
     val rules by viewModel.rules.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -77,57 +77,60 @@ fun CustomRulesScreen(
     var selectedExportFormat by remember { mutableStateOf(ExportFormat.JSON) }
 
     // SAF: Export file launcher
-    val exportFileLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument(
-            if (selectedExportFormat == ExportFormat.JSON) "application/json" else "text/plain"
-        )
-    ) { uri ->
-        uri?.let {
-            viewModel.exportRulesToUri(
-                uri = it,
-                format = selectedExportFormat,
-                onSuccess = { count ->
-                    Toast.makeText(
-                        context,
-                        resource.getString(R.string.rules_exported, count),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onError = { errorMsg ->
-                    Toast.makeText(
-                        context,
-                        resource.getString(R.string.export_failed, errorMsg),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
+    val exportFileLauncher =
+        rememberLauncherForActivityResult(
+            contract =
+                ActivityResultContracts.CreateDocument(
+                    if (selectedExportFormat == ExportFormat.JSON) "application/json" else "text/plain",
+                ),
+        ) { uri ->
+            uri?.let {
+                viewModel.exportRulesToUri(
+                    uri = it,
+                    format = selectedExportFormat,
+                    onSuccess = { count ->
+                        Toast.makeText(
+                            context,
+                            resource.getString(R.string.rules_exported, count),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                    onError = { errorMsg ->
+                        Toast.makeText(
+                            context,
+                            resource.getString(R.string.export_failed, errorMsg),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                )
+            }
         }
-    }
 
     // SAF: Import file launcher
-    val importFileLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        uri?.let {
-            viewModel.importRulesFromUri(
-                uri = it,
-                onSuccess = { count ->
-                    Toast.makeText(
-                        context,
-                        resource.getString(R.string.rules_imported, count),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },
-                onError = { errorMsg ->
-                    Toast.makeText(
-                        context,
-                        resource.getString(R.string.import_failed, errorMsg),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
+    val importFileLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+        ) { uri ->
+            uri?.let {
+                viewModel.importRulesFromUri(
+                    uri = it,
+                    onSuccess = { count ->
+                        Toast.makeText(
+                            context,
+                            resource.getString(R.string.rules_imported, count),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                    onError = { errorMsg ->
+                        Toast.makeText(
+                            context,
+                            resource.getString(R.string.import_failed, errorMsg),
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                )
+            }
         }
-    }
 
     Scaffold(
         topBar = {
@@ -149,7 +152,7 @@ fun CustomRulesScreen(
                         DropdownMenu(
                             containerColor = MaterialTheme.colorScheme.background,
                             expanded = showMenuDropdown,
-                            onDismissRequest = { showMenuDropdown = false }
+                            onDismissRequest = { showMenuDropdown = false },
                         ) {
                             // ── Clipboard-based ──
                             DropdownMenuItem(
@@ -160,7 +163,7 @@ fun CustomRulesScreen(
                                 },
                                 leadingIcon = {
                                     Icon(Icons.Default.Upload, contentDescription = null)
-                                }
+                                },
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.export_rules)) },
@@ -168,17 +171,24 @@ fun CustomRulesScreen(
                                     showMenuDropdown = false
                                     val rulesText = viewModel.exportRules()
                                     if (rulesText.isNotEmpty()) {
-                                        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                        val clipboard =
+                                            context.getSystemService(
+                                                Context.CLIPBOARD_SERVICE,
+                                            ) as android.content.ClipboardManager
                                         val clip = android.content.ClipData.newPlainText("Custom Rules", rulesText)
                                         clipboard.setPrimaryClip(clip)
-                                        Toast.makeText(context, resource.getString(R.string.rules_copied_to_clipboard), Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            resource.getString(R.string.rules_copied_to_clipboard),
+                                            Toast.LENGTH_SHORT,
+                                        ).show()
                                     } else {
                                         Toast.makeText(context, resource.getString(R.string.no_rules_to_export), Toast.LENGTH_SHORT).show()
                                     }
                                 },
                                 leadingIcon = {
                                     Icon(Icons.Default.Download, contentDescription = null)
-                                }
+                                },
                             )
 
                             HorizontalDivider()
@@ -189,12 +199,12 @@ fun CustomRulesScreen(
                                 onClick = {
                                     showMenuDropdown = false
                                     importFileLauncher.launch(
-                                        arrayOf("application/json", "text/plain", "*/*")
+                                        arrayOf("application/json", "text/plain", "*/*"),
                                     )
                                 },
                                 leadingIcon = {
                                     Icon(Icons.Default.FileUpload, contentDescription = null)
-                                }
+                                },
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.export_to_file)) },
@@ -204,7 +214,7 @@ fun CustomRulesScreen(
                                 },
                                 leadingIcon = {
                                     Icon(Icons.Default.FileDownload, contentDescription = null)
-                                }
+                                },
                             )
 
                             HorizontalDivider()
@@ -217,33 +227,35 @@ fun CustomRulesScreen(
                                 },
                                 leadingIcon = {
                                     Icon(Icons.Default.DeleteSweep, contentDescription = null)
-                                }
+                                },
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true }) {
                 Icon(Icons.Default.Add, contentDescription = "Add Rule")
             }
-        }
+        },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
         ) {
             if (rules.isEmpty()) {
                 EmptyRulesState()
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     item {
                         Spacer(modifier = Modifier.height(8.dp))
@@ -252,7 +264,7 @@ fun CustomRulesScreen(
                         CustomRuleItem(
                             rule = rule,
                             onToggle = { viewModel.toggleRule(rule) },
-                            onDelete = { viewModel.deleteRule(rule) }
+                            onDelete = { viewModel.deleteRule(rule) },
                         )
                     }
                     item {
@@ -275,9 +287,9 @@ fun CustomRulesScreen(
                     },
                     onError = { errorMsg ->
                         Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
@@ -293,9 +305,9 @@ fun CustomRulesScreen(
                     },
                     onError = { errorMsg ->
                         Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show()
-                    }
+                    },
                 )
-            }
+            },
         )
     }
 
@@ -317,7 +329,7 @@ fun CustomRulesScreen(
                 TextButton(onClick = { showDeleteAllDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         )
     }
 
@@ -336,7 +348,7 @@ fun CustomRulesScreen(
                     }) {
                         Text(
                             stringResource(R.string.export_format_json),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                     TextButton(onClick = {
@@ -346,7 +358,7 @@ fun CustomRulesScreen(
                     }) {
                         Text(
                             stringResource(R.string.export_format_txt),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                     }
                 }
@@ -356,7 +368,7 @@ fun CustomRulesScreen(
                 TextButton(onClick = { showExportFormatDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
-            }
+            },
         )
     }
 
@@ -369,4 +381,3 @@ fun CustomRulesScreen(
         viewModel.clearError()
     }
 }
-

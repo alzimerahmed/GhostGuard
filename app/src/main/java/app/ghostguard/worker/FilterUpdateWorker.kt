@@ -19,9 +19,8 @@ import timber.log.Timber
 
 class FilterUpdateWorker(
     context: Context,
-    params: WorkerParameters
+    params: WorkerParameters,
 ) : CoroutineWorker(context, params), KoinComponent {
-
     private val filterListRepository: FilterListRepository by inject()
     private val appPreferences: AppPreferences by inject()
     private val filterListDao: FilterListDao by inject()
@@ -41,11 +40,12 @@ class FilterUpdateWorker(
                     applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as android.net.ConnectivityManager
                 val network = cm.activeNetwork
                 val capabilities = cm.getNetworkCapabilities(network)
-                val isUnmeteredOrWifi = capabilities != null && (
+                val isUnmeteredOrWifi =
+                    capabilities != null && (
                         capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) ||
-                                capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) ||
-                                capabilities.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-                        )
+                            capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) ||
+                            capabilities.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                    )
 
                 if (!isUnmeteredOrWifi) {
                     Timber.d("Filter update skipped: not on unmetered/Wi-Fi (VPN metered constraint workaround). Retrying later.")
@@ -94,23 +94,25 @@ class FilterUpdateWorker(
                     AppPreferences.NOTIFICATION_NORMAL -> {
                         showUpdateNotification(
                             title = applicationContext.getString(R.string.filter_update_success),
-                            message = applicationContext.getString(
-                                R.string.filter_update_success_message,
-                                totalCount
-                            ),
-                            isSuccess = true
+                            message =
+                                applicationContext.getString(
+                                    R.string.filter_update_success_message,
+                                    totalCount,
+                                ),
+                            isSuccess = true,
                         )
                     }
 
                     AppPreferences.NOTIFICATION_SILENT -> {
                         showUpdateNotification(
                             title = applicationContext.getString(R.string.filter_update_success),
-                            message = applicationContext.getString(
-                                R.string.filter_update_success_message,
-                                totalCount
-                            ),
+                            message =
+                                applicationContext.getString(
+                                    R.string.filter_update_success_message,
+                                    totalCount,
+                                ),
                             isSuccess = true,
-                            silent = true
+                            silent = true,
                         )
                     }
 
@@ -124,9 +126,10 @@ class FilterUpdateWorker(
                 if (notificationType != AppPreferences.NOTIFICATION_NONE) {
                     showUpdateNotification(
                         title = applicationContext.getString(R.string.filter_update_failed),
-                        message = failureMessage
-                            ?: applicationContext.getString(R.string.filter_update_failed_message),
-                        isSuccess = false
+                        message =
+                            failureMessage
+                                ?: applicationContext.getString(R.string.filter_update_failed_message),
+                        isSuccess = false,
                     )
                 }
                 Result.retry()
@@ -141,40 +144,42 @@ class FilterUpdateWorker(
         title: String,
         message: String,
         isSuccess: Boolean,
-        silent: Boolean = false
+        silent: Boolean = false,
     ) {
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Create notification channel for Android O and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID,
-                applicationContext.getString(R.string.filter_update_notification_channel),
-                if (silent) NotificationManager.IMPORTANCE_LOW else NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description =
-                    applicationContext.getString(R.string.filter_update_notification_channel_desc)
-                if (silent) {
-                    setSound(null, null)
-                    enableVibration(false)
+            val channel =
+                NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    applicationContext.getString(R.string.filter_update_notification_channel),
+                    if (silent) NotificationManager.IMPORTANCE_LOW else NotificationManager.IMPORTANCE_DEFAULT,
+                ).apply {
+                    description =
+                        applicationContext.getString(R.string.filter_update_notification_channel_desc)
+                    if (silent) {
+                        setSound(null, null)
+                        enableVibration(false)
+                    }
                 }
-            }
             notificationManager.createNotificationChannel(channel)
         }
 
-        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(if (isSuccess) R.drawable.ic_check else R.drawable.ic_error)
-            .setPriority(if (silent) NotificationCompat.PRIORITY_LOW else NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .apply {
-                if (silent) {
-                    setSilent(true)
+        val notification =
+            NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(if (isSuccess) R.drawable.ic_check else R.drawable.ic_error)
+                .setPriority(if (silent) NotificationCompat.PRIORITY_LOW else NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .apply {
+                    if (silent) {
+                        setSilent(true)
+                    }
                 }
-            }
-            .build()
+                .build()
 
         notificationManager.notify(NOTIFICATION_ID, notification)
     }

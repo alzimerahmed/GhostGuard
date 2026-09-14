@@ -4,19 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import app.ghostguard.data.entities.DailyStat
-import app.ghostguard.data.entities.TopBlockedDomain
 import app.ghostguard.data.entities.AppStat
+import app.ghostguard.data.entities.DailyStat
 import app.ghostguard.data.entities.DnsLogEntry
 import app.ghostguard.data.entities.HourlyStat
 import app.ghostguard.data.entities.MonthlyStat
+import app.ghostguard.data.entities.TopBlockedDomain
 import app.ghostguard.data.entities.WeeklyStat
 import app.ghostguard.data.entities.WidgetStats
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DnsLogDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entry: DnsLogEntry)
 
@@ -47,7 +46,9 @@ interface DnsLogDao {
     @Query("SELECT COALESCE(SUM(CASE WHEN isBlocked = 1 THEN 1 ELSE 0 END), 0) AS blocked, COUNT(*) AS total FROM dns_logs")
     suspend fun getWidgetStats(): WidgetStats
 
-    @Query("SELECT COALESCE(SUM(CASE WHEN isBlocked = 1 THEN 1 ELSE 0 END), 0) AS blocked, COUNT(*) AS total FROM dns_logs WHERE timestamp > :since")
+    @Query(
+        "SELECT COALESCE(SUM(CASE WHEN isBlocked = 1 THEN 1 ELSE 0 END), 0) AS blocked, COUNT(*) AS total FROM dns_logs WHERE timestamp > :since",
+    )
     suspend fun getWidgetStatsSince(since: Long): WidgetStats
 
     @Query(
@@ -59,7 +60,7 @@ interface DnsLogDao {
         WHERE timestamp > :since
         GROUP BY hour
         ORDER BY hour ASC
-    """
+    """,
     )
     suspend fun getHourlyStatsForWidget(since: Long): List<HourlyStat>
 
@@ -71,7 +72,7 @@ interface DnsLogDao {
         GROUP BY domain
         ORDER BY count DESC
         LIMIT :limit
-    """
+    """,
     )
     suspend fun getTopBlockedDomainsForWidget(limit: Int = 5): List<TopBlockedDomain>
 
@@ -93,7 +94,7 @@ interface DnsLogDao {
         WHERE timestamp > :since
         GROUP BY hour
         ORDER BY hour ASC
-    """
+    """,
     )
     fun getHourlyStats(since: Long = System.currentTimeMillis() - 86400000): Flow<List<HourlyStat>>
 
@@ -106,10 +107,10 @@ interface DnsLogDao {
         WHERE timestamp > :since
         GROUP BY day
         ORDER BY day ASC
-    """
+    """,
     )
     fun getDailyStats(
-        since: Long = System.currentTimeMillis() - 7 * 86_400_000L // 7 days in ms
+        since: Long = System.currentTimeMillis() - 7 * 86_400_000L, // 7 days in ms
     ): Flow<List<DailyStat>>
 
     @Query(
@@ -120,7 +121,7 @@ interface DnsLogDao {
         GROUP BY domain
         ORDER BY count DESC
         LIMIT :limit
-    """
+    """,
     )
     fun getTopBlockedDomains(limit: Int = 10): Flow<List<TopBlockedDomain>>
 
@@ -133,10 +134,12 @@ interface DnsLogDao {
         WHERE appName != ''
           AND (:since IS NULL OR timestamp > :since)
         GROUP BY appName, packageName
-    """
+    """,
     )
     fun getPerAppStats(since: Long? = null): Flow<List<AppStat>>
-    @Query("""
+
+    @Query(
+        """
         SELECT strftime('%Y-W%W', timestamp / 1000, 'unixepoch', 'localtime') AS week,
                COUNT(*) AS total,
                SUM(CASE WHEN isBlocked = 1 THEN 1 ELSE 0 END) AS blocked
@@ -144,11 +147,9 @@ interface DnsLogDao {
         WHERE timestamp > :since
         GROUP BY week
         ORDER BY week ASC
-    """
+    """,
     )
-    fun getWeeklyStats(
-        since: Long = System.currentTimeMillis() - 28 * 86_400_000L
-    ): Flow<List<WeeklyStat>>
+    fun getWeeklyStats(since: Long = System.currentTimeMillis() - 28 * 86_400_000L): Flow<List<WeeklyStat>>
 
     @Query(
         """
@@ -159,11 +160,9 @@ interface DnsLogDao {
         WHERE timestamp > :since
         GROUP BY month
         ORDER BY month ASC
-    """
+    """,
     )
-    fun getMonthlyStats(
-        since: Long = System.currentTimeMillis() - 365 * 86_400_000L
-    ): Flow<List<MonthlyStat>>
+    fun getMonthlyStats(since: Long = System.currentTimeMillis() - 365 * 86_400_000L): Flow<List<MonthlyStat>>
 
     @Query(
         """
@@ -174,7 +173,7 @@ interface DnsLogDao {
         GROUP BY appName, packageName
         ORDER BY totalQueries DESC
         LIMIT :limit
-    """
+    """,
     )
     fun getTopApps(limit: Int = 15): Flow<List<AppStat>>
 
@@ -189,12 +188,13 @@ interface DnsLogDao {
 
     @Query("SELECT COUNT(*) FROM dns_logs WHERE isBlocked = 1")
     suspend fun getBlockedCountSync(): Int
+
     @Query(
         """
         SELECT COUNT(*) FROM dns_logs WHERE isBlocked = 1
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
-        """
+        """,
     )
     fun getBlockedCountByReason(reason: String): Flow<Int>
 
@@ -203,9 +203,12 @@ interface DnsLogDao {
         SELECT COUNT(*) FROM dns_logs WHERE isBlocked = 1 AND timestamp > :since
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
-        """
+        """,
     )
-    fun getBlockedCountByReasonSince(reason: String, since: Long): Flow<Int>
+    fun getBlockedCountByReasonSince(
+        reason: String,
+        since: Long,
+    ): Flow<Int>
 
     @Query(
         """
@@ -213,7 +216,7 @@ interface DnsLogDao {
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
         ORDER BY timestamp DESC
-        """
+        """,
     )
     fun getBlockedByReason(reason: String): Flow<List<DnsLogEntry>>
 
@@ -223,7 +226,10 @@ interface DnsLogDao {
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
         ORDER BY timestamp DESC
-        """
+        """,
     )
-    fun getBlockedByReasonSince(reason: String, since: Long): Flow<List<DnsLogEntry>>
+    fun getBlockedByReasonSince(
+        reason: String,
+        since: Long,
+    ): Flow<List<DnsLogEntry>>
 }
