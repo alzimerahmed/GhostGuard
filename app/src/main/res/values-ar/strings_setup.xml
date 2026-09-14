@@ -31,4 +31,5 @@
     <string name="setup_applying">جارٍ تطبيق حزمة الفلاتر…</string>
     <string name="setup_wizard_rerun">تشغيل معالج الإعداد مرة أخرى</string>
     <string name="setup_wizard_rerun_desc">اختيار حزمة فلاتر من جديد</string>
+    <string name="setup_apply_failed">تعذّر تطبيق حزمة الفلاتر. حاول مرة أخرى.</string>
 </resources>

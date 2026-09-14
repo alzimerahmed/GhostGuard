@@ -31,4 +31,5 @@
     <string name="setup_applying">필터 팩 적용 중…</string>
     <string name="setup_wizard_rerun">설정 마법사 다시 실행</string>
     <string name="setup_wizard_rerun_desc">필터 팩 다시 선택</string>
+    <string name="setup_apply_failed">필터 팩을 적용할 수 없습니다. 다시 시도해 주세요.</string>
 </resources>

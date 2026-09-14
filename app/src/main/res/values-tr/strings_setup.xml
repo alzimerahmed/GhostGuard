@@ -31,4 +31,5 @@
     <string name="setup_applying">Filtre paketi uygulanıyor…</string>
     <string name="setup_wizard_rerun">Kurulum sihirbazını yeniden çalıştır</string>
     <string name="setup_wizard_rerun_desc">Filtre paketini yeniden seç</string>
+    <string name="setup_apply_failed">Filtre paketi uygulanamadı. Lütfen tekrar deneyin.</string>
 </resources>

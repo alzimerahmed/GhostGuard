@@ -31,4 +31,5 @@
     <string name="setup_applying">正在应用过滤规则包…</string>
     <string name="setup_wizard_rerun">重新运行设置向导</string>
     <string name="setup_wizard_rerun_desc">重新选择精选过滤规则包</string>
+    <string name="setup_apply_failed">无法应用过滤包。请重试。</string>
 </resources>

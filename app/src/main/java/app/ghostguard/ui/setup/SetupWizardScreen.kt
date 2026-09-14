@@ -32,6 +32,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -69,9 +71,12 @@ fun SetupWizardScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val backDescription = stringResource(R.string.accessibility_navigate_back)
+    val snackbarHostState = remember { SnackbarHostState() }
+    val failureMessage = stringResource(R.string.setup_apply_failed)
 
     Scaffold(
         modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {},
@@ -135,7 +140,7 @@ fun SetupWizardScreen(
         viewModel.events.collect { event ->
             when (event) {
                 SetupWizardEvent.Completed -> onFinished()
-                SetupWizardEvent.Failed -> Unit
+                SetupWizardEvent.Failed -> snackbarHostState.showSnackbar(failureMessage)
             }
         }
     }
@@ -186,7 +191,7 @@ private fun WelcomeStep(onNext: () -> Unit) {
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
         ) {
             Text(
@@ -299,7 +304,7 @@ private fun FilterPackStep(
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
         ) {
             Text(
@@ -529,13 +534,13 @@ private fun FinishStep(
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
         ) {
             if (isApplying) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     strokeWidth = 2.dp,
                 )
             } else {

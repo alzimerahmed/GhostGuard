@@ -31,4 +31,5 @@
     <string name="setup_applying">Menerapkan paket filter…</string>
     <string name="setup_wizard_rerun">Jalankan lagi wizard penyiapan</string>
     <string name="setup_wizard_rerun_desc">Pilih lagi paket filter pilihan</string>
+    <string name="setup_apply_failed">Gagal menerapkan paket filter. Silakan coba lagi.</string>
 </resources>

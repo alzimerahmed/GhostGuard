@@ -31,4 +31,5 @@
     <string name="setup_applying">Applicazione del pacchetto di filtri…</string>
     <string name="setup_wizard_rerun">Esegui di nuovo la procedura guidata</string>
     <string name="setup_wizard_rerun_desc">Scegli di nuovo un pacchetto di filtri</string>
+    <string name="setup_apply_failed">Impossibile applicare il pacchetto filtri. Riprova.</string>
 </resources>

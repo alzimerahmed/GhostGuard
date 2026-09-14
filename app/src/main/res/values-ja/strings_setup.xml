@@ -31,4 +31,5 @@
     <string name="setup_applying">フィルターパックを適用中…</string>
     <string name="setup_wizard_rerun">セットアップウィザードを再実行</string>
     <string name="setup_wizard_rerun_desc">フィルターパックを再選択する</string>
+    <string name="setup_apply_failed">フィルタパックを適用できませんでした。もう一度お試しください。</string>
 </resources>

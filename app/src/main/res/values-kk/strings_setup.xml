@@ -31,4 +31,5 @@
     <string name="setup_applying">Сүзгі пакетін қолдану…</string>
     <string name="setup_wizard_rerun">Баптау шеберін қайта іске қосу</string>
     <string name="setup_wizard_rerun_desc">Сүзгі пакетін қайта таңдау</string>
+    <string name="setup_apply_failed">Сүзгі пакетін қолдану мүмкін болмады. Қайталап көріңіз.</string>
 </resources>

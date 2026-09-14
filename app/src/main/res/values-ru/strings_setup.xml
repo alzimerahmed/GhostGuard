@@ -31,4 +31,5 @@
     <string name="setup_applying">Применяем набор фильтров…</string>
     <string name="setup_wizard_rerun">Запустить мастер настройки снова</string>
     <string name="setup_wizard_rerun_desc">Выбрать набор фильтров заново</string>
+    <string name="setup_apply_failed">Не удалось применить пакет фильтров. Повторите попытку.</string>
 </resources>

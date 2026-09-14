@@ -31,4 +31,5 @@
     <string name="setup_applying">Používá se balíček filtrů…</string>
     <string name="setup_wizard_rerun">Znovu spustit průvodce nastavením</string>
     <string name="setup_wizard_rerun_desc">Znovu vyberte balíček filtrů</string>
+    <string name="setup_apply_failed">Balíček filtrů se nepodařilo použít. Zkuste to znovu.</string>
 </resources>

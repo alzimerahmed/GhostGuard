@@ -151,35 +151,71 @@ class FilterDownloadManager(
                 }
 
                 // Security (H3): verify the archive signature BEFORE extracting anything.
-                if (requireSignature && signatureVerifier.verifyFile(tempZip) !is FilterSignatureVerifier.Result.Valid) {
-                    Timber.e("Signature verification failed for filter zip $url — rejecting update")
-                    lastSignatureFailure = "Signature verification failed for filter archive"
-                    return@withContext false
+                // The detached signature is fetched from `<zipUrl>.sig` (same scheme as the
+                // per-file path) and verified with streamed SHA-256 so the archive is not
+                // held in RAM. Fail closed — reject the update and keep the previous files.
+                if (requireSignature) {
+                    val sigResponse = runCatching { client.get("$url.sig") }.getOrNull()
+                    val sigText =
+                        if (sigResponse != null && sigResponse.status.value in 200..299) {
+                            runCatching { sigResponse.bodyAsText() }.getOrNull()
+                        } else {
+                            null
+                        }
+                    val result =
+                        if (sigText == null) {
+                            FilterSignatureVerifier.Result.Invalid("Missing signature for filter archive")
+                        } else {
+                            signatureVerifier.verifyFile(tempZip, sigText)
+                        }
+                    if (result !is FilterSignatureVerifier.Result.Valid) {
+                        val reason = (result as FilterSignatureVerifier.Result.Invalid).reason
+                        Timber.e("Signature verification failed for filter zip $url — rejecting update: $reason")
+                        lastSignatureFailure = "filter archive: $reason"
+                        return@withContext false
+                    }
                 }
 
-                java.util.zip.ZipFile(tempZip).use { zip ->
-                    val entries = zip.entries()
-                    while (entries.hasMoreElements()) {
-                        val entry = entries.nextElement()
-                        val targetFile =
-                            when {
-                                entry.name.endsWith(".bloom") -> bloomFile
-                                entry.name.endsWith(".trie") -> trieFile
-                                entry.name.endsWith(".css") -> cssFile
-                                entry.name.endsWith(".scriptlets") -> scriptletFile
-                                else -> null
-                            }
-                        targetFile?.let { out ->
-                            zip.getInputStream(entry).use { input ->
-                                FileOutputStream(out).use { output ->
-                                    input.copyTo(output)
+                // Atomic extraction: write every entry to a `.tmp` sibling first, then
+                // rename all to their final destinations only after the whole archive
+                // succeeded. A mid-extract failure leaves the previously-cached files
+                // intact (same guarantee the per-file path provides).
+                val staged = mutableMapOf<File, File>()
+                try {
+                    java.util.zip.ZipFile(tempZip).use { zip ->
+                        val entries = zip.entries()
+                        while (entries.hasMoreElements()) {
+                            val entry = entries.nextElement()
+                            val targetFile =
+                                when {
+                                    entry.name.endsWith(".bloom") -> bloomFile
+                                    entry.name.endsWith(".trie") -> trieFile
+                                    entry.name.endsWith(".css") -> cssFile
+                                    entry.name.endsWith(".scriptlets") -> scriptletFile
+                                    else -> null
                                 }
+                            targetFile?.let { out ->
+                                val tmp = File(out.parent, "${out.name}.tmp")
+                                zip.getInputStream(entry).use { input ->
+                                    FileOutputStream(tmp).use { output -> input.copyTo(output) }
+                                }
+                                staged[out] = tmp
                             }
                         }
                     }
+                    // All entries extracted cleanly — promote them atomically.
+                    for ((dest, tmp) in staged) {
+                        if (!tmp.renameTo(dest) && !(dest.delete() && tmp.renameTo(dest))) {
+                            throw java.io.IOException("Failed to promote ${dest.name} after extraction")
+                        }
+                    }
+                    Timber.d("Successfully extracted zip for filter")
+                    true
+                } catch (e: Exception) {
+                    // Roll back any staged temps; leave the previous dest files untouched.
+                    staged.values.forEach { runCatching { it.delete() } }
+                    throw e
                 }
-                Timber.d("Successfully extracted zip for filter")
-                true
             } catch (e: Exception) {
                 Timber.e(e, "Failed to download and extract filter zip: $url")
                 false
@@ -278,7 +314,7 @@ class FilterDownloadManager(
             if (sigText == null) {
                 FilterSignatureVerifier.Result.Invalid("Missing signature for ${destFile.name}")
             } else {
-                signatureVerifier.verify(tempFile.readBytes(), sigText)
+                signatureVerifier.verifyFile(tempFile, sigText)
             }
         val failure = result as? FilterSignatureVerifier.Result.Invalid
         if (failure != null) {

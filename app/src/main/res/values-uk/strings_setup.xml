@@ -31,4 +31,5 @@
     <string name="setup_applying">Застосування набору фільтрів…</string>
     <string name="setup_wizard_rerun">Запустити майстер налаштування знову</string>
     <string name="setup_wizard_rerun_desc">Вибрати набір фільтрів знову</string>
+    <string name="setup_apply_failed">Не вдалося застосувати пакет фільтрів. Спробуйте ще раз.</string>
 </resources>

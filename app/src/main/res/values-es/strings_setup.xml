@@ -31,4 +31,5 @@
     <string name="setup_applying">Aplicando tu paquete de filtros…</string>
     <string name="setup_wizard_rerun">Ejecutar el asistente de nuevo</string>
     <string name="setup_wizard_rerun_desc">Volver a elegir un paquete de filtros curado</string>
+    <string name="setup_apply_failed">No se pudo aplicar el paquete de filtros. Inténtalo de nuevo.</string>
 </resources>

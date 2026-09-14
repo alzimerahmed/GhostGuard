@@ -31,4 +31,5 @@
     <string name="setup_applying">מחילת חבילת המסננים…</string>
     <string name="setup_wizard_rerun">הפעלת אשף ההתקנה שוב</string>
     <string name="setup_wizard_rerun_desc">בחירת חבילת מסננים מחדש</string>
+    <string name="setup_apply_failed">לא ניתן להחיל את חבילת המסננים. נסה שוב.</string>
 </resources>

@@ -31,4 +31,5 @@
     <string name="setup_applying">Đang áp dụng gói bộ lọc…</string>
     <string name="setup_wizard_rerun">Chạy lại trình thiết lập</string>
     <string name="setup_wizard_rerun_desc">Chọn lại gói bộ lọc được tuyển chọn</string>
+    <string name="setup_apply_failed">Không thể áp dụng gói bộ lọc. Vui lòng thử lại.</string>
 </resources>

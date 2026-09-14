@@ -31,4 +31,5 @@
     <string name="setup_applying">Applying your filter pack…</string>
     <string name="setup_wizard_rerun">Run setup wizard again</string>
     <string name="setup_wizard_rerun_desc">Re-choose a curated filter pack</string>
+    <string name="setup_apply_failed">Could not apply the filter pack. Please try again.</string>
 </resources>

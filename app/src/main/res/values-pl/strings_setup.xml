@@ -31,4 +31,5 @@
     <string name="setup_applying">Stosowanie pakietu filtrów…</string>
     <string name="setup_wizard_rerun">Uruchom kreatora konfiguracji ponownie</string>
     <string name="setup_wizard_rerun_desc">Wybierz ponownie paket filtrów</string>
+    <string name="setup_apply_failed">Nie udało się zastosować pakietu filtrów. Spróbuj ponownie.</string>
 </resources>

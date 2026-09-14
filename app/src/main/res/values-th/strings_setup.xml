@@ -31,4 +31,5 @@
     <string name="setup_applying">กำลังใช้แพ็กตัวกรอง…</string>
     <string name="setup_wizard_rerun">รันตัวช่วยตั้งค่าอีกครั้ง</string>
     <string name="setup_wizard_rerun_desc">เลือกแพ็กตัวกรองที่คัดสรรอีกครั้ง</string>
+    <string name="setup_apply_failed">ไม่สามารถใช้งานแพ็คฟิลเตอร์ได้ กรุณาลองอีกครั้ง</string>
 </resources>
