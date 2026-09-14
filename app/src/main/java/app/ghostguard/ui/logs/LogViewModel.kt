@@ -28,7 +28,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -45,6 +47,10 @@ class LogViewModel(
     private val appPrefs: AppPreferences,
     private val application: Application,
 ) : AndroidViewModel(application) {
+    companion object {
+        private const val SEARCH_DEBOUNCE_MS = 250L
+    }
+
     private val _filterStatus = MutableStateFlow(LogFilterStatus.ALL)
     val filterStatus: StateFlow<LogFilterStatus> = _filterStatus.asStateFlow()
 
@@ -115,7 +121,7 @@ class LogViewModel(
                             dnsLogDao.getBlockedByReason(FilterListRepository.BLOCK_REASON_SECURITY)
                         }
                 }
-            }.combine(_searchQuery) { logs, query ->
+            }.combine(_searchQuery.debounce(SEARCH_DEBOUNCE_MS)) { logs, query ->
                 if (query.isBlank()) {
                     logs
                 } else {
@@ -130,7 +136,8 @@ class LogViewModel(
                 } else {
                     logs.filter { it.appName.equals(app, ignoreCase = true) }
                 }
-            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+            }.flowOn(Dispatchers.Default)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun setFilterStatus(status: LogFilterStatus) {
         _filterStatus.value = status

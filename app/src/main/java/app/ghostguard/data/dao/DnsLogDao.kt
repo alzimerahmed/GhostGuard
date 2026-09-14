@@ -16,20 +16,29 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DnsLogDao {
+    companion object {
+        /**
+         * Upper bound for full-log-list queries. The log UI is a receding
+         * window (newest first); unbounded SELECTs would load the entire
+         * dns_logs table into memory as history accumulates.
+         */
+        const val MAX_LOG_QUERY_LIMIT = 1000
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entry: DnsLogEntry)
 
-    @Query("SELECT * FROM dns_logs ORDER BY timestamp DESC")
-    fun getAll(): Flow<List<DnsLogEntry>>
+    @Query("SELECT * FROM dns_logs ORDER BY timestamp DESC LIMIT :limit")
+    fun getAll(limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
 
-    @Query("SELECT * FROM dns_logs WHERE isBlocked = 1 ORDER BY timestamp DESC")
-    fun getBlockedOnly(): Flow<List<DnsLogEntry>>
+    @Query("SELECT * FROM dns_logs WHERE isBlocked = 1 ORDER BY timestamp DESC LIMIT :limit")
+    fun getBlockedOnly(limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
 
-    @Query("SELECT * FROM dns_logs WHERE timestamp > :since ORDER BY timestamp DESC")
-    fun getAllSince(since: Long): Flow<List<DnsLogEntry>>
+    @Query("SELECT * FROM dns_logs WHERE timestamp > :since ORDER BY timestamp DESC LIMIT :limit")
+    fun getAllSince(since: Long, limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
 
-    @Query("SELECT * FROM dns_logs WHERE isBlocked = 1 AND timestamp > :since ORDER BY timestamp DESC")
-    fun getBlockedOnlySince(since: Long): Flow<List<DnsLogEntry>>
+    @Query("SELECT * FROM dns_logs WHERE isBlocked = 1 AND timestamp > :since ORDER BY timestamp DESC LIMIT :limit")
+    fun getBlockedOnlySince(since: Long, limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
 
     @Query("SELECT DISTINCT appName FROM dns_logs WHERE appName != '' ORDER BY appName ASC")
     fun getDistinctAppNames(): Flow<List<String>>
@@ -216,9 +225,13 @@ interface DnsLogDao {
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
         ORDER BY timestamp DESC
+        LIMIT :limit
         """,
     )
-    fun getBlockedByReason(reason: String): Flow<List<DnsLogEntry>>
+    fun getBlockedByReason(
+        reason: String,
+        limit: Int = MAX_LOG_QUERY_LIMIT,
+    ): Flow<List<DnsLogEntry>>
 
     @Query(
         """
@@ -226,10 +239,12 @@ interface DnsLogDao {
         AND (INSTR(',' || blockedBy || ',', ',' || :reason || ',') > 0
              OR blockedBy IN (SELECT CAST(id AS TEXT) FROM filter_lists WHERE category = :reason))
         ORDER BY timestamp DESC
+        LIMIT :limit
         """,
     )
     fun getBlockedByReasonSince(
         reason: String,
         since: Long,
+        limit: Int = MAX_LOG_QUERY_LIMIT,
     ): Flow<List<DnsLogEntry>>
 }
