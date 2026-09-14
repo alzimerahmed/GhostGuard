@@ -57,6 +57,7 @@ fun SettingsScreen(
     onNavigateToWireGuardImport: () -> Unit = { },
     onNavigateToHttpsFiltering: () -> Unit = { },
     onNavigateToDNSProvider: () -> Unit = { },
+    onNavigateToSetupWizard: () -> Unit = { },
 ) {
     val autoReconnect by viewModel.autoReconnect.collectAsStateWithLifecycle()
     val networkSwitchDelayEnabled by viewModel.networkSwitchDelayEnabled.collectAsStateWithLifecycle()
@@ -157,6 +158,7 @@ fun SettingsScreen(
             FilterSetupSection(
                 modifier = Modifier.fillMaxWidth(),
                 onNavigateToFilterSetup = onNavigateToFilterSetup,
+                onNavigateToSetupWizard = onNavigateToSetupWizard,
                 filterLists = filterLists,
                 autoUpdateNotification = autoUpdateNotification,
                 autoUpdateFrequency = autoUpdateFrequency,

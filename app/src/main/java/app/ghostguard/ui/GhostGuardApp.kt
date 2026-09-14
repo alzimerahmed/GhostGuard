@@ -7,9 +7,11 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import app.ghostguard.ui.data.HomeAppKey
 import app.ghostguard.ui.data.OnboardingKey
+import app.ghostguard.ui.data.SetupWizardKey
 import app.ghostguard.ui.data.SplashKey
 import app.ghostguard.ui.dialog.VPNConflictDialog
 import app.ghostguard.ui.onboarding.OnboardingScreen
+import app.ghostguard.ui.setup.SetupWizardScreen
 import app.ghostguard.ui.splash.SplashScreen
 
 @Composable
@@ -42,6 +44,18 @@ fun GhostGuardApp(
                         onNavigateToOnboarding = {
                             backStack.add(OnboardingKey)
                             backStack.remove(SplashKey)
+                        },
+                        onNavigateToSetupWizard = {
+                            backStack.add(SetupWizardKey)
+                            backStack.remove(SplashKey)
+                        },
+                    )
+                }
+                entry<SetupWizardKey> {
+                    SetupWizardScreen(
+                        onFinished = {
+                            backStack.add(HomeAppKey)
+                            backStack.remove(SetupWizardKey)
                         },
                     )
                 }

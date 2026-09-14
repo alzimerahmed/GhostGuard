@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">حظر الإعلانات بلمسة واحدة</string>
+    <string name="setup_welcome_desc">يوفّر GhostGuard فلترة الإعلانات والمتتبعات والبرمجيات الخبيثة على مستوى النظام عبر VPN محلي — دون الحاجة إلى صلاحيات root.\n\n🔒 وعد الخصوصية: بلا حساب، بلا تتبع، بلا جمع بيانات. كل شيء يبقى على جهازك.</string>
+    <string name="setup_welcome_feature_privacy">الخصوصية أولاً — بيانات تصفحك لا تغادر جهازك أبداً</string>
+    <string name="setup_welcome_feature_no_account">لا حاجة إلى حساب — مجاني ومفتوح المصدر</string>
+    <string name="setup_welcome_feature_one_tap">لمسة واحدة لبدء الفلترة</string>
+    <string name="setup_skip">تخطي</string>
+    <string name="setup_next">التالي</string>
+    <string name="setup_back">رجوع</string>
+    <string name="setup_pack_title">اختر حزمة الفلاتر</string>
+    <string name="setup_pack_desc">اختر مجموعة منتقاة من قوائم الفلاتر. يمكنك ضبط كل قائمة لاحقاً في قسم الفلاتر.</string>
+    <string name="setup_recommended">★ موصى به</string>
+    <string name="setup_pack_minimal">الحد الأدنى</string>
+    <string name="setup_pack_minimal_detail">خفيف، مع أقل عدد من الإنذارات الخاطئة</string>
+    <string name="setup_pack_minimal_examples">يحجب: إعلانات البانر، إعلانات التطبيقات</string>
+    <string name="setup_pack_balanced">متوازن</string>
+    <string name="setup_pack_balanced_detail">حظر قوي للإعلانات والمتتبعات مع بقاء المواقع تعمل بشكل سليم</string>
+    <string name="setup_pack_balanced_examples">يحجب: الإعلانات، المتتبعات، التحليلات، إعلانات الجوال</string>
+    <string name="setup_pack_strict">صارم</string>
+    <string name="setup_pack_strict_detail">حظر أقصى، بما في ذلك البرمجيات الخبيثة والتصيد</string>
+    <string name="setup_pack_strict_examples">يحجب: الإعلانات، المتتبعات، البرمجيات الخبيثة، التصيد</string>
+    <string name="setup_pack_lists_count">%1$d قوائم فلترة</string>
+    <string name="setup_finish_title">أنت محمي تقريباً</string>
+    <string name="setup_finish_desc">يستخدم GhostGuard شبكة VPN محلية لفلترة استعلامات DNS على جهازك. لا تخرج أي بيانات من هاتفك.</string>
+    <string name="setup_finish_vpn_title">إذن VPN</string>
+    <string name="setup_finish_vpn_desc">مطلوب لفلترة حركة DNS الخاصة بالجهاز محلياً</string>
+    <string name="setup_vpn_grant">منح</string>
+    <string name="setup_vpn_granted">✓ تم منح إذن VPN</string>
+    <string name="setup_start_filtering">بدء الفلترة</string>
+    <string name="setup_applying">جارٍ تطبيق حزمة الفلاتر…</string>
+    <string name="setup_wizard_rerun">تشغيل معالج الإعداد مرة أخرى</string>
+    <string name="setup_wizard_rerun_desc">اختيار حزمة فلاتر من جديد</string>
+</resources>

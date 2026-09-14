@@ -60,6 +60,7 @@ import app.ghostguard.ui.data.HttpsFilteringKey
 import app.ghostguard.ui.data.LogsKey
 import app.ghostguard.ui.data.ProfileKey
 import app.ghostguard.ui.data.SettingsKey
+import app.ghostguard.ui.data.SetupWizardKey
 import app.ghostguard.ui.data.StatisticsKey
 import app.ghostguard.ui.data.TrustedNetworksKey
 import app.ghostguard.ui.data.WhiteListAppKey
@@ -76,6 +77,7 @@ import app.ghostguard.ui.httpsfiltering.wizard.CertInstallationWizardScreen
 import app.ghostguard.ui.logs.LogsScreen
 import app.ghostguard.ui.profile.ProfileScreen
 import app.ghostguard.ui.settings.SettingsScreen
+import app.ghostguard.ui.setup.SetupWizardScreen
 import app.ghostguard.ui.statistics.StatisticsScreen
 import app.ghostguard.ui.whitelist.AppWhitelistScreen
 import app.ghostguard.ui.wireguard.WireGuardEditScreen
@@ -278,6 +280,17 @@ fun HomeApp(
                             onNavigateToDNSProvider = {
                                 showBottomBar = false
                                 settingsStack.add(DnsProviderKey)
+                            },
+                            onNavigateToSetupWizard = {
+                                showBottomBar = false
+                                settingsStack.add(SetupWizardKey)
+                            },
+                        )
+                    }
+                    entry<SetupWizardKey> {
+                        SetupWizardScreen(
+                            onFinished = {
+                                safePop(settingsStack)
                             },
                         )
                     }

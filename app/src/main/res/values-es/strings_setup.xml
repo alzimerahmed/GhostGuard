@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Bloquea anuncios con un toque</string>
+    <string name="setup_welcome_desc">GhostGuard filtra anuncios, rastreadores y malware en todo el sistema mediante una VPN local, sin root.\n\n🔒 Promesa de privacidad: sin cuenta, sin rastreo, sin recopilación de datos. Todo permanece en tu dispositivo.</string>
+    <string name="setup_welcome_feature_privacy">Privacidad primero: tus datos de navegación nunca salen de tu dispositivo</string>
+    <string name="setup_welcome_feature_no_account">Sin cuenta necesaria: gratis y de código abierto</string>
+    <string name="setup_welcome_feature_one_tap">Un toque para empezar a filtrar</string>
+    <string name="setup_skip">Omitir</string>
+    <string name="setup_next">Siguiente</string>
+    <string name="setup_back">Atrás</string>
+    <string name="setup_pack_title">Elige tu paquete de filtros</string>
+    <string name="setup_pack_desc">Elige un conjunto curado de listas de filtros. Podrás ajustarlas una por una más tarde en Filtros.</string>
+    <string name="setup_recommended">★ Recomendado</string>
+    <string name="setup_pack_minimal">Mínimo</string>
+    <string name="setup_pack_minimal_detail">Ligero, con la menor cantidad de falsos positivos</string>
+    <string name="setup_pack_minimal_examples">bloquea: anuncios de banner, anuncios en apps</string>
+    <string name="setup_pack_balanced">Equilibrado</string>
+    <string name="setup_pack_balanced_detail">Bloqueo fuerte de anuncios y rastreadores manteniendo los sitios funcionales</string>
+    <string name="setup_pack_balanced_examples">bloquea: anuncios, rastreadores, analíticas, anuncios móviles</string>
+    <string name="setup_pack_strict">Estricto</string>
+    <string name="setup_pack_strict_detail">Bloqueo máximo, incluidos malware y phishing</string>
+    <string name="setup_pack_strict_examples">bloquea: anuncios, rastreadores, malware, phishing</string>
+    <string name="setup_pack_lists_count">%1$d listas de filtros</string>
+    <string name="setup_finish_title">Ya casi estás protegido</string>
+    <string name="setup_finish_desc">GhostGuard usa una VPN local para filtrar las consultas DNS de tu dispositivo. Ningún dato sale de tu teléfono.</string>
+    <string name="setup_finish_vpn_title">Permiso de VPN</string>
+    <string name="setup_finish_vpn_desc">Necesario para filtrar localmente el tráfico DNS del dispositivo</string>
+    <string name="setup_vpn_grant">Conceder</string>
+    <string name="setup_vpn_granted">✓ Permiso de VPN concedido</string>
+    <string name="setup_start_filtering">Empezar a filtrar</string>
+    <string name="setup_applying">Aplicando tu paquete de filtros…</string>
+    <string name="setup_wizard_rerun">Ejecutar el asistente de nuevo</string>
+    <string name="setup_wizard_rerun_desc">Volver a elegir un paquete de filtros curado</string>
+</resources>

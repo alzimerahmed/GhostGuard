@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Блокируйте рекламу одним касанием</string>
+    <string name="setup_welcome_desc">GhostGuard фильтрует рекламу, трекеры и вредоносные программы на уровне системы через локальный VPN — без root.\n\n🔒 Обещание конфиденциальности: без аккаунта, без отслеживания, без сбора данных. Всё остаётся на вашем устройстве.</string>
+    <string name="setup_welcome_feature_privacy">Конфиденциальность прежде всего — данные браузинга не покидают устройство</string>
+    <string name="setup_welcome_feature_no_account">Аккаунт не нужен — бесплатно и с открытым кодом</string>
+    <string name="setup_welcome_feature_one_tap">Одно касание, чтобы начать фильтрацию</string>
+    <string name="setup_skip">Пропустить</string>
+    <string name="setup_next">Далее</string>
+    <string name="setup_back">Назад</string>
+    <string name="setup_pack_title">Выберите набор фильтров</string>
+    <string name="setup_pack_desc">Выберите подобранный набор списков фильтров. Позже их можно настроить по отдельности в разделе «Фильтры».</string>
+    <string name="setup_recommended">★ Рекомендуется</string>
+    <string name="setup_pack_minimal">Минимальный</string>
+    <string name="setup_pack_minimal_detail">Лёгкий, с минимумом ложных срабатываний</string>
+    <string name="setup_pack_minimal_examples">блокирует: баннерную рекламу, рекламу в приложениях</string>
+    <string name="setup_pack_balanced">Сбалансированный</string>
+    <string name="setup_pack_balanced_detail">Мощная блокировка рекламы и трекеров с сохранением работы сайтов</string>
+    <string name="setup_pack_balanced_examples">блокирует: рекламу, трекеры, аналитику, мобильную рекламу</string>
+    <string name="setup_pack_strict">Строгий</string>
+    <string name="setup_pack_strict_detail">Максимальная блокировка, включая вредоносные программы и фишинг</string>
+    <string name="setup_pack_strict_examples">блокирует: рекламу, трекеры, вредоносные программы, фишинг</string>
+    <string name="setup_pack_lists_count">Списков фильтров: %1$d</string>
+    <string name="setup_finish_title">Почти готово</string>
+    <string name="setup_finish_desc">GhostGuard использует локальный VPN для фильтрации DNS-запросов на устройстве. Никакие данные не покидают телефон.</string>
+    <string name="setup_finish_vpn_title">Разрешение VPN</string>
+    <string name="setup_finish_vpn_desc">Необходимо для локальной фильтрации DNS-трафика устройства</string>
+    <string name="setup_vpn_grant">Разрешить</string>
+    <string name="setup_vpn_granted">✓ Разрешение VPN выдано</string>
+    <string name="setup_start_filtering">Начать фильтрацию</string>
+    <string name="setup_applying">Применяем набор фильтров…</string>
+    <string name="setup_wizard_rerun">Запустить мастер настройки снова</string>
+    <string name="setup_wizard_rerun_desc">Выбрать набор фильтров заново</string>
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">חסימת פרסומות בנגיעה אחת</string>
+    <string name="setup_welcome_desc">GhostGuard מסנן פרסומות, עוקבים ותוכנות זדוניות בכל המערכת באמצעות VPN מקומי — ללא root.\n\n🔒 הבטחת פרטיות: בלי חשבון, בלי מעקב, בלי איסוף נתונים. הכול נשאר במכשיר שלך.</string>
+    <string name="setup_welcome_feature_privacy">פרטיות קודם כל — נתוני הגלישה שלך לעולם לא עוזבים את המכשיר</string>
+    <string name="setup_welcome_feature_no_account">לא נדרש חשבון — חינמי וקוד פתוח</string>
+    <string name="setup_welcome_feature_one_tap">נגיעה אחת להתחלת הסינון</string>
+    <string name="setup_skip">דילוג</string>
+    <string name="setup_next">הבא</string>
+    <string name="setup_back">חזרה</string>
+    <string name="setup_pack_title">בחרו חבילת מסננים</string>
+    <string name="setup_pack_desc">בחרו ערכה של רשימות סינון שנבחרו בקפידה. תוכלו לכוונן כל רשימה בנפרד מאוחר יותר במסננים.</string>
+    <string name="setup_recommended">★ מומלץ</string>
+    <string name="setup_pack_minimal">מינימלי</string>
+    <string name="setup_pack_minimal_detail">קל משקל, עם הכי פחות זיהויים שגויים</string>
+    <string name="setup_pack_minimal_examples">חוסם: מודעות באנר, פרסום בתוך אפליקציות</string>
+    <string name="setup_pack_balanced">מאוזן</string>
+    <string name="setup_pack_balanced_detail">חסימה חזקה של פרסומות ועוקבים תוך שמירה על תקינות האתרים</string>
+    <string name="setup_pack_balanced_examples">חוסם: פרסומות, עוקבים, ניתוח, פרסום נייד</string>
+    <string name="setup_pack_strict">קפדני</string>
+    <string name="setup_pack_strict_detail">חסימה מרבית, כולל תוכנות זדוניות ופישינג</string>
+    <string name="setup_pack_strict_examples">חוסם: פרסומות, עוקבים, תוכנות זדוניות, פישינג</string>
+    <string name="setup_pack_lists_count">%1$d רשימות סינון</string>
+    <string name="setup_finish_title">כמעט מוגנים</string>
+    <string name="setup_finish_desc">GhostGuard משתמש ב-VPN מקומי כדי לסנן שאילתות DNS במכשיר. אף נתון לא יוצא מהטלפון.</string>
+    <string name="setup_finish_vpn_title">הרשאת VPN</string>
+    <string name="setup_finish_vpn_desc">נדרש כדי לסנן מקומית את תעבורת ה-DNS של המכשיר</string>
+    <string name="setup_vpn_grant">אישור</string>
+    <string name="setup_vpn_granted">✓ הרשאת VPN אושרה</string>
+    <string name="setup_start_filtering">התחלת סינון</string>
+    <string name="setup_applying">מחילת חבילת המסננים…</string>
+    <string name="setup_wizard_rerun">הפעלת אשף ההתקנה שוב</string>
+    <string name="setup_wizard_rerun_desc">בחירת חבילת מסננים מחדש</string>
+</resources>

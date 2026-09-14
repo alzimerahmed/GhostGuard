@@ -24,7 +24,7 @@ class SplashViewModel(
             if (onboardingCompleted) {
                 _events.emit(SplashEvent.Home)
             } else {
-                _events.emit(SplashEvent.Onboarding)
+                _events.emit(SplashEvent.SetupWizard)
             }
         }
     }

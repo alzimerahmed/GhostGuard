@@ -29,6 +29,7 @@ fun FilterSetupSection(
     autoUpdateWifiOnly: Boolean,
     autoUpdateEnabled: Boolean,
     onNavigateToFilterSetup: () -> Unit = {},
+    onNavigateToSetupWizard: () -> Unit = {},
     onSetAutoUpdateWifiOnly: (Boolean) -> Unit = {},
     onSetAutoUpdateFrequency: (String) -> Unit = {},
     onSetAutoUpdateNotification: (String) -> Unit = {},
@@ -56,6 +57,17 @@ fun FilterSetupSection(
                     desc = stringResource(R.string.settings_category_filters_desc),
                     statusValue = stringResource(R.string.settings_filter_lists, enabledFilterCount),
                     onClick = onNavigateToFilterSetup,
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)
+
+                // 1b. Run setup wizard again
+                SettingItem(
+                    iconPainter = painterResource(R.drawable.ic_settings_filter_lists),
+                    iconTint = Color(0xFF059669),
+                    title = stringResource(R.string.setup_wizard_rerun),
+                    desc = stringResource(R.string.setup_wizard_rerun_desc),
+                    onClick = onNavigateToSetupWizard,
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = dividerColor)

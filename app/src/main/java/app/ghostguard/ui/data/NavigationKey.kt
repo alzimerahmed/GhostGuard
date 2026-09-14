@@ -11,6 +11,9 @@ data object SplashKey : NavKey
 data object OnboardingKey : NavKey
 
 @Serializable
+data object SetupWizardKey : NavKey
+
+@Serializable
 data object HomeAppKey : NavKey
 
 @Serializable

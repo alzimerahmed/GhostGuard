@@ -39,6 +39,7 @@ fun SplashScreen(
     viewModel: SplashViewModel = koinInject(),
     onNavigateToHome: () -> Unit = {},
     onNavigateToOnboarding: () -> Unit = {},
+    onNavigateToSetupWizard: () -> Unit = {},
 ) {
     var startAnimation by remember { mutableStateOf(false) }
 
@@ -62,6 +63,10 @@ fun SplashScreen(
 
                 is SplashEvent.Onboarding -> {
                     onNavigateToOnboarding()
+                }
+
+                is SplashEvent.SetupWizard -> {
+                    onNavigateToSetupWizard()
                 }
             }
         }
