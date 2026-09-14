@@ -1,0 +1,11 @@
+v1.0.0 — First stable release of GhostGuard
+
+• One-tap setup wizard with curated Minimal / Balanced / Strict filter packs
+• System-wide ad, tracker, and malware blocking via local VPN (no root, no data collection)
+• Signed filter/scriptlet downloads — Ed25519 + SHA-256 verification, fail-closed (H3)
+• HTTPS filtering with Keystore-wrapped MITM CA key (C1)
+• WireGuard import, per-app bypass, custom block/allow rules, DNS query logs
+• New GhostGuard launcher icon
+• 21-language UI
+
+Privacy-first, GPL-3.0, no account, no tracking. Everything stays on your device.
