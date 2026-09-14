@@ -1,6 +1,10 @@
 package app.ghostguard.ui.dialog
 
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
@@ -19,6 +23,9 @@ class ConfirmClearLogDialogTest {
 
     private val context = ApplicationProvider.getApplicationContext<android.content.Context>()
 
+    private val clearLabel = context.getString(R.string.settings_clear_logs)
+    private val cancelLabel = context.getString(R.string.cancel)
+
     @Test
     fun dialog_showsTitleAndButtons() {
         composeTestRule.setContent {
@@ -26,8 +33,9 @@ class ConfirmClearLogDialogTest {
                 ConfirmClearLogDialog(onClear = {}, onDismiss = {})
             }
         }
-        composeTestRule.onNodeWithText(context.getString(R.string.settings_clear_logs)).assertExists()
-        composeTestRule.onNodeWithText(context.getString(R.string.cancel)).assertExists()
+        // Title and confirm button share the same string
+        composeTestRule.onAllNodesWithText(clearLabel).assertCountEquals(2)
+        composeTestRule.onNodeWithText(cancelLabel).assertExists()
     }
 
     @Test
@@ -38,9 +46,7 @@ class ConfirmClearLogDialogTest {
                 ConfirmClearLogDialog(onClear = { cleared++ }, onDismiss = {})
             }
         }
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.settings_clear_logs))
-            .performClick()
+        composeTestRule.onNode(hasText(clearLabel).and(hasClickAction())).performClick()
         assertEquals(1, cleared)
     }
 
@@ -52,9 +58,7 @@ class ConfirmClearLogDialogTest {
                 ConfirmClearLogDialog(onClear = {}, onDismiss = { dismissed++ })
             }
         }
-        composeTestRule
-            .onNodeWithText(context.getString(R.string.cancel))
-            .performClick()
+        composeTestRule.onNode(hasText(cancelLabel).and(hasClickAction())).performClick()
         assertEquals(1, dismissed)
     }
 }

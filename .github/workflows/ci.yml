@@ -65,15 +65,24 @@ jobs:
       - name: Static analysis (ktlint + detekt)
         run: ./gradlew ktlintCheck detekt
 
+      - name: Ktlint
+        run: ./gradlew ktlintCheck
+
+      - name: Detekt
+        run: ./gradlew detekt
+
       - name: Unit tests
+        id: unit-tests
         run: ./gradlew testDebugUnitTest
 
       - name: Upload test results
-        if: always()
+        if: always() && steps.unit-tests.outcome != 'skipped'
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: app/build/reports/tests/testDebugUnitTest/
+          path: |
+            app/build/test-results/testDebugUnitTest/
+            app/build/reports/tests/testDebugUnitTest/
           retention-days: 7
 
       - name: Build debug APK
