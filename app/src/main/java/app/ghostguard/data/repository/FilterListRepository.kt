@@ -69,6 +69,25 @@ class FilterListRepository(
     val domainCountFlow: StateFlow<Int> = _domainCountFlow.asStateFlow()
     val domainCount: Int get() = _domainCountFlow.value
 
+    /**
+     * User-visible filter update status (H3): when a built-in filter update fails
+     * signature verification, the update is rejected, the previous version is kept,
+     * and the failure is surfaced here for the filter-list UI.
+     */
+    private val _updateStatusFlow = MutableStateFlow<FilterUpdateStatus>(FilterUpdateStatus.Idle)
+    val updateStatusFlow: StateFlow<FilterUpdateStatus> = _updateStatusFlow.asStateFlow()
+
+    private fun recordSignatureFailure(filterName: String) {
+        val reason = downloadManager.consumeSignatureFailure() ?: return
+        Timber.w("Filter update rejected for %s: %s", filterName, reason)
+        _updateStatusFlow.value =
+            FilterUpdateStatus.VerificationFailed(
+                filterName = filterName,
+                reason = reason,
+                timestamp = System.currentTimeMillis(),
+            )
+    }
+
     fun getAdTriePath(): String = adTriePaths
 
     fun getSecurityTriePath(): String = securityTriePaths
@@ -324,6 +343,7 @@ class FilterListRepository(
                             totalCount += filter.ruleCount
                         } else {
                             Timber.e("Failed to download filter: ${filter.name}")
+                            if (filter.isBuiltIn) recordSignatureFailure(filter.name)
                         }
                     }
 
@@ -369,6 +389,7 @@ class FilterListRepository(
                         totalCount += filter.ruleCount
                     } else {
                         Timber.e("Failed to force update built-in filter: ${filter.name}")
+                        recordSignatureFailure(filter.name)
                     }
                 }
 
