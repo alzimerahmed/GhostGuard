@@ -62,6 +62,20 @@ jobs:
       - name: Lint
         run: ./gradlew lint
 
+      - name: Static analysis (ktlint + detekt)
+        run: ./gradlew ktlintCheck detekt
+
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: app/build/reports/tests/testDebugUnitTest/
+          retention-days: 7
+
       - name: Build debug APK
         run: |
           ./gradlew --stop

@@ -27,6 +27,8 @@ sentry = "6.6.0"
 ktlint = "14.2.0"
 detekt = "1.23.8"
 sentry-android = "8.41.0"
+robolectric = "4.16"
+androidxTestCore = "1.7.0"
 
 
 [libraries]
@@ -69,6 +71,8 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 sentry-android = { module = "io.sentry:sentry-android", version.ref = "sentry-android" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

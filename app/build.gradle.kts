@@ -148,6 +148,13 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all { it.jvmArgs("-Xmx2g") }
+        }
+    }
+
     packaging {
         jniLibs {
             // Disable stripping native libraries to ensure byte-for-byte reproducible builds
@@ -232,6 +239,9 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
