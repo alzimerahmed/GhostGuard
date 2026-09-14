@@ -7,6 +7,7 @@ import android.system.OsConstants
 import app.ghostguard.data.dao.DnsLogDao
 import app.ghostguard.data.entities.DnsLogEntry
 import app.ghostguard.data.repository.FilterListRepository
+import app.ghostguard.security.MitmCaKeyManager
 import app.ghostguard.utils.AppNameResolver
 import app.ghostguard.utils.BlocklistInfo
 import kotlinx.coroutines.CoroutineScope
@@ -318,7 +319,7 @@ class GoTunnelAdapter(
 
                 // Enable the stack, init CA + filter, register UIDs.
                 engine.setUseTcpStack(true)
-                engine.startStackMitm(certDir)
+                MitmCaKeyManager.startStackMitmSecureBlocking(context, engine, certDir)
                 engine.setMitmAllowedUIDs(uids)
                 engine.setFilterHttp3(filterHttp3)
 

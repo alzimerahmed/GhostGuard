@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.data.datastore.AppPreferences
+import app.ghostguard.security.MitmCaKeyManager
 import app.ghostguard.service.ServiceController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -165,7 +166,7 @@ class HttpsFilteringViewModel(
             val certDir = getApplication<Application>().filesDir.absolutePath
             var caPem = engine.getMitmCACert(certDir)
             if (caPem.isNullOrEmpty()) {
-                caPem = engine.startStackMitm(certDir)
+                caPem = MitmCaKeyManager.startStackMitmSecureBlocking(getApplication(), engine, certDir)
                 if (caPem.isNotEmpty()) {
                     _caCertPem.value = caPem
                 }
@@ -220,7 +221,7 @@ class HttpsFilteringViewModel(
             var pem = _caCertPem.value
             if (pem.isNullOrEmpty()) {
                 val certDir = getApplication<Application>().filesDir.absolutePath
-                pem = engine.startStackMitm(certDir)
+                pem = MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir)
                 if (pem.isNotEmpty()) {
                     _caCertPem.value = pem
                 }
@@ -290,7 +291,7 @@ class HttpsFilteringViewModel(
             var pem = _caCertPem.value
             if (pem.isNullOrEmpty()) {
                 val certDir = getApplication<Application>().filesDir.absolutePath
-                pem = engine.startStackMitm(certDir)
+                pem = MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir)
                 if (pem.isNotEmpty()) {
                     _caCertPem.value = pem
                 }
@@ -322,7 +323,7 @@ class HttpsFilteringViewModel(
             var pem = _caCertPem.value
             if (pem.isNullOrEmpty()) {
                 val certDir = getApplication<Application>().filesDir.absolutePath
-                pem = engine.startStackMitm(certDir)
+                pem = MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir)
                 if (pem.isNotEmpty()) {
                     _caCertPem.value = pem
                 }
@@ -391,7 +392,7 @@ class HttpsFilteringViewModel(
             try {
                 val certDir = getApplication<Application>().filesDir.absolutePath
                 engine.setUseTcpStack(true)
-                val caPem = engine.startStackMitm(certDir)
+                val caPem = MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir)
                 if (caPem.isNotEmpty()) {
                     _caCertPem.value = caPem
                     _isProxyRunning.value = true

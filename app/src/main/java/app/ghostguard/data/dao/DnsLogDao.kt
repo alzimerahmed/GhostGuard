@@ -35,10 +35,16 @@ interface DnsLogDao {
     fun getBlockedOnly(limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
 
     @Query("SELECT * FROM dns_logs WHERE timestamp > :since ORDER BY timestamp DESC LIMIT :limit")
-    fun getAllSince(since: Long, limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
+    fun getAllSince(
+        since: Long,
+        limit: Int = MAX_LOG_QUERY_LIMIT,
+    ): Flow<List<DnsLogEntry>>
 
     @Query("SELECT * FROM dns_logs WHERE isBlocked = 1 AND timestamp > :since ORDER BY timestamp DESC LIMIT :limit")
-    fun getBlockedOnlySince(since: Long, limit: Int = MAX_LOG_QUERY_LIMIT): Flow<List<DnsLogEntry>>
+    fun getBlockedOnlySince(
+        since: Long,
+        limit: Int = MAX_LOG_QUERY_LIMIT,
+    ): Flow<List<DnsLogEntry>>
 
     @Query("SELECT DISTINCT appName FROM dns_logs WHERE appName != '' ORDER BY appName ASC")
     fun getDistinctAppNames(): Flow<List<String>>

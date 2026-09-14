@@ -58,6 +58,78 @@ func (e *Engine) StartStackMitm(certDir string) string {
 	return certMgr.GetCACertPEM()
 }
 
+// StartStackMitmWithKey is the secure variant of StartStackMitm: the
+// caller supplies the decrypted CA private key (PEM), which the engine
+// keeps in memory only — ca.key is never written to disk. This is the
+// path used by the Android app, which decrypts the key from
+// Keystore-wrapped storage before each MITM start. Pass an empty
+// keyPem only as a legacy fallback (plaintext key file path).
+func (e *Engine) StartStackMitmWithKey(certDir string, caKeyPem string) string {
+	e.mu.Lock()
+	if e.stackCertMgr != nil {
+		// Already initialised — re-init would orphan a CertManager whose
+		// key may still be referenced by live TCP handlers.
+		certMgr := e.stackCertMgr
+		e.mu.Unlock()
+		return certMgr.GetCACertPEM()
+	}
+	e.mu.Unlock()
+
+	var certMgr *CertManager
+	var err error
+	if caKeyPem != "" {
+		certMgr, err = NewCertManagerWithKey(certDir, caKeyPem)
+	} else {
+		certMgr, err = NewCertManager(certDir)
+	}
+	if err != nil {
+		logf("StartStackMitmWithKey: cert manager init failed: %v", err)
+		return ""
+	}
+	certMgr.WarmLocalAssetCert()
+
+	e.mu.Lock()
+	e.stackCertMgr = certMgr
+	if e.stackMitmFilter == nil {
+		e.stackMitmFilter = NewMitmFilter()
+	}
+	filter := e.stackMitmFilter
+	e.certDir = certDir
+	e.mu.Unlock()
+
+	filter.LoadPersistentBlacklist(filepath.Join(certDir, "mitm_blacklist.txt"))
+
+	return certMgr.GetCACertPEM()
+}
+
+// GenerateMitmCAInMemory generates a fresh Root CA, persists ONLY the
+// certificate to certDir/ca.crt, and returns the concatenated
+// certPEM+keyPEM (empty on error). The private key never touches disk —
+// the Android caller wraps it into Keystore-encrypted storage and then
+// calls StartStackMitmWithKey with the decrypted key.
+func (e *Engine) GenerateMitmCAInMemory(certDir string) string {
+	pair, err := mitm.GenerateCAPairInMemory(certDir)
+	if err != nil {
+		logf("GenerateMitmCAInMemory: %v", err)
+		return ""
+	}
+	return pair
+}
+
+// GetMitmCAKey returns the PEM-encoded CA private key held in memory by
+// the active stack cert manager (empty if MITM is not initialised).
+// The Android app uses this once after key generation to wrap the key
+// into Keystore-encrypted storage and delete the plaintext file.
+func (e *Engine) GetMitmCAKey() string {
+	e.mu.Lock()
+	certMgr := e.stackCertMgr
+	e.mu.Unlock()
+	if certMgr == nil {
+		return ""
+	}
+	return certMgr.GetCAKeyPEM()
+}
+
 // StopStackMitm clears stack-mode MITM state. The stack itself keeps
 // running on the direct-dial handler after this call.
 func (e *Engine) StopStackMitm() {
@@ -359,7 +431,8 @@ func (e *Engine) SetAdPathPatterns(patternsCsv string) {
 // ── AdBlockChecker implementation ────────────────────────────────────────────
 // IsDomainBlocked satisfies the AdBlockChecker interface used by the MITM
 // proxy.  It replicates the exact same blocking pipeline used for DNS queries:
-//   CustomRule(allow override) → SecurityTrie → AdTrie → Kotlin DomainChecker.
+//
+//	CustomRule(allow override) → SecurityTrie → AdTrie → Kotlin DomainChecker.
 func (e *Engine) IsDomainBlocked(host string) bool {
 	host = strings.ToLower(strings.TrimSpace(host))
 	if host == "" {

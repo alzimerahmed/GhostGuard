@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import app.ghostguard.R
 import app.ghostguard.data.datastore.AppPreferences
+import app.ghostguard.security.MitmCaKeyManager
 import app.ghostguard.service.ServiceController
 import app.ghostguard.ui.httpsfiltering.CertStatus
 import app.ghostguard.utils.DeviceManager
@@ -97,7 +98,7 @@ class CertInstallationWizardViewModel(
             val certDir = getApplication<Application>().filesDir.absolutePath
             var caPem = engine.getMitmCACert(certDir)
             if (caPem.isNullOrEmpty()) {
-                caPem = engine.startStackMitm(certDir)
+                caPem = MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir)
             }
             val installed = checkCertInTrustStore(caPem)
             _uiState.update {
@@ -113,7 +114,7 @@ class CertInstallationWizardViewModel(
             val certDir = getApplication<Application>().filesDir.absolutePath
             var pem = engine.getMitmCACert(certDir)
             if (pem.isNullOrEmpty()) {
-                pem = withContext(Dispatchers.IO) { engine.startStackMitm(certDir) }
+                pem = withContext(Dispatchers.IO) { MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir) }
             }
             if (pem.isNullOrEmpty()) {
                 _uiEffect.emit(CertInstallationWizardUiEffect.ShowSnackbar("Error: could not generate CA certificate"))
@@ -168,7 +169,7 @@ class CertInstallationWizardViewModel(
             val certDir = getApplication<Application>().filesDir.absolutePath
             var pem = engine.getMitmCACert(certDir)
             if (pem.isNullOrEmpty()) {
-                pem = withContext(Dispatchers.IO) { engine.startStackMitm(certDir) }
+                pem = withContext(Dispatchers.IO) { MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir) }
             }
             val result =
                 withContext(Dispatchers.IO) {
@@ -192,7 +193,7 @@ class CertInstallationWizardViewModel(
             val certDir = getApplication<Application>().filesDir.absolutePath
             var pem = engine.getMitmCACert(certDir)
             if (pem.isNullOrEmpty()) {
-                pem = withContext(Dispatchers.IO) { engine.startStackMitm(certDir) }
+                pem = withContext(Dispatchers.IO) { MitmCaKeyManager.startStackMitmSecure(getApplication(), engine, certDir) }
             }
             val result =
                 withContext(Dispatchers.IO) {

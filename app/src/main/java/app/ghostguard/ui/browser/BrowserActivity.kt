@@ -47,7 +47,13 @@ class BrowserActivity : ComponentActivity() {
          * lowercase so the WebView always receives a canonical URL.
          */
         fun sanitizeUrl(url: String): String {
-            val scheme = runCatching { java.net.URI(url).scheme?.lowercase() }.getOrNull()
+            val scheme =
+                runCatching {
+                    java.net
+                        .URI(url)
+                        .scheme
+                        ?.lowercase()
+                }.getOrNull()
             return if (scheme == "http" || scheme == "https") {
                 "$scheme://${url.substringAfter("://", "")}"
             } else {

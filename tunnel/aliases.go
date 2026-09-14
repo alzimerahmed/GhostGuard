@@ -75,15 +75,15 @@ func CompileFilterList(inputPath, triePath, bloomPath string) (int, error) {
 }
 
 var (
-
-	NewCertManager       = mitm.NewCertManager
-	NewMitmFilter        = mitm.NewMitmFilter
-	newMitmTcpHandler    = mitm.NewMitmTcpHandler
-	newMitmUdpHandler    = mitm.NewMitmUdpHandler
-	SetCosmeticCSS       = mitm.SetCosmeticCSS
-	SetScriptletStore    = mitm.SetScriptletStore
-	SetScriptletsRuntime = mitm.SetScriptletsRuntime
-	ServeLocalAsset      = mitm.ServeLocalAsset
+	NewCertManager        = mitm.NewCertManager
+	NewCertManagerWithKey = mitm.NewCertManagerWithKey
+	NewMitmFilter         = mitm.NewMitmFilter
+	newMitmTcpHandler     = mitm.NewMitmTcpHandler
+	newMitmUdpHandler     = mitm.NewMitmUdpHandler
+	SetCosmeticCSS        = mitm.SetCosmeticCSS
+	SetScriptletStore     = mitm.SetScriptletStore
+	SetScriptletsRuntime  = mitm.SetScriptletsRuntime
+	ServeLocalAsset       = mitm.ServeLocalAsset
 
 	ParseWgConfigJSON = wireguard.ParseWgConfigJSON
 	BuildIpcConfig    = wireguard.BuildIpcConfig

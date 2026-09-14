@@ -40,10 +40,10 @@ const (
 
 // CertManager handles Root CA lifecycle and per-host certificate generation.
 type CertManager struct {
-	mu      sync.RWMutex
-	caCert  *x509.Certificate
-	caKey   *ecdsa.PrivateKey
-	caPEM   []byte // PEM-encoded CA cert for export to Android
+	mu       sync.RWMutex
+	caCert   *x509.Certificate
+	caKey    *ecdsa.PrivateKey
+	caPEM    []byte // PEM-encoded CA cert for export to Android
 	caKeyPEM []byte
 
 	// Per-host cert cache (host → *cachedCert)
@@ -72,9 +72,92 @@ func NewCertManager(certDir string) (*CertManager, error) {
 	return cm, nil
 }
 
+// NewCertManagerWithKey creates a CertManager using a caller-provided
+// CA private key (PEM). The key is kept in memory only — it is never
+// written to disk. This is the secure path used by the Android app,
+// which decrypts the key from Keystore-wrapped storage before each
+// MITM start. The certificate is loaded from certDir/ca.crt if present
+// and matching; otherwise a new self-signed cert is minted for the key
+// (the user must then re-install the CA — logged as a warning).
+func NewCertManagerWithKey(certDir string, caKeyPEM string) (*CertManager, error) {
+	cm := &CertManager{}
+	keyBlock, _ := pem.Decode([]byte(caKeyPEM))
+	if keyBlock == nil {
+		return nil, fmt.Errorf("decode CA key PEM: no PEM block found")
+	}
+	caKey, err := x509.ParseECPrivateKey(keyBlock.Bytes)
+	if err != nil {
+		return nil, fmt.Errorf("parse CA key: %w", err)
+	}
+
+	certPath := filepath.Join(certDir, caCertFile)
+	var caCert *x509.Certificate
+	var certPEM []byte
+	if data, err := os.ReadFile(certPath); err == nil {
+		if block, _ := pem.Decode(data); block != nil {
+			if parsed, err := x509.ParseCertificate(block.Bytes); err == nil {
+				if pub, ok := parsed.PublicKey.(*ecdsa.PublicKey); ok &&
+					pub.X.Cmp(caKey.PublicKey.X) == 0 && pub.Y.Cmp(caKey.PublicKey.Y) == 0 &&
+					pub.Curve.Params().Name == caKey.PublicKey.Curve.Params().Name {
+					caCert = parsed
+					certPEM = data
+				}
+			}
+		}
+	}
+
+	if caCert == nil {
+		logf("MITM CA: cert missing or does not match provided key — minting new self-signed cert (re-install required)")
+		caCert, certPEM, err = mintSelfSignedCert(caKey)
+		if err != nil {
+			return nil, err
+		}
+		if err := os.WriteFile(certPath, certPEM, 0644); err != nil {
+			logf("MITM CA: WARNING — failed to save cert: %v", err)
+		}
+	}
+
+	cm.mu.Lock()
+	cm.caCert = caCert
+	cm.caKey = caKey
+	cm.caPEM = certPEM
+	cm.caKeyPEM = []byte(caKeyPEM)
+	cm.mu.Unlock()
+
+	SetLocalAssetCertManager(cm)
+	return cm, nil
+}
+
+// GenerateCAPairInMemory generates a fresh Root CA without ever writing
+// the private key to disk. Only the certificate is persisted to
+// certDir/ca.crt. Returns certPEM followed by keyPEM (concatenated PEM
+// blocks) so the Android caller can wrap the key into Keystore-encrypted
+// storage and then start MITM via NewCertManagerWithKey.
+func GenerateCAPairInMemory(certDir string) (string, error) {
+	cm := &CertManager{}
+	if err := cm.generateCA(); err != nil {
+		return "", err
+	}
+	certPEM := cm.GetCACertPEM()
+	if err := os.WriteFile(filepath.Join(certDir, caCertFile), []byte(certPEM), 0644); err != nil {
+		return "", fmt.Errorf("write CA cert: %w", err)
+	}
+	return certPEM + cm.GetCAKeyPEM(), nil
+}
+
+// GetCAKeyPEM returns the PEM-encoded CA private key held in memory.
+// Used by the Android app exactly once after generation so it can wrap
+// the key into Keystore-encrypted storage and delete the plaintext file.
+func (cm *CertManager) GetCAKeyPEM() string {
+	cm.mu.RLock()
+	defer cm.mu.RUnlock()
+	return string(cm.caKeyPEM)
+}
+
 // GetCACertPEM returns the PEM-encoded Root CA certificate.
 // The user must install this on their Android device:
-//   Settings → Security → Encryption & credentials → Install from storage
+//
+//	Settings → Security → Encryption & credentials → Install from storage
 func (cm *CertManager) GetCACertPEM() string {
 	cm.mu.RLock()
 	defer cm.mu.RUnlock()
@@ -121,12 +204,12 @@ func (cm *CertManager) getCertificateWithDedup(host string) (*tls.Certificate, e
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	actual, loaded := cm.flightCache.LoadOrStore(host, wg)
-	
+
 	if loaded {
 		// Another goroutine won the race to generate the cert.
 		// Wait for it to finish.
 		actual.(*sync.WaitGroup).Wait()
-		
+
 		// The cert should now be in the main certCache.
 		if cached, ok := cm.certCache.Load(host); ok {
 			return cached.(*cachedCert).cert, nil
@@ -259,6 +342,42 @@ func (cm *CertManager) saveCA(certPath, keyPath string) error {
 	return nil
 }
 
+// mintSelfSignedCert creates a self-signed ECDSA Root CA certificate
+// for the given key and returns the parsed cert plus its PEM encoding.
+func mintSelfSignedCert(caKey *ecdsa.PrivateKey) (*x509.Certificate, []byte, error) {
+	serialNumber, err := rand.Int(rand.Reader, new(big.Int).Lsh(big.NewInt(1), 128))
+	if err != nil {
+		return nil, nil, fmt.Errorf("generate serial: %w", err)
+	}
+
+	caTemplate := &x509.Certificate{
+		SerialNumber: serialNumber,
+		Subject: pkix.Name{
+			Organization: []string{"GhostGuard"},
+			CommonName:   "GhostGuard Root CA",
+		},
+		NotBefore:             time.Now().Add(-24 * time.Hour),           // 1 day grace
+		NotAfter:              time.Now().Add(10 * 365 * 24 * time.Hour), // 10 years
+		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
+		BasicConstraintsValid: true,
+		IsCA:                  true,
+		MaxPathLen:            1,
+	}
+
+	caCertDER, err := x509.CreateCertificate(rand.Reader, caTemplate, caTemplate, &caKey.PublicKey, caKey)
+	if err != nil {
+		return nil, nil, fmt.Errorf("create CA cert: %w", err)
+	}
+
+	caCert, err := x509.ParseCertificate(caCertDER)
+	if err != nil {
+		return nil, nil, fmt.Errorf("parse CA cert: %w", err)
+	}
+
+	caPEM := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: caCertDER})
+	return caCert, caPEM, nil
+}
+
 // generateCA creates a self-signed ECDSA P-256 Root CA.
 func (cm *CertManager) generateCA() error {
 	// Generate CA private key
@@ -267,41 +386,10 @@ func (cm *CertManager) generateCA() error {
 		return fmt.Errorf("generate CA key: %w", err)
 	}
 
-	// Serial number
-	serialNumber, err := rand.Int(rand.Reader, new(big.Int).Lsh(big.NewInt(1), 128))
+	caCert, caPEM, err := mintSelfSignedCert(caKey)
 	if err != nil {
-		return fmt.Errorf("generate serial: %w", err)
+		return err
 	}
-
-	// CA certificate template
-	caTemplate := &x509.Certificate{
-		SerialNumber: serialNumber,
-		Subject: pkix.Name{
-			Organization: []string{"GhostGuard"},
-			CommonName:   "GhostGuard Root CA",
-		},
-		NotBefore:             time.Now().Add(-24 * time.Hour), // 1 day grace
-		NotAfter:              time.Now().Add(10 * 365 * 24 * time.Hour), // 10 years
-		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
-		BasicConstraintsValid: true,
-		IsCA:                  true,
-		MaxPathLen:            1,
-	}
-
-	// Self-sign
-	caCertDER, err := x509.CreateCertificate(rand.Reader, caTemplate, caTemplate, &caKey.PublicKey, caKey)
-	if err != nil {
-		return fmt.Errorf("create CA cert: %w", err)
-	}
-
-	// Parse back to x509.Certificate
-	caCert, err := x509.ParseCertificate(caCertDER)
-	if err != nil {
-		return fmt.Errorf("parse CA cert: %w", err)
-	}
-
-	// Encode to PEM
-	caPEM := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: caCertDER})
 
 	caKeyDER, err := x509.MarshalECPrivateKey(caKey)
 	if err != nil {
