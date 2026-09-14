@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">บล็อกโฆษณาในคลิกเดียว</string>
+    <string name="setup_welcome_desc">GhostGuard กรองโฆษณา ตัวติดตาม และมัลแวร์ทั้งระบบผ่าน VPN ภายในเครื่อง — ไม่ต้องรูท\n\n🔒 คำมั่นด้านความเป็นส่วนตัว: ไม่ต้องมีบัญชี ไม่ติดตาม ไม่เก็บข้อมูล ทุกอย่างอยู่บนอุปกรณ์ของคุณเท่านั้น</string>
+    <string name="setup_welcome_feature_privacy">เน้นความเป็นส่วนตัว — ข้อมูลการท่องเว็บไม่เคยออกจากอุปกรณ์</string>
+    <string name="setup_welcome_feature_no_account">ไม่ต้องมีบัญชี — ฟรีและโอเพนซอร์ส</string>
+    <string name="setup_welcome_feature_one_tap">คลิกเดียวเริ่มการกรอง</string>
+    <string name="setup_skip">ข้าม</string>
+    <string name="setup_next">ถัดไป</string>
+    <string name="setup_back">ย้อนกลับ</string>
+    <string name="setup_pack_title">เลือกแพ็กตัวกรอง</string>
+    <string name="setup_pack_desc">เลือกชุดรายการตัวกรองที่คัดสรรไว้ คุณสามารถปรับรายการแต่ละรายการได้ภายหลังในหมวดตัวกรอง</string>
+    <string name="setup_recommended">★ แนะนำ</string>
+    <string name="setup_pack_minimal">น้อยที่สุด</string>
+    <string name="setup_pack_minimal_detail">เบา และเข้าใจผิดน้อยที่สุด</string>
+    <string name="setup_pack_minimal_examples">บล็อก: โฆษณาแบนเนอร์ โฆษณาในแอป</string>
+    <string name="setup_pack_balanced">สมดุล</string>
+    <string name="setup_pack_balanced_detail">บล็อกโฆษณาและตัวติดตามอย่างเข้มงวดโดยยังใช้เว็บได้ปกติ</string>
+    <string name="setup_pack_balanced_examples">บล็อก: โฆษณา ตัวติดตาม การวิเคราะห์ โฆษณามือถือ</string>
+    <string name="setup_pack_strict">เข้มงวด</string>
+    <string name="setup_pack_strict_detail">บล็อกสูงสุด รวมถึงมัลแวร์และฟิชชิง</string>
+    <string name="setup_pack_strict_examples">บล็อก: โฆษณา ตัวติดตาม มัลแวร์ ฟิชชิง</string>
+    <string name="setup_pack_lists_count">รายการตัวกรอง %1$d รายการ</string>
+    <string name="setup_finish_title">คุณเกือบจะได้รับการปกป้องแล้ว</string>
+    <string name="setup_finish_desc">GhostGuard ใช้ VPN ภายในเครื่องกรองคำขอ DNS บนอุปกรณ์ ไม่มีข้อมูลใดออกจากโทรศัพท์</string>
+    <string name="setup_finish_vpn_title">สิทธิ์ VPN</string>
+    <string name="setup_finish_vpn_desc">จำเป็นสำหรับการกรองทราฟฟิก DNS ของอุปกรณ์ในเครื่อง</string>
+    <string name="setup_vpn_grant">ให้สิทธิ์</string>
+    <string name="setup_vpn_granted">✓ ให้สิทธิ์ VPN แล้ว</string>
+    <string name="setup_start_filtering">เริ่มการกรอง</string>
+    <string name="setup_applying">กำลังใช้แพ็กตัวกรอง…</string>
+    <string name="setup_wizard_rerun">รันตัวช่วยตั้งค่าอีกครั้ง</string>
+    <string name="setup_wizard_rerun_desc">เลือกแพ็กตัวกรองที่คัดสรรอีกครั้ง</string>
+</resources>

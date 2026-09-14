@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Chặn quảng cáo chỉ với một chạm</string>
+    <string name="setup_welcome_desc">GhostGuard lọc quảng cáo, trình theo dõi và mã độc trên toàn hệ thống qua VPN cục bộ — không cần root.\n\n🔒 Cam kết bảo mật: không tài khoản, không theo dõi, không thu thập dữ liệu. Mọi thứ đều nằm trên thiết bị của bạn.</string>
+    <string name="setup_welcome_feature_privacy">Ưu tiên quyền riêng tư — dữ liệu duyệt web không bao giờ rời khỏi thiết bị</string>
+    <string name="setup_welcome_feature_no_account">Không cần tài khoản — miễn phí và mã nguồn mở</string>
+    <string name="setup_welcome_feature_one_tap">Một chạm để bắt đầu lọc</string>
+    <string name="setup_skip">Bỏ qua</string>
+    <string name="setup_next">Tiếp theo</string>
+    <string name="setup_back">Quay lại</string>
+    <string name="setup_pack_title">Chọn gói bộ lọc</string>
+    <string name="setup_pack_desc">Chọn một bộ danh sách bộ lọc được tuyển chọn. Bạn có thể tinh chỉnh từng danh sách sau trong mục Bộ lọc.</string>
+    <string name="setup_recommended">★ Khuyến nghị</string>
+    <string name="setup_pack_minimal">Tối giản</string>
+    <string name="setup_pack_minimal_detail">Nhẹ, ít gây lỗi trang web nhất</string>
+    <string name="setup_pack_minimal_examples">chặn: quảng cáo biểu ngữ, quảng cáo trong ứng dụng</string>
+    <string name="setup_pack_balanced">Cân bằng</string>
+    <string name="setup_pack_balanced_detail">Chặn quảng cáo và trình theo dõi mạnh mẽ mà vẫn giữ trang web hoạt động tốt</string>
+    <string name="setup_pack_balanced_examples">chặn: quảng cáo, trình theo dõi, phân tích, quảng cáo di động</string>
+    <string name="setup_pack_strict">Nghiêm ngặt</string>
+    <string name="setup_pack_strict_detail">Chặn tối đa, bao gồm mã độc và lừa đảo</string>
+    <string name="setup_pack_strict_examples">chặn: quảng cáo, trình theo dõi, mã độc, lừa đảo</string>
+    <string name="setup_pack_lists_count">%1$d danh sách bộ lọc</string>
+    <string name="setup_finish_title">Bạn sắp được bảo vệ</string>
+    <string name="setup_finish_desc">GhostGuard dùng VPN cục bộ để lọc truy vấn DNS trên thiết bị. Không có dữ liệu nào rời khỏi điện thoại.</string>
+    <string name="setup_finish_vpn_title">Quyền VPN</string>
+    <string name="setup_finish_vpn_desc">Cần thiết để lọc lưu lượng DNS của thiết bị tại chỗ</string>
+    <string name="setup_vpn_grant">Cấp quyền</string>
+    <string name="setup_vpn_granted">✓ Đã cấp quyền VPN</string>
+    <string name="setup_start_filtering">Bắt đầu lọc</string>
+    <string name="setup_applying">Đang áp dụng gói bộ lọc…</string>
+    <string name="setup_wizard_rerun">Chạy lại trình thiết lập</string>
+    <string name="setup_wizard_rerun_desc">Chọn lại gói bộ lọc được tuyển chọn</string>
+</resources>
