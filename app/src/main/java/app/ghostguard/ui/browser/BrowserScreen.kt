@@ -113,7 +113,10 @@ fun BrowserScreen(
         if (uiState.isElementPickerActive) {
             val js =
                 runCatching {
-                    context.assets.open("element_picker.js").bufferedReader().use { it.readText() }
+                    context.assets
+                        .open("element_picker.js")
+                        .bufferedReader()
+                        .use { it.readText() }
                 }.getOrDefault("")
             if (js.isNotBlank()) {
                 webViewInstance?.evaluateJavascript(js, null)
@@ -165,7 +168,9 @@ fun BrowserScreen(
         }
 
     LaunchedEffect(isInPipMode) {
-        val js = app.ghostguard.ui.browser.util.BrowserPipHelper.getPipToggleScript(isInPipMode)
+        val js =
+            app.ghostguard.ui.browser.util.BrowserPipHelper
+                .getPipToggleScript(isInPipMode)
         webViewInstance?.evaluateJavascript(js, null)
     }
 

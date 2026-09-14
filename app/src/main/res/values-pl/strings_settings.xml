@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Aplikacje systemowe</string>
     <string name="about_title">O aplikacji</string>
     <string name="about_description">Darmowy bloker reklam o otwartym kodzie źródłowym.\nBrak gromadzenia danych. Brak śledzenia.</string>
-    <string name="about_version">Wersja %s</string>
     <string name="about_github">Kod źródłowy (GitHub)</string>
     <string name="about_website">Strona internetowa</string>
     <string name="about_privacy_policy">Polityka prywatności</string>

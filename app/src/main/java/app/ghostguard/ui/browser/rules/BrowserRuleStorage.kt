@@ -9,7 +9,9 @@ import java.io.File
  * Local storage manager for dynamic browser ad blocking rules.
  * Handles persistence, atomic writes, and asset fallback.
  */
-class BrowserRuleStorage(private val context: Context) {
+class BrowserRuleStorage(
+    private val context: Context,
+) {
     private val json =
         Json {
             ignoreUnknownKeys = true
@@ -42,8 +44,8 @@ class BrowserRuleStorage(private val context: Context) {
     /**
      * Atomically writes a new BrowserRulePackage to disk.
      */
-    fun savePackage(rulePackage: BrowserRulePackage): Boolean {
-        return try {
+    fun savePackage(rulePackage: BrowserRulePackage): Boolean =
+        try {
             val tempFile = rulesDir.resolve("browser_rules.json.tmp")
             val content = json.encodeToString(BrowserRulePackage.serializer(), rulePackage)
             tempFile.writeText(content)
@@ -59,7 +61,6 @@ class BrowserRuleStorage(private val context: Context) {
             Timber.e(e, "Failed to save BrowserRulePackage")
             false
         }
-    }
 
     /**
      * Constructs the baseline package from bundled assets and defaults.
@@ -105,12 +106,14 @@ class BrowserRuleStorage(private val context: Context) {
         return loadDefaultPackage()
     }
 
-    private fun loadAssetString(path: String): String {
-        return try {
-            context.assets.open(path).bufferedReader().use { it.readText() }
+    private fun loadAssetString(path: String): String =
+        try {
+            context.assets
+                .open(path)
+                .bufferedReader()
+                .use { it.readText() }
         } catch (e: Exception) {
             Timber.e(e, "Failed to read asset: %s", path)
             ""
         }
-    }
 }

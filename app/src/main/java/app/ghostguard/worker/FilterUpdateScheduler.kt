@@ -40,7 +40,8 @@ object FilterUpdateScheduler {
             }
 
         val constraints =
-            Constraints.Builder()
+            Constraints
+                .Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
@@ -48,8 +49,7 @@ object FilterUpdateScheduler {
             PeriodicWorkRequestBuilder<FilterUpdateWorker>(
                 intervalHours,
                 TimeUnit.HOURS,
-            )
-                .setConstraints(constraints)
+            ).setConstraints(constraints)
                 .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(

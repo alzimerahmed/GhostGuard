@@ -20,7 +20,8 @@ class NestedScrollWebView
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = android.R.attr.webViewStyle,
-    ) : WebView(context, attrs, defStyleAttr), NestedScrollingChild3 {
+    ) : WebView(context, attrs, defStyleAttr),
+        NestedScrollingChild3 {
         private val childHelper =
             NestedScrollingChildHelper(this).apply {
                 isNestedScrollingEnabled = true

@@ -121,8 +121,7 @@ fun PowerButton(
                     .graphicsLayer {
                         scaleX = pulseScale
                         scaleY = pulseScale
-                    }
-                    .clip(CircleShape)
+                    }.clip(CircleShape)
                     .background(
                         Brush.radialGradient(
                             colors =
@@ -157,14 +156,12 @@ fun PowerButton(
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
-                    }
-                    .shadow(
+                    }.shadow(
                         elevation = if (isActive || isBusy) 20.dp else 8.dp,
                         shape = CircleShape,
                         ambientColor = buttonColor.copy(alpha = 0.3f),
                         spotColor = buttonColor.copy(alpha = 0.3f),
-                    )
-                    .clip(CircleShape)
+                    ).clip(CircleShape)
                     .background(
                         Brush.radialGradient(
                             colors =
@@ -173,8 +170,7 @@ fun PowerButton(
                                     MaterialTheme.colorScheme.surface,
                                 ),
                         ),
-                    )
-                    .border(
+                    ).border(
                         width = 3.dp,
                         brush =
                             Brush.linearGradient(
@@ -185,8 +181,7 @@ fun PowerButton(
                                     ),
                             ),
                         shape = CircleShape,
-                    )
-                    .clickable(
+                    ).clickable(
                         interactionSource = interactionSource,
                         indication = null,
                         enabled = !isBusy,

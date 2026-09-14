@@ -111,7 +111,10 @@ val appModule =
         }
 
         // Browser Dynamic Rules & Search Suggestions
-        single { app.ghostguard.ui.browser.rules.BrowserRuleStorage(androidContext()) }
+        single {
+            app.ghostguard.ui.browser.rules
+                .BrowserRuleStorage(androidContext())
+        }
         single<app.ghostguard.ui.browser.rules.BrowserRuleRepository> {
             app.ghostguard.ui.browser.rules.BrowserRuleRepositoryImpl(
                 storage = get(),

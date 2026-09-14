@@ -11,13 +11,21 @@ data class ElementRulesUiState(
 )
 
 sealed interface ElementRulesUiIntent {
-    data class DeleteRule(val id: Int) : ElementRulesUiIntent
+    data class DeleteRule(
+        val id: Int,
+    ) : ElementRulesUiIntent
 
-    data class DeleteAllForDomain(val domain: String) : ElementRulesUiIntent
+    data class DeleteAllForDomain(
+        val domain: String,
+    ) : ElementRulesUiIntent
 
-    data class SearchQueryChanged(val query: String) : ElementRulesUiIntent
+    data class SearchQueryChanged(
+        val query: String,
+    ) : ElementRulesUiIntent
 }
 
 sealed interface ElementRulesUiEffect {
-    data class ShowToast(val message: String) : ElementRulesUiEffect
+    data class ShowToast(
+        val message: String,
+    ) : ElementRulesUiEffect
 }

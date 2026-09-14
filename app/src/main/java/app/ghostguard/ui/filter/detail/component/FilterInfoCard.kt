@@ -159,7 +159,8 @@ fun FilterInfoCard(
                                 scope.launch {
                                     clipboardManager.setClipEntry(clipEntry)
                                 }
-                                Toast.makeText(context, "Copied URL", Toast.LENGTH_SHORT)
+                                Toast
+                                    .makeText(context, "Copied URL", Toast.LENGTH_SHORT)
                                     .show()
                             },
                         )

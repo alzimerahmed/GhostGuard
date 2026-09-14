@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
-class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
+class VpnSecurityPreferences(
+    private val dataStore: DataStore<Preferences>,
+) {
     companion object {
         val KEY_VPN_ENABLED = booleanPreferencesKey("vpn_enabled")
         val KEY_AUTO_RECONNECT = booleanPreferencesKey("auto_reconnect")
@@ -228,15 +230,14 @@ class VpnSecurityPreferences(private val dataStore: DataStore<Preferences>) {
         dataStore.edit { prefs -> prefs[KEY_SELECTED_BROWSERS] = packages }
     }
 
-    fun getSelectedBrowsersSnapshot(): Set<String> {
-        return try {
+    fun getSelectedBrowsersSnapshot(): Set<String> =
+        try {
             runBlocking {
                 dataStore.data.first()[KEY_SELECTED_BROWSERS] ?: emptySet()
             }
         } catch (_: Exception) {
             emptySet()
         }
-    }
 
     suspend fun setCrashReportingEnabled(enabled: Boolean) {
         dataStore.edit { prefs -> prefs[KEY_CRASH_REPORTING_ENABLED] = enabled }

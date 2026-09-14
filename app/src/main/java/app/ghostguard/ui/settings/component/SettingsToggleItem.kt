@@ -42,8 +42,7 @@ fun SettingsToggleItem(
                     value = isChecked,
                     onValueChange = { onCheckedChange(it) },
                     role = Role.Switch,
-                )
-                .semantics(mergeDescendants = true, properties = { })
+                ).semantics(mergeDescendants = true, properties = { })
                 .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

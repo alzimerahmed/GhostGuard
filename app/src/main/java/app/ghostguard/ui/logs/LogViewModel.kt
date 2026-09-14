@@ -76,17 +76,20 @@ class LogViewModel(
     val selectedIds: StateFlow<Set<Long>> = _selectedIds.asStateFlow()
 
     val whitelistedDomains: StateFlow<Set<String>> =
-        whitelistDomainDao.getAll()
+        whitelistDomainDao
+            .getAll()
             .map { list -> list.map { it.domain.lowercase() }.toSet() }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 
     val filterNames: StateFlow<Map<String, String>> =
-        filterListDao.getAll()
+        filterListDao
+            .getAll()
             .map { list -> list.associate { it.id.toString() to it.name } }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
 
     val appNames: StateFlow<List<String>> =
-        dnsLogDao.getDistinctAppNames()
+        dnsLogDao
+            .getDistinctAppNames()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -112,8 +115,7 @@ class LogViewModel(
                             dnsLogDao.getBlockedByReason(FilterListRepository.BLOCK_REASON_SECURITY)
                         }
                 }
-            }
-            .combine(_searchQuery) { logs, query ->
+            }.combine(_searchQuery) { logs, query ->
                 if (query.isBlank()) {
                     logs
                 } else {
@@ -122,15 +124,13 @@ class LogViewModel(
                             it.appName.contains(query.trim(), ignoreCase = true)
                     }
                 }
-            }
-            .combine(_appFilter) { logs, app ->
+            }.combine(_appFilter) { logs, app ->
                 if (app.isBlank()) {
                     logs
                 } else {
                     logs.filter { it.appName.equals(app, ignoreCase = true) }
                 }
-            }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun setFilterStatus(status: LogFilterStatus) {
         _filterStatus.value = status

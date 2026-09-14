@@ -1,6 +1,8 @@
 package app.ghostguard.ui.logs.data
 
-enum class TimeRange(val millis: Long) {
+enum class TimeRange(
+    val millis: Long,
+) {
     ALL(0L),
     HOUR_1(3_600_000L),
     HOUR_6(21_600_000L),

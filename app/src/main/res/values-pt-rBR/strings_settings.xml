@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Aplicativos do sistema</string>
     <string name="about_title">Sobre</string>
     <string name="about_description">Bloqueador de anúncios gratuito e de código aberto.\nNenhuma coleta de dados. Nenhum rastreamento.</string>
-    <string name="about_version">Versão %s</string>
     <string name="about_github">Código-fonte (GitHub)</string>
     <string name="about_website">Site</string>
     <string name="about_privacy_policy">Política de privacidade</string>

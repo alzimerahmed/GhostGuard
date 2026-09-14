@@ -59,8 +59,8 @@ private val LightColorScheme =
 /**
  * Returns a pair of (primary, primaryDim) colors for the given accent color key.
  */
-private fun getAccentColors(accentColor: String): Pair<Color, Color> {
-    return when {
+private fun getAccentColors(accentColor: String): Pair<Color, Color> =
+    when {
         accentColor == AppPreferences.ACCENT_BLUE -> AccentBluePreset to AccentBluePresetDim
         accentColor == AppPreferences.ACCENT_PURPLE -> AccentPurple to AccentPurpleDim
         accentColor == AppPreferences.ACCENT_ORANGE -> AccentOrange to AccentOrangeDim
@@ -83,7 +83,6 @@ private fun getAccentColors(accentColor: String): Pair<Color, Color> {
         }
         else -> AccentGreen to AccentGreenDim // default green
     }
-}
 
 @Composable
 fun BlockadsTheme(

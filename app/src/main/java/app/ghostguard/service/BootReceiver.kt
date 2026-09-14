@@ -32,11 +32,14 @@ class BootReceiver : BroadcastReceiver() {
                 val userManager = context.getSystemService(Context.USER_SERVICE) as? android.os.UserManager
                 val isLocked =
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                        userManager != null && !userManager.isUserUnlocked
+                        userManager != null &&
+                        !userManager.isUserUnlocked
 
                 val (autoReconnect, wasEnabled, routingMode) =
                     if (isLocked) {
-                        val directPrefs = app.ghostguard.data.datastore.DirectBootPreferences(context)
+                        val directPrefs =
+                            app.ghostguard.data.datastore
+                                .DirectBootPreferences(context)
                         Triple(directPrefs.autoReconnect, directPrefs.wasVpnEnabled, directPrefs.routingMode)
                     } else {
                         val prefs = AppPreferences(context)

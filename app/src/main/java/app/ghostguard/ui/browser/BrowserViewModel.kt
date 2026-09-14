@@ -36,9 +36,10 @@ class BrowserViewModel(
             BrowserUiState(
                 ruleVersion = ruleRepository.currentRules.value.version,
                 ruleDomainsCount =
-                    ruleRepository.currentRules.value.adDomains.ifEmpty {
-                        listOf(BrowserAdBlocker.domainsCount.toString())
-                    }.size,
+                    ruleRepository.currentRules.value.adDomains
+                        .ifEmpty {
+                            listOf(BrowserAdBlocker.domainsCount.toString())
+                        }.size,
             ),
         )
     val uiState: StateFlow<BrowserUiState> = _uiState.asStateFlow()

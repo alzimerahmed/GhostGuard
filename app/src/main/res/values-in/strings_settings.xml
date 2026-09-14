@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Aplikasi Sistem</string>
     <string name="about_title">Tentang</string>
     <string name="about_description">Pemblokir iklan gratis bersumber terbuka.\nTanpa pengumpulan data. Tanpa pelacakan.</string>
-    <string name="about_version">Versi %s</string>
     <string name="about_github">Kode Sumber (GitHub)</string>
     <string name="about_website">Situs Web</string>
     <string name="about_privacy_policy">Kebijakan Privasi</string>

@@ -29,7 +29,9 @@ data class BrowserUiState(
 )
 
 sealed interface BrowserUiIntent {
-    data class LoadUrl(val url: String) : BrowserUiIntent
+    data class LoadUrl(
+        val url: String,
+    ) : BrowserUiIntent
 
     data object Reload : BrowserUiIntent
 
@@ -47,45 +49,75 @@ sealed interface BrowserUiIntent {
 
     data object ClearData : BrowserUiIntent
 
-    data class UpdateProgress(val progress: Int) : BrowserUiIntent
+    data class UpdateProgress(
+        val progress: Int,
+    ) : BrowserUiIntent
 
-    data class PageStarted(val url: String) : BrowserUiIntent
+    data class PageStarted(
+        val url: String,
+    ) : BrowserUiIntent
 
-    data class PageFinished(val url: String, val title: String) : BrowserUiIntent
+    data class PageFinished(
+        val url: String,
+        val title: String,
+    ) : BrowserUiIntent
 
     data object AdBlocked : BrowserUiIntent
 
     data object CheckRuleUpdates : BrowserUiIntent
 
-    data class UpdateSearchQuery(val query: String) : BrowserUiIntent
+    data class UpdateSearchQuery(
+        val query: String,
+    ) : BrowserUiIntent
 
-    data class SelectSearchEngine(val engine: SearchEngine) : BrowserUiIntent
+    data class SelectSearchEngine(
+        val engine: SearchEngine,
+    ) : BrowserUiIntent
 
-    data class ToggleSearchSheet(val visible: Boolean) : BrowserUiIntent
+    data class ToggleSearchSheet(
+        val visible: Boolean,
+    ) : BrowserUiIntent
 
-    data class ToggleBentoMenu(val visible: Boolean) : BrowserUiIntent
+    data class ToggleBentoMenu(
+        val visible: Boolean,
+    ) : BrowserUiIntent
 
-    data class SubmitSearch(val query: String) : BrowserUiIntent
+    data class SubmitSearch(
+        val query: String,
+    ) : BrowserUiIntent
 
-    data class UpdateBottomBarVisibility(val visible: Boolean) : BrowserUiIntent
+    data class UpdateBottomBarVisibility(
+        val visible: Boolean,
+    ) : BrowserUiIntent
 
     data object ActivateElementPicker : BrowserUiIntent
 
     data object DeactivateElementPicker : BrowserUiIntent
 
-    data class ElementRulePicked(val cssSelector: String, val domain: String) : BrowserUiIntent
+    data class ElementRulePicked(
+        val cssSelector: String,
+        val domain: String,
+    ) : BrowserUiIntent
 
     data object NavigateToElementRules : BrowserUiIntent
 }
 
 sealed interface BrowserUiEffect {
-    data class ShowToast(val message: String) : BrowserUiEffect
+    data class ShowToast(
+        val message: String,
+    ) : BrowserUiEffect
 
-    data class OpenExternal(val url: String) : BrowserUiEffect
+    data class OpenExternal(
+        val url: String,
+    ) : BrowserUiEffect
 
-    data class NavigateUrl(val url: String) : BrowserUiEffect
+    data class NavigateUrl(
+        val url: String,
+    ) : BrowserUiEffect
 
-    data class InjectUserElementRules(val selectors: List<String>) : BrowserUiEffect
+    data class InjectUserElementRules(
+        val selectors: List<String>,
+    ) : BrowserUiEffect
 
     data object NavigateToElementRules : BrowserUiEffect
 }

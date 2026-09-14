@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Applications système</string>
     <string name="about_title">À propos</string>
     <string name="about_description">Bloqueur de publicités gratuit et open source.\nAucune collecte de données. Aucun suivi.</string>
-    <string name="about_version">Version %s</string>
     <string name="about_github">Code source (GitHub)</string>
     <string name="about_website">Site web</string>
     <string name="about_privacy_policy">Politique de confidentialité</string>

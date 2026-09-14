@@ -20,7 +20,8 @@ import timber.log.Timber
 class FilterUpdateWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
+) : CoroutineWorker(context, params),
+    KoinComponent {
     private val filterListRepository: FilterListRepository by inject()
     private val appPreferences: AppPreferences by inject()
     private val filterListDao: FilterListDao by inject()
@@ -41,11 +42,12 @@ class FilterUpdateWorker(
                 val network = cm.activeNetwork
                 val capabilities = cm.getNetworkCapabilities(network)
                 val isUnmeteredOrWifi =
-                    capabilities != null && (
-                        capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) ||
-                            capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) ||
-                            capabilities.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
-                    )
+                    capabilities != null &&
+                        (
+                            capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) ||
+                                capabilities.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) ||
+                                capabilities.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
+                        )
 
                 if (!isUnmeteredOrWifi) {
                     Timber.d("Filter update skipped: not on unmetered/Wi-Fi (VPN metered constraint workaround). Retrying later.")
@@ -168,7 +170,8 @@ class FilterUpdateWorker(
         }
 
         val notification =
-            NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+            NotificationCompat
+                .Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(if (isSuccess) R.drawable.ic_check else R.drawable.ic_error)
@@ -178,8 +181,7 @@ class FilterUpdateWorker(
                     if (silent) {
                         setSilent(true)
                     }
-                }
-                .build()
+                }.build()
 
         notificationManager.notify(NOTIFICATION_ID, notification)
     }

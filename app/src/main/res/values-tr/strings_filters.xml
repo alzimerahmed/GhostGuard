@@ -163,11 +163,8 @@ Desteklenen formatlar:
     <string name="https_filtering_http3_title">HTTP/3 (QUIC) Filtrele</string>
     <string name="https_filtering_http3_desc">Maksimum reklam filtrelemesi için filtrelenebilir bağlantıları zorlamak amacıyla tarayıcı QUIC\'ini engelleyin. Bazı sayfaların kısmen yüklenmesine neden olabilir. Sayfalar tam olarak yüklenmiyorsa kapatın.</string>
     <string name="https_filtering_root_install">Sertifikayı Root ile yükle</string>
-    <string name="https_filtering_root_install_desc">CA sertifikasını sistem deposuna otomatik olarak yükleyin (Root gereklidir).</string>
     <string name="https_wizard_title">Sertifika Kurulumu</string>
     <string name="https_wizard_step_indicator_format">Adım %1$d / %2$d: %3$s</string>
-    <string name="https_wizard_overview_title">Genel Bakış ve Gizlilik</string>
-    <string name="https_wizard_overview_subtitle">GhostGuard neden yerel bir sertifikaya ihtiyaç duyar</string>
     <string name="https_wizard_security_title">Güvenlik ve Gizlilik</string>
     <string name="https_wizard_security_desc">Kök CA sertifikası cihazınızda yerel olarak oluşturulur ve asla telefonunuzdan dışarı çıkmaz. GhostGuard bunu yalnızca web sitelerindeki reklamları kaldırmak için kullanır. Bankacılık uygulamaları ve Google hesapları gibi hassas hizmetler asla dinlenmez.</string>
     <string name="https_wizard_explain_title">Neden HTTPS Filtreleme?</string>
@@ -176,14 +173,12 @@ Desteklenen formatlar:
     <string name="https_wizard_benefit_1">Video platformlarındaki ve haber sitelerindeki reklamları ortadan kaldırın</string>
     <string name="https_wizard_benefit_2">Boş yer tutucuları, afişleri ve rahatsız edici açılır pencereleri gizleyin</string>
     <string name="https_wizard_benefit_3">Reklam engelleyici karşıtı mekanizmaları aşmak için komut dosyaları çalıştırın</string>
-    <string name="https_wizard_privacy_title">Katı Gizlilik Önlemleri</string>
     <string name="https_wizard_privacy_on_device_title" formatted="false">100% Cihazda</string>
     <string name="https_wizard_privacy_on_device_desc">Anahtarlar ve sertifika telefonunuzda yerel olarak oluşturulur ve asla hiçbir yere iletilmez.</string>
     <string name="https_wizard_privacy_bypass_title">Bankacılık ve Finans Uygulamalarını Atlar</string>
     <string name="https_wizard_privacy_bypass_desc">Hassas alan adları (bankalar, kimlik doğrulama, Google) doğrudan iletilir ve asla şifresi çözülmez.</string>
     <string name="https_wizard_privacy_browser_title">Kontrollü Tarayıcı Kapsamı</string>
     <string name="https_wizard_privacy_browser_desc">Hangi tarayıcıların HTTPS filtrelemesi kullanacağı konusunda tam kontrole sahipsiniz ve istediğiniz zaman devre dışı bırakabilirsiniz.</string>
-    <string name="https_wizard_cert_file_label">CA Sertifika Dosyası</string>
     <string name="https_wizard_cert_file_type">X.509 CA Sertifikası (.crt)</string>
     <string name="https_wizard_cert_status_exported">İndirilenlere kaydedildi</string>
     <string name="https_wizard_cert_status_not_exported">Kaydedilmeye hazır</string>
@@ -191,7 +186,6 @@ Desteklenen formatlar:
     <string name="https_wizard_device_brand_format">Hedef Cihaz: %1$s</string>
     <string name="https_wizard_device_brand_generic">Android Cihazınız</string>
     <string name="https_wizard_install_instructions_title">Adım Adım Kılavuz</string>
-    <string name="https_wizard_install_instructions_desc">Telefonunuzun Güvenlik Ayarlarında şu adımları izleyin:</string>
     <string name="https_wizard_root_detected_title">Root Erişimi Algılandı (Önerilen)</string>
     <string name="https_wizard_root_detected_desc">Cihazınız root erişimine sahip. CA sertifikasını manuel yapılandırma olmadan otomatik olarak yükleyebilirsiniz.</string>
     <string name="https_wizard_checking_title">Sertifika doğrulanıyor…</string>
@@ -208,11 +202,8 @@ Desteklenen formatlar:
     <string name="https_wizard_next">Devam Et</string>
     <string name="https_wizard_prev">Geri</string>
     <string name="https_wizard_finish">Bitir ve Etkinleştir</string>
-    <string name="https_wizard_root_title">Root Kurulumu</string>
     <string name="https_wizard_root_fast">Hızlı Kurulum</string>
-    <string name="https_wizard_root_fast_desc">Doğrudan kullanıcı sertifika deposuna yüklenir. Yeniden başlatmaya gerek kalmadan hemen geçerli olur.</string>
     <string name="https_wizard_root_module">Magisk Modülü</string>
-    <string name="https_wizard_root_module_desc">Bir Magisk/KernelSU sistem modülü oluşturur. Kalıcı bir sistem CA\'sı olarak etkinleştirmek için cihazın yeniden başlatılması gerekir.</string>
     <string name="https_wizard_copy_filename">Dosya adını kopyala</string>
     <string name="https_wizard_filename_copied">Sertifika dosya adı panoya kopyalandı</string>
     <string name="https_wizard_verified_success">Sertifika doğrulandı ve kullanıma hazır!</string>

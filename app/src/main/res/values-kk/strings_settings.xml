@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Жүйелік қолданбалар</string>
     <string name="about_title">Қолданба туралы</string>
     <string name="about_description">Тегін, ашық бастапқы кодты жарнама бұғаттағышы.\nДеректер жиналмайды. Бақылау жоқ.</string>
-    <string name="about_version">Нұсқа %s</string>
     <string name="about_github">Бастапқы код (GitHub)</string>
     <string name="about_website">Веб-сайт</string>
     <string name="about_privacy_policy">Құпиялылық саясаты</string>

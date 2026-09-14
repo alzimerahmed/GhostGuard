@@ -33,7 +33,8 @@ import java.io.File
 class FilterCompileWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
+) : CoroutineWorker(context, params),
+    KoinComponent {
     private val filterListDao: FilterListDao by inject()
     private val filterRepo: FilterListRepository by inject()
     private val client: HttpClient by inject()
@@ -55,13 +56,12 @@ class FilterCompileWorker(
             url: String,
             name: String,
             existingFilterId: Long = -1L,
-        ): Data {
-            return workDataOf(
+        ): Data =
+            workDataOf(
                 KEY_FILTER_URL to url,
                 KEY_FILTER_NAME to name,
                 KEY_FILTER_ID to existingFilterId,
             )
-        }
     }
 
     override suspend fun doWork(): Result {
@@ -92,11 +92,12 @@ class FilterCompileWorker(
             // Compile
             Timber.d("FilterCompileWorker: compiling...")
             val ruleCount =
-                tunnel.Tunnel.compileFilterList(
-                    tempFile.absolutePath,
-                    tempTrie.absolutePath,
-                    tempBloom.absolutePath,
-                ).toInt()
+                tunnel.Tunnel
+                    .compileFilterList(
+                        tempFile.absolutePath,
+                        tempTrie.absolutePath,
+                        tempBloom.absolutePath,
+                    ).toInt()
 
             if (ruleCount == 0) {
                 showResultNotification(name, false, "No valid domains found")
@@ -189,7 +190,8 @@ class FilterCompileWorker(
     private fun showProgressNotification(filterName: String) {
         createChannel()
         val notification =
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            NotificationCompat
+                .Builder(applicationContext, CHANNEL_ID)
                 .setContentTitle(applicationContext.getString(R.string.filter_compile_progress_title))
                 .setContentText(filterName)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -209,15 +211,15 @@ class FilterCompileWorker(
     ) {
         createChannel()
         val notification =
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            NotificationCompat
+                .Builder(applicationContext, CHANNEL_ID)
                 .setContentTitle(
                     if (success) {
                         applicationContext.getString(R.string.filter_compile_success_title)
                     } else {
                         applicationContext.getString(R.string.filter_compile_failed_title)
                     },
-                )
-                .setContentText("$filterName: $message")
+                ).setContentText("$filterName: $message")
                 .setSmallIcon(if (success) R.drawable.ic_check else R.drawable.ic_error)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

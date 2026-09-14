@@ -30,11 +30,13 @@ class FirewallViewModel(
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     val firewallRules: StateFlow<List<FirewallRule>> =
-        firewallRuleDao.getAll()
+        firewallRuleDao
+            .getAll()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val enabledCount: StateFlow<Int> =
-        firewallRuleDao.getEnabledCount()
+        firewallRuleDao
+            .getEnabledCount()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     private val _installedApps = MutableStateFlow<List<AppInfoData>>(emptyList())
@@ -53,7 +55,8 @@ class FirewallViewModel(
             val apps =
                 withContext(Dispatchers.IO) {
                     val pm = application.applicationContext.packageManager
-                    pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                    pm
+                        .getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
                         .filter { it.packageName != application.applicationContext.packageName }
                         .map { appInfo ->
                             val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
@@ -63,8 +66,7 @@ class FirewallViewModel(
                                 icon = appInfo.loadIcon(pm),
                                 isSystemApp = isSystem,
                             )
-                        }
-                        .sortedBy { it.label.lowercase() }
+                        }.sortedBy { it.label.lowercase() }
                 }
             _installedApps.value = apps
             _isLoading.value = false

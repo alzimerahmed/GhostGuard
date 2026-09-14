@@ -210,14 +210,16 @@ class RootProxyService : Service() {
                 }
 
                 whitelistedUids =
-                    appPrefs.getWhitelistedAppsSnapshot().mapNotNull { pkg ->
-                        try {
-                            packageManager.getApplicationInfo(pkg, 0).uid
-                        } catch (e: Exception) {
-                            Timber.w("Whitelisted app not found, skipping: $pkg")
-                            null
-                        }
-                    }.distinct()
+                    appPrefs
+                        .getWhitelistedAppsSnapshot()
+                        .mapNotNull { pkg ->
+                            try {
+                                packageManager.getApplicationInfo(pkg, 0).uid
+                            } catch (e: Exception) {
+                                Timber.w("Whitelisted app not found, skipping: $pkg")
+                                null
+                            }
+                        }.distinct()
 
                 var proxyStarted = false
                 while (!proxyStarted && retryManager.shouldRetry()) {

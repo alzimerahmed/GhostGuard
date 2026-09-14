@@ -219,9 +219,10 @@ object IptablesManager {
      */
     fun isActive(): Boolean {
         val result =
-            Shell.cmd(
-                "iptables -t nat -L OUTPUT -n 2>/dev/null | grep $CHAIN",
-            ).exec()
+            Shell
+                .cmd(
+                    "iptables -t nat -L OUTPUT -n 2>/dev/null | grep $CHAIN",
+                ).exec()
         return result.out.any { it.contains(CHAIN) }
     }
 }

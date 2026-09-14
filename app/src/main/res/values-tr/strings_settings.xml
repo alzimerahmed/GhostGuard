@@ -9,7 +9,6 @@
     <string name="about_title">&quot;Hakkında&quot;</string>
     <string name="about_description">&quot;Ücretsiz, açık kaynaklı reklam engelleyici.
 Veri toplama yok. İzleme yok.&quot;</string>
-    <string name="about_version">&quot;Sürüm %s&quot;</string>
     <string name="about_github">&quot;Kaynak Kod (GitHub)&quot;</string>
     <string name="about_website">&quot;Web sitesi&quot;</string>
     <string name="about_privacy_policy">&quot;Gizlilik Politikası&quot;</string>

@@ -31,7 +31,8 @@ class FilterSetupViewModel(
     private val application: Application,
 ) : ViewModel() {
     val filterLists: StateFlow<List<FilterList>> =
-        filterListDao.getAll()
+        filterListDao
+            .getAll()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _searchQuery = MutableStateFlow("")

@@ -25,7 +25,17 @@ import app.ghostguard.data.entities.ProtectionProfile
 import app.ghostguard.data.entities.WhitelistDomain
 
 @Database(
-    entities = [DnsLogEntry::class, FilterList::class, WhitelistDomain::class, DnsErrorEntry::class, CustomDnsRule::class, FirewallRule::class, ProtectionProfile::class, ProfileSchedule::class, ElementRule::class],
+    entities = [
+        DnsLogEntry::class,
+        FilterList::class,
+        WhitelistDomain::class,
+        DnsErrorEntry::class,
+        CustomDnsRule::class,
+        FirewallRule::class,
+        ProtectionProfile::class,
+        ProfileSchedule::class,
+        ElementRule::class,
+    ],
     version = 14,
     exportSchema = false,
 )
@@ -232,15 +242,15 @@ abstract class AppDatabase : RoomDatabase() {
                 }
             }
 
-        fun getInstance(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
+        fun getInstance(context: Context): AppDatabase =
+            INSTANCE ?: synchronized(this) {
                 val instance =
-                    Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        "blockads_database",
-                    )
-                        .addMigrations(
+                    Room
+                        .databaseBuilder(
+                            context.applicationContext,
+                            AppDatabase::class.java,
+                            "blockads_database",
+                        ).addMigrations(
                             MIGRATION_1_2,
                             MIGRATION_2_3,
                             MIGRATION_3_4,
@@ -254,12 +264,10 @@ abstract class AppDatabase : RoomDatabase() {
                             MIGRATION_11_12,
                             MIGRATION_12_13,
                             MIGRATION_13_14,
-                        )
-                        .fallbackToDestructiveMigration(false)
+                        ).fallbackToDestructiveMigration(false)
                         .build()
                 INSTANCE = instance
                 instance
             }
-        }
     }
 }

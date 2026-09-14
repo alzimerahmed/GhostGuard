@@ -214,7 +214,11 @@ class GoTunnelAdapter(
                         true
                     } ?: false
                 if (!loaded) {
-                    val list = context.assets.open("blocklist_doh.txt").bufferedReader().use { it.readText() }
+                    val list =
+                        context.assets
+                            .open("blocklist_doh.txt")
+                            .bufferedReader()
+                            .use { it.readText() }
                     engine.setDoHBlocklist(list)
                 }
             } else {
@@ -303,13 +307,14 @@ class GoTunnelAdapter(
             try {
                 val pm = context.packageManager
                 val uids =
-                    selectedBrowsers.mapNotNull { pkg ->
-                        try {
-                            pm.getPackageUid(pkg, 0)
-                        } catch (e: Exception) {
-                            null
-                        }
-                    }.joinToString(",")
+                    selectedBrowsers
+                        .mapNotNull { pkg ->
+                            try {
+                                pm.getPackageUid(pkg, 0)
+                            } catch (e: Exception) {
+                                null
+                            }
+                        }.joinToString(",")
 
                 // Enable the stack, init CA + filter, register UIDs.
                 engine.setUseTcpStack(true)
@@ -326,8 +331,10 @@ class GoTunnelAdapter(
                         } ?: false
                     if (!loaded) {
                         val passthrough =
-                            context.assets.open("https_passthrough.txt")
-                                .bufferedReader().use { it.readText() }
+                            context.assets
+                                .open("https_passthrough.txt")
+                                .bufferedReader()
+                                .use { it.readText() }
                         engine.setExtraPassthroughSuffixes(passthrough)
                     }
                 } catch (e: Exception) {
@@ -505,9 +512,7 @@ class GoTunnelAdapter(
     /**
      * Get engine statistics as JSON.
      */
-    fun getStats(): String {
-        return engine.stats
-    }
+    fun getStats(): String = engine.stats
 
     companion object {
         private fun dnsQueryTypeToString(type: Int): String =

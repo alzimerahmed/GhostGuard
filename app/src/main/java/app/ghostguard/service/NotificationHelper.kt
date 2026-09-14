@@ -32,9 +32,7 @@ class NotificationHelper(
      * Returns the next milestone threshold above [lastMilestone], or null if all milestones
      * have been reached. Used to avoid DB queries until the in-memory count crosses a threshold.
      */
-    fun nextMilestoneThreshold(lastMilestone: Long): Long? {
-        return MILESTONES.firstOrNull { it > lastMilestone }
-    }
+    fun nextMilestoneThreshold(lastMilestone: Long): Long? = MILESTONES.firstOrNull { it > lastMilestone }
 
     /**
      * Thread-safe milestone check. Uses a Mutex to prevent concurrent calls from producing
@@ -86,7 +84,8 @@ class NotificationHelper(
 
         val formattedCount = NumberFormat.getNumberInstance(Locale.getDefault()).format(milestone)
         val notification =
-            NotificationCompat.Builder(context, MILESTONE_CHANNEL_ID)
+            NotificationCompat
+                .Builder(context, MILESTONE_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.milestone_title))
                 .setContentText(context.getString(R.string.milestone_text, formattedCount))
                 .setSmallIcon(R.drawable.ic_shield_on)

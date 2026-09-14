@@ -139,7 +139,8 @@ fun CertificateStatusCard(
                     when (certStatus) {
                         CertStatus.INSTALLED -> "Chứng chỉ CA đã được cài đặt và tin cậy. Lọc quảng cáo nâng cao HTTPS đã sẵn sàng."
                         CertStatus.CHECKING -> "Đang kiểm tra chứng chỉ trong kho lưu trữ an toàn của thiết bị..."
-                        CertStatus.NOT_INSTALLED, CertStatus.UNKNOWN -> "Cần cài đặt chứng chỉ CA GhostGuard để giải mã và loại bỏ quảng cáo trên các kết nối web HTTPS."
+                        CertStatus.NOT_INSTALLED, CertStatus.UNKNOWN ->
+                            "Cần cài đặt chứng chỉ CA GhostGuard để giải mã và loại bỏ quảng cáo trên các kết nối web HTTPS."
                     },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,

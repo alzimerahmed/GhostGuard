@@ -94,11 +94,12 @@ fun PrivacySection(
                                     ),
                                 )
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    resource.getString(R.string.settings_export_logs_not_found),
-                                    Toast.LENGTH_SHORT,
-                                ).show()
+                                Toast
+                                    .makeText(
+                                        context,
+                                        resource.getString(R.string.settings_export_logs_not_found),
+                                        Toast.LENGTH_SHORT,
+                                    ).show()
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()

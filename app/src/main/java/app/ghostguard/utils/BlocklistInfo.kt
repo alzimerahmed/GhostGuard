@@ -27,8 +27,8 @@ data class BlocklistInfo(
         fun fromAsset(
             context: Context,
             assetName: String,
-        ): BlocklistInfo? {
-            return try {
+        ): BlocklistInfo? =
+            try {
                 val afd = context.assets.openFd(assetName)
                 BlocklistInfo(
                     fd = afd.parcelFileDescriptor.fd.toLong(),
@@ -40,6 +40,5 @@ data class BlocklistInfo(
                 Timber.w(e, "Failed to open asset fd for $assetName")
                 null
             }
-        }
     }
 }

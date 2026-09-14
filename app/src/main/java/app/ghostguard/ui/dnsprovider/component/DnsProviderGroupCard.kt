@@ -51,8 +51,7 @@ fun DnsProviderGroupCard(
                                 } else {
                                     Modifier
                                 },
-                            )
-                            .clickable { onSelectProvider(provider) }
+                            ).clickable { onSelectProvider(provider) }
                             .padding(horizontal = 16.dp, vertical = 14.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {

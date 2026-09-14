@@ -87,10 +87,10 @@ object CustomRuleParser {
      * @param rulesText Multi-line text with one rule per line
      * @return List of parsed CustomDnsRule objects (invalid rules are skipped)
      */
-    fun parseRules(rulesText: String): List<CustomDnsRule> {
-        return rulesText.lines()
+    fun parseRules(rulesText: String): List<CustomDnsRule> =
+        rulesText
+            .lines()
             .mapNotNull { line -> parseRule(line) }
-    }
 
     /**
      * Basic domain validation.
@@ -118,11 +118,10 @@ object CustomRuleParser {
     fun formatBlockRule(
         domain: String,
         useAdblockFormat: Boolean = true,
-    ): String {
-        return if (useAdblockFormat) {
+    ): String =
+        if (useAdblockFormat) {
             "||${domain.lowercase()}^"
         } else {
             domain.lowercase()
         }
-    }
 }

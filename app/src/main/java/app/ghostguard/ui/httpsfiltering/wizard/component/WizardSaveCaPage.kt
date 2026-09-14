@@ -155,8 +155,7 @@ fun WizardSaveCaPage(
                                     } else {
                                         MaterialTheme.colorScheme.surfaceVariant
                                     },
-                                )
-                                .padding(horizontal = 8.dp, vertical = 3.dp),
+                                ).padding(horizontal = 8.dp, vertical = 3.dp),
                     ) {
                         Text(
                             text =

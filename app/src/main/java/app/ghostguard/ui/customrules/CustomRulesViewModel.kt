@@ -107,11 +107,15 @@ class CustomRulesViewModel(
                 if (parsedRules.isNotEmpty()) {
                     val allRules = customDnsRuleDao.getAll()
                     val existingNonComments =
-                        allRules.filter { it.ruleType != RuleType.COMMENT }
-                            .map { Pair(it.ruleType, it.domain) }.toSet()
+                        allRules
+                            .filter { it.ruleType != RuleType.COMMENT }
+                            .map { Pair(it.ruleType, it.domain) }
+                            .toSet()
                     val existingComments =
-                        allRules.filter { it.ruleType == RuleType.COMMENT }
-                            .map { it.rule }.toSet()
+                        allRules
+                            .filter { it.ruleType == RuleType.COMMENT }
+                            .map { it.rule }
+                            .toSet()
 
                     // Filter out duplicates (both against DB and within the new list)
                     val newRulesToInsert = mutableListOf<CustomDnsRule>()
@@ -164,11 +168,15 @@ class CustomRulesViewModel(
 
                 val allRules = customDnsRuleDao.getAll()
                 val existingNonComments =
-                    allRules.filter { it.ruleType != RuleType.COMMENT }
-                        .map { Pair(it.ruleType, it.domain) }.toSet()
+                    allRules
+                        .filter { it.ruleType != RuleType.COMMENT }
+                        .map { Pair(it.ruleType, it.domain) }
+                        .toSet()
                 val existingComments =
-                    allRules.filter { it.ruleType == RuleType.COMMENT }
-                        .map { it.rule }.toSet()
+                    allRules
+                        .filter { it.ruleType == RuleType.COMMENT }
+                        .map { it.rule }
+                        .toSet()
 
                 val newRulesToInsert = mutableListOf<CustomDnsRule>()
                 val seenNonComments = existingNonComments.toMutableSet()
@@ -237,9 +245,7 @@ class CustomRulesViewModel(
         }
     }
 
-    fun exportRules(): String {
-        return _rules.value.joinToString("\n") { it.rule }
-    }
+    fun exportRules(): String = _rules.value.joinToString("\n") { it.rule }
 
     fun importRules(
         rulesText: String,

@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">แอประบบ</string>
     <string name="about_title">เกี่ยวกับแอป</string>
     <string name="about_description">ตัวบล็อกโฆษณาโอเพนซอร์สฟรี\nไม่เก็บข้อมูล ไม่ติดตาม</string>
-    <string name="about_version">เวอร์ชัน %s</string>
     <string name="about_github">ซอร์สโค้ด (GitHub)</string>
     <string name="about_website">Website</string>
     <string name="about_privacy_policy">นโยบายความเป็นส่วนตัว</string>

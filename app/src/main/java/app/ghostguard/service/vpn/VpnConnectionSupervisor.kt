@@ -77,9 +77,7 @@ class VpnConnectionSupervisor(
         networkMonitor?.stopMonitoring()
     }
 
-    fun isNetworkAvailable(): Boolean {
-        return networkMonitor?.isNetworkAvailable() ?: true
-    }
+    fun isNetworkAvailable(): Boolean = networkMonitor?.isNetworkAvailable() ?: true
 
     fun onNetworkAvailable() {
         Timber.d("Network available - checking VPN status")
@@ -155,7 +153,10 @@ class VpnConnectionSupervisor(
 
                     val probe = connectionQualityProbe ?: break
                     val result = probe.runDiagnosis()
-                    Timber.d("ConnectionQualityProbe result: ${result.status} (physical=${result.physicalOk}, vpnDns=${result.vpnDnsOk}, latency=${result.latencyMs}ms)")
+                    Timber.d(
+                        "ConnectionQualityProbe result: ${result.status} " +
+                            "(physical=${result.physicalOk}, vpnDns=${result.vpnDnsOk}, latency=${result.latencyMs}ms)",
+                    )
 
                     when (result.status) {
                         ConnectionStatus.NO_PHYSICAL_INTERNET -> {

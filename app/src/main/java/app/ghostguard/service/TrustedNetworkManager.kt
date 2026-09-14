@@ -62,7 +62,8 @@ class TrustedNetworkManager(
         if (registered) return
         try {
             val request =
-                NetworkRequest.Builder()
+                NetworkRequest
+                    .Builder()
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                     .build()
             cm.registerNetworkCallback(request, callback)
@@ -169,12 +170,16 @@ class TrustedNetworkManager(
                     context.getString(R.string.trusted_networks_paused_text_generic)
                 }
             val n =
-                androidx.core.app.NotificationCompat.Builder(context, CHANNEL_ID)
+                androidx.core.app.NotificationCompat
+                    .Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_shield_off)
                     .setContentTitle(context.getString(R.string.trusted_networks_paused_title))
                     .setContentText(text)
-                    .setStyle(androidx.core.app.NotificationCompat.BigTextStyle().bigText(text))
-                    .setOngoing(false)
+                    .setStyle(
+                        androidx.core.app.NotificationCompat
+                            .BigTextStyle()
+                            .bigText(text),
+                    ).setOngoing(false)
                     .setAutoCancel(false)
                     .setContentIntent(tapIntent)
                     .build()

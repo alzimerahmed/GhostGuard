@@ -62,7 +62,8 @@ class VpnTunnelBuilder(
                 if (wgConfig != null) {
                     Timber.d("Establishing VPN in WireGuard mode")
                     val b =
-                        vpnService.Builder()
+                        vpnService
+                            .Builder()
                             .setSession("GhostGuard WireGuard")
                             .setBlocking(false)
                             .setMtu(1280)
@@ -102,7 +103,8 @@ class VpnTunnelBuilder(
                     val excludeLan = runBlocking { appPrefs.excludeLan.first() }
                     Timber.d("Establishing VPN in direct mode (fullTunnel=true, excludeLan=$excludeLan)")
                     val b =
-                        vpnService.Builder()
+                        vpnService
+                            .Builder()
                             .setSession("GhostGuard")
                             .addAddress("100.64.100.2", 32)
                             .addRoute("100.64.100.1", 32)

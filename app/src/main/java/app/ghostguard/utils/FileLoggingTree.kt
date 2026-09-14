@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class FileLoggingTree(context: Context) : Timber.DebugTree() {
+class FileLoggingTree(
+    context: Context,
+) : Timber.DebugTree() {
     private val logDir = File(context.cacheDir, "logs").apply { mkdirs() }
 
     private val logFile: File

@@ -24,7 +24,9 @@ import java.util.concurrent.ConcurrentHashMap
  * On Android 10+ (API 29+): Uses the official ConnectivityManager.getConnectionOwnerUid() API.
  * On older versions: Falls back to parsing /proc/net/udp (and /proc/net/udp6).
  */
-class AppNameResolver(private val context: Context) {
+class AppNameResolver(
+    private val context: Context,
+) {
     // Cache UID -> app name to avoid repeated PackageManager lookups
     private val uidToAppNameCache = ConcurrentHashMap<Int, String>()
 
@@ -45,7 +47,10 @@ class AppNameResolver(private val context: Context) {
     /**
      * Resolved app identity containing both display name and package name.
      */
-    data class AppIdentity(val appName: String, val packageName: String)
+    data class AppIdentity(
+        val appName: String,
+        val packageName: String,
+    )
 
     /**
      * Resolve the app name that owns the given DNS query connection.
@@ -198,9 +203,10 @@ class AppNameResolver(private val context: Context) {
     private fun readProcNetViaRoot(): Map<Int, Int> {
         val map = HashMap<Int, Int>()
         val result =
-            com.topjohnwu.superuser.Shell.cmd(
-                "cat /proc/net/udp /proc/net/udp6 2>/dev/null",
-            ).exec()
+            com.topjohnwu.superuser.Shell
+                .cmd(
+                    "cat /proc/net/udp /proc/net/udp6 2>/dev/null",
+                ).exec()
         if (!result.isSuccess) return map
         for (line in result.out) {
             try {

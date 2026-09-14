@@ -58,8 +58,10 @@ class HomeViewModel(
             AdBlockVpnService.state,
             RootProxyService.state,
         ) { state1, state2 ->
-            state1 == VpnState.RUNNING || state1 == VpnState.STOPPING ||
-                state2 == VpnState.RUNNING || state2 == VpnState.STOPPING
+            state1 == VpnState.RUNNING ||
+                state1 == VpnState.STOPPING ||
+                state2 == VpnState.RUNNING ||
+                state2 == VpnState.STOPPING
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
@@ -71,8 +73,10 @@ class HomeViewModel(
             AdBlockVpnService.state,
             RootProxyService.state,
         ) { state1, state2 ->
-            state1 == VpnState.STARTING || state1 == VpnState.RESTARTING ||
-                state2 == VpnState.STARTING || state2 == VpnState.RESTARTING
+            state1 == VpnState.STARTING ||
+                state1 == VpnState.RESTARTING ||
+                state2 == VpnState.STARTING ||
+                state2 == VpnState.RESTARTING
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AdBlockVpnService.isConnecting)
 
     val vpnStopping: StateFlow<Boolean> =
@@ -84,36 +88,44 @@ class HomeViewModel(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     val blockedCount: StateFlow<Int> =
-        dnsLogDao.getBlockedCount()
+        dnsLogDao
+            .getBlockedCount()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val totalCount: StateFlow<Int> =
-        dnsLogDao.getTotalCount()
+        dnsLogDao
+            .getTotalCount()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val securityThreatsBlocked: StateFlow<Int> =
-        dnsLogDao.getBlockedCountByReason(
-            FilterListRepository.BLOCK_REASON_SECURITY,
-        ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+        dnsLogDao
+            .getBlockedCountByReason(
+                FilterListRepository.BLOCK_REASON_SECURITY,
+            ).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val recentBlocked: StateFlow<List<DnsLogEntry>> =
-        dnsLogDao.getRecentBlocked()
+        dnsLogDao
+            .getRecentBlocked()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val hourlyStats: StateFlow<List<HourlyStat>> =
-        dnsLogDao.getHourlyStats()
+        dnsLogDao
+            .getHourlyStats()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val dailyStats: StateFlow<List<DailyStat>> =
-        dnsLogDao.getDailyStats()
+        dnsLogDao
+            .getDailyStats()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val topBlockedDomains: StateFlow<List<TopBlockedDomain>> =
-        dnsLogDao.getTopBlockedDomains()
+        dnsLogDao
+            .getTopBlockedDomains()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val activeProfile: StateFlow<ProtectionProfile?> =
-        profileDao.getActiveFlow()
+        profileDao
+            .getActiveFlow()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val milestoneReached: StateFlow<Long?> =
@@ -132,7 +144,8 @@ class HomeViewModel(
     }
 
     val securityFilterIds: StateFlow<Set<String>> =
-        filterListDao.getAll()
+        filterListDao
+            .getAll()
             .map { list -> list.filter { it.category == FilterList.CATEGORY_SECURITY }.map { it.id.toString() }.toSet() }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 

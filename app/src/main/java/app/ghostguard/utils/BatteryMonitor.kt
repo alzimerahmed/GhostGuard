@@ -10,7 +10,9 @@ import timber.log.Timber
  * Utility class for monitoring battery usage and status.
  * Provides information about battery level, charging status, and battery health.
  */
-class BatteryMonitor(private val context: Context) {
+class BatteryMonitor(
+    private val context: Context,
+) {
     /**
      * Get current battery level as a percentage (0-100)
      */
@@ -90,8 +92,8 @@ class BatteryMonitor(private val context: Context) {
     /**
      * Get battery status information as a formatted string
      */
-    fun getBatteryInfo(): BatteryInfo {
-        return BatteryInfo(
+    fun getBatteryInfo(): BatteryInfo =
+        BatteryInfo(
             level = getBatteryLevel(),
             isCharging = isCharging(),
             chargingMethod = getChargingMethod(),
@@ -99,7 +101,6 @@ class BatteryMonitor(private val context: Context) {
             temperature = getBatteryTemperature(),
             voltage = getBatteryVoltage(),
         )
-    }
 
     /**
      * Log current battery status
@@ -142,9 +143,8 @@ class BatteryMonitor(private val context: Context) {
         val temperature: Float,
         val voltage: Int,
     ) {
-        override fun toString(): String {
-            return "Battery: $level%, Charging: $isCharging ($chargingMethod), " +
+        override fun toString(): String =
+            "Battery: $level%, Charging: $isCharging ($chargingMethod), " +
                 "Health: $health, Temp: $temperature°C, Voltage: ${voltage}mV"
-        }
     }
 }

@@ -45,8 +45,7 @@ fun AccentColorCircle(
                     width = if (isSelected) 3.dp else 0.dp,
                     color = borderColor,
                     shape = CircleShape,
-                )
-                .clickable(onClick = onClick),
+                ).clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Box(

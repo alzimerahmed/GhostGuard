@@ -131,8 +131,7 @@ fun AddScheduleDialog(
                                         } else {
                                             MaterialTheme.colorScheme.surfaceVariant
                                         },
-                                    )
-                                    .clickable {
+                                    ).clickable {
                                         selectedDays =
                                             if (isSelected) {
                                                 selectedDays - dayNum

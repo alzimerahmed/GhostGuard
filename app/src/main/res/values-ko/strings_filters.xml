@@ -145,11 +145,8 @@
     <string name="https_filtering_http3_title">HTTP/3(QUIC) 필터링</string>
     <string name="https_filtering_http3_desc">필터링 가능한 연결을 강제하여 광고 필터링을 극대화하려면 브라우저 QUIC를 차단하세요. 일부 페이지가 부분적으로만 로드될 수 있습니다. 페이지가 완전히 로드되지 않으면 끄십시오.</string>
     <string name="https_filtering_root_install">Root를 통해 인증서 설치</string>
-    <string name="https_filtering_root_install_desc">CA 인증서를 시스템 저장소에 자동으로 설치합니다 (Root 권한 필요).</string>
     <string name="https_wizard_title">인증서 설정</string>
     <string name="https_wizard_step_indicator_format">%1$d단계 / %2$d: %3$s</string>
-    <string name="https_wizard_overview_title">개요 및 개인정보 보호</string>
-    <string name="https_wizard_overview_subtitle">GhostGuard에 로컬 인증서가 필요한 이유</string>
     <string name="https_wizard_security_title">보안 및 개인정보 보호</string>
     <string name="https_wizard_security_desc">루트 CA 인증서는 기기에서 로컬로 생성되며 기기 외부로 유출되지 않습니다. GhostGuard는 웹사이트의 광고를 제거하는 목적으로만 이 인증서를 사용합니다. 은행 앱이나 Google 계정과 같은 민감한 서비스는 절대 가로채지 않습니다.</string>
     <string name="https_wizard_explain_title">왜 HTTPS 필터링인가요?</string>
@@ -158,14 +155,12 @@
     <string name="https_wizard_benefit_1">비디오 플랫폼 및 뉴스 웹사이트의 광고 제거</string>
     <string name="https_wizard_benefit_2">빈 광고 영역, 배너 및 성가신 팝업 숨기기</string>
     <string name="https_wizard_benefit_3">광고 차단 방지 메커니즘을 무력화하기 위한 스크립틀릿 실행</string>
-    <string name="https_wizard_privacy_title">엄격한 개인정보 보호 조치</string>
     <string name="https_wizard_privacy_on_device_title" formatted="false">100% 기기 내 처리</string>
     <string name="https_wizard_privacy_on_device_desc">키와 인증서는 휴대폰에서 로컬로 생성되며 어디로도 전송되지 않습니다.</string>
     <string name="https_wizard_privacy_bypass_title">은행 및 금융 앱 자동 우회</string>
     <string name="https_wizard_privacy_bypass_desc">민감한 도메인(은행, 본인 인증, Google)은 직접 전달되며 절대 복호화되지 않습니다.</string>
     <string name="https_wizard_privacy_browser_title">선택된 브라우저 범위</string>
     <string name="https_wizard_privacy_browser_desc">HTTPS 필터링을 사용할 브라우저를 사용자가 직접 제어할 수 있으며 언제든지 비활성화할 수 있습니다.</string>
-    <string name="https_wizard_cert_file_label">CA 인증서 파일</string>
     <string name="https_wizard_cert_file_type">X.509 CA 인증서 (.crt)</string>
     <string name="https_wizard_cert_status_exported">다운로드 폴더에 저장됨</string>
     <string name="https_wizard_cert_status_not_exported">저장 준비 완료</string>
@@ -173,7 +168,6 @@
     <string name="https_wizard_device_brand_format">대상 기기: %1$s</string>
     <string name="https_wizard_device_brand_generic">사용자의 Android 기기</string>
     <string name="https_wizard_install_instructions_title">단계별 가이드</string>
-    <string name="https_wizard_install_instructions_desc">휴대폰의 보안 설정에서 다음 단계를 진행하세요:</string>
     <string name="https_wizard_root_detected_title">Root 권한 감지됨 (권장)</string>
     <string name="https_wizard_root_detected_desc">기기에 Root 권한이 있습니다. 수동 설정 없이 CA 인증서를 자동으로 설치할 수 있습니다.</string>
     <string name="https_wizard_checking_title">인증서 확인 중…</string>
@@ -190,11 +184,8 @@
     <string name="https_wizard_next">계속</string>
     <string name="https_wizard_prev">뒤로</string>
     <string name="https_wizard_finish">완료 및 활성화</string>
-    <string name="https_wizard_root_title">Root 설치</string>
     <string name="https_wizard_root_fast">빠른 설치</string>
-    <string name="https_wizard_root_fast_desc">사용자 인증서 저장소에 직접 설치됩니다. 재부팅 없이 즉시 적용됩니다.</string>
     <string name="https_wizard_root_module">Magisk 모듈</string>
-    <string name="https_wizard_root_module_desc">Magisk/KernelSU 시스템 모듈을 생성합니다. 영구적인 시스템 CA로 활성화하려면 재부팅이 필요합니다.</string>
     <string name="https_wizard_copy_filename">파일 이름 복사</string>
     <string name="https_wizard_filename_copied">인증서 파일 이름이 클립보드에 복사되었습니다</string>
     <string name="https_wizard_verified_success">인증서가 확인되었으며 사용할 준비가 되었습니다!</string>

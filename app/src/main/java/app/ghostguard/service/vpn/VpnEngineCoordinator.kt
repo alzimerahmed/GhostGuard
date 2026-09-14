@@ -157,7 +157,9 @@ class VpnEngineCoordinator(
         val providerId = appPrefs.dnsProviderId.first()
         if (providerId == "system") {
             val newDns =
-                linkProperties?.dnsServers?.mapNotNull { it.hostAddress }
+                linkProperties
+                    ?.dnsServers
+                    ?.mapNotNull { it.hostAddress }
                     ?.filter { it.isNotEmpty() } ?: emptyList()
             val primary = newDns.firstOrNull() ?: "8.8.8.8"
             Timber.d("Network LinkProperties changed, hot-reloading System DNS: $primary")

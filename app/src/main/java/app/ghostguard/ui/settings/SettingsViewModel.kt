@@ -60,7 +60,8 @@ class SettingsViewModel(
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     val filterLists: StateFlow<List<FilterList>> =
-        filterListDao.getAll()
+        filterListDao
+            .getAll()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val crashReportingEnabled: StateFlow<Boolean> =
@@ -357,13 +358,15 @@ class SettingsViewModel(
                     )
 
                 val jsonFormat = kotlinx.serialization.json.Json { prettyPrint = true }
-                getApplication<Application>().applicationContext.contentResolver.openOutputStream(
-                    uri,
-                )?.use { out ->
-                    out.write(
-                        jsonFormat.encodeToString(SettingsBackup.serializer(), backup).toByteArray(),
-                    )
-                }
+                getApplication<Application>()
+                    .applicationContext.contentResolver
+                    .openOutputStream(
+                        uri,
+                    )?.use { out ->
+                        out.write(
+                            jsonFormat.encodeToString(SettingsBackup.serializer(), backup).toByteArray(),
+                        )
+                    }
                 _events.toast(R.string.filter_settings_export)
             } catch (e: Exception) {
                 _events.toast(R.string.filter_export_failed, listOf("${e.message}"))
@@ -376,11 +379,13 @@ class SettingsViewModel(
         viewModelScope.launch {
             try {
                 val jsonStr =
-                    getApplication<Application>().applicationContext.contentResolver.openInputStream(
-                        uri,
-                    )?.use { input ->
-                        input.bufferedReader().readText()
-                    } ?: throw Exception("Cannot read file")
+                    getApplication<Application>()
+                        .applicationContext.contentResolver
+                        .openInputStream(
+                            uri,
+                        )?.use { input ->
+                            input.bufferedReader().readText()
+                        } ?: throw Exception("Cannot read file")
 
                 val jsonFormat = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
                 val backup = jsonFormat.decodeFromString(SettingsBackup.serializer(), jsonStr)
@@ -466,7 +471,11 @@ class SettingsViewModel(
                 if (backup.activeProfileType.isNotBlank()) {
                     val profile = profileDao.getByType(backup.activeProfileType)
                     if (profile != null) {
-                        val enabledUrls = backup.filterLists.filter { it.isEnabled }.map { it.url }.joinToString(",")
+                        val enabledUrls =
+                            backup.filterLists
+                                .filter { it.isEnabled }
+                                .map { it.url }
+                                .joinToString(",")
                         profileDao.update(profile.copy(enabledFilterUrls = enabledUrls))
                         profileManager.switchToProfile(profile.id)
                     }

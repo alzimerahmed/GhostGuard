@@ -34,11 +34,10 @@ class BrowserActivity : ComponentActivity() {
         fun createIntent(
             context: Context,
             url: String = "https://m.youtube.com",
-        ): Intent {
-            return Intent(context, BrowserActivity::class.java).apply {
+        ): Intent =
+            Intent(context, BrowserActivity::class.java).apply {
                 putExtra(EXTRA_URL, url)
             }
-        }
     }
 
     private val _isInPipMode = mutableStateOf(false)
@@ -122,14 +121,14 @@ class BrowserActivity : ComponentActivity() {
     fun enterPipMode(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val params =
-                PictureInPictureParams.Builder()
+                PictureInPictureParams
+                    .Builder()
                     .setAspectRatio(Rational(16, 9))
                     .apply {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             setAutoEnterEnabled(true)
                         }
-                    }
-                    .build()
+                    }.build()
             return runCatching { enterPictureInPictureMode(params) }.getOrDefault(false)
         }
         return false
@@ -138,7 +137,8 @@ class BrowserActivity : ComponentActivity() {
     private fun updatePipParams() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val params =
-                PictureInPictureParams.Builder()
+                PictureInPictureParams
+                    .Builder()
                     .setAspectRatio(Rational(16, 9))
                     .setAutoEnterEnabled(true)
                     .build()
@@ -150,14 +150,15 @@ class BrowserActivity : ComponentActivity() {
         val audioManager = getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val request =
-                AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                AudioFocusRequest
+                    .Builder(AudioManager.AUDIOFOCUS_GAIN)
                     .setAudioAttributes(
-                        AudioAttributes.Builder()
+                        AudioAttributes
+                            .Builder()
                             .setUsage(AudioAttributes.USAGE_MEDIA)
                             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                             .build(),
-                    )
-                    .setOnAudioFocusChangeListener { /* Keep playing */ }
+                    ).setOnAudioFocusChangeListener { /* Keep playing */ }
                     .setAcceptsDelayedFocusGain(true)
                     .build()
             audioFocusRequest = request

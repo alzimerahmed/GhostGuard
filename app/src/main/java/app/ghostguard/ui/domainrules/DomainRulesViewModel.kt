@@ -27,11 +27,13 @@ class DomainRulesViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     val whitelistDomains: StateFlow<List<WhitelistDomain>> =
-        whitelistDomainDao.getAll()
+        whitelistDomainDao
+            .getAll()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val blocklistDomains: StateFlow<List<CustomDnsRule>> =
-        customDnsRuleDao.getAllFlow()
+        customDnsRuleDao
+            .getAllFlow()
             .map { rules -> rules.filter { it.ruleType == RuleType.BLOCK } }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 

@@ -70,7 +70,8 @@ class NetworkMonitor(
 
         try {
             val networkRequest =
-                NetworkRequest.Builder()
+                NetworkRequest
+                    .Builder()
                     .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                     .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
                     .build()

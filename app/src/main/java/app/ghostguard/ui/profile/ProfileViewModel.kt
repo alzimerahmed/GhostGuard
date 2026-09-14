@@ -27,15 +27,18 @@ class ProfileViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     val profiles: StateFlow<List<ProtectionProfile>> =
-        profileDao.getAll()
+        profileDao
+            .getAll()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val activeProfile: StateFlow<ProtectionProfile?> =
-        profileDao.getActiveFlow()
+        profileDao
+            .getActiveFlow()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val allSchedules: StateFlow<List<ProfileSchedule>> =
-        profileDao.getAllSchedules()
+        profileDao
+            .getAllSchedules()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _events = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
@@ -63,7 +66,8 @@ class ProfileViewModel(
             // Seed with currently enabled filter list URLs so the profile
             // starts with the user's current configuration
             val currentUrls =
-                filterListDao.getEnabled()
+                filterListDao
+                    .getEnabled()
                     .map { it.url }
                     .toSet()
             val profile =

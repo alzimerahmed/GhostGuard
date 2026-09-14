@@ -145,11 +145,8 @@
     <string name="https_filtering_http3_title">Filtrovat HTTP/3 (QUIC)</string>
     <string name="https_filtering_http3_desc">Blokovat QUIC v prohlížeči pro vynucení filtrovatelných připojení pro maximální filtrování reklam. Může způsobit částečné načítání některých stránek. Vypněte, pokud se stránky nenačítají úplně.</string>
     <string name="https_filtering_root_install">Instalovat certifikát přes Root</string>
-    <string name="https_filtering_root_install_desc">Automaticky nainstalovat certifikát CA do systémového úložiště (vyžaduje root).</string>
     <string name="https_wizard_title">Nastavení certifikátu</string>
     <string name="https_wizard_step_indicator_format">Krok %1$d z %2$d: %3$s</string>
-    <string name="https_wizard_overview_title">Přehled a soukromí</string>
-    <string name="https_wizard_overview_subtitle">Proč GhostGuard potřebuje místní certifikát</string>
     <string name="https_wizard_security_title">Zabezpečení a soukromí</string>
     <string name="https_wizard_security_desc">Certifikát kořenové CA je generován lokálně ve vašem zařízení a nikdy neopouští váš telefon. GhostGuard jej používá výhradně k odstranění reklam na webových stránkách. Citlivé služby, jako jsou bankovní aplikace a účty Google, nejsou nikdy zachyceny.</string>
     <string name="https_wizard_explain_title">Proč filtrování HTTPS?</string>
@@ -158,14 +155,12 @@
     <string name="https_wizard_benefit_1">Odstranění reklam na video platformách a zpravodajských webech</string>
     <string name="https_wizard_benefit_2">Skrytí prázdných zástupných symbolů, bannerů a obtěžujících vyskakovacích oken</string>
     <string name="https_wizard_benefit_3">Spouštění skriptletů k překonání mechanismů proti blokování reklam</string>
-    <string name="https_wizard_privacy_title">Přísné záruky ochrany soukromí</string>
     <string name="https_wizard_privacy_on_device_title" formatted="false">100% v zařízení</string>
     <string name="https_wizard_privacy_on_device_desc">Klíče a certifikát jsou generovány lokálně v telefonu a nikdy se nikam neodesílají.</string>
     <string name="https_wizard_privacy_bypass_title">Obchází bankovní a finanční aplikace</string>
     <string name="https_wizard_privacy_bypass_desc">Citlivé domény (banky, identifikace, Google) jsou předávány přímo a nikdy nejsou dešifrovány.</string>
     <string name="https_wizard_privacy_browser_title">Řízený rozsah prohlížeče</string>
     <string name="https_wizard_privacy_browser_desc">Máte plnou kontrolu nad tím, které prohlížeče používají filtrování HTTPS, a můžete jej kdykoli zakázat.</string>
-    <string name="https_wizard_cert_file_label">Soubor certifikátu CA</string>
     <string name="https_wizard_cert_file_type">Certifikát X.509 CA (.crt)</string>
     <string name="https_wizard_cert_status_exported">Uloženo do Stažených souborů</string>
     <string name="https_wizard_cert_status_not_exported">Připraveno k uložení</string>
@@ -173,7 +168,6 @@
     <string name="https_wizard_device_brand_format">Cílové zařízení: %1$s</string>
     <string name="https_wizard_device_brand_generic">Vaše zařízení Android</string>
     <string name="https_wizard_install_instructions_title">Průvodce krok za krokem</string>
-    <string name="https_wizard_install_instructions_desc">Postupujte podle těchto kroků v nastavení zabezpečení telefonu:</string>
     <string name="https_wizard_root_detected_title">Zjištěn přístup Root (doporučeno)</string>
     <string name="https_wizard_root_detected_desc">Vaše zařízení má root přístup. Certifikát CA můžete nainstalovat automaticky bez ruční konfigurace.</string>
     <string name="https_wizard_checking_title">Ověřování certifikátu…</string>
@@ -190,11 +184,8 @@
     <string name="https_wizard_next">Pokračovat</string>
     <string name="https_wizard_prev">Zpět</string>
     <string name="https_wizard_finish">Dokončit a povolit</string>
-    <string name="https_wizard_root_title">Instalace přes Root</string>
     <string name="https_wizard_root_fast">Rychlá instalace</string>
-    <string name="https_wizard_root_fast_desc">Nainstalováno přímo do úložiště uživatelských certifikátů. Projeví se okamžitě bez nutnosti restartu.</string>
     <string name="https_wizard_root_module">Modul Magisk</string>
-    <string name="https_wizard_root_module_desc">Vytvoří systémový modul Magisk/KernelSU. K aktivaci jako trvalé systémové CA vyžaduje restart zařízení.</string>
     <string name="https_wizard_copy_filename">Kopírovat název souboru</string>
     <string name="https_wizard_filename_copied">Název souboru certifikátu byl zkopírován do schránky</string>
     <string name="https_wizard_verified_success">Certifikát je ověřen a připraven k použití!</string>

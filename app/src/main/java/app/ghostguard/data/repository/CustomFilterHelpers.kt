@@ -15,7 +15,11 @@ internal fun parseInfoJson(json: String): FilterInfo {
 
     fun extractInt(key: String): Int {
         val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
-        return pattern.find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+        return pattern
+            .find(json)
+            ?.groupValues
+            ?.get(1)
+            ?.toIntOrNull() ?: 0
     }
 
     return FilterInfo(
@@ -26,11 +30,12 @@ internal fun parseInfoJson(json: String): FilterInfo {
     )
 }
 
-internal fun deriveFilterName(url: String): String {
-    return try {
+internal fun deriveFilterName(url: String): String =
+    try {
         val path = url.substringAfterLast("/").substringBeforeLast(".")
         if (path.isNotBlank()) {
-            path.replace(Regex("[^a-zA-Z0-9_-]"), " ")
+            path
+                .replace(Regex("[^a-zA-Z0-9_-]"), " ")
                 .trim()
                 .replaceFirstChar { it.uppercase() }
         } else {
@@ -39,12 +44,11 @@ internal fun deriveFilterName(url: String): String {
     } catch (_: Exception) {
         "Custom Filter"
     }
-}
 
-internal fun sanitizeName(url: String): String {
-    return url.substringAfterLast("/")
+internal fun sanitizeName(url: String): String =
+    url
+        .substringAfterLast("/")
         .substringBeforeLast(".")
         .replace(Regex("[^a-zA-Z0-9_-]"), "_")
         .take(64)
         .ifBlank { "custom_${System.currentTimeMillis()}" }
-}

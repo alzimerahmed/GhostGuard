@@ -90,12 +90,21 @@ class FilterListRepository(
     /** Returns adPathPatterns from browser_rules.json as newline-separated string. */
     fun getAdPathPatterns(): String {
         return try {
-            val json = context.assets.open("browser_rules.json").bufferedReader().use { it.readText() }
+            val json =
+                context.assets
+                    .open("browser_rules.json")
+                    .bufferedReader()
+                    .use { it.readText() }
             // Simple extraction: find "adPathPatterns":[...] and parse the strings
             val match =
-                """"adPathPatterns"\s*:\s*\[(.*?)]""".toRegex(RegexOption.DOT_MATCHES_ALL)
-                    .find(json)?.groupValues?.get(1) ?: return ""
-            """"(.*?)"""".toRegex().findAll(match)
+                """"adPathPatterns"\s*:\s*\[(.*?)]"""
+                    .toRegex(RegexOption.DOT_MATCHES_ALL)
+                    .find(json)
+                    ?.groupValues
+                    ?.get(1) ?: return ""
+            """"(.*?)""""
+                .toRegex()
+                .findAll(match)
                 .map { it.groupValues[1] }
                 .filter { it.isNotBlank() }
                 .joinToString("\n")

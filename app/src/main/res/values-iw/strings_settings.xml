@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">אפליקציות מערכת</string>
     <string name="about_title">אודות</string>
     <string name="about_description">חוסם פרסומות חינמי וקוד פתוח.\nללא איסוף נתונים. ללא מעקב.</string>
-    <string name="about_version">גרסה %s</string>
     <string name="about_github">קוד מקור (GitHub)</string>
     <string name="about_website">אתר אינטרנט</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>

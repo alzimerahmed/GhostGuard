@@ -34,7 +34,8 @@ import java.security.cert.X509Certificate
 
 class CertInstallationWizardViewModel(
     application: Application,
-) : AndroidViewModel(application), KoinComponent {
+) : AndroidViewModel(application),
+    KoinComponent {
     private val appPrefs: AppPreferences by inject()
     private val engine = tunnel.Tunnel.newEngine()
 

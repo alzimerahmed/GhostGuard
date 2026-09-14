@@ -19,14 +19,13 @@ object SystemCertificateInstaller {
     private const val MODULE_ID = "blockads_ca"
     private const val MODULE_DIR = "/data/adb/modules/$MODULE_ID"
 
-    fun isRootAvailable(): Boolean {
-        return try {
+    fun isRootAvailable(): Boolean =
+        try {
             Shell.isAppGrantedRoot() == true || Shell.cmd("id").exec().isSuccess
         } catch (e: Exception) {
             Timber.w(e, "Failed to check root availability")
             false
         }
-    }
 
     /**
      * Computes the OpenSSL subject hash (MD5-based, old style used by Android cacerts).

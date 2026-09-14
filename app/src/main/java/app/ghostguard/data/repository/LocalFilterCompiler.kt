@@ -50,11 +50,12 @@ class LocalFilterCompiler(
                 }
 
                 val ruleCount =
-                    tunnel.Tunnel.compileFilterList(
-                        tempFile.absolutePath,
-                        tempTrieFile.absolutePath,
-                        tempBloomFile.absolutePath,
-                    ).toInt()
+                    tunnel.Tunnel
+                        .compileFilterList(
+                            tempFile.absolutePath,
+                            tempTrieFile.absolutePath,
+                            tempBloomFile.absolutePath,
+                        ).toInt()
 
                 Timber.d("Local compile: $ruleCount rules")
 
@@ -123,11 +124,12 @@ class LocalFilterCompiler(
             val bloomPath = File(remoteFilterDir, "${filter.id}.bloom").absolutePath
 
             val ruleCount =
-                tunnel.Tunnel.compileFilterList(
-                    tempFile.absolutePath,
-                    triePath,
-                    bloomPath,
-                ).toInt()
+                tunnel.Tunnel
+                    .compileFilterList(
+                        tempFile.absolutePath,
+                        triePath,
+                        bloomPath,
+                    ).toInt()
 
             val updated =
                 filter.copy(
@@ -169,11 +171,12 @@ class LocalFilterCompiler(
                 val bloomPath = File(remoteFilterDir, "${filter.id}.bloom").absolutePath
 
                 val ruleCount =
-                    tunnel.Tunnel.compileFilterList(
-                        tempFile.absolutePath,
-                        triePath,
-                        bloomPath,
-                    ).toInt()
+                    tunnel.Tunnel
+                        .compileFilterList(
+                            tempFile.absolutePath,
+                            triePath,
+                            bloomPath,
+                        ).toInt()
 
                 val updated =
                     filter.copy(

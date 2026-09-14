@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">App di Sistema</string>
     <string name="about_title">Informazioni</string>
     <string name="about_description">Blocco annunci gratuito e open source.\nNessuna raccolta dati. Nessun tracciamento.</string>
-    <string name="about_version">Versione %s</string>
     <string name="about_github">Codice Sorgente (GitHub)</string>
     <string name="about_website">Sito Web</string>
     <string name="about_privacy_policy">Informativa sulla Privacy</string>

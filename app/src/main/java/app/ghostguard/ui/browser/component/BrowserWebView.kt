@@ -199,7 +199,9 @@ fun BrowserWebView(
                                         request: WebResourceRequest?,
                                     ): Boolean {
                                         val targetUrl = request?.url?.toString() ?: return false
-                                        if (uiState.adBlockEnabled && (BrowserAdBlocker.shouldBlock(request) || BrowserAdBlocker.shouldBlockNavigation(request, view?.url))) {
+                                        if (uiState.adBlockEnabled &&
+                                            (BrowserAdBlocker.shouldBlock(request) || BrowserAdBlocker.shouldBlockNavigation(request, view?.url))
+                                        ) {
                                             onIntent(BrowserUiIntent.AdBlocked)
                                             return true
                                         }
@@ -277,11 +279,33 @@ fun BrowserWebView(
 
 private val BLOCKED_POPUP_HOST_KEYWORDS =
     listOf(
-        "popads", "popcash", "propeller", "adsterra", "clickadu", "exoclick",
-        "fantastindents", "excidekombu", "cleverwebserver", "adsboosters",
-        "92mim", "tzegilo", "vr-gc", "dd133", "becorsolaom", "apps2app",
-        "vignette", "adxcontent", "vlit", "doubleclick", "adnxs",
-        "taboola", "mgid", "affiliate", "shopee", "lazada", "offerflowtogo",
+        "popads",
+        "popcash",
+        "propeller",
+        "adsterra",
+        "clickadu",
+        "exoclick",
+        "fantastindents",
+        "excidekombu",
+        "cleverwebserver",
+        "adsboosters",
+        "92mim",
+        "tzegilo",
+        "vr-gc",
+        "dd133",
+        "becorsolaom",
+        "apps2app",
+        "vignette",
+        "adxcontent",
+        "vlit",
+        "doubleclick",
+        "adnxs",
+        "taboola",
+        "mgid",
+        "affiliate",
+        "shopee",
+        "lazada",
+        "offerflowtogo",
     )
 
 private fun isBlockedPopupUrl(url: String): Boolean {

@@ -158,11 +158,8 @@
     <string name="https_filtering_http3_title">تصفية HTTP/3 (QUIC)</string>
     <string name="https_filtering_http3_desc">حظر QUIC في المتصفح لفرض اتصالات قابلة للتصفية للحصول على أقصى تصفية للإعلانات. قد يتسبب في تحميل بعض الصفحات جزئياً. أوقفه إذا لم يتم تحميل الصفحات بالكامل.</string>
     <string name="https_filtering_root_install">تثبيت الشهادة عبر Root</string>
-    <string name="https_filtering_root_install_desc">تثبيت شهادة CA تلقائياً في مخزن النظام (يتطلب صلاحيات Root).</string>
     <string name="https_wizard_title">إعداد الشهادة</string>
     <string name="https_wizard_step_indicator_format">الخطوة %1$d من %2$d: %3$s</string>
-    <string name="https_wizard_overview_title">نظرة عامة والخصوصية</string>
-    <string name="https_wizard_overview_subtitle">لماذا يحتاج GhostGuard إلى شهادة محلية</string>
     <string name="https_wizard_security_title">الأمان والخصوصية</string>
     <string name="https_wizard_security_desc">يتم إنشاء شهادة Root CA محلياً على جهازك ولا تغادر هاتفك أبداً. يستخدمها GhostGuard بدقة لإزالة الإعلانات على مواقع الويب. لا يتم اعتراض الخدمات الحساسة مثل التطبيقات المصرفية وحسابات Google أبداً.</string>
     <string name="https_wizard_explain_title">لماذا تصفية HTTPS؟</string>
@@ -171,14 +168,12 @@
     <string name="https_wizard_benefit_1">القضاء على الإعلانات على منصات الفيديو ومواقع الأخبار</string>
     <string name="https_wizard_benefit_2">إخفاء المساحات الإعلانية الفارغة واللافتات والنوافذ المنبثقة المزعجة</string>
     <string name="https_wizard_benefit_3">تنفيذ البريمجات لإحباط آليات مكافحة حظر الإعلانات</string>
-    <string name="https_wizard_privacy_title">ضمانات الخصوصية الصارمة</string>
     <string name="https_wizard_privacy_on_device_title" formatted="false">100% على الجهاز</string>
     <string name="https_wizard_privacy_on_device_desc">يتم إنشاء المفاتيح والشهادة محلياً على هاتفك ولا يتم إرسالها إلى أي مكان.</string>
     <string name="https_wizard_privacy_bypass_title">يتجاوز التطبيقات المصرفية والمالية</string>
     <string name="https_wizard_privacy_bypass_desc">يتم توجيه النطاقات الحساسة (البنوك، الهوية، Google) مباشرة ولا يتم فك تشفيرها أبداً.</string>
     <string name="https_wizard_privacy_browser_title">نطاق المتصفح الخاضع للتحكم</string>
     <string name="https_wizard_privacy_browser_desc">لديك سيطرة كاملة على المتصفحات التي تستخدم تصفية HTTPS، ويمكنك تعطيلها في أي وقت.</string>
-    <string name="https_wizard_cert_file_label">ملف شهادة CA</string>
     <string name="https_wizard_cert_file_type">شهادة X.509 CA (.crt)</string>
     <string name="https_wizard_cert_status_exported">تم الحفظ في التنزيلات</string>
     <string name="https_wizard_cert_status_not_exported">جاهز للحفظ</string>
@@ -186,7 +181,6 @@
     <string name="https_wizard_device_brand_format">الجهاز المستهدف: %1$s</string>
     <string name="https_wizard_device_brand_generic">جهاز Android الخاص بك</string>
     <string name="https_wizard_install_instructions_title">دليل خطوة بخطوة</string>
-    <string name="https_wizard_install_instructions_desc">اتبع هذه الخطوات في إعدادات أمان هاتفك:</string>
     <string name="https_wizard_root_detected_title">تم اكتشاف صلاحيات Root (مستحسن)</string>
     <string name="https_wizard_root_detected_desc">جهازك به صلاحيات Root. يمكنك تثبيت شهادة CA تلقائياً دون تكوين يدوي.</string>
     <string name="https_wizard_checking_title">جارٍ التحقق من الشهادة…</string>
@@ -203,11 +197,8 @@
     <string name="https_wizard_next">متابعة</string>
     <string name="https_wizard_prev">رجوع</string>
     <string name="https_wizard_finish">إنهاء وتمكين</string>
-    <string name="https_wizard_root_title">التثبيت عبر Root</string>
     <string name="https_wizard_root_fast">تثبيت سريع</string>
-    <string name="https_wizard_root_fast_desc">يتم تثبيتها مباشرة في مخزن شهادات المستخدم. تسري على الفور دون الحاجة إلى إعادة التشغيل.</string>
     <string name="https_wizard_root_module">وحدة Magisk</string>
-    <string name="https_wizard_root_module_desc">ينشئ وحدة نظام Magisk/KernelSU. يتطلب إعادة تشغيل الجهاز لتفعيلها كشهادة نظام CA دائمة.</string>
     <string name="https_wizard_copy_filename">نسخ اسم الملف</string>
     <string name="https_wizard_filename_copied">تم نسخ اسم ملف الشهادة إلى الحافظة</string>
     <string name="https_wizard_verified_success">تم التحقق من الشهادة وهي جاهزة للاستخدام!</string>

@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class FilterPreferences(private val dataStore: DataStore<Preferences>) {
+class FilterPreferences(
+    private val dataStore: DataStore<Preferences>,
+) {
     companion object {
         val KEY_FILTER_URL = stringPreferencesKey("filter_url")
         val KEY_AUTO_UPDATE_ENABLED = booleanPreferencesKey("auto_update_enabled")

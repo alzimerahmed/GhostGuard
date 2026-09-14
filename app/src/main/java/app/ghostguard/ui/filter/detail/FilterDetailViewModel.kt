@@ -33,11 +33,13 @@ class FilterDetailViewModel(
     private val customFilterManager: CustomFilterManager,
 ) : ViewModel() {
     val filter: StateFlow<FilterList?> =
-        filterListDao.getByIdFlow(filterId)
+        filterListDao
+            .getByIdFlow(filterId)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     val blockedCount: StateFlow<Int> =
-        dnsLogDao.getBlockedCountByReason(filterId.toString())
+        dnsLogDao
+            .getBlockedCountByReason(filterId.toString())
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     private val _testDomainQuery = MutableStateFlow("")

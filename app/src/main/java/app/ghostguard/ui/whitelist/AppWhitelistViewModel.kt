@@ -42,7 +42,8 @@ class AppWhitelistViewModel(
             val apps =
                 withContext(Dispatchers.IO) {
                     val pm = application.applicationContext.packageManager
-                    pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                    pm
+                        .getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
                         .filter { it.packageName != application.applicationContext.packageName }
                         .map { appInfo ->
                             val isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0
@@ -52,8 +53,7 @@ class AppWhitelistViewModel(
                                 icon = appInfo.loadIcon(pm),
                                 isSystemApp = isSystem,
                             )
-                        }
-                        .sortedBy { it.label.lowercase() }
+                        }.sortedBy { it.label.lowercase() }
                 }
             _installedApps.value = apps
             _isLoading.value = false

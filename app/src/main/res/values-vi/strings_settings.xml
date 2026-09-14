@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Ứng dụng hệ thống</string>
     <string name="about_title">Giới thiệu</string>
     <string name="about_description">Ứng dụng chặn quảng cáo miễn phí, mã nguồn mở.\nKhông thu thập dữ liệu. Không theo dõi.</string>
-    <string name="about_version">Phiên bản %s</string>
     <string name="about_github">Mã nguồn (GitHub)</string>
     <string name="about_website">Website</string>
     <string name="about_privacy_policy">Chính sách bảo mật</string>

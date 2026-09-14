@@ -60,8 +60,7 @@ fun DnsResponseTypeDialog(
                                 .fillMaxWidth()
                                 .clickable {
                                     onUpdateResponseType(type)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f)) {

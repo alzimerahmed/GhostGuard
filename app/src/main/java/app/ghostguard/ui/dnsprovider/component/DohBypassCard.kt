@@ -53,8 +53,7 @@ fun DohBypassCard(
                     value = enabled,
                     onValueChange = onCheckedChange,
                     role = Role.Switch,
-                )
-                .semantics(mergeDescendants = true, properties = { }),
+                ).semantics(mergeDescendants = true, properties = { }),
     ) {
         Column(
             modifier =

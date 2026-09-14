@@ -19,6 +19,18 @@ detekt {
     parallel = true
 }
 
+ktlint {
+    additionalEditorconfig.putAll(
+        mapOf(
+            "max_line_length" to "160",
+            "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
+            "ktlint_standard_discouraged-comment-location" to "disabled",
+            "ktlint_standard_property-naming" to "disabled",
+            "ktlint_standard_backing-property-naming" to "disabled",
+        ),
+    )
+}
+
 tasks.register<Exec>("buildGoTunnel") {
     val libsDir = file("libs")
     val aarFile = file("libs/tunnel.aar")

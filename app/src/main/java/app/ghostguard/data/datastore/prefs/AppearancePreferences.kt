@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class AppearancePreferences(private val dataStore: DataStore<Preferences>) {
+class AppearancePreferences(
+    private val dataStore: DataStore<Preferences>,
+) {
     companion object {
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
         val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")

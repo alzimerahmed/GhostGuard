@@ -16,13 +16,9 @@ enum class SearchEngine(
     BRAVE("brave", "Brave", "https://search.brave.com/search?q="),
     ;
 
-    fun buildSearchUrl(query: String): String {
-        return baseUrl + Uri.encode(query.trim())
-    }
+    fun buildSearchUrl(query: String): String = baseUrl + Uri.encode(query.trim())
 
     companion object {
-        fun fromId(id: String?): SearchEngine {
-            return entries.find { it.id.equals(id, ignoreCase = true) } ?: GOOGLE
-        }
+        fun fromId(id: String?): SearchEngine = entries.find { it.id.equals(id, ignoreCase = true) } ?: GOOGLE
     }
 }

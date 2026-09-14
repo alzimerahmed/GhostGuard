@@ -129,7 +129,8 @@ class ProfileManager(
         withContext(Dispatchers.IO) {
             val activeProfile = profileDao.getActive() ?: return@withContext
             val enabledUrls =
-                filterListDao.getEnabled()
+                filterListDao
+                    .getEnabled()
                     .map { it.url }
                     .toSet()
             val urlsString = enabledUrls.joinToString(",")
@@ -153,7 +154,8 @@ class ProfileManager(
             val currentActive = profileDao.getActive()
             if (currentActive != null && currentActive.id != profileId) {
                 val enabledUrls =
-                    filterListDao.getEnabled()
+                    filterListDao
+                        .getEnabled()
                         .map { it.url }
                         .toSet()
                 profileDao.update(currentActive.copy(enabledFilterUrls = enabledUrls.joinToString(",")))

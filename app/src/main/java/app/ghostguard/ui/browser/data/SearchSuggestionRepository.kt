@@ -27,9 +27,7 @@ class SearchSuggestionRepositoryImpl(
     // In-memory LRU cache to avoid redundant network calls for identical queries
     private val cache =
         object : LinkedHashMap<String, List<String>>(30, 0.75f, true) {
-            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<String>>?): Boolean {
-                return size > 50
-            }
+            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<String>>?): Boolean = size > 50
         }
 
     override suspend fun getSuggestions(query: String): List<String> =
@@ -50,9 +48,10 @@ class SearchSuggestionRepositoryImpl(
                 val jsonElement = json.parseToJsonElement(body)
                 val suggestionsArray = jsonElement.jsonArray.getOrNull(1)?.jsonArray
                 val suggestions =
-                    suggestionsArray?.mapNotNull {
-                        it.jsonPrimitive.content
-                    }?.take(8) ?: emptyList()
+                    suggestionsArray
+                        ?.mapNotNull {
+                            it.jsonPrimitive.content
+                        }?.take(8) ?: emptyList()
 
                 synchronized(cache) {
                     cache[trimmed] = suggestions

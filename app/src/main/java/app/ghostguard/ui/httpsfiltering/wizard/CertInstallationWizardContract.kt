@@ -3,7 +3,10 @@ package app.ghostguard.ui.httpsfiltering.wizard
 import android.content.Intent
 import app.ghostguard.ui.httpsfiltering.CertStatus
 
-enum class WizardStep(val stepIndex: Int, val titleRes: Int) {
+enum class WizardStep(
+    val stepIndex: Int,
+    val titleRes: Int,
+) {
     EXPLANATION(0, app.ghostguard.R.string.https_filtering_title),
     SECURITY(1, app.ghostguard.R.string.https_wizard_security_title),
     SAVE_CA(2, app.ghostguard.R.string.https_filtering_step1_title),
@@ -27,7 +30,9 @@ sealed interface CertInstallationWizardUiIntent {
 
     data object PrevStep : CertInstallationWizardUiIntent
 
-    data class GoToStep(val step: WizardStep) : CertInstallationWizardUiIntent
+    data class GoToStep(
+        val step: WizardStep,
+    ) : CertInstallationWizardUiIntent
 
     data object ExportCert : CertInstallationWizardUiIntent
 
@@ -43,11 +48,17 @@ sealed interface CertInstallationWizardUiIntent {
 }
 
 sealed interface CertInstallationWizardUiEffect {
-    data class ShowSnackbar(val message: String) : CertInstallationWizardUiEffect
+    data class ShowSnackbar(
+        val message: String,
+    ) : CertInstallationWizardUiEffect
 
-    data class OpenSettings(val intent: Intent) : CertInstallationWizardUiEffect
+    data class OpenSettings(
+        val intent: Intent,
+    ) : CertInstallationWizardUiEffect
 
     data object FinishAndNavigateBack : CertInstallationWizardUiEffect
 
-    data class CopyToClipboard(val text: String) : CertInstallationWizardUiEffect
+    data class CopyToClipboard(
+        val text: String,
+    ) : CertInstallationWizardUiEffect
 }

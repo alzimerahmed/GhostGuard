@@ -144,8 +144,7 @@ fun BentoStatsCard(
                         Brush.verticalGradient(
                             colors = listOf(Color(0xFF261D2E), Color(0xFF1B2A2E)),
                         ),
-                )
-                .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
+                ).border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
                 .padding(16.dp),
     ) {
         Column(
@@ -313,8 +312,7 @@ fun BentoPipCard(
                         Brush.horizontalGradient(
                             colors = listOf(Color(0xFF3B1E4A), Color(0xFF271F32)),
                         ),
-                )
-                .border(1.dp, Color(0xFFD946EF).copy(alpha = 0.25f), RoundedCornerShape(18.dp))
+                ).border(1.dp, Color(0xFFD946EF).copy(alpha = 0.25f), RoundedCornerShape(18.dp))
                 .clickable { onEnterPip() }
                 .padding(14.dp),
     ) {
@@ -467,8 +465,7 @@ fun BentoCtaButton(
                         Brush.horizontalGradient(
                             colors = listOf(Color(0xFF3B2338), Color(0xFF261D2B)),
                         ),
-                )
-                .border(1.dp, Color(0xFFEC4899).copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                ).border(1.dp, Color(0xFFEC4899).copy(alpha = 0.3f), RoundedCornerShape(16.dp))
                 .clickable { onClick() }
                 .padding(horizontal = 16.dp, vertical = 12.dp),
     ) {

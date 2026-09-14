@@ -31,7 +31,8 @@ import org.koin.core.component.inject
  */
 class WireGuardImportViewModel(
     application: Application,
-) : AndroidViewModel(application), KoinComponent {
+) : AndroidViewModel(application),
+    KoinComponent {
     private val appPrefs: AppPreferences by inject()
 
     private val _profiles = MutableStateFlow<List<WireGuardProfile>>(emptyList())
@@ -93,7 +94,8 @@ class WireGuardImportViewModel(
             try {
                 val rawText =
                     withContext(Dispatchers.IO) {
-                        getApplication<Application>().contentResolver
+                        getApplication<Application>()
+                            .contentResolver
                             .openInputStream(uri)
                             ?.use { it.bufferedReader(Charsets.UTF_8).readText() }
                             ?: throw Exception("Cannot open input stream")

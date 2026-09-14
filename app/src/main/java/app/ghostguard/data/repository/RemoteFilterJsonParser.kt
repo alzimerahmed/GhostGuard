@@ -7,21 +7,37 @@ internal fun parseRemoteFilterJson(json: String): List<app.ghostguard.data.remot
         val results = mutableListOf<app.ghostguard.data.remote.models.FilterList>()
         val objects =
             json.split("},").map {
-                it.trim().removePrefix("[").removeSuffix("]").trim() + "}"
+                it
+                    .trim()
+                    .removePrefix("[")
+                    .removeSuffix("]")
+                    .trim() + "}"
             }
 
         for (obj in objects) {
-            val cleaned = obj.trim().removePrefix("{").removeSuffix("}").removeSuffix("},")
+            val cleaned =
+                obj
+                    .trim()
+                    .removePrefix("{")
+                    .removeSuffix("}")
+                    .removeSuffix("},")
 
             fun extractString(key: String): String? {
                 val pattern = "\"$key\"\\s*:\\s*\"(.*?)\"".toRegex()
-                return pattern.find(cleaned)?.groupValues?.get(1)
+                return pattern
+                    .find(cleaned)
+                    ?.groupValues
+                    ?.get(1)
                     ?.replace("\\u0026", "&")
             }
 
             fun extractInt(key: String): Int {
                 val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
-                return pattern.find(cleaned)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+                return pattern
+                    .find(cleaned)
+                    ?.groupValues
+                    ?.get(1)
+                    ?.toIntOrNull() ?: 0
             }
 
             fun extractBoolean(key: String): Boolean {
@@ -32,7 +48,9 @@ internal fun parseRemoteFilterJson(json: String): List<app.ghostguard.data.remot
             val name = extractString("name")
             val bloomUrl = extractString("bloomUrl")
             val trieUrl = extractString("trieUrl")
-            if (name == null || bloomUrl == null || trieUrl == null) continue            results.add(
+            if (name == null || bloomUrl == null || trieUrl == null) continue
+
+            results.add(
                 app.ghostguard.data.remote.models.FilterList(
                     name = name,
                     id = extractString("id") ?: name.lowercase().replace(" ", "_"),

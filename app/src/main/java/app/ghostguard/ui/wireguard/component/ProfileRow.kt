@@ -52,7 +52,9 @@ fun ProfileRow(
 ) {
     val firstPeer = profile.config.peers.firstOrNull()
     val endpoint = firstPeer?.endpoint ?: stringResource(R.string.wireguard_no_peer)
-    val address = profile.config.interfaceConfig.address.firstOrNull() ?: "—"
+    val address =
+        profile.config.interfaceConfig.address
+            .firstOrNull() ?: "—"
 
     Card(
         modifier =

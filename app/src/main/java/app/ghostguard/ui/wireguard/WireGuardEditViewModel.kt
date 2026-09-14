@@ -54,7 +54,9 @@ data class WireGuardEditState(
  * screen to attach `supportingText`. Peer errors are keyed by
  * "peer.<rowId>.<field>".
  */
-data class WireGuardEditErrors(val map: Map<String, String> = emptyMap()) {
+data class WireGuardEditErrors(
+    val map: Map<String, String> = emptyMap(),
+) {
     val isValid: Boolean get() = map.isEmpty()
 
     operator fun get(key: String): String? = map[key]
@@ -62,7 +64,8 @@ data class WireGuardEditErrors(val map: Map<String, String> = emptyMap()) {
 
 class WireGuardEditViewModel(
     application: Application,
-) : AndroidViewModel(application), KoinComponent {
+) : AndroidViewModel(application),
+    KoinComponent {
     private val appPrefs: AppPreferences by inject()
 
     private val _state = MutableStateFlow(WireGuardEditState())
@@ -78,9 +81,13 @@ class WireGuardEditViewModel(
     val events: SharedFlow<EditEvent> = _events.asSharedFlow()
 
     sealed class EditEvent {
-        data class Saved(val name: String) : EditEvent()
+        data class Saved(
+            val name: String,
+        ) : EditEvent()
 
-        data class Failed(val message: String) : EditEvent()
+        data class Failed(
+            val message: String,
+        ) : EditEvent()
     }
 
     /** Load a profile into the form. Call once when the screen opens. */
@@ -165,28 +172,37 @@ class WireGuardEditViewModel(
         if (addresses.isEmpty()) {
             errs[FIELD_ADDRESSES] = "At least one address is required"
         } else {
-            addresses.firstNotNullOfOrNull { WireGuardValidators.cidr(it) }
+            addresses
+                .firstNotNullOfOrNull { WireGuardValidators.cidr(it) }
                 ?.let { errs[FIELD_ADDRESSES] = it }
         }
 
         WireGuardValidators.port(s.listenPort)?.let { errs[FIELD_LISTEN_PORT] = it }
 
-        s.dns.splitTrim().firstNotNullOfOrNull { WireGuardValidators.ip(it) }
+        s.dns
+            .splitTrim()
+            .firstNotNullOfOrNull { WireGuardValidators.ip(it) }
             ?.let { errs[FIELD_DNS] = it }
 
         if (s.peers.isEmpty()) {
             errs[FIELD_PEERS] = "At least one peer is required"
         }
         for (peer in s.peers) {
-            WireGuardValidators.key(peer.publicKey, "Public key")
+            WireGuardValidators
+                .key(peer.publicKey, "Public key")
                 ?.let { errs["peer.${peer.rowId}.publicKey"] = it }
-            WireGuardValidators.key(peer.presharedKey, "Preshared key", optional = true)
+            WireGuardValidators
+                .key(peer.presharedKey, "Preshared key", optional = true)
                 ?.let { errs["peer.${peer.rowId}.presharedKey"] = it }
-            WireGuardValidators.endpoint(peer.endpoint, optional = true)
+            WireGuardValidators
+                .endpoint(peer.endpoint, optional = true)
                 ?.let { errs["peer.${peer.rowId}.endpoint"] = it }
-            peer.allowedIPs.splitTrim().firstNotNullOfOrNull { WireGuardValidators.cidr(it) }
+            peer.allowedIPs
+                .splitTrim()
+                .firstNotNullOfOrNull { WireGuardValidators.cidr(it) }
                 ?.let { errs["peer.${peer.rowId}.allowedIPs"] = it }
-            WireGuardValidators.keepalive(peer.persistentKeepalive)
+            WireGuardValidators
+                .keepalive(peer.persistentKeepalive)
                 ?.let { errs["peer.${peer.rowId}.persistentKeepalive"] = it }
         }
         return errs
@@ -224,18 +240,22 @@ class WireGuardEditViewModel(
             name = name,
             privateKey = config.interfaceConfig.privateKey,
             addresses = config.interfaceConfig.address.joinToString(", "),
-            listenPort = config.interfaceConfig.listenPort?.toString().orEmpty(),
+            listenPort =
+                config.interfaceConfig.listenPort
+                    ?.toString()
+                    .orEmpty(),
             dns = config.interfaceConfig.dns.joinToString(", "),
             peers =
-                config.peers.map { p ->
-                    PeerFormState(
-                        publicKey = p.publicKey,
-                        presharedKey = p.presharedKey.orEmpty(),
-                        endpoint = p.endpoint.orEmpty(),
-                        allowedIPs = p.allowedIPs.joinToString(", "),
-                        persistentKeepalive = p.persistentKeepalive?.toString().orEmpty(),
-                    )
-                }.ifEmpty { listOf(PeerFormState()) },
+                config.peers
+                    .map { p ->
+                        PeerFormState(
+                            publicKey = p.publicKey,
+                            presharedKey = p.presharedKey.orEmpty(),
+                            endpoint = p.endpoint.orEmpty(),
+                            allowedIPs = p.allowedIPs.joinToString(", "),
+                            persistentKeepalive = p.persistentKeepalive?.toString().orEmpty(),
+                        )
+                    }.ifEmpty { listOf(PeerFormState()) },
         )
 
     private fun String.splitTrim(): List<String> = split(",").map { it.trim() }.filter { it.isNotEmpty() }

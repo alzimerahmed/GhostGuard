@@ -22,7 +22,8 @@ import timber.log.Timber
 class DailySummaryWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
+) : CoroutineWorker(context, params),
+    KoinComponent {
     private val dnsLogDao: DnsLogDao by inject()
     private val appPreferences: AppPreferences by inject()
 
@@ -94,12 +95,12 @@ class DailySummaryWorker(
             )
 
         val notification =
-            NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            NotificationCompat
+                .Builder(applicationContext, CHANNEL_ID)
                 .setContentTitle(applicationContext.getString(R.string.daily_summary_title))
                 .setContentText(
                     applicationContext.getString(R.string.daily_summary_text, blockedCount),
-                )
-                .setSmallIcon(R.drawable.ic_shield_on)
+                ).setSmallIcon(R.drawable.ic_shield_on)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)

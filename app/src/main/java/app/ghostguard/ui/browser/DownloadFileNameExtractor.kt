@@ -36,10 +36,9 @@ fun extractFileName(
     )
 }
 
-private fun sanitizeFileName(name: String): String {
-    return name
+private fun sanitizeFileName(name: String): String =
+    name
         .replace('+', ' ')
         .replace(Regex("[\\\\/:*?\"<>|]"), "_")
         .trim()
         .ifBlank { "download" }
-}

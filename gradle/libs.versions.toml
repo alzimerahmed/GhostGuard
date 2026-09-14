@@ -24,7 +24,7 @@ composeCharts = "0.2.5"
 lifecycleRuntimeCompose = "2.10.0"
 nav3Core = "1.1.1"
 sentry = "6.6.0"
-ktlint = "12.1.2"
+ktlint = "14.2.0"
 detekt = "1.23.8"
 sentry-android = "8.41.0"
 

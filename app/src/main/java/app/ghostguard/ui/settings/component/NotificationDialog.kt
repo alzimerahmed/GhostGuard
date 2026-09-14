@@ -46,8 +46,7 @@ fun NotificationDialog(
                                 .fillMaxWidth()
                                 .clickable {
                                     onUpdateNotification(type)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

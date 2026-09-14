@@ -108,8 +108,7 @@ fun LogEntryItem(
                         onLongClick = {
                             if (!isSelectionMode) onLongPress()
                         },
-                    )
-                    .padding(14.dp),
+                    ).padding(14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             // Selection checkbox
@@ -287,7 +286,9 @@ fun LogEntryItem(
                             text = sourceText,
                             style =
                                 MaterialTheme.typography.labelSmall.copy(
-                                    fontSize = androidx.compose.ui.unit.TextUnit(10f, androidx.compose.ui.unit.TextUnitType.Sp),
+                                    fontSize =
+                                        androidx.compose.ui.unit
+                                            .TextUnit(10f, androidx.compose.ui.unit.TextUnitType.Sp),
                                 ),
                             color = sourceColor,
                             fontWeight = FontWeight.SemiBold,

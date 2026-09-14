@@ -169,8 +169,7 @@ private fun SaturationBrightnessPanel(
                             val b = 1f - (offset.y / size.height).coerceIn(0f, 1f)
                             onSaturationBrightnessChanged(s, b)
                         }
-                    }
-                    .pointerInput(Unit) {
+                    }.pointerInput(Unit) {
                         detectDragGestures { change, _ ->
                             val s = (change.position.x / size.width).coerceIn(0f, 1f)
                             val b = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
@@ -221,7 +220,9 @@ private fun SaturationBrightnessPanel(
                 color = Color.Black.copy(alpha = 0.3f),
                 radius = 10.dp.toPx(),
                 center = Offset(cx, cy),
-                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx()),
+                style =
+                    androidx.compose.ui.graphics.drawscope
+                        .Stroke(width = 2.dp.toPx()),
             )
         }
     }
@@ -249,8 +250,7 @@ private fun HueBar(
                         detectTapGestures { offset ->
                             onHueChanged((offset.x / size.width * 360f).coerceIn(0f, 360f))
                         }
-                    }
-                    .pointerInput(Unit) {
+                    }.pointerInput(Unit) {
                         detectDragGestures { change, _ ->
                             onHueChanged((change.position.x / size.width * 360f).coerceIn(0f, 360f))
                         }
@@ -269,7 +269,9 @@ private fun HueBar(
                 color = Color.Black.copy(alpha = 0.3f),
                 radius = size.height / 2f,
                 center = Offset(x, size.height / 2f),
-                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.dp.toPx()),
+                style =
+                    androidx.compose.ui.graphics.drawscope
+                        .Stroke(width = 2.dp.toPx()),
             )
         }
     }

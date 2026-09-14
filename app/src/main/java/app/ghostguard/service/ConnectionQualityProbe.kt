@@ -104,19 +104,39 @@ class ConnectionQualityProbe(
                 // Standard DNS query packet for "cloudflare.com" type A (ID 0x1234)
                 val dnsQuery =
                     byteArrayOf(
-                        0x12.toByte(), 0x34.toByte(), // ID: 0x1234
-                        0x01.toByte(), 0x00.toByte(), // Flags: standard query, RD=1
-                        0x00.toByte(), 0x01.toByte(), // QDCOUNT: 1
-                        0x00.toByte(), 0x00.toByte(), // ANCOUNT: 0
-                        0x00.toByte(), 0x00.toByte(), // NSCOUNT: 0
-                        0x00.toByte(), 0x00.toByte(), // ARCOUNT: 0
+                        0x12.toByte(),
+                        0x34.toByte(), // ID: 0x1234
+                        0x01.toByte(),
+                        0x00.toByte(), // Flags: standard query, RD=1
+                        0x00.toByte(),
+                        0x01.toByte(), // QDCOUNT: 1
+                        0x00.toByte(),
+                        0x00.toByte(), // ANCOUNT: 0
+                        0x00.toByte(),
+                        0x00.toByte(), // NSCOUNT: 0
+                        0x00.toByte(),
+                        0x00.toByte(), // ARCOUNT: 0
                         // QNAME: \x0a cloudflare \x03 com \x00
-                        10, 'c'.code.toByte(), 'l'.code.toByte(), 'o'.code.toByte(), 'u'.code.toByte(),
-                        'd'.code.toByte(), 'f'.code.toByte(), 'l'.code.toByte(), 'a'.code.toByte(),
-                        'r'.code.toByte(), 'e'.code.toByte(),
-                        3, 'c'.code.toByte(), 'o'.code.toByte(), 'm'.code.toByte(), 0,
-                        0x00.toByte(), 0x01.toByte(), // QTYPE: A
-                        0x00.toByte(), 0x01.toByte(), // QCLASS: IN
+                        10,
+                        'c'.code.toByte(),
+                        'l'.code.toByte(),
+                        'o'.code.toByte(),
+                        'u'.code.toByte(),
+                        'd'.code.toByte(),
+                        'f'.code.toByte(),
+                        'l'.code.toByte(),
+                        'a'.code.toByte(),
+                        'r'.code.toByte(),
+                        'e'.code.toByte(),
+                        3,
+                        'c'.code.toByte(),
+                        'o'.code.toByte(),
+                        'm'.code.toByte(),
+                        0,
+                        0x00.toByte(),
+                        0x01.toByte(), // QTYPE: A
+                        0x00.toByte(),
+                        0x01.toByte(), // QCLASS: IN
                     )
 
                 val destAddr = InetAddress.getByName(TUN_DNS_IP)

@@ -89,7 +89,8 @@ class AppManagementViewModel(
                 val apps =
                     withContext(Dispatchers.IO) {
                         val pm = application.applicationContext.packageManager
-                        pm.getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                        pm
+                            .getInstalledApplications(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
                             .filter { it.packageName != application.applicationContext.packageName }
                             .map { appInfo ->
                                 AppManagementData(
@@ -98,8 +99,7 @@ class AppManagementViewModel(
                                     icon = appInfo.loadIcon(pm),
                                     isSystemApp = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0,
                                 )
-                            }
-                            .sortedBy { it.label.lowercase() }
+                            }.sortedBy { it.label.lowercase() }
                     }
                 _installedApps.value = apps
                 _totalAppCount.value = apps.size

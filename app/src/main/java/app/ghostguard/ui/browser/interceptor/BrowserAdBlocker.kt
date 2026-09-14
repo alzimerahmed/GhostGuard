@@ -92,9 +92,7 @@ object BrowserAdBlocker {
     fun shouldBlockNavigation(
         request: WebResourceRequest,
         currentUrl: String?,
-    ): Boolean {
-        return shouldBlock(request)
-    }
+    ): Boolean = shouldBlock(request)
 
     /**
      * Creates a blocked response that aborts the network connection with net::ERR_BLOCKED_BY_CLIENT,
@@ -160,8 +158,8 @@ object BrowserAdBlocker {
      * Checks if a request requires an AdGuard-style surrogate response (stub JS or 1x1 pixel)
      * instead of outright blocking, to defeat anti-adblock detection scripts.
      */
-    fun getSurrogateResponse(fullUrl: String): WebResourceResponse? {
-        return when {
+    fun getSurrogateResponse(fullUrl: String): WebResourceResponse? =
+        when {
             fullUrl.contains("inplayer-adx") || fullUrl.contains("player-adx") -> {
                 getMockInplayerAdxResponse()
             }
@@ -176,7 +174,6 @@ object BrowserAdBlocker {
             }
             else -> null
         }
-    }
 
     private fun getMockEmptyJsResponse(): WebResourceResponse {
         val headers =
@@ -246,39 +243,34 @@ object BrowserAdBlocker {
         return "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/$chromeVersion.0.0.0 Mobile Safari/537.36"
     }
 
-    fun getServiceWorkerKillerScript(context: Context): String {
-        return scriptCache.getOrPut("service_worker_killer.js") {
+    fun getServiceWorkerKillerScript(context: Context): String =
+        scriptCache.getOrPut("service_worker_killer.js") {
             readAsset(context, "browser/service_worker_killer.js")
         }
-    }
 
-    fun getYoutubeSanitizerScript(context: Context): String {
-        return scriptCache.getOrPut("youtube_sanitizer.js") {
+    fun getYoutubeSanitizerScript(context: Context): String =
+        scriptCache.getOrPut("youtube_sanitizer.js") {
             readAsset(context, "browser/youtube_sanitizer.js")
         }
-    }
 
-    fun getAdguardScriptlets(context: Context): String {
-        return activeScriptletsJs?.takeIf { it.isNotBlank() }
+    fun getAdguardScriptlets(context: Context): String =
+        activeScriptletsJs?.takeIf { it.isNotBlank() }
             ?: scriptCache.getOrPut("adguard_scriptlets.js") {
                 readAsset(context, "browser/adguard_scriptlets.js")
             }
-    }
 
-    fun getBackgroundPlayScript(context: Context): String {
-        return scriptCache.getOrPut("background_play.js") {
+    fun getBackgroundPlayScript(context: Context): String =
+        scriptCache.getOrPut("background_play.js") {
             readAsset(context, "browser/background_play.js")
         }
-    }
 
-    fun getCosmeticCssScript(context: Context): String {
-        return scriptCache.getOrPut("adblock_cosmetic.css") {
+    fun getCosmeticCssScript(context: Context): String =
+        scriptCache.getOrPut("adblock_cosmetic.css") {
             val rawCss =
                 (
                     activeCosmeticCss?.takeIf { it.isNotBlank() }
                         ?: readAsset(context, "browser/adblock_cosmetic.css")
-                )
-                    .replace("\\", "\\\\")
+                ).replace("\\", "\\\\")
                     .replace("\n", " ")
                     .replace("\r", "")
                     .replace("\"", "\\\"")
@@ -300,7 +292,6 @@ object BrowserAdBlocker {
             })();
             """.trimIndent()
         }
-    }
 
     fun sanitizeSearchUrl(input: String): String {
         val trimmed = input.trim()
@@ -388,9 +379,11 @@ object BrowserAdBlocker {
     private fun readAsset(
         context: Context,
         filename: String,
-    ): String {
-        return runCatching {
-            context.assets.open(filename).bufferedReader().use { it.readText() }
+    ): String =
+        runCatching {
+            context.assets
+                .open(filename)
+                .bufferedReader()
+                .use { it.readText() }
         }.getOrDefault("")
-    }
 }

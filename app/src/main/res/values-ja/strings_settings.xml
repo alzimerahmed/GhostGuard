@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">システムアプリ</string>
     <string name="about_title">アプリについて</string>
     <string name="about_description">無料のオープンソース広告ブロッカー。\nデータ収集なし。トラッキングなし。</string>
-    <string name="about_version">バージョン %s</string>
     <string name="about_github">ソースコード (GitHub)</string>
     <string name="about_website">Website</string>
     <string name="about_privacy_policy">プライバシーポリシー</string>

@@ -235,8 +235,7 @@ fun BrowserBentoMenuSheet(
                         .clickable {
                             onDismiss()
                             onCloseBrowser()
-                        }
-                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                        }.padding(vertical = 12.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {

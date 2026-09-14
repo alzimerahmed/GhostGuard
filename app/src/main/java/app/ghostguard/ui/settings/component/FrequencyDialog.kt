@@ -48,8 +48,7 @@ fun FrequencyDialog(
                                 .fillMaxWidth()
                                 .clickable {
                                     onUpdateFrequencyChange(freq)
-                                }
-                                .padding(vertical = 12.dp),
+                                }.padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

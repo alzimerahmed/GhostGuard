@@ -75,7 +75,11 @@ fun HttpsFilteringScreen(
     val proxyStartedMsg = stringResource(R.string.https_filtering_started)
     val proxyStoppedMsg = stringResource(R.string.https_filtering_stopped)
 
-    val isRootAvailable = remember { app.ghostguard.utils.SystemCertificateInstaller.isRootAvailable() }
+    val isRootAvailable =
+        remember {
+            app.ghostguard.utils.SystemCertificateInstaller
+                .isRootAvailable()
+        }
 
     // Re-verify when the user returns from Android's Security Settings.
     // They likely just installed (or removed) the certificate.

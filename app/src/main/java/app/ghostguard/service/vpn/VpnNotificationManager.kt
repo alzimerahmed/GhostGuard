@@ -13,7 +13,9 @@ import app.ghostguard.service.AdBlockVpnService
 import app.ghostguard.service.VpnState
 import java.util.Locale
 
-class VpnNotificationManager(private val context: Context) {
+class VpnNotificationManager(
+    private val context: Context,
+) {
     companion object {
         const val NOTIFICATION_ID = 1
         const val REVOKED_NOTIFICATION_ID = 2
@@ -170,40 +172,47 @@ class VpnNotificationManager(private val context: Context) {
 
         if (isPhysicalNetworkLost) {
             builder.addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_stop),
-                    stopPendingIntent,
-                ).build(),
+                Notification.Action
+                    .Builder(
+                        null,
+                        context.getString(R.string.vpn_notification_action_stop),
+                        stopPendingIntent,
+                    ).build(),
             )
         } else if (isReconnecting || retryCount > 0) {
-            builder.addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_retry),
-                    retryPendingIntent,
-                ).build(),
-            ).addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_stop),
-                    stopPendingIntent,
-                ).build(),
-            )
+            builder
+                .addAction(
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_notification_action_retry),
+                            retryPendingIntent,
+                        ).build(),
+                ).addAction(
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_notification_action_stop),
+                            stopPendingIntent,
+                        ).build(),
+                )
         } else {
-            builder.addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_pause),
-                    pausePendingIntent,
-                ).build(),
-            ).addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_stop),
-                    stopPendingIntent,
-                ).build(),
-            )
+            builder
+                .addAction(
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_notification_action_pause),
+                            pausePendingIntent,
+                        ).build(),
+                ).addAction(
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_notification_action_stop),
+                            stopPendingIntent,
+                        ).build(),
+                )
         }
 
         return builder.build()
@@ -261,13 +270,13 @@ class VpnNotificationManager(private val context: Context) {
                 .setOngoing(false)
                 .setContentIntent(pendingIntent)
                 .addAction(
-                    Notification.Action.Builder(
-                        null,
-                        context.getString(R.string.vpn_stopped_action_enable),
-                        startPendingIntent,
-                    ).build(),
-                )
-                .build()
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_stopped_action_enable),
+                            startPendingIntent,
+                        ).build(),
+                ).build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
@@ -324,13 +333,13 @@ class VpnNotificationManager(private val context: Context) {
                 .setOngoing(false)
                 .setContentIntent(pendingIntent)
                 .addAction(
-                    Notification.Action.Builder(
-                        null,
-                        context.getString(R.string.vpn_stopped_action_enable),
-                        startPendingIntent,
-                    ).build(),
-                )
-                .build()
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_stopped_action_enable),
+                            startPendingIntent,
+                        ).build(),
+                ).build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }

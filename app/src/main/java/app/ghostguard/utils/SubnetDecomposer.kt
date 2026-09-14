@@ -15,13 +15,9 @@ data class CidrBlock(
     val start: Long = address and mask
     val end: Long = start or (mask.inv() and 0xFFFFFFFFL)
 
-    fun contains(other: CidrBlock): Boolean {
-        return this.start <= other.start && other.end <= this.end
-    }
+    fun contains(other: CidrBlock): Boolean = this.start <= other.start && other.end <= this.end
 
-    fun containsIp(ipLong: Long): Boolean {
-        return ipLong in start..end
-    }
+    fun containsIp(ipLong: Long): Boolean = ipLong in start..end
 
     fun split(): Pair<CidrBlock, CidrBlock> {
         require(prefix < 32) { "Cannot split /32 block" }

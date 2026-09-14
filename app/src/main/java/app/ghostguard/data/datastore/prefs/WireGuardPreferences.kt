@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
+class WireGuardPreferences(
+    private val dataStore: DataStore<Preferences>,
+) {
     companion object {
         val KEY_ROUTING_MODE = stringPreferencesKey("routing_mode")
         val KEY_WG_CONFIG_JSON = stringPreferencesKey("wg_config_json")
@@ -75,9 +77,7 @@ class WireGuardPreferences(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun getRoutingModeSnapshot(): String {
-        return routingMode.first()
-    }
+    suspend fun getRoutingModeSnapshot(): String = routingMode.first()
 
     suspend fun getWgConfigJsonSnapshot(): String? {
         val active = getActiveWgProfileSnapshot() ?: return null

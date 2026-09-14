@@ -11,7 +11,9 @@ import app.ghostguard.MainActivity
 import app.ghostguard.R
 import java.util.Locale
 
-class RootProxyNotificationManager(private val context: Context) {
+class RootProxyNotificationManager(
+    private val context: Context,
+) {
     companion object {
         const val NOTIFICATION_ID = 10
         const val CHANNEL_ID = "ghostguard_root_proxy_channel"
@@ -94,20 +96,20 @@ class RootProxyNotificationManager(private val context: Context) {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
             .addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_pause),
-                    pausePendingIntent,
-                ).build(),
-            )
-            .addAction(
-                Notification.Action.Builder(
-                    null,
-                    context.getString(R.string.vpn_notification_action_stop),
-                    stopPendingIntent,
-                ).build(),
-            )
-            .setOngoing(true)
+                Notification.Action
+                    .Builder(
+                        null,
+                        context.getString(R.string.vpn_notification_action_pause),
+                        pausePendingIntent,
+                    ).build(),
+            ).addAction(
+                Notification.Action
+                    .Builder(
+                        null,
+                        context.getString(R.string.vpn_notification_action_stop),
+                        stopPendingIntent,
+                    ).build(),
+            ).setOngoing(true)
             .build()
     }
 
@@ -163,13 +165,13 @@ class RootProxyNotificationManager(private val context: Context) {
                 .setOngoing(false)
                 .setContentIntent(pendingIntent)
                 .addAction(
-                    Notification.Action.Builder(
-                        null,
-                        context.getString(R.string.vpn_stopped_action_enable),
-                        startPendingIntent,
-                    ).build(),
-                )
-                .build()
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_stopped_action_enable),
+                            startPendingIntent,
+                        ).build(),
+                ).build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }
@@ -227,13 +229,13 @@ class RootProxyNotificationManager(private val context: Context) {
                 .setOngoing(false)
                 .setContentIntent(pendingIntent)
                 .addAction(
-                    Notification.Action.Builder(
-                        null,
-                        context.getString(R.string.vpn_stopped_action_enable),
-                        retryPendingIntent,
-                    ).build(),
-                )
-                .build()
+                    Notification.Action
+                        .Builder(
+                            null,
+                            context.getString(R.string.vpn_stopped_action_enable),
+                            retryPendingIntent,
+                        ).build(),
+                ).build()
 
         notificationManager?.notify(NOTIFICATION_ID, notification)
     }

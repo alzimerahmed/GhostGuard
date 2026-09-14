@@ -4,8 +4,8 @@ package app.ghostguard.ui.browser.util
  * Helper generating JavaScript code for handling Picture-in-Picture on web videos.
  */
 object BrowserPipHelper {
-    fun getPipToggleScript(isInPipMode: Boolean): String {
-        return if (isInPipMode) {
+    fun getPipToggleScript(isInPipMode: Boolean): String =
+        if (isInPipMode) {
             """
             (function() {
                 if (window.__blockads_set_pip) {
@@ -51,5 +51,4 @@ object BrowserPipHelper {
             })();
             """.trimIndent()
         }
-    }
 }

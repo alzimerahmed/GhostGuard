@@ -102,7 +102,11 @@ class CustomFilterApi(
         key: String,
     ): Int {
         val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
-        return pattern.find(json)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+        return pattern
+            .find(json)
+            ?.groupValues
+            ?.get(1)
+            ?.toIntOrNull() ?: 0
     }
 
     private fun extractLong(
@@ -110,7 +114,11 @@ class CustomFilterApi(
         key: String,
     ): Long {
         val pattern = "\"$key\"\\s*:\\s*(\\d+)".toRegex()
-        return pattern.find(json)?.groupValues?.get(1)?.toLongOrNull() ?: 0L
+        return pattern
+            .find(json)
+            ?.groupValues
+            ?.get(1)
+            ?.toLongOrNull() ?: 0L
     }
 }
 

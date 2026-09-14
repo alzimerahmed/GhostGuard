@@ -32,7 +32,8 @@ import java.io.File
 
 class HttpsFilteringViewModel(
     application: Application,
-) : AndroidViewModel(application), KoinComponent {
+) : AndroidViewModel(application),
+    KoinComponent {
     private val appPrefs: AppPreferences by inject()
     private val engine = tunnel.Tunnel.newEngine()
 
@@ -175,7 +176,9 @@ class HttpsFilteringViewModel(
             }
 
             // Parse our CA cert
-            val certFactory = java.security.cert.CertificateFactory.getInstance("X.509")
+            val certFactory =
+                java.security.cert.CertificateFactory
+                    .getInstance("X.509")
             val ourCert =
                 certFactory.generateCertificate(
                     caPem.byteInputStream(),
@@ -298,7 +301,8 @@ class HttpsFilteringViewModel(
             }
             val result =
                 withContext(Dispatchers.IO) {
-                    app.ghostguard.utils.SystemCertificateInstaller.installToUserStoreViaRoot(pem)
+                    app.ghostguard.utils.SystemCertificateInstaller
+                        .installToUserStoreViaRoot(pem)
                 }
             if (result.isSuccess) {
                 _certStatus.value = CertStatus.INSTALLED
@@ -329,7 +333,8 @@ class HttpsFilteringViewModel(
             }
             val result =
                 withContext(Dispatchers.IO) {
-                    app.ghostguard.utils.SystemCertificateInstaller.installToSystemStore(pem)
+                    app.ghostguard.utils.SystemCertificateInstaller
+                        .installToSystemStore(pem)
                 }
             if (result.isSuccess) {
                 _certStatus.value = CertStatus.INSTALLED
@@ -344,8 +349,8 @@ class HttpsFilteringViewModel(
     /**
      * Open Android Security Settings where user can install the certificate.
      */
-    fun createSecuritySettingsIntent(): Intent {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    fun createSecuritySettingsIntent(): Intent =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+: direct to "Install from storage"
             Intent("android.settings.SECURITY_SETTINGS")
         } else {
@@ -353,7 +358,6 @@ class HttpsFilteringViewModel(
                 type = "application/x-x509-ca-cert"
             }
         }
-    }
 
     // ── Internal ─────────────────────────────────────────────────────────
 
@@ -394,9 +398,11 @@ class HttpsFilteringViewModel(
                     syncUidsToGoEngine(_browsers.value)
                     try {
                         val passthrough =
-                            getApplication<Application>().assets
+                            getApplication<Application>()
+                                .assets
                                 .open("https_passthrough.txt")
-                                .bufferedReader().use { it.readText() }
+                                .bufferedReader()
+                                .use { it.readText() }
                         engine.setExtraPassthroughSuffixes(passthrough)
                     } catch (e: Exception) {
                         Timber.w(e, "Failed to load https_passthrough.txt asset")
@@ -457,10 +463,13 @@ class HttpsFilteringViewModel(
         val savedSelected = appPrefs.getSelectedBrowsersSnapshot()
         val curatedBrowsers =
             try {
-                getApplication<Application>().assets.open("preset/browsers.txt")
+                getApplication<Application>()
+                    .assets
+                    .open("preset/browsers.txt")
                     .bufferedReader()
                     .useLines { lines ->
-                        lines.map { it.trim() }
+                        lines
+                            .map { it.trim() }
                             .filter { it.isNotEmpty() && !it.startsWith("#") }
                             .toSet()
                     }
@@ -496,8 +505,7 @@ class HttpsFilteringViewModel(
                 } catch (_: PackageManager.NameNotFoundException) {
                     null
                 }
-            }
-            .distinctBy { it.packageName }
+            }.distinctBy { it.packageName }
             .sortedBy { it.appName }
     }
 

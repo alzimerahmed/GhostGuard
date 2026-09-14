@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Системные</string>
     <string name="about_title">О приложении</string>
     <string name="about_description">Бесплатный блокировщик рекламы с открытым исходным кодом.\nБез сбора данных. Без отслеживания.</string>
-    <string name="about_version">Версия %s</string>
     <string name="about_github">Исходный код (GitHub)</string>
     <string name="about_website">Сайт</string>
     <string name="about_privacy_policy">Политика конфиденциальности</string>

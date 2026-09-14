@@ -112,8 +112,7 @@ fun AccentColorCard(
                                         Color(0xFFFF6B6B),
                                     ),
                                 ),
-                            )
-                            .then(
+                            ).then(
                                 if (isCustom) {
                                     Modifier.border(
                                         3.dp,
@@ -123,8 +122,7 @@ fun AccentColorCard(
                                 } else {
                                     Modifier
                                 },
-                            )
-                            .clickable { onOpenColorPicker() },
+                            ).clickable { onOpenColorPicker() },
                     contentAlignment = Alignment.Center,
                 ) {
                     if (isCustom) {
@@ -186,8 +184,7 @@ fun AccentColorCard(
                                             Color(0xFFFF6B6B),
                                         ),
                                     ),
-                                )
-                                .then(
+                                ).then(
                                     if (accentColor == AppPreferences.ACCENT_DYNAMIC) {
                                         Modifier.border(
                                             3.dp,

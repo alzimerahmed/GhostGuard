@@ -1,0 +1,20 @@
+# GhostGuard — ktlint configuration (Phase 2 baseline)
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 160
+trim_trailing_whitespace = true
+
+# Compose convention: @Composable functions are PascalCase
+ktlint_function_naming_ignore_when_annotated_with = Composable
+
+# Trailing comments are idiomatic in Room entities / DAO column defs
+ktlint_standard_discouraged-comment-location = disabled
+
+# Backing properties (_state), companion INSTANCE, const PULL_THRESHOLD_PX
+ktlint_standard_property-naming = disabled

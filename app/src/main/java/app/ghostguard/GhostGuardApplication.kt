@@ -48,7 +48,8 @@ class GhostGuardApplication : Application() {
             appPreferences.migrateLegacyWgConfigIfNeeded()
 
             FilterUpdateScheduler.scheduleFilterUpdate(this@GhostGuardApplication, appPreferences)
-            app.ghostguard.ui.browser.rules.BrowserRuleUpdateWorker.schedule(this@GhostGuardApplication)
+            app.ghostguard.ui.browser.rules.BrowserRuleUpdateWorker
+                .schedule(this@GhostGuardApplication)
 
             // Schedule daily summary only if enabled
             if (appPreferences.dailySummaryEnabled.first()) {
@@ -57,6 +58,8 @@ class GhostGuardApplication : Application() {
         }
 
         // Trusted Wi-Fi networks (#197): auto-pause/resume on SSID change.
-        app.ghostguard.service.TrustedNetworkManager(this, appPreferences).start()
+        app.ghostguard.service
+            .TrustedNetworkManager(this, appPreferences)
+            .start()
     }
 }

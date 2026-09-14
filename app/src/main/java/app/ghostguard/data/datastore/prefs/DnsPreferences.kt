@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class DnsPreferences(private val dataStore: DataStore<Preferences>) {
+class DnsPreferences(
+    private val dataStore: DataStore<Preferences>,
+) {
     companion object {
         val KEY_UPSTREAM_DNS = stringPreferencesKey("upstream_dns")
         val KEY_FALLBACK_DNS = stringPreferencesKey("fallback_dns")

@@ -39,13 +39,11 @@ fun SettingsCalloutBanner(
                 .background(
                     color = tint.copy(alpha = 0.08f),
                     shape = RoundedCornerShape(12.dp),
-                )
-                .border(
+                ).border(
                     width = 1.dp,
                     color = tint.copy(alpha = 0.18f),
                     shape = RoundedCornerShape(12.dp),
-                )
-                .padding(horizontal = 14.dp, vertical = 10.dp),
+                ).padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

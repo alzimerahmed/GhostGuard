@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Systémové</string>
     <string name="about_title">O aplikaci</string>
     <string name="about_description">Bezplatný open-source blokátor reklam.\nŽádný sběr dat. Žádné sledování.</string>
-    <string name="about_version">Verze %s</string>
     <string name="about_github">Zdrojový kód (GitHub)</string>
     <string name="about_website">Webové stránky</string>
     <string name="about_privacy_policy">Zásady soukromí</string>

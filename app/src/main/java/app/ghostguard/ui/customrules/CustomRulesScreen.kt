@@ -89,18 +89,20 @@ fun CustomRulesScreen(
                     uri = it,
                     format = selectedExportFormat,
                     onSuccess = { count ->
-                        Toast.makeText(
-                            context,
-                            resource.getString(R.string.rules_exported, count),
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                resource.getString(R.string.rules_exported, count),
+                                Toast.LENGTH_SHORT,
+                            ).show()
                     },
                     onError = { errorMsg ->
-                        Toast.makeText(
-                            context,
-                            resource.getString(R.string.export_failed, errorMsg),
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                resource.getString(R.string.export_failed, errorMsg),
+                                Toast.LENGTH_SHORT,
+                            ).show()
                     },
                 )
             }
@@ -115,18 +117,20 @@ fun CustomRulesScreen(
                 viewModel.importRulesFromUri(
                     uri = it,
                     onSuccess = { count ->
-                        Toast.makeText(
-                            context,
-                            resource.getString(R.string.rules_imported, count),
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                resource.getString(R.string.rules_imported, count),
+                                Toast.LENGTH_SHORT,
+                            ).show()
                     },
                     onError = { errorMsg ->
-                        Toast.makeText(
-                            context,
-                            resource.getString(R.string.import_failed, errorMsg),
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                resource.getString(R.string.import_failed, errorMsg),
+                                Toast.LENGTH_SHORT,
+                            ).show()
                     },
                 )
             }
@@ -177,11 +181,12 @@ fun CustomRulesScreen(
                                             ) as android.content.ClipboardManager
                                         val clip = android.content.ClipData.newPlainText("Custom Rules", rulesText)
                                         clipboard.setPrimaryClip(clip)
-                                        Toast.makeText(
-                                            context,
-                                            resource.getString(R.string.rules_copied_to_clipboard),
-                                            Toast.LENGTH_SHORT,
-                                        ).show()
+                                        Toast
+                                            .makeText(
+                                                context,
+                                                resource.getString(R.string.rules_copied_to_clipboard),
+                                                Toast.LENGTH_SHORT,
+                                            ).show()
                                     } else {
                                         Toast.makeText(context, resource.getString(R.string.no_rules_to_export), Toast.LENGTH_SHORT).show()
                                     }

@@ -19,7 +19,8 @@ import java.util.concurrent.TimeUnit
 class BrowserRuleUpdateWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
+) : CoroutineWorker(context, params),
+    KoinComponent {
     private val repository: BrowserRuleRepository by inject()
 
     companion object {
@@ -27,7 +28,8 @@ class BrowserRuleUpdateWorker(
 
         fun schedule(context: Context) {
             val constraints =
-                Constraints.Builder()
+                Constraints
+                    .Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
 
@@ -37,8 +39,7 @@ class BrowserRuleUpdateWorker(
                     TimeUnit.DAYS,
                     6,
                     TimeUnit.HOURS,
-                )
-                    .setConstraints(constraints)
+                ).setConstraints(constraints)
                     .build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -50,8 +51,8 @@ class BrowserRuleUpdateWorker(
         }
     }
 
-    override suspend fun doWork(): Result {
-        return try {
+    override suspend fun doWork(): Result =
+        try {
             Timber.d("Starting background browser rule update work")
             val result = repository.checkAndUpdate()
             if (result.isSuccess) {
@@ -63,5 +64,4 @@ class BrowserRuleUpdateWorker(
             Timber.e(e, "Browser rule update worker failed")
             Result.retry()
         }
-    }
 }

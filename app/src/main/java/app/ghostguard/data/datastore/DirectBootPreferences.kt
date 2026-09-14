@@ -12,7 +12,9 @@ import android.os.Build
  * [android.intent.action.LOCKED_BOOT_COMPLETED] BEFORE the user has unlocked the device
  * with their PIN/pattern/password, preventing telemetry leaks and preserving adblock protection.
  */
-class DirectBootPreferences(context: Context) {
+class DirectBootPreferences(
+    context: Context,
+) {
     private val deContext: Context =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (context.isDeviceProtectedStorage) context else context.createDeviceProtectedStorageContext()

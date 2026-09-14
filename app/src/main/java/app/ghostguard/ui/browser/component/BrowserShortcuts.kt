@@ -350,8 +350,7 @@ private fun HomeFeatureBanner(onDismiss: () -> Unit) {
                                     Color(0xFF4F46E5), // Indigo Purple
                                 ),
                         ),
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -466,7 +465,9 @@ private fun SpeedDialItem(
         ) {
             if (shortcut.iconRes != null) {
                 Icon(
-                    painter = androidx.compose.ui.res.painterResource(id = shortcut.iconRes),
+                    painter =
+                        androidx.compose.ui.res
+                            .painterResource(id = shortcut.iconRes),
                     contentDescription = shortcut.title,
                     tint = shortcut.iconTint,
                     modifier = Modifier.size(32.dp),

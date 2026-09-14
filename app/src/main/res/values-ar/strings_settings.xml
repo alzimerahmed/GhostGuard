@@ -8,7 +8,6 @@
     <string name="about_no_data">🔒 هذا التطبيق لا يجمع أي بيانات شخصية</string>
     <string name="about_privacy_policy">سياسة الخصوصية</string>
     <string name="about_title">حول</string>
-    <string name="about_version">الإصدار %s</string>
     <string name="about_website">الموقع الإلكتروني</string>
     <string name="accent_dynamic">ديناميكي (Material You)</string>
     <string name="accent_dynamic_desc">يستخدم ألوان خلفية الشاشة الخاصة بك</string>

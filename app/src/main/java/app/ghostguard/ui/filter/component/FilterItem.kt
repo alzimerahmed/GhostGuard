@@ -50,8 +50,7 @@ fun FilterItem(
                     } else {
                         Modifier
                     },
-                )
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                ).padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -74,8 +73,7 @@ fun FilterItem(
                             .background(
                                 MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                                 RoundedCornerShape(4.dp),
-                            )
-                            .padding(horizontal = 6.dp, vertical = 2.dp),
+                            ).padding(horizontal = 6.dp, vertical = 2.dp),
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

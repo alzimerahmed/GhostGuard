@@ -32,13 +32,17 @@ data object SettingsKey : NavKey
 data object StatisticsKey : NavKey
 
 @Serializable
-data class LogsKey(val filterStatus: LogFilterStatus = LogFilterStatus.ALL) : NavKey
+data class LogsKey(
+    val filterStatus: LogFilterStatus = LogFilterStatus.ALL,
+) : NavKey
 
 @Serializable
 data object ProfileKey : NavKey
 
 @Serializable
-data class FilterDetailKey(val filterId: Long) : NavKey
+data class FilterDetailKey(
+    val filterId: Long,
+) : NavKey
 
 @Serializable
 data object AboutKey : NavKey
@@ -65,13 +69,17 @@ data object CustomRuleKey : NavKey
 data object WireGuardImportKey : NavKey
 
 @Serializable
-data class WireGuardEditKey(val profileId: String) : NavKey
+data class WireGuardEditKey(
+    val profileId: String,
+) : NavKey
 
 @Serializable
 data object HttpsFilteringKey : NavKey
 
 @Serializable
-data class BrowserKey(val initialUrl: String = "https://m.youtube.com") : NavKey
+data class BrowserKey(
+    val initialUrl: String = "https://m.youtube.com",
+) : NavKey
 
 @Serializable
 data object ElementRulesKey : NavKey

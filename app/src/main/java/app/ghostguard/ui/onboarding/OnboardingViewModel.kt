@@ -35,7 +35,8 @@ class OnboardingViewModel(
         viewModelScope.launch {
             appPrefs.setCrashReportingEnabled(enabled)
             // also toggle it immediately so it starts or stops
-            app.ghostguard.utils.CrashReportingManager.toggleSentry(getApplication(), enabled)
+            app.ghostguard.utils.CrashReportingManager
+                .toggleSentry(getApplication(), enabled)
         }
     }
 
@@ -70,8 +71,8 @@ class OnboardingViewModel(
      * Select a fallback DNS provider different from the primary one.
      * Uses privacy-friendly Quad9 ↔ AdGuard pairing for standard fallbacks.
      */
-    private fun selectFallbackDns(primary: DnsProvider): DnsProvider {
-        return when (primary.id) {
+    private fun selectFallbackDns(primary: DnsProvider): DnsProvider =
+        when (primary.id) {
             DnsProviders.QUAD9.id, DnsProviders.QUAD9_DOQ.id -> DnsProviders.ADGUARD
             DnsProviders.ADGUARD.id -> DnsProviders.QUAD9
             DnsProviders.SYSTEM.id -> DnsProviders.QUAD9
@@ -80,5 +81,4 @@ class OnboardingViewModel(
                     it.id != primary.id
                 } ?: DnsProviders.QUAD9
         }
-    }
 }

@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit
 class ProfileScheduleWorker(
     context: Context,
     params: WorkerParameters,
-) : CoroutineWorker(context, params), KoinComponent {
+) : CoroutineWorker(context, params),
+    KoinComponent {
     private val profileDao: ProtectionProfileDao by inject()
     private val profileManager: ProfileManager by inject()
 

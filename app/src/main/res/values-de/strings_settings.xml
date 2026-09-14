@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">System-Apps</string>
     <string name="about_title">Über</string>
     <string name="about_description">Kostenloser Open-Source-Werbeblocker.\nKeine Datenerfassung. Kein Tracking.</string>
-    <string name="about_version">Version %s</string>
     <string name="about_github">Quellcode (GitHub)</string>
     <string name="about_website">Website</string>
     <string name="about_privacy_policy">Datenschutzerklärung</string>

@@ -25,9 +25,16 @@ sealed interface BrowserRuleUpdateStatus {
 
     data object Checking : BrowserRuleUpdateStatus
 
-    data class Updated(val version: Long, val domainsCount: Int) : BrowserRuleUpdateStatus
+    data class Updated(
+        val version: Long,
+        val domainsCount: Int,
+    ) : BrowserRuleUpdateStatus
 
-    data class UpToDate(val version: Long) : BrowserRuleUpdateStatus
+    data class UpToDate(
+        val version: Long,
+    ) : BrowserRuleUpdateStatus
 
-    data class Error(val message: String) : BrowserRuleUpdateStatus
+    data class Error(
+        val message: String,
+    ) : BrowserRuleUpdateStatus
 }

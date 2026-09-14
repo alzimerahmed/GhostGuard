@@ -8,7 +8,6 @@
     <string name="whitelist_tab_system">Системні додатки</string>
     <string name="about_title">Про додаток</string>
     <string name="about_description">Безкоштовний блокувальник реклами з відкритим кодом.\nЖодного збору даних. Жодного відстеження.</string>
-    <string name="about_version">Версія %s</string>
     <string name="about_github">Вихідний код (GitHub)</string>
     <string name="about_website">Вебсайт</string>
     <string name="about_privacy_policy">Політика конфіденційності</string>

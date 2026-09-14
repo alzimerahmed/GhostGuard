@@ -16,8 +16,8 @@ class RootProxyResumeWorker(
         const val WORK_NAME = "root_proxy_resume_work"
     }
 
-    override suspend fun doWork(): Result {
-        return try {
+    override suspend fun doWork(): Result =
+        try {
             val intent =
                 Intent(applicationContext, RootProxyService::class.java).apply {
                     action = RootProxyService.ACTION_START
@@ -32,5 +32,4 @@ class RootProxyResumeWorker(
             Timber.e(e, "Failed to resume Root Proxy")
             Result.retry()
         }
-    }
 }

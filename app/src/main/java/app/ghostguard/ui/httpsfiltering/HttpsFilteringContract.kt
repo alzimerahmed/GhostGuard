@@ -29,12 +29,18 @@ enum class CertStatus {
 
 sealed class HttpsFilteringEvent {
     /** CA cert saved to Downloads — show manual install instructions. */
-    data class CaCertSavedToDownloads(val fileName: String) : HttpsFilteringEvent()
+    data class CaCertSavedToDownloads(
+        val fileName: String,
+    ) : HttpsFilteringEvent()
 
     /** Fallback: cert saved to cache for legacy intent install. */
-    data class CaCertExportedLegacy(val certFile: File) : HttpsFilteringEvent()
+    data class CaCertExportedLegacy(
+        val certFile: File,
+    ) : HttpsFilteringEvent()
 
-    data class Error(val message: String) : HttpsFilteringEvent()
+    data class Error(
+        val message: String,
+    ) : HttpsFilteringEvent()
 
     data object ProxyStarted : HttpsFilteringEvent()
 

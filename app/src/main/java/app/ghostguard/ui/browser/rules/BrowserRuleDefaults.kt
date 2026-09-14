@@ -251,10 +251,34 @@ object BrowserRuleDefaults {
 
     val GAMBLING_POPUNDER_KEYWORDS =
         listOf(
-            "lu88", "hbet", "vu88", "man88", "k88.", "tx88", "du88", "x1bet",
-            "bet88", "kubet", "shbet", "789bet", "okvip", "jun88", "hi88",
-            "f8bet", "mb66", "123b", "fun88", "bk8", "rikvip", "cm88",
-            "bom88", "vsbet", "78win", "gem88", "win79", "bc.game",
+            "lu88",
+            "hbet",
+            "vu88",
+            "man88",
+            "k88.",
+            "tx88",
+            "du88",
+            "x1bet",
+            "bet88",
+            "kubet",
+            "shbet",
+            "789bet",
+            "okvip",
+            "jun88",
+            "hi88",
+            "f8bet",
+            "mb66",
+            "123b",
+            "fun88",
+            "bk8",
+            "rikvip",
+            "cm88",
+            "bom88",
+            "vsbet",
+            "78win",
+            "gem88",
+            "win79",
+            "bc.game",
         )
 
     val AD_PATH_PATTERNS =

@@ -16,8 +16,8 @@ class VpnResumeWorker(
         const val WORK_NAME = "vpn_resume_work"
     }
 
-    override suspend fun doWork(): Result {
-        return try {
+    override suspend fun doWork(): Result =
+        try {
             val intent =
                 Intent(applicationContext, AdBlockVpnService::class.java).apply {
                     action = AdBlockVpnService.ACTION_START
@@ -32,5 +32,4 @@ class VpnResumeWorker(
             Timber.e(e, "Failed to resume VPN")
             Result.retry()
         }
-    }
 }

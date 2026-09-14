@@ -127,7 +127,9 @@ class AdBlockVpnService : VpnService() {
 
     override fun onCreate() {
         super.onCreate()
-        val koin = org.koin.java.KoinJavaComponent.getKoin()
+        val koin =
+            org.koin.java.KoinJavaComponent
+                .getKoin()
         filterRepo = koin.get()
         appPrefs = koin.get()
         dnsLogDao = koin.get()
@@ -474,8 +476,8 @@ class AdBlockVpnService : VpnService() {
         super.onDestroy()
     }
 
-    private fun buildCurrentNotification(): Notification {
-        return vpnNotificationManager.buildForegroundNotification(
+    private fun buildCurrentNotification(): Notification =
+        vpnNotificationManager.buildForegroundNotification(
             state = _state.value,
             isConnecting = isConnecting,
             isReconnecting = isReconnecting,
@@ -488,7 +490,6 @@ class AdBlockVpnService : VpnService() {
             todayBlockedCount = todayBlockedCount,
             isPhysicalNetworkLost = isPhysicalNetworkLost,
         )
-    }
 
     private fun updateNotification() {
         val notification = buildCurrentNotification()
@@ -512,7 +513,5 @@ class AdBlockVpnService : VpnService() {
         vpnInterface = null
     }
 
-    fun protectSocket(fd: Int): Boolean {
-        return protect(fd)
-    }
+    fun protectSocket(fd: Int): Boolean = protect(fd)
 }
