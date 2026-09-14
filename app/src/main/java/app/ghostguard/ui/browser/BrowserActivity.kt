@@ -43,11 +43,16 @@ class BrowserActivity : ComponentActivity() {
         /**
          * Only http/https URLs may be loaded into the in-app WebView.
          * Anything else (file:, content:, javascript:, custom schemes) falls
-         * back to the default start page.
+         * back to the default start page. The scheme is normalized to
+         * lowercase so the WebView always receives a canonical URL.
          */
         fun sanitizeUrl(url: String): String {
             val scheme = runCatching { java.net.URI(url).scheme?.lowercase() }.getOrNull()
-            return if (scheme == "http" || scheme == "https") url else "https://m.youtube.com"
+            return if (scheme == "http" || scheme == "https") {
+                "$scheme://${url.substringAfter("://", "")}"
+            } else {
+                "https://m.youtube.com"
+            }
         }
     }
 

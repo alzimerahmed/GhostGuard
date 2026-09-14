@@ -35,6 +35,17 @@ class BrowserActivitySanitizeUrlTest {
     }
 
     @Test
+    fun `uppercase scheme is normalized to lowercase`() {
+        assertEquals("https://EXAMPLE.COM", BrowserActivity.sanitizeUrl("HTTPS://EXAMPLE.COM"))
+    }
+
+    @Test
+    fun `bare host without scheme is rejected`() {
+        assertEquals("https://m.youtube.com", BrowserActivity.sanitizeUrl("example.com"))
+        assertEquals("https://m.youtube.com", BrowserActivity.sanitizeUrl("www.example.com/path"))
+    }
+
+    @Test
     fun `malformed url is rejected`() {
         assertEquals("https://m.youtube.com", BrowserActivity.sanitizeUrl("http://"))
     }
