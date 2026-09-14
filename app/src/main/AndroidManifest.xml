@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-        android:name=".BlockAdsApplication"
+        android:name=".GhostGuardApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="app.pwhs.blockads.ACTION_TOGGLE_SHORTCUT" />
+                <action android:name="app.ghostguard.ACTION_TOGGLE_SHORTCUT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
@@ -123,8 +123,8 @@
             android:name=".receiver.TaskerReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="app.pwhs.blockads.TASKER_START" />
-                <action android:name="app.pwhs.blockads.TASKER_STOP" />
+                <action android:name="app.ghostguard.TASKER_START" />
+                <action android:name="app.ghostguard.TASKER_STOP" />
             </intent-filter>
         </receiver>
 

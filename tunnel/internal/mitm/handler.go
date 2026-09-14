@@ -139,7 +139,7 @@ func NewMitmTcpHandler(
 		}
 		hostname = strings.ToLower(strings.TrimSpace(hostname))
 
-		// Gate 3 — local asset server (local.pwhs.app).
+		// Gate 3 — local asset server (local.ghostguard.app).
 		// Always intercepted and served locally from memory regardless of UID allowlist.
 		if IsLocalAssetHost(hostname) {
 			if classification == classTLS {

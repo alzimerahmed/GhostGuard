@@ -1,28 +1,22 @@
 <div align="center">      
   <img src="fastlane/metadata/android/en-US/images/icon.png" width="128" height="128">
-  <h1>BlockAds</h1>
-  <p><strong>BlockAds</strong> is a free, open-source ad blocker for Android.</p>
+  <h1>GhostGuard</h1>
+  <p><strong>GhostGuard</strong> is a free, open-source ad blocker for Android.</p>
 <p>It blocks ads, trackers, and malware system-wide using local VPN-based DNS filtering — no root required, no data collection.</p>
 <p>Built with Jetpack Compose and Material 3 for a modern, premium experience.</p>
   <br><br>
-  <a href="https://github.com/alzimerahmed84/blockads-android/releases">
-    <img src="https://img.shields.io/github/v/release/alzimerahmed84/blockads-android">
+  <a href="https://github.com/alzimerahmed/GhostGuard/releases">
+    <img src="https://img.shields.io/github/v/release/alzimerahmed/GhostGuard">
   </a>
-  <a href="https://github.com/alzimerahmed84/blockads-android/releases">
-    <img src="https://img.shields.io/github/downloads/alzimerahmed84/blockads-android/total">
+  <a href="https://github.com/alzimerahmed/GhostGuard/releases">
+    <img src="https://img.shields.io/github/downloads/alzimerahmed/GhostGuard/total">
   </a>
   <br><br>
   <h4>Download</h4>
-  <a href="https://f-droid.org/packages/app.pwhs.blockads">
-    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="80" alt="Get it on F-Droid">
-  </a>
-  <a href="https://github.com/alzimerahmed84/blockads-android/releases">
+  <a href="https://github.com/alzimerahmed/GhostGuard/releases">
     <img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" height="80">
   </a>
   <br><br>
-    <a href="https://apt.izzysoft.de/packages/app.pwhs.blockads">
-    <img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="54" alt="Get it at IzzyOnDroid">
-  </a>
 </div> 
 
 ---  
@@ -67,18 +61,7 @@
 
 ---  
 
-## Community
 
-Join our community:  
-[![Reddit](https://img.shields.io/badge/Reddit-Join%20Community-orange?logo=reddit)](https://www.reddit.com/r/BlockAds/)
-[![Telegram](https://img.shields.io/badge/Telegram-Join%20Chat-blue?logo=telegram)](https://t.me/blockads_android)
-
-## Sponsor
-
-If you enjoy BlockAds, consider supporting the project! Your sponsorship helps us maintain and
-improve the app.
-
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?logo=github-sponsors)](https://github.com/sponsors/alzimerahmed84)
 
 ## Build Instructions
 
@@ -94,8 +77,8 @@ improve the app.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/alzimerahmed84/blockads-android.git 
-   cd blockads-android 
+   git clone https://github.com/alzimerahmed/GhostGuard.git 
+   cd GhostGuard 
    ```
 
 2. Initialize gomobile (one-time setup):
@@ -129,7 +112,7 @@ improve the app.
 
 ## How It Works
 
-BlockAds routes DNS queries locally either through a VpnService (Vpn Mode) or via iptables redirection (Root Proxy Mode). These queries are matched against loaded filter lists using a memory-efficient Trie data structure. Matching queries are blocked locally, while all other traffic passes through normally — no data leaves your device.
+GhostGuard routes DNS queries locally either through a VpnService (Vpn Mode) or via iptables redirection (Root Proxy Mode). These queries are matched against loaded filter lists using a memory-efficient Trie data structure. Matching queries are blocked locally, while all other traffic passes through normally — no data leaves your device.
 
 When HTTPS Filtering is enabled, a userspace TCP/IP stack (gVisor netstack via tun2socks) terminates each TCP/UDP flow in Go, looks up the owning app UID via Android's `ConnectivityManager.getConnectionOwnerUid()`, and only MITMs flows from selected browsers. Cert-pinned apps and the 284-domain curated passthrough list bypass MITM cleanly. Cosmetic CSS rules and EasyList `##+js(…)` / AdGuard `#%#//scriptlet(…)` scriptlets are injected into HTML responses via a tiny in-memory local asset host.
 
@@ -153,15 +136,15 @@ See the full [LICENSE](LICENSE) file for details.
 ## Contributing
 
 Pull requests and issue reports are welcome.  
-Help us improve BlockAds!
+Help us improve GhostGuard!
 
-### Help us translate BlockAds
+### Help us translate GhostGuard
 
-Want to see BlockAds in your language?  
+Want to see GhostGuard in your language?  
 Open an issue or submit a PR with your translations.
 
 ---
 
 ## Star History
 
-[![Star History Chart](https://star-history.dera.page/svg?repos=alzimerahmed84/blockads-android&type=Date)](https://star-history.dera.page/#alzimerahmed84/blockads-android&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=alzimerahmed/GhostGuard&type=Date)](https://star-history.dera.page/#alzimerahmed/GhostGuard&Date)

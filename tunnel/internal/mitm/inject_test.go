@@ -32,7 +32,7 @@ func TestInjectPlainHTML(t *testing.T) {
 	}
 
 	outStr := out.String()
-	if !strings.Contains(outStr, "local.pwhs.app/cosmetic.css") {
+	if !strings.Contains(outStr, "local.ghostguard.app/cosmetic.css") {
 		t.Errorf("Injected CSS not found in response:\n%s", outStr)
 	}
 }
@@ -62,7 +62,7 @@ func TestInjectGzipHTML(t *testing.T) {
 	}
 
 	outStr := out.String()
-	if !strings.Contains(outStr, "local.pwhs.app/cosmetic.css") {
+	if !strings.Contains(outStr, "local.ghostguard.app/cosmetic.css") {
 		t.Errorf("Injected CSS not found in response:\n%s", outStr)
 	}
 }
@@ -93,7 +93,7 @@ func TestInjectLiveLeeAPK(t *testing.T) {
 	}
 
 	outStr := out.String()
-	if !strings.Contains(outStr, "local.pwhs.app/cosmetic.css") {
+	if !strings.Contains(outStr, "local.ghostguard.app/cosmetic.css") {
 		t.Errorf("Injected CSS not found in live response! Head snippet:\n%s", outStr[:min(1000, len(outStr))])
 	} else {
 		t.Logf("Successfully injected into live LeeAPK response!")

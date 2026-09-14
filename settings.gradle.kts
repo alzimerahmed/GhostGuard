@@ -20,6 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "blockads"
+rootProject.name = "GhostGuard"
 include(":app")
-include(":blockadstv")

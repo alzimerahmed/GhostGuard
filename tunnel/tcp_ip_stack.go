@@ -6,7 +6,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/nqmgaming/blockads-tunnel/internal/mitm"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/mitm"
 	"github.com/xjasonlyu/tun2socks/v2/core"
 	"github.com/xjasonlyu/tun2socks/v2/core/adapter"
 	"github.com/xjasonlyu/tun2socks/v2/core/device/iobased"

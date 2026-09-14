@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/nqmgaming/blockads-tunnel/internal/bloom"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/bloom"
 )
 
 // CompileFilterList downloads a filter list from rawPath (local file path),

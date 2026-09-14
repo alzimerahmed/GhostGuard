@@ -7,9 +7,9 @@
         android:shortcutLongLabel="@string/shortcut_toggle_vpn"
         android:shortcutShortLabel="@string/shortcut_toggle_vpn_short">
         <intent
-            android:action="app.pwhs.blockads.ACTION_TOGGLE_SHORTCUT"
-            android:targetClass="app.pwhs.blockads.MainActivity"
-            android:targetPackage="app.pwhs.blockads" />
+            android:action="app.ghostguard.ACTION_TOGGLE_SHORTCUT"
+            android:targetClass="app.ghostguard.MainActivity"
+            android:targetPackage="app.ghostguard" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

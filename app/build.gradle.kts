@@ -30,7 +30,7 @@ tasks.register<Exec>("buildGoTunnel") {
         "export PATH=\"\$PATH:\$GOPATH/bin:\$HOME/go/bin:/usr/local/go/bin\" && " +
         "gomobile bind -target=android -androidapi 24 -trimpath " +
         "-ldflags=\"-s -w -buildid= -extldflags=-Wl,-z,max-page-size=16384\" " +
-        "-o ${aarFile.absolutePath} github.com/nqmgaming/blockads-tunnel"
+        "-o ${aarFile.absolutePath} github.com/alzimerahmed/ghostguard-tunnel"
     )
 
     doFirst {
@@ -46,14 +46,14 @@ tasks.register<Exec>("buildGoTunnel") {
 }
 
 android {
-    namespace = "app.pwhs.blockads"
+    namespace = "app.ghostguard"
     compileSdk {
         version = release(36)
     }
     ndkVersion = "26.1.10909125"
 
     defaultConfig {
-        applicationId = "app.pwhs.blockads"
+        applicationId = "app.ghostguard"
         minSdk = 24
         targetSdk = 36
         versionCode = 51

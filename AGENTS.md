@@ -2,7 +2,7 @@
 
 ## Project
 
-BlockAds (`blockads-android`, upstream: https://github.com/pass-with-high-score/blockads-android) — a free, open-source, privacy-first ad blocker for Android. Blocks ads, trackers, and malware system-wide via local VPN-based DNS filtering (no root required, no data collection). GPL-3.0.
+GhostGuard (`blockads-android` fork, upstream: https://github.com/pass-with-high-score/blockads-android) — a free, open-source, privacy-first ad blocker for Android. Blocks ads, trackers, and malware system-wide via local VPN-based DNS filtering (no root required, no data collection). GPL-3.0. Repo: https://github.com/alzimerahmed/GhostGuard — applicationId `app.ghostguard`.
 
 **Stack:** Kotlin, Jetpack Compose + Material 3 (dynamic theming), Koin (DI), Compose Destinations (navigation), Go tunnel core via gomobile (`tunnel/` → AAR in `app/libs/`, build with `./scripts/build_tunnel.sh` or `./gradlew buildGoTunnel`). Min SDK 24, target SDK 36, JDK 17.
 

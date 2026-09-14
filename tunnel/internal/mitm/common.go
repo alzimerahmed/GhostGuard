@@ -147,7 +147,7 @@ func requestAcceptsHTML(req *http.Request) bool {
 // <link> injection. It transparently decompresses gzip/deflate bodies
 // so the injector can find <head in plaintext, strips
 // Content-Security-Policy (which would otherwise block the injected
-// <link href="https://local.pwhs.app/...">), and clears framing
+// <link href="https://local.ghostguard.app/...">), and clears framing
 // headers so Go re-emits the modified body as chunked plaintext. If
 // the body uses an encoding we cannot decode (brotli, compress, or
 // anything else), the function returns without modifying the response

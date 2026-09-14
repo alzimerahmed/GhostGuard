@@ -1,14 +1,14 @@
 package tunnel
 
 import (
-	"github.com/nqmgaming/blockads-tunnel/internal/bloom"
-	internaldns "github.com/nqmgaming/blockads-tunnel/internal/dns"
-	"github.com/nqmgaming/blockads-tunnel/internal/mitm"
-	"github.com/nqmgaming/blockads-tunnel/internal/packet"
-	"github.com/nqmgaming/blockads-tunnel/internal/safesearch"
-	"github.com/nqmgaming/blockads-tunnel/internal/scriptlet"
-	"github.com/nqmgaming/blockads-tunnel/internal/trie"
-	"github.com/nqmgaming/blockads-tunnel/internal/wireguard"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/bloom"
+	internaldns "github.com/alzimerahmed/ghostguard-tunnel/internal/dns"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/mitm"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/packet"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/safesearch"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/scriptlet"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/trie"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/wireguard"
 )
 
 // Re-export types from internal packages via type aliases so that existing

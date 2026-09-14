@@ -24,10 +24,10 @@
 -dontwarn org.koin.**
 
 # Keep data classes used by Room
--keep class app.pwhs.blockads.data.** { *; }
+-keep class app.ghostguard.data.** { *; }
 
 # Keep VPN service
--keep class app.pwhs.blockads.service.** { *; }
+-keep class app.ghostguard.service.** { *; }
 
 # Go tunnel (gomobile)
 -keep class tunnel.** { *; }

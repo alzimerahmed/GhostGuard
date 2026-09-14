@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/nqmgaming/blockads-tunnel/internal/mitm"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/mitm"
 )
 
 const defaultTunMTU = 1500
@@ -313,7 +313,7 @@ func (e *Engine) SetCosmeticCSS(css string) {
 }
 
 // SetScriptletsRuntime sets the custom scriptlets JS (from browser_rules.json)
-// to be served at https://local.pwhs.app/scriptlets.js alongside Go's built-in runtime.
+// to be served at https://local.ghostguard.app/scriptlets.js alongside Go's built-in runtime.
 func (e *Engine) SetScriptletsRuntime(js string) {
 	if js == "" {
 		SetScriptletsRuntime(scriptletRuntimeJS)

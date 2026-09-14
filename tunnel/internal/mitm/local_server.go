@@ -7,17 +7,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nqmgaming/blockads-tunnel/internal/scriptlet"
+	"github.com/alzimerahmed/ghostguard-tunnel/internal/scriptlet"
 )
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Local Asset Server — fake domain "local.pwhs.app"
+// Local Asset Server — fake domain "local.ghostguard.app"
 //
 // Instead of injecting thousands of bytes of raw CSS inline into every HTML
 // page (which bloats the response and delays rendering), we inject a lightweight
 // <link> tag pointing to this fake domain:
 //
-//   <link rel="stylesheet" href="https://local.pwhs.app/cosmetic.css">
+//   <link rel="stylesheet" href="https://local.ghostguard.app/cosmetic.css">
 //
 // When the browser fetches these URLs through the MITM proxy, the proxy
 // recognises the hostname and serves the assets directly from memory — no
@@ -31,9 +31,9 @@ import (
 // ─────────────────────────────────────────────────────────────────────────────
 
 // LocalAssetHost is the fake hostname the proxy intercepts to serve assets.
-const LocalAssetHost = "local.pwhs.app"
+const LocalAssetHost = "local.ghostguard.app"
 
-// ServeLocalAsset handles HTTP requests to local.pwhs.app.
+// ServeLocalAsset handles HTTP requests to local.ghostguard.app.
 // Returns true if the request was handled (caller should NOT forward upstream).
 // Returns false if the path is unknown (caller can 404).
 func ServeLocalAsset(req *http.Request) *http.Response {
@@ -266,9 +266,9 @@ p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-botto
 	return buildTextResponse(req, 200, "text/html; charset=utf-8", html)
 }
 
-// ── Pre-generate cert for local.pwhs.app at proxy startup ────────────────
+// ── Pre-generate cert for local.ghostguard.app at proxy startup ────────────────
 
-// WarmLocalAssetCert pre-generates the TLS certificate for local.pwhs.app
+// WarmLocalAssetCert pre-generates the TLS certificate for local.ghostguard.app
 // so the first request doesn't incur cert generation latency.
 func (cm *CertManager) WarmLocalAssetCert() {
 	SetLocalAssetCertManager(cm)

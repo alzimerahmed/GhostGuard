@@ -12,7 +12,7 @@ import (
 //
 // Scans for <head> (case-insensitive) in the response stream and injects
 // lightweight <link> and <script> tags pointing to the local asset server
-// (local.pwhs.app). The actual CSS/JS is served from memory by the
+// (local.ghostguard.app). The actual CSS/JS is served from memory by the
 // local asset server — see mitm_local_server.go.
 //
 // This replaces the old approach of injecting raw CSS/JS inline (~50-100KB)
@@ -21,7 +21,7 @@ import (
 
 // injectionTags are the lightweight tags injected after <head>.
 // The browser fetches these via HTTPS through the MITM proxy, which
-// intercepts "local.pwhs.app" and serves assets from memory.
+// intercepts "local.ghostguard.app" and serves assets from memory.
 //
 // Three injections, in order:
 //  1. <link>   cosmetic.css     — element-hiding rules
@@ -31,10 +31,10 @@ import (
 //     current document.location.host and evals it. Cheaper than
 //     parsing the host server-side: the runtime fetch happens once
 //     per host, browser caches the response.
-const injectionTags = `<link rel="stylesheet" href="https://local.pwhs.app/cosmetic.css">` +
-	`<script src="https://local.pwhs.app/scriptlets.js"></script>` +
+const injectionTags = `<link rel="stylesheet" href="https://local.ghostguard.app/cosmetic.css">` +
+	`<script src="https://local.ghostguard.app/scriptlets.js"></script>` +
 	`<script>(function(){var s=document.createElement('script');` +
-	`s.src='https://local.pwhs.app/sl-'+encodeURIComponent(location.hostname)+'.js';` +
+	`s.src='https://local.ghostguard.app/sl-'+encodeURIComponent(location.hostname)+'.js';` +
 	`(document.head||document.documentElement).appendChild(s);})();</script>`
 
 // headTagBytes is the pattern to search for (case-insensitive matching done manually).
@@ -52,7 +52,7 @@ var (
 )
 
 // SetCosmeticCSS sets the cosmetic filter CSS that will be served by the
-// local asset server at https://local.pwhs.app/cosmetic.css.
+// local asset server at https://local.ghostguard.app/cosmetic.css.
 // Called from Kotlin after parsing EasyList cosmetic rules.
 func SetCosmeticCSS(css string) {
 	cosmeticMu.Lock()

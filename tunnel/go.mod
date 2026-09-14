@@ -1,4 +1,4 @@
-module github.com/nqmgaming/blockads-tunnel
+module github.com/alzimerahmed/ghostguard-tunnel
 
 go 1.23.5
 

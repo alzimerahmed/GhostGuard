@@ -144,7 +144,7 @@ func mitmHTTPFlow(
 
 // relayHTTPFlow reads HTTP requests from the client connection, forwards to
 // the server, decompresses and injects into HTML responses, and supports
-// local.pwhs.app sub-requests inside the same session.
+// local.ghostguard.app sub-requests inside the same session.
 func relayHTTPFlow(clientConn, serverConn net.Conn, hostname string, filter *MitmFilter, blocker adBlockChecker) {
 	cr := bufio.NewReader(clientConn)
 	sr := bufio.NewReader(serverConn)
