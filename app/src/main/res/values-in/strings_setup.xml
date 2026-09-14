@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Blokir iklan dengan sekali ketuk</string>
+    <string name="setup_welcome_desc">GhostGuard menyaring iklan, pelacak, dan malware di seluruh sistem melalui VPN lokal — tanpa root.\n\n🔒 Janji privasi: tanpa akun, tanpa pelacakan, tanpa pengumpulan data. Semua tetap di perangkat Anda.</string>
+    <string name="setup_welcome_feature_privacy">Privasi utama — data penjelajahan Anda tidak pernah keluar dari perangkat</string>
+    <string name="setup_welcome_feature_no_account">Tanpa akun — gratis dan open source</string>
+    <string name="setup_welcome_feature_one_tap">Sekali ketuk untuk mulai memfilter</string>
+    <string name="setup_skip">Lewati</string>
+    <string name="setup_next">Lanjut</string>
+    <string name="setup_back">Kembali</string>
+    <string name="setup_pack_title">Pilih paket filter</string>
+    <string name="setup_pack_desc">Pilih set daftar filter pilihan. Anda dapat menyetel daftar satu per satu nanti di Filter.</string>
+    <string name="setup_recommended">★ Direkomendasikan</string>
+    <string name="setup_pack_minimal">Minimal</string>
+    <string name="setup_pack_minimal_detail">Ringan, dengan sedikit sekali positif palsu</string>
+    <string name="setup_pack_minimal_examples">memblokir: iklan banner, iklan dalam aplikasi</string>
+    <string name="setup_pack_balanced">Seimbang</string>
+    <string name="setup_pack_balanced_detail">Pemblokiran iklan dan pelacak yang kuat dengan situs tetap berfungsi</string>
+    <string name="setup_pack_balanced_examples">memblokir: iklan, pelacak, analitik, iklan seluler</string>
+    <string name="setup_pack_strict">Ketat</string>
+    <string name="setup_pack_strict_detail">Pemblokiran maksimum, termasuk malware dan phishing</string>
+    <string name="setup_pack_strict_examples">memblokir: iklan, pelacak, malware, phishing</string>
+    <string name="setup_pack_lists_count">%1$d daftar filter</string>
+    <string name="setup_finish_title">Anda hampir terlindungi</string>
+    <string name="setup_finish_desc">GhostGuard menggunakan VPN lokal untuk menyaring kueri DNS di perangkat. Tidak ada data yang keluar dari ponsel.</string>
+    <string name="setup_finish_vpn_title">Izin VPN</string>
+    <string name="setup_finish_vpn_desc">Diperlukan untuk memfilter lalu lintas DNS perangkat secara lokal</string>
+    <string name="setup_vpn_grant">Beri izin</string>
+    <string name="setup_vpn_granted">✓ Izin VPN diberikan</string>
+    <string name="setup_start_filtering">Mulai memfilter</string>
+    <string name="setup_applying">Menerapkan paket filter…</string>
+    <string name="setup_wizard_rerun">Jalankan lagi wizard penyiapan</string>
+    <string name="setup_wizard_rerun_desc">Pilih lagi paket filter pilihan</string>
+</resources>

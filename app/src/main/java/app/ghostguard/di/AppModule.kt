@@ -257,6 +257,19 @@ val appModule =
                 appPrefs = get(),
             )
         }
+        single<app.ghostguard.ui.setup.data.FilterPackApplier> {
+            app.ghostguard.ui.setup.data.DefaultFilterPackApplier(
+                context = androidContext(),
+                filterListDao = get(),
+                filterRepo = get(),
+            )
+        }
+        viewModel {
+            app.ghostguard.ui.setup.SetupWizardViewModel(
+                appPrefs = get(),
+                packApplier = get(),
+            )
+        }
         viewModel {
             DomainRulesViewModel(
                 whitelistDomainDao = get(),

@@ -139,6 +139,8 @@ class AppPreferences(
     val protectionLevel: Flow<String> get() = filter.protectionLevel
     val safeSearchEnabled: Flow<Boolean> get() = filter.safeSearchEnabled
     val youtubeRestrictedMode: Flow<Boolean> get() = filter.youtubeRestrictedMode
+    val setupWizardCompleted: Flow<Boolean> get() = filter.setupWizardCompleted
+    val filterPack: Flow<String> get() = filter.filterPack
 
     // ── WireGuard Flows ──────────────────────────────────────────────────
     val routingMode: Flow<String> get() = wireguard.routingMode
@@ -257,6 +259,10 @@ class AppPreferences(
     suspend fun setSafeSearchEnabled(enabled: Boolean) = filter.setSafeSearchEnabled(enabled)
 
     suspend fun setYoutubeRestrictedMode(enabled: Boolean) = filter.setYoutubeRestrictedMode(enabled)
+
+    suspend fun setSetupWizardCompleted(completed: Boolean) = filter.setSetupWizardCompleted(completed)
+
+    suspend fun setFilterPack(packId: String) = filter.setFilterPack(packId)
 
     suspend fun setRoutingMode(mode: String) {
         wireguard.setRoutingMode(mode)

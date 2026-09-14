@@ -20,6 +20,8 @@ class FilterPreferences(
         val KEY_PROTECTION_LEVEL = stringPreferencesKey("protection_level")
         val KEY_SAFE_SEARCH_ENABLED = booleanPreferencesKey("safe_search_enabled")
         val KEY_YOUTUBE_RESTRICTED_MODE = booleanPreferencesKey("youtube_restricted_mode")
+        val KEY_SETUP_WIZARD_COMPLETED = booleanPreferencesKey("setup_wizard_completed")
+        val KEY_FILTER_PACK = stringPreferencesKey("filter_pack")
 
         const val DEFAULT_FILTER_URL =
             "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
@@ -79,6 +81,16 @@ class FilterPreferences(
             prefs[KEY_YOUTUBE_RESTRICTED_MODE] ?: false
         }
 
+    val setupWizardCompleted: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_SETUP_WIZARD_COMPLETED] ?: false
+        }
+
+    val filterPack: Flow<String> =
+        dataStore.data.map { prefs ->
+            prefs[KEY_FILTER_PACK] ?: ""
+        }
+
     suspend fun setFilterUrl(url: String) {
         dataStore.edit { prefs ->
             prefs[KEY_FILTER_URL] = url
@@ -124,6 +136,18 @@ class FilterPreferences(
     suspend fun setYoutubeRestrictedMode(enabled: Boolean) {
         dataStore.edit { prefs ->
             prefs[KEY_YOUTUBE_RESTRICTED_MODE] = enabled
+        }
+    }
+
+    suspend fun setSetupWizardCompleted(completed: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[KEY_SETUP_WIZARD_COMPLETED] = completed
+        }
+    }
+
+    suspend fun setFilterPack(packId: String) {
+        dataStore.edit { prefs ->
+            prefs[KEY_FILTER_PACK] = packId
         }
     }
 }

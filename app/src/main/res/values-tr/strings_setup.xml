@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Reklamları tek dokunuşla engelle</string>
+    <string name="setup_welcome_desc">GhostGuard; reklamları, izleyicileri ve kötü amaçlı yazılımları yerel VPN ile tüm sistemde filtreler — root gerekmez.\n\n🔒 Gizlilik sözü: hesap yok, izleme yok, veri toplama yok. Her şey cihazınızda kalır.</string>
+    <string name="setup_welcome_feature_privacy">Önce gizlilik — gezinme verileriniz asla cihazdan çıkmaz</string>
+    <string name="setup_welcome_feature_no_account">Hesap gerekmez — ücretsiz ve açık kaynaklı</string>
+    <string name="setup_welcome_feature_one_tap">Filtrelemeye başlamak için tek dokunuş</string>
+    <string name="setup_skip">Atla</string>
+    <string name="setup_next">İleri</string>
+    <string name="setup_back">Geri</string>
+    <string name="setup_pack_title">Filtre paketini seçin</string>
+    <string name="setup_pack_desc">Özenle seçilmiş filtre listesi takımını seçin. Listeleri daha sonra Filtreler bölümünde tek tek ayarlayabilirsiniz.</string>
+    <string name="setup_recommended">★ Önerilen</string>
+    <string name="setup_pack_minimal">Asgari</string>
+    <string name="setup_pack_minimal_detail">Hafif, en az yanlış engelleme</string>
+    <string name="setup_pack_minimal_examples">engeller: banner reklamları, uygulama içi reklamlar</string>
+    <string name="setup_pack_balanced">Dengeli</string>
+    <string name="setup_pack_balanced_detail">Siteler çalışırken reklamları ve izleyicileri güçlü biçimde engeller</string>
+    <string name="setup_pack_balanced_examples">engeller: reklamlar, izleyiciler, analitik, mobil reklamlar</string>
+    <string name="setup_pack_strict">Katı</string>
+    <string name="setup_pack_strict_detail">Kötü amaşlı yazılımlar ve kimlik avı dahil en yüksek engelleme</string>
+    <string name="setup_pack_strict_examples">engeller: reklamlar, izleyiciler, kötü amaşlı yazılımlar, kimlik avı</string>
+    <string name="setup_pack_lists_count">%1$d filtre listesi</string>
+    <string name="setup_finish_title">Neredeyse korunuyorsunuz</string>
+    <string name="setup_finish_desc">GhostGuard, cihazınızdaki DNS sorgularını filtrelemek için yerel bir VPN kullanır. Veriler telefonunuzdan çıkmaz.</string>
+    <string name="setup_finish_vpn_title">VPN izni</string>
+    <string name="setup_finish_vpn_desc">Cihazın DNS trafiğini yerel olarak filtrelemek için gereklidir</string>
+    <string name="setup_vpn_grant">İzin ver</string>
+    <string name="setup_vpn_granted">✓ VPN izni verildi</string>
+    <string name="setup_start_filtering">Filtrelemeye başla</string>
+    <string name="setup_applying">Filtre paketi uygulanıyor…</string>
+    <string name="setup_wizard_rerun">Kurulum sihirbazını yeniden çalıştır</string>
+    <string name="setup_wizard_rerun_desc">Filtre paketini yeniden seç</string>
+</resources>

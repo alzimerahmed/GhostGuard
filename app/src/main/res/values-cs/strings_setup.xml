@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Zablokujte reklamy jedním klepnutím</string>
+    <string name="setup_welcome_desc">GhostGuard filtruje reklamy, sledovače a malware v celém systému prostřednictvím místní VPN — bez rootu.\n\n🔒 Slib soukromí: bez účtu, bez sledování, bez shromažďování dat. Vše zůstává ve vašem zařízení.</string>
+    <string name="setup_welcome_feature_privacy">Soukromí na prvním místě — data o prohlížení nikdy neopustí vaše zařízení</string>
+    <string name="setup_welcome_feature_no_account">Bez účtu — zdarma a s otevřeným kódem</string>
+    <string name="setup_welcome_feature_one_tap">Jedno klepnutí a filtrování začne</string>
+    <string name="setup_skip">Přeskočit</string>
+    <string name="setup_next">Další</string>
+    <string name="setup_back">Zpět</string>
+    <string name="setup_pack_title">Vyberte balíček filtrů</string>
+    <string name="setup_pack_desc">Vyberte pečlivě sestavenou sadu seznamů filtrů. Jednotlivé seznamy můžete později upravit v části Filtry.</string>
+    <string name="setup_recommended">★ Doporučeno</string>
+    <string name="setup_pack_minimal">Minimální</string>
+    <string name="setup_pack_minimal_detail">Lehký, s nejméně falešných zásahů</string>
+    <string name="setup_pack_minimal_examples">blokuje: bannerové reklamy, reklamy v aplikacích</string>
+    <string name="setup_pack_balanced">Vyvážený</string>
+    <string name="setup_pack_balanced_detail">Silné blokování reklam a sledovačů při zachování funkčnosti webů</string>
+    <string name="setup_pack_balanced_examples">blokuje: reklamy, sledovače, analytiku, mobilní reklamy</string>
+    <string name="setup_pack_strict">Přísný</string>
+    <string name="setup_pack_strict_detail">Maximální blokování včetně malware a phishingu</string>
+    <string name="setup_pack_strict_examples">blokuje: reklamy, sledovače, malware, phishing</string>
+    <string name="setup_pack_lists_count">Seznamů filtrů: %1$d</string>
+    <string name="setup_finish_title">Téměř jste chráněni</string>
+    <string name="setup_finish_desc">GhostGuard používá místní VPN k filtrování DNS dotazů na zařízení. Žádná data neopouštějí telefon.</string>
+    <string name="setup_finish_vpn_title">Oprávnění VPN</string>
+    <string name="setup_finish_vpn_desc">Nutné pro místní filtrování DNS provozu zařízení</string>
+    <string name="setup_vpn_grant">Udělit</string>
+    <string name="setup_vpn_granted">✓ Oprávnění VPN uděleno</string>
+    <string name="setup_start_filtering">Zahájit filtrování</string>
+    <string name="setup_applying">Používá se balíček filtrů…</string>
+    <string name="setup_wizard_rerun">Znovu spustit průvodce nastavením</string>
+    <string name="setup_wizard_rerun_desc">Znovu vyberte balíček filtrů</string>
+</resources>

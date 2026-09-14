@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_welcome_title">Бір түртумен жарнаманы блоктаңыз</string>
+    <string name="setup_welcome_desc">GhostGuard жергілікті VPN арқылы жүйе деңгейінде жарнаманы, трекерлер мен зиянды бағдарламаларды сүзеді — root қажет емес.\n\n🔒 Құпиялық уәдесі: акаунтсыз, қадағалаусыз, деректер жинаусыз. Барлығы құрылғыңызда қалады.</string>
+    <string name="setup_welcome_feature_privacy">Құпиялық бірінші — шолу деректеріңіз құрылғыдан ешқашан шықпайды</string>
+    <string name="setup_welcome_feature_no_account">Акаунт қажет емес — тегін және ашық бастапқы кодты</string>
+    <string name="setup_welcome_feature_one_tap">Сүзгілеуді бастау үшін бір түрту</string>
+    <string name="setup_skip">Өткізіп жіберу</string>
+    <string name="setup_next">Әрі қарай</string>
+    <string name="setup_back">Артқа</string>
+    <string name="setup_pack_title">Сүзгі пакетін таңдаңыз</string>
+    <string name="setup_pack_desc">Мұқият таңдалған сүзгі тізімдерінің жиынтығын таңдаңыз. Кейінірек оларды «Сүзгілер» бөлімінде бөлек реттеуге болады.</string>
+    <string name="setup_recommended">★ Ұсынылады</string>
+    <string name="setup_pack_minimal">Минималды</string>
+    <string name="setup_pack_minimal_detail">Жеңіл, жалған оқулары ең аз</string>
+    <string name="setup_pack_minimal_examples">бұғаттайды: баннер жарнамалары, қосымша ішіндегі жарнамалар</string>
+    <string name="setup_pack_balanced">Баланстық</string>
+    <string name="setup_pack_balanced_detail">Сайттар жұмыс істеген кезде жарнама мен трекерлерді күшті бұғаттау</string>
+    <string name="setup_pack_balanced_examples">бұғаттайды: жарнамалар, трекерлер, аналитика, мобильді жарнамалар</string>
+    <string name="setup_pack_strict">Қатаң</string>
+    <string name="setup_pack_strict_detail">Зиянды бағдарламалар мен фишингті қоса, максималды бұғаттау</string>
+    <string name="setup_pack_strict_examples">бұғаттайды: жарнамалар, трекерлер, зиянды бағдарламалар, фишинг</string>
+    <string name="setup_pack_lists_count">Сүзгі тізімдері: %1$d</string>
+    <string name="setup_finish_title">Қорғауға дерлік дайынсыз</string>
+    <string name="setup_finish_desc">GhostGuard құрылғыдағы DNS сұрауларын сүзгілеу үшін жергілікті VPN қолданады. Деректер телефоннан шықпайды.</string>
+    <string name="setup_finish_vpn_title">VPN рұқсаты</string>
+    <string name="setup_finish_vpn_desc">Құрылғының DNS трафигін жергілікті түрде сүзгілеу үшін қажет</string>
+    <string name="setup_vpn_grant">Рұқсат беру</string>
+    <string name="setup_vpn_granted">✓ VPN рұқсаты берілді</string>
+    <string name="setup_start_filtering">Сүзгілеуді бастау</string>
+    <string name="setup_applying">Сүзгі пакетін қолдану…</string>
+    <string name="setup_wizard_rerun">Баптау шеберін қайта іске қосу</string>
+    <string name="setup_wizard_rerun_desc">Сүзгі пакетін қайта таңдау</string>
+</resources>
