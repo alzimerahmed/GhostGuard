@@ -58,13 +58,13 @@ func (p *PacketPipe) Write(buf []byte) (int, error) {
 	case p.outbound <- pkt:
 		c := p.outboundWritten.Add(1)
 		if c <= 5 {
-			fmt.Fprintf(os.Stderr, "[BlockAds/Go] PacketPipe: outbound write #%d (size=%d)\n", c, len(buf))
+			fmt.Fprintf(os.Stderr, "[GhostGuard/Go] PacketPipe: outbound write #%d (size=%d)\n", c, len(buf))
 		}
 	case <-p.done:
 	default:
 		c := p.outboundDropped.Add(1)
 		if c <= 3 {
-			fmt.Fprintf(os.Stderr, "[BlockAds/Go] PacketPipe: outbound DROPPED #%d (queue full, size=%d)\n", c, len(buf))
+			fmt.Fprintf(os.Stderr, "[GhostGuard/Go] PacketPipe: outbound DROPPED #%d (queue full, size=%d)\n", c, len(buf))
 		}
 	}
 	return len(buf), nil
@@ -85,7 +85,7 @@ func (p *PacketPipe) Push(pkt []byte) {
 	default:
 		c := p.inboundDropped.Add(1)
 		if c <= 3 {
-			fmt.Fprintf(os.Stderr, "[BlockAds/Go] PacketPipe: inbound DROPPED #%d (queue full, size=%d)\n", c, len(pkt))
+			fmt.Fprintf(os.Stderr, "[GhostGuard/Go] PacketPipe: inbound DROPPED #%d (queue full, size=%d)\n", c, len(pkt))
 		}
 	}
 }

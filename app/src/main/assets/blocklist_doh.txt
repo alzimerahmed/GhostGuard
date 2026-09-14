@@ -1,4 +1,4 @@
-# BlockAds DoH (DNS-over-HTTPS) Blacklist
+# GhostGuard DoH (DNS-over-HTTPS) Blacklist
 # Purpose: Block third-party applications (Chrome, Firefox, in-app ad SDKs)
 # from bootstrapping DoH to bypass local VPN DNS ad filtering.
 # Blocking these returns NXDOMAIN, forcing apps to fall back to plain DNS on port 53.

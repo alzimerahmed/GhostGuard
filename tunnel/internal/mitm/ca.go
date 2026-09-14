@@ -277,8 +277,8 @@ func (cm *CertManager) generateCA() error {
 	caTemplate := &x509.Certificate{
 		SerialNumber: serialNumber,
 		Subject: pkix.Name{
-			Organization: []string{"BlockAds"},
-			CommonName:   "BlockAds Root CA",
+			Organization: []string{"GhostGuard"},
+			CommonName:   "GhostGuard Root CA",
 		},
 		NotBefore:             time.Now().Add(-24 * time.Hour), // 1 day grace
 		NotAfter:              time.Now().Add(10 * 365 * 24 * time.Hour), // 10 years
@@ -365,7 +365,7 @@ func (cm *CertManager) getCertForHost(host string) (*tls.Certificate, error) {
 	leafTemplate := &x509.Certificate{
 		SerialNumber: serialNumber,
 		Subject: pkix.Name{
-			Organization: []string{"BlockAds"},
+			Organization: []string{"GhostGuard"},
 			CommonName:   host,
 		},
 		DNSNames:              dnsNames,

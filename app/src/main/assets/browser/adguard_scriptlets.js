@@ -1,5 +1,5 @@
 /**
- * BlockAds - AdGuard-Grade General Scriptlets
+ * GhostGuard - AdGuard-Grade General Scriptlets
  * Defuses Popups, Pop-unders, Clickjacking Invisible Overlays,
  * Fake Click Triggers, Catfish Banners and Anti-AdBlock Traps on all websites.
  */
@@ -139,7 +139,7 @@
         var dummyLocation = {
             _href: 'about:blank',
             get href() { return this._href; },
-            set href(val) { console.info('[BlockAds] Blocked popup redirect to:', val); },
+            set href(val) { console.info('[GhostGuard] Blocked popup redirect to:', val); },
             replace: function() {},
             assign: function() {}
         };
@@ -159,7 +159,7 @@
 
         // Block if not explicit recent human tap OR points to ad/gambling URL
         if (!isRecentUserAction || isAdOrMaliciousUrl(url)) {
-            console.info('[BlockAds] Prevented suspicious popup:', url);
+            console.info('[GhostGuard] Prevented suspicious popup:', url);
             return createDummyWindow();
         }
 
@@ -172,7 +172,7 @@
         if (event && (event.type === 'click' || event.type === 'mousedown')) {
             if (this instanceof HTMLAnchorElement) {
                 if (isAdOrMaliciousUrl(this.href) || (this.id && this.id.indexOf('bb') === 0)) {
-                    console.info('[BlockAds] Blocked synthetic click on ad link:', this.href);
+                    console.info('[GhostGuard] Blocked synthetic click on ad link:', this.href);
                     return false;
                 }
             }
@@ -222,12 +222,12 @@
 
         // Legitimate download links must never be blocked as popunders
         if (isDownload && !isAdOrMaliciousUrl(this.href) && !isHiddenPopunder) {
-            console.info('[BlockAds] Allowing download click:', this.href);
+            console.info('[GhostGuard] Allowing download click:', this.href);
             return origAnchorClick.apply(this, arguments);
         }
 
         if (!isRecentUserAction || isHiddenPopunder || isAdOrMaliciousUrl(this.href)) {
-            console.info('[BlockAds] Blocked programmatic anchor popunder click:', this.href);
+            console.info('[GhostGuard] Blocked programmatic anchor popunder click:', this.href);
             return;
         }
         return origAnchorClick.apply(this, arguments);
@@ -315,7 +315,7 @@
                         if ((r.width * r.height) >= minArea) {
                             c.style.setProperty('pointer-events', 'none', 'important');
                             c.style.setProperty('display', 'none', 'important');
-                            console.info('[BlockAds] Defused clickjacking overlay');
+                            console.info('[GhostGuard] Defused clickjacking overlay');
                         }
                     }
                 }

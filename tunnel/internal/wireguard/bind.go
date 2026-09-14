@@ -53,15 +53,15 @@ func (b *protectedBind) protectInnerSockets() {
 		}
 		raw, err := udp.SyscallConn()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "[BlockAds/Go] WG bind: SyscallConn() failed for %s: %v\n", name, err)
+			fmt.Fprintf(os.Stderr, "[GhostGuard/Go] WG bind: SyscallConn() failed for %s: %v\n", name, err)
 			continue
 		}
 		if err := raw.Control(func(fd uintptr) {
 			if !b.protect(int(fd)) {
-				fmt.Fprintf(os.Stderr, "[BlockAds/Go] WG bind: protect() returned false for %s fd=%d\n", name, fd)
+				fmt.Fprintf(os.Stderr, "[GhostGuard/Go] WG bind: protect() returned false for %s fd=%d\n", name, fd)
 			}
 		}); err != nil {
-			fmt.Fprintf(os.Stderr, "[BlockAds/Go] WG bind: Control() failed for %s: %v\n", name, err)
+			fmt.Fprintf(os.Stderr, "[GhostGuard/Go] WG bind: Control() failed for %s: %v\n", name, err)
 		}
 	}
 }

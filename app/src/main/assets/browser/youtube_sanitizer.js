@@ -1,5 +1,5 @@
 /**
- * BlockAds - YouTube Player Sanitizer & Ad Blocker Scriptlet
+ * GhostGuard - YouTube Player Sanitizer & Ad Blocker Scriptlet
  * Adopted from AdGuard CoreLibs & Scriptlets specification.
  * 
  * Intercepts YouTube player APIs at the data layer to eliminate ad requests

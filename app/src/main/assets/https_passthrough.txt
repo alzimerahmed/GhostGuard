@@ -1,6 +1,6 @@
-# BlockAds HTTPS passthrough list
+# GhostGuard HTTPS passthrough list
 #
-# Domains in this file are NOT MITM'd by BlockAds — they pass through
+# Domains in this file are NOT MITM'd by GhostGuard — they pass through
 # untouched so cert-pinned apps and security-critical traffic keep
 # working. One DNS suffix per line; the consumer matches against host
 # and any subdomain.

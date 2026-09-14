@@ -26,7 +26,7 @@ platform :android do
     version_name = options[:version] || "1.0"
     
     # Files to update
-    files = ["../app/build.gradle.kts", "../blockadstv/build.gradle.kts"]
+    files = ["../app/build.gradle.kts"]
     
     # Get current versionCode from app module as source of truth
     app_gradle = File.read(files[0])

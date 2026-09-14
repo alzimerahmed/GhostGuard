@@ -1,4 +1,4 @@
-- New: Trusted Wi-Fi networks — auto-pause BlockAds on selected SSIDs.
+- New: Trusted Wi-Fi networks — auto-pause GhostGuard on selected SSIDs.
 - New: Android TV support with full VPN ad-blocking and D-pad navigation.
 - New: Warning when Android Private DNS bypasses filtering.
 - Improved: Support for Android SDK 37.

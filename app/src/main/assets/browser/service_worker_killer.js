@@ -1,5 +1,5 @@
 /**
- * BlockAds - Service Worker Neutralizer (AdGuard technique)
+ * GhostGuard - Service Worker Neutralizer (AdGuard technique)
  * Unregisters any active Service Workers and disables future registration
  * to ensure all subresource fetches are intercepted by WebViewClient.
  */
@@ -18,7 +18,7 @@
 
             // Prevent future service worker registration
             navigator.serviceWorker.register = function() {
-                return Promise.reject(new Error('ServiceWorker registration blocked by BlockAds'));
+                return Promise.reject(new Error('ServiceWorker registration blocked by GhostGuard'));
             };
 
             // Remove serviceWorker prototype if possible

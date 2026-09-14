@@ -1,5 +1,5 @@
 /**
- * BlockAds - Background Play Scriptlet
+ * GhostGuard - Background Play Scriptlet
  * Inspired by uBlock Origin & Brave Browser background play fixes.
  * Spoofs Page Visibility API, Page Lifecycle API, and hooks HTMLMediaElement.pause
  * to keep media playing when screen is locked or switching apps.

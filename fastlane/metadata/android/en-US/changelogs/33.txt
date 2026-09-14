@@ -1,1 +1,1 @@
-- BlockAds can not read all filters
+- GhostGuard can not read all filters

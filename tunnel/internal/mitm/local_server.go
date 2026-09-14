@@ -64,7 +64,7 @@ func serveCSS(req *http.Request) *http.Response {
 	cosmeticMu.RUnlock()
 
 	if css == "" {
-		css = "/* BlockAds: no cosmetic rules loaded */"
+		css = "/* GhostGuard: no cosmetic rules loaded */"
 	}
 
 	return buildTextResponse(req, 200, "text/css; charset=utf-8", css)
@@ -128,7 +128,7 @@ func servePerHostScriptlets(req *http.Request) *http.Response {
 		js = store.BuildHostInvocations(host)
 	}
 	if js == "" {
-		js = "/* BlockAds: no scriptlets for " + host + " */"
+		js = "/* GhostGuard: no scriptlets for " + host + " */"
 	}
 	return buildTextResponse(req, 200, "application/javascript; charset=utf-8", js)
 }
@@ -161,7 +161,7 @@ func buildTextResponse(req *http.Request, status int, contentType, body string) 
 			"Content-Length":              []string{fmt.Sprintf("%d", len(body))},
 			"Cache-Control":              []string{"public, max-age=300"}, // 5min cache
 			"Access-Control-Allow-Origin": []string{"*"},
-			"X-BlockAds":                 []string{"local-asset-server"},
+			"X-GhostGuard":                 []string{"local-asset-server"},
 		},
 		Body:          readCloserFromString(body),
 		ContentLength: int64(len(body)),
@@ -209,7 +209,7 @@ func serveCACert(req *http.Request) *http.Response {
 	certMu.RUnlock()
 
 	if cm == nil {
-		return buildTextResponse(req, 503, "text/plain; charset=utf-8", "BlockAds Root CA not initialized yet")
+		return buildTextResponse(req, 503, "text/plain; charset=utf-8", "GhostGuard Root CA not initialized yet")
 	}
 
 	pemStr := cm.GetCACertPEM()
@@ -218,7 +218,7 @@ func serveCACert(req *http.Request) *http.Response {
 	}
 
 	resp := buildTextResponse(req, 200, "application/x-x509-ca-cert", pemStr)
-	resp.Header.Set("Content-Disposition", `attachment; filename="BlockAds-CA.crt"`)
+	resp.Header.Set("Content-Disposition", `attachment; filename="GhostGuard-CA.crt"`)
 	return resp
 }
 
@@ -229,7 +229,7 @@ func serveIndex(req *http.Request) *http.Response {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BlockAds Local Protection</title>
+<title>GhostGuard Local Protection</title>
 <style>
 :root { --bg: #0b0f19; --card: #151d30; --primary: #3b82f6; --text: #f3f4f6; --text-muted: #9ca3af; --green: #10b981; }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -252,9 +252,9 @@ p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-botto
 <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
 </div>
 <div class="badge"><span class="badge-dot"></span> Đang hoạt động</div>
-<h1>BlockAds Local Proxy</h1>
+<h1>GhostGuard Local Proxy</h1>
 <p>HTTPS Filtering & DNS Shield đang chạy cục bộ trên máy. 100% dữ liệu được lọc nội bộ, không telemetry, không gửi dữ liệu ra bên ngoài.</p>
-<a href="/cert.crt" class="btn">Tải Chứng Chỉ Root CA (BlockAds-CA.crt)</a>
+<a href="/cert.crt" class="btn">Tải Chứng Chỉ Root CA (GhostGuard-CA.crt)</a>
 <div class="info">
 <strong>Hướng dẫn cài đặt:</strong><br>
 1. Tải chứng chỉ về máy.<br>

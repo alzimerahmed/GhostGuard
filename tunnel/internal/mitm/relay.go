@@ -176,7 +176,7 @@ func relayHTTPFlow(clientConn, serverConn net.Conn, hostname string, filter *Mit
 				ProtoMinor:    1,
 				ContentLength: 19,
 				Header:        make(http.Header),
-				Body:          io.NopCloser(strings.NewReader("Blocked by BlockAds")),
+				Body:          io.NopCloser(strings.NewReader("Blocked by GhostGuard")),
 			}
 			blockedResp.Header.Set("Connection", "keep-alive")
 			blockedResp.Header.Set("Content-Length", "19")

@@ -70,27 +70,27 @@ jobs:
       - name: Upload arm64-v8a APK
         uses: actions/upload-artifact@v4
         with:
-          name: BlockAds-arm64-v8a-debug
+          name: GhostGuard-arm64-v8a-debug
           path: app/build/outputs/apk/debug/*arm64-v8a*.apk
           retention-days: 7
 
       - name: Upload armeabi-v7a APK
         uses: actions/upload-artifact@v4
         with:
-          name: BlockAds-armeabi-v7a-debug
+          name: GhostGuard-armeabi-v7a-debug
           path: app/build/outputs/apk/debug/*armeabi-v7a*.apk
           retention-days: 7
 
       - name: Upload x86_64 APK
         uses: actions/upload-artifact@v4
         with:
-          name: BlockAds-x86_64-debug
+          name: GhostGuard-x86_64-debug
           path: app/build/outputs/apk/debug/*x86_64*.apk
           retention-days: 7
 
       - name: Upload Universal APK
         uses: actions/upload-artifact@v4
         with:
-          name: BlockAds-universal-debug
+          name: GhostGuard-universal-debug
           path: app/build/outputs/apk/debug/*universal*.apk
           retention-days: 7

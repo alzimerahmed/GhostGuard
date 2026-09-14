@@ -67,7 +67,7 @@ func CompileFilterList(inputPath, triePath, bloomPath string) (int, error) {
 		return 0, fmt.Errorf("write bloom: %w", err)
 	}
 
-	fmt.Fprintf(os.Stderr, "[BlockAds/Go] Compiled %d domains → %s + %s\n", count, triePath, bloomPath)
+	fmt.Fprintf(os.Stderr, "[GhostGuard/Go] Compiled %d domains → %s + %s\n", count, triePath, bloomPath)
 	return count, nil
 }
 

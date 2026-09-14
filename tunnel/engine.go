@@ -465,7 +465,7 @@ func parseSplitZones(zones string) []string {
 
 // logf logs a message (will appear in Android logcat via stderr).
 func logf(format string, args ...interface{}) {
-	msg := fmt.Sprintf("[BlockAds/Go] "+format, args...)
+	msg := fmt.Sprintf("[GhostGuard/Go] "+format, args...)
 	fmt.Fprintln(os.Stderr, msg)
 }
 

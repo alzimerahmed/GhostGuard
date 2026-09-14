@@ -36,13 +36,13 @@ ns["set-constant"]=function(path,value){
 
 ns["abort-on-property-read"]=function(path){
   var o=getOwner(path);if(!o)return;
-  var msg="Aborted by BlockAds: read "+path;
+  var msg="Aborted by GhostGuard: read "+path;
   try{Object.defineProperty(o.owner,o.prop,{get:function(){throw new ReferenceError(msg);},configurable:false});}catch(e){}
 };
 
 ns["abort-on-property-write"]=function(path){
   var o=getOwner(path);if(!o)return;
-  var msg="Aborted by BlockAds: write "+path;
+  var msg="Aborted by GhostGuard: write "+path;
   try{Object.defineProperty(o.owner,o.prop,{set:function(){throw new ReferenceError(msg);},configurable:false});}catch(e){}
 };
 
@@ -67,15 +67,15 @@ ns["prevent-xhr"]=function(pattern){
 };
 
 ns["noeval"]=function(){
-  try{Object.defineProperty(window,"eval",{value:function(){throw new Error("eval blocked by BlockAds");},configurable:false});}catch(e){}
+  try{Object.defineProperty(window,"eval",{value:function(){throw new Error("eval blocked by GhostGuard");},configurable:false});}catch(e){}
 };
 
 window.__ba={
   loaded:true,
   version:"S-B",
   invoke:function(name,args){
-    var fn=ns[name];if(!fn){console.debug("[BlockAds] unknown scriptlet:",name);return;}
-    try{fn.apply(null,args||[]);}catch(e){console.debug("[BlockAds] scriptlet failed:",name,e);}
+    var fn=ns[name];if(!fn){console.debug("[GhostGuard] unknown scriptlet:",name);return;}
+    try{fn.apply(null,args||[]);}catch(e){console.debug("[GhostGuard] scriptlet failed:",name,e);}
   }
 };
 })();

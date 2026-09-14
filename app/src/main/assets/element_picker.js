@@ -1,5 +1,5 @@
 /**
- * BlockAds Element Picker
+ * GhostGuard Element Picker
  * Robust capture-phase event interception prevents link navigation and form submissions.
  * Visual highlight with selector display and floating bottom toolbar with auto-flip when selected element is near bottom.
  * Zero top overlays to ensure all header and top items can be touched and blocked freely.
@@ -342,7 +342,7 @@
         window.blockadsPickerProxy.onPickerCompleted(selector, domain);
       }
     } catch (e) {
-      console.error('[BlockAds] onPickerCompleted error', e);
+      console.error('[GhostGuard] onPickerCompleted error', e);
     }
   }
 

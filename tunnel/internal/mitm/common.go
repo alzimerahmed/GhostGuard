@@ -21,7 +21,7 @@ import (
 const flowDialTimeout = 10 * time.Second
 
 func logf(format string, args ...interface{}) {
-	fmt.Fprintf(os.Stderr, "[BlockAds/Go] "+format+"\n", args...)
+	fmt.Fprintf(os.Stderr, "[GhostGuard/Go] "+format+"\n", args...)
 }
 
 func protectedControl(protectFn func(fd int) bool) func(network, address string, c syscall.RawConn) error {

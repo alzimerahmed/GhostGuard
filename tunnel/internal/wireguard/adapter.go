@@ -23,7 +23,7 @@ type WgOutbound struct {
 // NewWgOutbound creates a new WireGuard outbound adapter from a virtual channel TUN
 // and a UAPI IPC config string.
 func NewWgOutbound(tunDev tun.Device, ipcConfig string, protectFn func(fd int) bool) (*WgOutbound, error) {
-	logger := device.NewLogger(device.LogLevelVerbose, "[BlockAds/WG] ")
+	logger := device.NewLogger(device.LogLevelVerbose, "[GhostGuard/WG] ")
 
 	var bind conn.Bind
 	if protectFn != nil {
@@ -67,11 +67,11 @@ func (w *WgOutbound) Start() error {
 	}
 
 	w.running = true
-	fmt.Fprintln(os.Stderr, "[BlockAds/Go] WgOutbound: started")
+	fmt.Fprintln(os.Stderr, "[GhostGuard/Go] WgOutbound: started")
 
 	go func() {
 		w.dev.Wait()
-		fmt.Fprintln(os.Stderr, "[BlockAds/Go] WgOutbound: device closed")
+		fmt.Fprintln(os.Stderr, "[GhostGuard/Go] WgOutbound: device closed")
 		w.mu.Lock()
 		w.running = false
 		w.mu.Unlock()
@@ -94,7 +94,7 @@ func (w *WgOutbound) Stop() {
 	w.tunDev = nil
 	w.chTun = nil
 	w.running = false
-	fmt.Fprintln(os.Stderr, "[BlockAds/Go] WgOutbound: stopped")
+	fmt.Fprintln(os.Stderr, "[GhostGuard/Go] WgOutbound: stopped")
 }
 
 // HandlePacket injects a non-DNS packet into WireGuard for encryption.
