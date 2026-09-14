@@ -28,6 +28,7 @@ app/release/app-release.aab
 keystore.txt
 play-store-key.json
 .kotlin
+.worktrees/
 
 # Bundled filter lists – committed to repo for reproducible builds
 # Run ./scripts/bundle_filters.sh before tagging a release to update
